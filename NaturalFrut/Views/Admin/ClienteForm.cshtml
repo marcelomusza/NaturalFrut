@@ -1,0 +1,19 @@
+﻿@model NaturalFrut.Models.Cliente
+@{
+    ViewBag.Title = "ClienteForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ClienteForm</h2>
+
+@using (Html.BeginForm("Guardar", "Admin"))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Nombre)
+        @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+    </div>
+    
+    @Html.HiddenFor(c => c.ID)
+    <button type="submit" class="btn btn-primary">Guardar</button>
+}
