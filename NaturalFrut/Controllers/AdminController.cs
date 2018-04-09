@@ -7,17 +7,22 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
+using NaturalFrut.App_BLL;
+using NaturalFrut.App_BLL.Interfaces;
 
 namespace NaturalFrut.Controllers
 {
     public class AdminController : Controller
     {
 
-        private ApplicationDbContext _context; 
+        private ApplicationDbContext _context;
 
-        public AdminController()
+        private readonly ClienteLogic clienteBL;
+
+        public AdminController(ClienteLogic ClienteLogic)
         {
             _context = new ApplicationDbContext();
+            clienteBL = ClienteLogic;
         }
 
         public ActionResult Index()
@@ -29,7 +34,8 @@ namespace NaturalFrut.Controllers
         public ActionResult Clientes()
         {
 
-            var clientes = _context.Clientes.ToList();
+            //var clientes = _context.Clientes.ToList();
+            var clientes = clienteBL.GetAllClientes();
 
             return View(clientes);
         }
