@@ -21,5 +21,28 @@ namespace NaturalFrut.App_BLL
         {
             return clienteRP.GetAll().ToList();
         }
+
+        public Cliente GetClienteById(int id)
+        {
+            return clienteRP.GetByID(id);
+        }
+
+        public void RemoveCliente(Cliente cliente)
+        {
+            clienteRP.Delete(cliente);
+            clienteRP.Save();
+        }
+
+        public void AddCliente(Cliente cliente)
+        {
+            clienteRP.Add(cliente);
+            clienteRP.Save();
+        }
+
+        internal void UpdateCliente(Cliente cliente)
+        {
+            clienteRP.Update(cliente);
+            clienteRP.Save();
+        }
     }
 }

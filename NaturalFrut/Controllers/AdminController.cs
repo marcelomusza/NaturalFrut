@@ -33,8 +33,7 @@ namespace NaturalFrut.Controllers
 
         public ActionResult Clientes()
         {
-
-            //var clientes = _context.Clientes.ToList();
+                        
             var clientes = clienteBL.GetAllClientes();
 
             return View(clientes);
@@ -49,7 +48,8 @@ namespace NaturalFrut.Controllers
         public ActionResult Editar(int Id)
         {
 
-            var cliente = _context.Clientes.SingleOrDefault(c => c.ID == Id);
+            //var cliente = _context.Clientes.SingleOrDefault(c => c.ID == Id);
+            var cliente = clienteBL.GetClienteById(Id);
 
             if (cliente == null)
                 return HttpNotFound();
@@ -59,49 +59,33 @@ namespace NaturalFrut.Controllers
 
         public ActionResult Borrar(int Id)
         {
+            var cliente = clienteBL.GetClienteById(Id);
 
-            var cliente = _context.Clientes.SingleOrDefault(c => c.ID == Id);
-             _context.Clientes.Remove(cliente);
-
-            _context.SaveChanges();
-
-            
+            if (cliente != null)
+                clienteBL.RemoveCliente(cliente);
+            else
+                return HttpNotFound();
 
             return RedirectToAction("Clientes", "Admin");
         }
 
         [HttpPost]
         public ActionResult Guardar(Cliente cliente)
-        {
+        {            
             
-            try
+            if (cliente.ID == 0)
             {
-                if (cliente.ID == 0)
-                {
-                    //Agregamos nuevo Cliente
-                    _context.Clientes.Add(cliente);
-                }
-                else
-                {
-                    //Edicion de Cliente Existente
-                    var clienteEnBD = _context.Clientes.Single(c => c.ID == cliente.ID);
-
-                    clienteEnBD.Nombre = cliente.Nombre;
-
-
-                }
-
-                _context.SaveChanges();
+                //Agregamos nuevo Cliente
+                clienteBL.AddCliente(cliente);
+            }
+            else
+            {
+                //Edicion de Cliente Existente
+                clienteBL.UpdateCliente(cliente);
+            }
                 
-                return RedirectToAction("Clientes", "Admin");
-            }
-            catch (DbEntityValidationException ex)
-            {
-                //Manejamos error de base de datos para Insertar o Editar
-                throw;
-            }
-            
-                       
+            return RedirectToAction("Clientes", "Admin");
+
         }
     }
 }
