@@ -199,6 +199,7 @@
     <Compile Include="App_BLL\ClienteLogic.cs" />
     <Compile Include="App_BLL\Interfaces\IEntity.cs" />
     <Compile Include="App_BLL\Interfaces\IRepository.cs" />
+    <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -221,6 +222,10 @@
     <Compile Include="Migrations\201804072036431_Cliente_Fixed.cs" />
     <Compile Include="Migrations\201804072036431_Cliente_Fixed.Designer.cs">
       <DependentUpon>201804072036431_Cliente_Fixed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804120408530_ClienteModelUpdated.cs" />
+    <Compile Include="Migrations\201804120408530_ClienteModelUpdated.Designer.cs">
+      <DependentUpon>201804120408530_ClienteModelUpdated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -313,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804072036431_Cliente_Fixed.resx">
       <DependentUpon>201804072036431_Cliente_Fixed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804120408530_ClienteModelUpdated.resx">
+      <DependentUpon>201804120408530_ClienteModelUpdated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

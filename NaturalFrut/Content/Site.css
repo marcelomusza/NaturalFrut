@@ -22,3 +22,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* NaturalFrut Custom CSS START*/
+
+.field-validation-error {
+    color: red;
+}
+
+.input-validation-error {
+    border: 2px solid red;
+}
+
+/* NaturalFrut Custom CSS END*/

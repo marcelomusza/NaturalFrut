@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.Interfaces;
+using NaturalFrut.App_BLL.ViewModels;
 
 namespace NaturalFrut.Controllers
 {
@@ -41,8 +42,9 @@ namespace NaturalFrut.Controllers
 
         public ActionResult Nuevo()
         {
+            ClienteViewModel viewModel = new ClienteViewModel();
 
-            return View("ClienteForm");
+            return View("ClienteForm", viewModel);
         }
 
         public ActionResult Editar(int Id)
@@ -69,9 +71,19 @@ namespace NaturalFrut.Controllers
             return RedirectToAction("Clientes", "Admin");
         }
 
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Guardar(Cliente cliente)
         {            
+
+            if (!ModelState.IsValid)
+            {
+
+                ClienteViewModel viewModel = new ClienteViewModel(cliente);
+
+                return View("ClienteForm", viewModel);
+            }
             
             if (cliente.ID == 0)
             {

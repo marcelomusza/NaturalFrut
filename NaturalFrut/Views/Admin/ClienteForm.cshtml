@@ -1,4 +1,4 @@
-﻿@model NaturalFrut.Models.Cliente
+﻿@model NaturalFrut.App_BLL.ViewModels.ClienteViewModel
 @{
     ViewBag.Title = "ClienteForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,8 +12,16 @@
     <div class="form-group">
         @Html.LabelFor(c => c.Nombre)
         @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Nombre)
     </div>
     
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(c => c.ID)
     <button type="submit" class="btn btn-primary">Guardar</button>
+}
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
 }
