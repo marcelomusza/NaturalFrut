@@ -50,13 +50,14 @@ namespace NaturalFrut.Controllers
         public ActionResult Editar(int Id)
         {
 
-            //var cliente = _context.Clientes.SingleOrDefault(c => c.ID == Id);
             var cliente = clienteBL.GetClienteById(Id);
+
+            ClienteViewModel viewModel = new ClienteViewModel(cliente);
 
             if (cliente == null)
                 return HttpNotFound();
 
-            return View("ClienteForm", cliente);
+            return View("ClienteForm", viewModel);
         }
 
         public ActionResult Borrar(int Id)
