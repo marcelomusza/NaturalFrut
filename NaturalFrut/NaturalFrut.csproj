@@ -227,8 +227,14 @@
     <Compile Include="Migrations\201804120408530_ClienteModelUpdated.Designer.cs">
       <DependentUpon>201804120408530_ClienteModelUpdated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804280057533_crearTableCondicionIva.cs" />
+    <Compile Include="Migrations\201804280057533_crearTableCondicionIva.Designer.cs">
+      <DependentUpon>201804280057533_crearTableCondicionIva.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\TipoCliente.cs" />
+    <Compile Include="Models\CondicionIVA.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -321,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804120408530_ClienteModelUpdated.resx">
       <DependentUpon>201804120408530_ClienteModelUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804280057533_crearTableCondicionIva.resx">
+      <DependentUpon>201804280057533_crearTableCondicionIva.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

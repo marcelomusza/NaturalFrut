@@ -14,7 +14,36 @@ namespace NaturalFrut.Models
         [Required]
         public string Nombre { get; set; }
 
-                
+        [Required]
+        public string RazonSocial { get; set; }
+
+        [Required]
+        public string Cuit { get; set; }
+
+        [Required]
+        public string Iibb { get; set; }
+
+        [Required]
+        public string Direccion { get; set; }
+
+        [Required]
+        public string Provincia { get; set; }
+
+        [Required]
+        public string Localidad { get; set; }
+
+        public int TelefonoNegocio { get; set; }
+
+        public int TelefonoCelular { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        public virtual CondicionIVA CondicionIVA { get; set; }
+
+        public virtual TipoCliente TipoCliente { get; set; }
+
+
 
     }
 }

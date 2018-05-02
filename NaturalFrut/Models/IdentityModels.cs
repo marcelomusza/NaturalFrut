@@ -24,6 +24,10 @@ namespace NaturalFrut.Models
         //Asignación de DbSets para CodeFirst migrations 
         public DbSet<Cliente> Clientes { get; set; }
 
+        public DbSet<CondicionIVA> CondicionIVA { get; set; }
+
+        public DbSet<TipoCliente> TipoCliente { get; set; }        
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -33,5 +37,23 @@ namespace NaturalFrut.Models
         {
             return new ApplicationDbContext();
         }
+
+        /*protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+             modelBuilder.Entity<CondicionIVA>()
+                 .HasMany(e => e.Clientes)
+                 .WithRequired(e => e.CondicionIVA)
+                 .HasForeignKey(e => e.ID)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TipoCliente>()
+                 .HasMany(e => e.Clientes)
+                 .WithRequired(e => e.TipoCliente)
+                 .HasForeignKey(e => e.ID)
+                 .WillCascadeOnDelete(false);
+        }*/
     }
+
+   
 }
