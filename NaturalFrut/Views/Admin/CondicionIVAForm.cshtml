@@ -1,0 +1,50 @@
+﻿@model NaturalFrut.Models.CondicionIVA
+@{
+    ViewBag.Title = "CondicionIVAForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Condición IVA</h2>
+
+<h4>Ingrese un valor para la condición frente al IVA</h4>
+<br />
+
+@using (Html.BeginForm("GuardarCondicionIVA", "Admin"))
+{
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Nombre)
+                @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Nombre)
+            </div>
+
+        </div>
+    </div>   
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(c => c.ID)
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

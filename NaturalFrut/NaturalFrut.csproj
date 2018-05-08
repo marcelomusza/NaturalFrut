@@ -197,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_BLL\ClienteLogic.cs" />
+    <Compile Include="App_BLL\CommonLogic.cs" />
     <Compile Include="App_BLL\Interfaces\IEntity.cs" />
     <Compile Include="App_BLL\Interfaces\IRepository.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
@@ -230,6 +231,26 @@
     <Compile Include="Migrations\201804280057533_crearTableCondicionIva.cs" />
     <Compile Include="Migrations\201804280057533_crearTableCondicionIva.Designer.cs">
       <DependentUpon>201804280057533_crearTableCondicionIva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805030004346_SeedingCondicionIva.cs" />
+    <Compile Include="Migrations\201805030004346_SeedingCondicionIva.Designer.cs">
+      <DependentUpon>201805030004346_SeedingCondicionIva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805030030006_SeedingTipoCliente.cs" />
+    <Compile Include="Migrations\201805030030006_SeedingTipoCliente.Designer.cs">
+      <DependentUpon>201805030030006_SeedingTipoCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805030408571_cambiosEnModel_CondicionIVA_ViewModel_Cliente.cs" />
+    <Compile Include="Migrations\201805030408571_cambiosEnModel_CondicionIVA_ViewModel_Cliente.Designer.cs">
+      <DependentUpon>201805030408571_cambiosEnModel_CondicionIVA_ViewModel_Cliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805040259324_removerColumnasTipoClienteCondicionIva.cs" />
+    <Compile Include="Migrations\201805040259324_removerColumnasTipoClienteCondicionIva.Designer.cs">
+      <DependentUpon>201805040259324_removerColumnasTipoClienteCondicionIva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805040307288_cambiosEnModelClienteYRelaciones.cs" />
+    <Compile Include="Migrations\201805040307288_cambiosEnModelClienteYRelaciones.Designer.cs">
+      <DependentUpon>201805040307288_cambiosEnModelClienteYRelaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -301,6 +322,10 @@
     <Content Include="Views\Admin\Clientes.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ClienteForm.cshtml" />
+    <Content Include="Views\Admin\CondicionIVAForm.cshtml" />
+    <Content Include="Views\Admin\CondicionIVA.cshtml" />
+    <Content Include="Views\Admin\TipoCliente.cshtml" />
+    <Content Include="Views\Admin\TipoClienteForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -330,6 +355,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804280057533_crearTableCondicionIva.resx">
       <DependentUpon>201804280057533_crearTableCondicionIva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805030004346_SeedingCondicionIva.resx">
+      <DependentUpon>201805030004346_SeedingCondicionIva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805030030006_SeedingTipoCliente.resx">
+      <DependentUpon>201805030030006_SeedingTipoCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805030408571_cambiosEnModel_CondicionIVA_ViewModel_Cliente.resx">
+      <DependentUpon>201805030408571_cambiosEnModel_CondicionIVA_ViewModel_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805040259324_removerColumnasTipoClienteCondicionIva.resx">
+      <DependentUpon>201805040259324_removerColumnasTipoClienteCondicionIva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805040307288_cambiosEnModelClienteYRelaciones.resx">
+      <DependentUpon>201805040307288_cambiosEnModelClienteYRelaciones.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -26,33 +26,28 @@ namespace NaturalFrut.Models
 
         public DbSet<CondicionIVA> CondicionIVA { get; set; }
 
-        public DbSet<TipoCliente> TipoCliente { get; set; }        
+        public DbSet<TipoCliente> TipoCliente { get; set; }
 
+        // CONTEXT MARCELO        
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
         {
         }
+        
+
+        // CONTEXT YESICA
+        /* 
+        public ApplicationDbContext()
+            : base("DefaultConnectionYesica", throwIfV1Schema: false)
+        {
+        }
+        */
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
-
-        /*protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-
-             modelBuilder.Entity<CondicionIVA>()
-                 .HasMany(e => e.Clientes)
-                 .WithRequired(e => e.CondicionIVA)
-                 .HasForeignKey(e => e.ID)
-                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TipoCliente>()
-                 .HasMany(e => e.Clientes)
-                 .WithRequired(e => e.TipoCliente)
-                 .HasForeignKey(e => e.ID)
-                 .WillCascadeOnDelete(false);
-        }*/
+        
     }
 
    

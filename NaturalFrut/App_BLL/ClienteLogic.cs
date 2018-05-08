@@ -11,10 +11,16 @@ namespace NaturalFrut.App_BLL
     {
 
         private readonly IRepository<Cliente> clienteRP;
+        private readonly IRepository<CondicionIVA> condicionIVARP;
+        private readonly IRepository<TipoCliente> tipoClienteRP;
 
-        public ClienteLogic(IRepository<Cliente> ClienteRepository)
+        public ClienteLogic(IRepository<Cliente> ClienteRepository, 
+            IRepository<CondicionIVA> CondicionIVARepository,
+            IRepository<TipoCliente> TipoClienteRepository)
         {
             clienteRP = ClienteRepository;
+            condicionIVARP = CondicionIVARepository;
+            tipoClienteRP = TipoClienteRepository;
         }
 
         public List<Cliente> GetAllClientes()
@@ -43,6 +49,16 @@ namespace NaturalFrut.App_BLL
         {
             clienteRP.Update(cliente);
             clienteRP.Save();
+        }
+
+        internal List<TipoCliente> GetTipoClienteList()
+        {
+            return tipoClienteRP.GetAll().ToList();
+        }
+
+        internal List<CondicionIVA> GetCondicionIvaList()
+        {
+            return condicionIVARP.GetAll().ToList();
         }
     }
 }

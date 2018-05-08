@@ -48,6 +48,8 @@ namespace NaturalFrut
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType <IRepository<Cliente>, BaseRepository<Cliente>>(new TransientLifetimeManager());
+            container.RegisterType<IRepository<CondicionIVA>, BaseRepository<CondicionIVA>>(new TransientLifetimeManager());
+            container.RegisterType<IRepository<TipoCliente>, BaseRepository<TipoCliente>>(new TransientLifetimeManager());
 
         }
     }

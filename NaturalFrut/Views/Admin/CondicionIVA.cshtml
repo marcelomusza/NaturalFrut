@@ -1,0 +1,41 @@
+﻿@model IEnumerable<NaturalFrut.Models.CondicionIVA>
+@{
+    ViewBag.Title = "CondicionIVA";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Condición IVA</h2>
+
+<p>
+    @Html.ActionLink("Agregar nuevo", "NuevoCondicionIVA", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (!Model.Any())
+{
+    <h2>No se han cargado aún Datos en el sistema</h2>
+}
+else
+{
+
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+        <tbody>
+            @foreach (var condicionIVA in Model)
+            {
+                <tr>
+                    <td>@condicionIVA.Nombre</td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditarCondicionIVA", "Admin", new { id = condicionIVA.ID }, null)
+                        &nbsp;
+                        @Html.ActionLink("Borrar", "BorrarCondicionIVA", "Admin", new { id = condicionIVA.ID }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}

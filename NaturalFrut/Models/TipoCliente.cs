@@ -14,7 +14,7 @@ namespace NaturalFrut.Models
         [Required]
         public string Nombre { get; set; }
 
-        public virtual ICollection<Cliente> Clientes { get; set; }
+        public IList<Cliente> Clientes { get; set; }
 
 
     }

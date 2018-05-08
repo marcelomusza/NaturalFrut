@@ -39,9 +39,15 @@ namespace NaturalFrut.Models
         [Required]
         public string Email { get; set; }
 
-        public virtual CondicionIVA CondicionIVA { get; set; }
+        public CondicionIVA CondicionIVA { get; set; }
 
-        public virtual TipoCliente TipoCliente { get; set; }
+        [Required]
+        public int CondicionIVAId { get; set; }
+
+        public TipoCliente TipoCliente { get; set; }
+
+        [Required]
+        public int TipoClienteId { get; set; }
 
 
 
