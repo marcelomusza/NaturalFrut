@@ -18,7 +18,7 @@ namespace NaturalFrut.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
-            //
+            //C:\Users\Marce\source\repos\NaturalFrut\NaturalFrut\Migrations\Configuration.cs
             //    context.People.AddOrUpdate(
             //      p => p.FullName,
             //      new Person { FullName = "Andrew Peters" },

@@ -17,12 +17,14 @@ namespace NaturalFrut.Controllers
     {
         
         private readonly ClienteLogic clienteBL;
+        private readonly ProveedorLogic proveedorBL;
         private readonly CommonLogic commonBL;
 
-        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic)
+        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic)
         {            
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
+            proveedorBL = ProveedorLogic;
         }
 
         public ActionResult Index()
@@ -39,7 +41,7 @@ namespace NaturalFrut.Controllers
             return View(clientes);
         }
 
-        public ActionResult Nuevo()
+        public ActionResult NuevoCliente()
         {
 
             var condicionIva = clienteBL.GetCondicionIvaList();
@@ -54,7 +56,7 @@ namespace NaturalFrut.Controllers
             return View("ClienteForm", viewModel);
         }
 
-        public ActionResult Editar(int Id)
+        public ActionResult EditarCliente(int Id)
         {
 
             var cliente = clienteBL.GetClienteById(Id);
@@ -71,7 +73,7 @@ namespace NaturalFrut.Controllers
             return View("ClienteForm", viewModel);
         }
 
-        public ActionResult Borrar(int Id)
+        public ActionResult BorrarCliente(int Id)
         {
             var cliente = clienteBL.GetClienteById(Id);
 
@@ -85,7 +87,7 @@ namespace NaturalFrut.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Guardar(Cliente cliente)
+        public ActionResult GuardarCliente(Cliente cliente)
         {
 
             if (!ModelState.IsValid)
@@ -183,6 +185,7 @@ namespace NaturalFrut.Controllers
         }
         #endregion
 
+        #region Acciones Tipo Cliente
         public ActionResult TipoCliente()
         {
 
@@ -247,5 +250,88 @@ namespace NaturalFrut.Controllers
 
             return RedirectToAction("TipoCliente", "Admin");
         }
+        #endregion
+
+        #region Acciones Proveedor
+        public ActionResult Proveedores()
+        {
+
+            var proveedores = proveedorBL.GetAllProveedores();
+
+            return View(proveedores);
+        }
+
+        public ActionResult NuevoProveedor()
+        {
+
+            var condicionIva = proveedorBL.GetCondicionIvaList();
+
+            ProveedorViewModel viewModel = new ProveedorViewModel
+            {
+                CondicionIVA = condicionIva
+            };
+
+            return View("ProveedorForm", viewModel);
+        }
+
+        public ActionResult EditarProveedor(int Id)
+        {
+
+            var proveedor = proveedorBL.GetProveedorById(Id);
+
+            ProveedorViewModel viewModel = new ProveedorViewModel(proveedor)
+            {
+                CondicionIVA = proveedorBL.GetCondicionIvaList()
+            };
+
+            if (proveedor == null)
+                return HttpNotFound();
+
+            return View("ProveedorForm", viewModel);
+        }
+
+        public ActionResult BorrarProveedor(int Id)
+        {
+            var proveedor = proveedorBL.GetProveedorById(Id);
+
+            if (proveedor != null)
+                proveedorBL.RemoveProveedor(proveedor);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("Proveedores", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarProveedor(Proveedor proveedor)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+                ProveedorViewModel viewModel = new ProveedorViewModel(proveedor)
+                {
+                    CondicionIVA = proveedorBL.GetCondicionIvaList()
+                };
+
+                return View("ProveedorForm", viewModel);
+            }
+
+            if (proveedor.ID == 0)
+            {
+                //Agregamos nuevo Proveedor
+                proveedorBL.AddProveedor(proveedor);
+            }
+            else
+            {
+                //Edicion de Proveedor Existente
+                proveedorBL.UpdateProveedor(proveedor);
+            }
+
+            return RedirectToAction("Proveedores", "Admin");
+
+        } 
+        #endregion
     }
 }

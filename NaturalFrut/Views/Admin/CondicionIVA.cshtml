@@ -6,36 +6,46 @@
 
 <h2>Condición IVA</h2>
 
-<p>
-    @Html.ActionLink("Agregar nuevo", "NuevoCondicionIVA", null, new { @class = "btn btn-primary" })
-</p>
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Agregar nuevo", "NuevoCondicionIVA", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
 
-@if (!Model.Any())
-{
-    <h2>No se han cargado aún Datos en el sistema</h2>
-}
-else
-{
 
-    <table class="table table-bordered table-hover">
-        <tr>
-            <th>Nombre</th>
-            <th>Acciones</th>
-        </tr>
-        <tbody>
-            @foreach (var condicionIVA in Model)
-            {
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Datos en el sistema</h2>
+        }
+        else
+        {
+
+            <table class="table table-bordered table-hover">
                 <tr>
-                    <td>@condicionIVA.Nombre</td>
-                    <td>
-                        @Html.ActionLink("Editar", "EditarCondicionIVA", "Admin", new { id = condicionIVA.ID }, null)
-                        &nbsp;
-                        @Html.ActionLink("Borrar", "BorrarCondicionIVA", "Admin", new { id = condicionIVA.ID }, null)
-                    </td>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+                <tbody>
+                    @foreach (var condicionIVA in Model)
+                    {
+                        <tr>
+                            <td>@condicionIVA.Nombre</td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditarCondicionIVA", "Admin", new { id = condicionIVA.ID }, null)
+                                &nbsp;
+                                @Html.ActionLink("Borrar", "BorrarCondicionIVA", "Admin", new { id = condicionIVA.ID }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
 
-}
+        }
+    </div>
+</div>

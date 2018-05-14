@@ -1,15 +1,17 @@
-﻿@model IEnumerable<NaturalFrut.Models.Cliente>
+﻿@model IEnumerable<NaturalFrut.Models.Proveedor>
 @{
-    ViewBag.Title = "Clientes";
+    ViewBag.Title = "Proveedores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Clientes</h2>
+
+
+<h2>Proveedores</h2>
 
 <div class="row">
     <div class="col-sm-12">
         <p>
-            @Html.ActionLink("Nuevo Cliente", "NuevoCliente", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Nuevo Proveedor", "NuevoProveedor", null, new { @class = "btn btn-primary" })
         </p>
     </div>
 </div>
@@ -19,25 +21,24 @@
 
         @if (!Model.Any())
         {
-            <h2>No se han cargado aún Clientes en el sistema</h2>
+            <h2>No se han cargado aún Proveedores en el sistema</h2>
         }
         else
         {
-
             <table class="table table-bordered table-hover">
                 <tr>
                     <th>Nombre</th>
                     <th>Acciones</th>
                 </tr>
                 <tbody>
-                    @foreach (var cliente in Model)
+                    @foreach (var proveedor in Model)
                     {
                         <tr>
-                            <td>@cliente.Nombre</td>
+                            <td>@proveedor.Nombre</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditarCliente", "Admin", new { id = cliente.ID }, null)
+                                @Html.ActionLink("Editar", "EditarProveedor", "Admin", new { id = proveedor.ID }, null)
                                 &nbsp;
-                                @Html.ActionLink("Borrar", "BorrarCliente", "Admin", new { id = cliente.ID }, null)
+                                @Html.ActionLink("Borrar", "BorrarProveedor", "Admin", new { id = proveedor.ID }, null)
                             </td>
                         </tr>
                     }
@@ -46,5 +47,6 @@
 
 
         }
+
     </div>
 </div>

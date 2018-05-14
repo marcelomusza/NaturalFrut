@@ -23,10 +23,9 @@ namespace NaturalFrut.Models
 
         //Asignación de DbSets para CodeFirst migrations 
         public DbSet<Cliente> Clientes { get; set; }
-
         public DbSet<CondicionIVA> CondicionIVA { get; set; }
-
         public DbSet<TipoCliente> TipoCliente { get; set; }
+        public DbSet<Proveedor> Proveedores { get; set; }
 
         // CONTEXT MARCELO        
         public ApplicationDbContext()
@@ -47,7 +46,14 @@ namespace NaturalFrut.Models
         {
             return new ApplicationDbContext();
         }
-        
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+            
+        //    modelBuilder.Entity<Proveedor>()
+        //        .ToTable("Proveedores");
+        //}
+
     }
 
    

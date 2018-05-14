@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace NaturalFrut.App_BLL
 {
@@ -23,14 +24,22 @@ namespace NaturalFrut.App_BLL
             tipoClienteRP = TipoClienteRepository;
         }
 
+        public ClienteLogic(IRepository<Cliente> ClienteRepository)
+        {
+            clienteRP = ClienteRepository;
+        }
+
         public List<Cliente> GetAllClientes()
         {
-            return clienteRP.GetAll().ToList();
+            return clienteRP.GetAll()
+                .Include(c => c.CondicionIVA)
+                .Include(c => c.TipoCliente)
+                .ToList();
         }
 
         public Cliente GetClienteById(int id)
         {
-            return clienteRP.GetByID(id);
+            return clienteRP.GetAll().Include(c => c.TipoCliente).Include(c => c.CondicionIVA).Where(c => c.ID == id).SingleOrDefault();
         }
 
         public void RemoveCliente(Cliente cliente)
@@ -45,18 +54,18 @@ namespace NaturalFrut.App_BLL
             clienteRP.Save();
         }
 
-        internal void UpdateCliente(Cliente cliente)
+        public void UpdateCliente(Cliente cliente)
         {
             clienteRP.Update(cliente);
             clienteRP.Save();
         }
 
-        internal List<TipoCliente> GetTipoClienteList()
+        public List<TipoCliente> GetTipoClienteList()
         {
             return tipoClienteRP.GetAll().ToList();
         }
 
-        internal List<CondicionIVA> GetCondicionIvaList()
+        public List<CondicionIVA> GetCondicionIvaList()
         {
             return condicionIVARP.GetAll().ToList();
         }
