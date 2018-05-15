@@ -9,7 +9,7 @@ namespace NaturalFrut.DTOs
     public class ClienteDTO
     {
 
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         [Required]
         public string Nombre { get; set; }

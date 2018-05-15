@@ -47,5 +47,56 @@ namespace NaturalFrut.Controllers.Api
             return Ok(Mapper.Map<Cliente, ClienteDTO>(cliente));
         }
 
+        //POST /api/clientes
+        [HttpPost]
+        public IHttpActionResult CreateCliente(ClienteDTO clienteDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var cliente = Mapper.Map<ClienteDTO, Cliente>(clienteDTO);
+
+            clienteBL.AddCliente(cliente);
+            
+            clienteDTO.ID = cliente.ID;
+
+            return Created(new Uri(Request.RequestUri + "/" + cliente.ID), clienteDTO);
+        }
+
+        //PUT /api/clientes/1
+        [HttpPut]
+        public IHttpActionResult UpdateCliente(int id, ClienteDTO clienteDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var clienteInDB = clienteBL.GetClienteById(id);
+
+            if (clienteInDB == null)
+                return NotFound();
+
+            Mapper.Map(clienteDTO, clienteInDB);
+
+            clienteBL.UpdateCliente(clienteInDB);
+
+            return Ok();
+        }
+
+        //DELETE /api/clientes/1
+        [HttpDelete]
+        public IHttpActionResult DeleteCliente(int id)
+        {
+
+            var clienteInDB = clienteBL.GetClienteById(id);
+
+            if (clienteInDB == null)
+                return NotFound();
+
+            clienteBL.RemoveCliente(clienteInDB);
+            
+            return Ok();
+
+        }
+
     }
 }
