@@ -291,8 +291,13 @@
     <Compile Include="Migrations\201805172030097_creacionTablaVendedor.Designer.cs">
       <DependentUpon>201805172030097_creacionTablaVendedor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805192129534_SeedUsersAndRoles.cs" />
+    <Compile Include="Migrations\201805192129534_SeedUsersAndRoles.Designer.cs">
+      <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Vendedor.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Proveedor.cs" />
@@ -431,6 +436,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805172030097_creacionTablaVendedor.resx">
       <DependentUpon>201805172030097_creacionTablaVendedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805192129534_SeedUsersAndRoles.resx">
+      <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

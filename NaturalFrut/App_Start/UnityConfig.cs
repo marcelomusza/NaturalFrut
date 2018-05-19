@@ -1,9 +1,13 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.App_DAL;
+using NaturalFrut.Controllers;
 using NaturalFrut.Models;
 using System;
-
+using System.Data.Entity;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 
 
@@ -53,6 +57,13 @@ namespace NaturalFrut
             container.RegisterType<IRepository<Proveedor>, BaseRepository<Proveedor>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Producto>, BaseRepository<Producto>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Vendedor>, BaseRepository<Vendedor>>(new TransientLifetimeManager());
+
+
+            container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
+            container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
 
         }
     }

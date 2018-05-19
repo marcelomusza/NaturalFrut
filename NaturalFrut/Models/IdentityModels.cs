@@ -30,18 +30,18 @@ namespace NaturalFrut.Models
         public DbSet<Vendedor> Vendedor { get; set; }
 
         // CONTEXT MARCELO        
-        /*public ApplicationDbContext()
+        public ApplicationDbContext()
             : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
         {
-        }*/
+        }
 
 
         // CONTEXT YESICA
 
-        public ApplicationDbContext()
+        /*public ApplicationDbContext()
             : base("DefaultConnectionYesica", throwIfV1Schema: false)
         {
-        }
+        }*/
        
 
         public static ApplicationDbContext Create()

@@ -13,6 +13,7 @@ using NaturalFrut.App_BLL.ViewModels;
 
 namespace NaturalFrut.Controllers
 {
+    [Authorize(Roles = RoleName.Administrator)]
     public class AdminController : Controller
     {
         
@@ -40,8 +41,8 @@ namespace NaturalFrut.Controllers
         public ActionResult Clientes()
         {
 
-            var clientes = clienteBL.GetAllClientes();
-
+            var clientes = clienteBL.GetAllClientes();                       
+                        
             return View(clientes);
         }
 
