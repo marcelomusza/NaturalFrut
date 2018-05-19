@@ -51,6 +51,8 @@ namespace NaturalFrut
             container.RegisterType<IRepository<CondicionIVA>, BaseRepository<CondicionIVA>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<TipoCliente>, BaseRepository<TipoCliente>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Proveedor>, BaseRepository<Proveedor>>(new TransientLifetimeManager());
+            container.RegisterType<IRepository<Producto>, BaseRepository<Producto>>(new TransientLifetimeManager());
+            container.RegisterType<IRepository<Vendedor>, BaseRepository<Vendedor>>(new TransientLifetimeManager());
 
         }
     }

@@ -26,21 +26,23 @@ namespace NaturalFrut.Models
         public DbSet<CondicionIVA> CondicionIVA { get; set; }
         public DbSet<TipoCliente> TipoCliente { get; set; }
         public DbSet<Proveedor> Proveedores { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Vendedor> Vendedor { get; set; }
 
         // CONTEXT MARCELO        
-        public ApplicationDbContext()
+        /*public ApplicationDbContext()
             : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
         {
-        }
-        
+        }*/
+
 
         // CONTEXT YESICA
-        /* 
+
         public ApplicationDbContext()
             : base("DefaultConnectionYesica", throwIfV1Schema: false)
         {
         }
-        */
+       
 
         public static ApplicationDbContext Create()
         {

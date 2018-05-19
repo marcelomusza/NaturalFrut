@@ -19,12 +19,16 @@ namespace NaturalFrut.Controllers
         private readonly ClienteLogic clienteBL;
         private readonly ProveedorLogic proveedorBL;
         private readonly CommonLogic commonBL;
+        private readonly ProductoLogic productoBL;
+        private readonly VendedorLogic vendedorBL;
 
-        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic)
+        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic)
         {            
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
             proveedorBL = ProveedorLogic;
+            productoBL = ProductoLogic;
+            vendedorBL = VendedorLogic;
         }
 
         public ActionResult Index()
@@ -331,7 +335,141 @@ namespace NaturalFrut.Controllers
 
             return RedirectToAction("Proveedores", "Admin");
 
-        } 
+        }
+        #endregion
+
+        #region Acciones Producto
+        public ActionResult Productos()
+        {
+
+            var productos = productoBL.GetAllProducto();
+
+            return View(productos);
+        }
+
+        public ActionResult NuevoProducto()
+        {
+
+            Producto producto = new Producto();
+
+            return View("ProductoForm", producto);
+        }
+
+        public ActionResult EditarProducto(int Id)
+        {
+
+            var producto = productoBL.GetProductoById(Id);
+
+            if (producto == null)
+                return HttpNotFound();
+
+            return View("ProductoForm", producto);
+        }
+
+        public ActionResult BorrarProducto(int Id)
+        {
+            var producto = productoBL.GetProductoById(Id);
+
+            if (producto != null)
+                productoBL.RemoveProducto(producto);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("Productos", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarProducto(Producto producto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+                return View("ProductoForm");
+            }
+
+            if (producto.ID == 0)
+            {
+                //Agregamos nuevo Proveedor
+                productoBL.AddProducto(producto);
+            }
+            else
+            {
+                //Edicion de Proveedor Existente
+                productoBL.UpdateProducto(producto);
+            }
+
+            return RedirectToAction("Productos", "Admin");
+
+        }
+        #endregion
+
+        #region Acciones Vendedor
+        public ActionResult vendedores()
+        {
+
+            var vendedores = vendedorBL.GetAllProducto();
+
+            return View(vendedores);
+        }
+
+        public ActionResult NuevoVendedor()
+        {
+
+            Vendedor vendedor = new Vendedor();
+
+            return View("VendedorForm", vendedor);
+        }
+
+        public ActionResult EditarVendedor(int Id)
+        {
+
+            var vendedor = vendedorBL.GetVendedorById(Id);
+
+            if (vendedor == null)
+                return HttpNotFound();
+
+            return View("VendedorForm", vendedor);
+        }
+
+        public ActionResult BorrarVendedor(int Id)
+        {
+            var vendedor = vendedorBL.GetVendedorById(Id);
+
+            if (vendedor != null)
+                vendedorBL.RemoveVendedor(vendedor);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("Vendedores", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarVendedor(Vendedor vendedor)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+                return View("VendedorForm");
+            }
+
+            if (vendedor.ID == 0)
+            {
+                //Agregamos nuevo Proveedor
+                vendedorBL.AddVendedor(vendedor);
+            }
+            else
+            {
+                //Edicion de Proveedor Existente
+                vendedorBL.UpdateVendedor(vendedor);
+            }
+
+            return RedirectToAction("Vendedores", "Admin");
+
+        }
         #endregion
     }
 }

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<NaturalFrut.Models.Vendedor>
+@{
+    ViewBag.Title = "Vendedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Vendedores</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Nuevo vendedor", "NuevoVendedor", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Vendedores en el sistema</h2>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+                <tbody>
+                    @foreach (var vendedor in Model)
+                    {
+                        <tr>
+                            <td>@vendedor.Nombre</td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditarVendedor", "Admin", new { id = vendedor.ID }, null)
+                                &nbsp;
+                                @Html.ActionLink("Borrar", "BorrarVendedor", "Admin", new { id = vendedor.ID }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        }
+
+    </div>
+</div>

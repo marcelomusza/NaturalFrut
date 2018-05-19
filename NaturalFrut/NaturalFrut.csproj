@@ -212,7 +212,10 @@
     <Compile Include="App_BLL\CommonLogic.cs" />
     <Compile Include="App_BLL\Interfaces\IEntity.cs" />
     <Compile Include="App_BLL\Interfaces\IRepository.cs" />
+    <Compile Include="App_BLL\VendedorLogic.cs" />
+    <Compile Include="App_BLL\ProductoLogic.cs" />
     <Compile Include="App_BLL\ProveedorLogic.cs" />
+    <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
@@ -276,8 +279,22 @@
     <Compile Include="Migrations\201805090108414_TablaProveedores.Designer.cs">
       <DependentUpon>201805090108414_TablaProveedores.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805152003091_tablaProducto.cs" />
+    <Compile Include="Migrations\201805152003091_tablaProducto.Designer.cs">
+      <DependentUpon>201805152003091_tablaProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805152008001_productoTablaNuevoNombre.cs" />
+    <Compile Include="Migrations\201805152008001_productoTablaNuevoNombre.Designer.cs">
+      <DependentUpon>201805152008001_productoTablaNuevoNombre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805172030097_creacionTablaVendedor.cs" />
+    <Compile Include="Migrations\201805172030097_creacionTablaVendedor.Designer.cs">
+      <DependentUpon>201805172030097_creacionTablaVendedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Vendedor.cs" />
+    <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Proveedor.cs" />
     <Compile Include="Models\TipoCliente.cs" />
     <Compile Include="Models\CondicionIVA.cs" />
@@ -354,6 +371,10 @@
     <Content Include="Views\Admin\TipoClienteForm.cshtml" />
     <Content Include="Views\Admin\Proveedores.cshtml" />
     <Content Include="Views\Admin\ProveedorForm.cshtml" />
+    <Content Include="Views\Admin\Productos.cshtml" />
+    <Content Include="Views\Admin\ProductoForm.cshtml" />
+    <Content Include="Views\Admin\VendedorForm.cshtml" />
+    <Content Include="Views\Admin\Vendedores.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,6 +422,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805090108414_TablaProveedores.resx">
       <DependentUpon>201805090108414_TablaProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805152003091_tablaProducto.resx">
+      <DependentUpon>201805152003091_tablaProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805152008001_productoTablaNuevoNombre.resx">
+      <DependentUpon>201805152008001_productoTablaNuevoNombre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805172030097_creacionTablaVendedor.resx">
+      <DependentUpon>201805172030097_creacionTablaVendedor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
