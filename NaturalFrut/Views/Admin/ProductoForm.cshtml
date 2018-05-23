@@ -1,4 +1,4 @@
-﻿@model NaturalFrut.Models.Producto
+﻿@model NaturalFrut.App_BLL.ViewModels.ProductoViewModel
 @{
     ViewBag.Title = "ProductoForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,9 +34,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Categoria)
-                @Html.TextBoxFor(c => c.Categoria, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Categoria)
+                @Html.LabelFor(c => c.CategoriaId)
+                @Html.DropDownListFor(c => c.CategoriaId, new SelectList(Model.Categoria, "Id", "Nombre"), "Seleccione la Categoría", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.CategoriaId)
             </div>
 
             <div class="form-group">

@@ -19,10 +19,16 @@ namespace NaturalFrut.App_BLL.ViewModels
         public int Cantidad { get; set; }
 
         [Required]
-        public string Categoria { get; set; }
+        [Display(Name = "Categoría")]
+        public int CategoriaId { get; set; }
+
+        public IEnumerable<Categoria> Categoria { get; set; }
+
 
         [Required]
         public string Marca { get; set; }
+
+
 
         public ProductoViewModel()
         {
@@ -34,8 +40,9 @@ namespace NaturalFrut.App_BLL.ViewModels
             ID = producto.ID;
             Descripcion = producto.Descripcion;
             Cantidad = producto.Cantidad;
-            Categoria = producto.Categoria;
             Marca = producto.Marca;
+
+            CategoriaId = producto.CategoriaId;
         }
 
         public string Titulo

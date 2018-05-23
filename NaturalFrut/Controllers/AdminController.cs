@@ -351,9 +351,17 @@ namespace NaturalFrut.Controllers
         public ActionResult NuevoProducto()
         {
 
+            var categoria = productoBL.GetCategoriaList();
+
+            ProductoViewModel viewModel = new ProductoViewModel
+            {
+                Categoria = categoria
+            };
+
+
             Producto producto = new Producto();
 
-            return View("ProductoForm", producto);
+            return View("ProductoForm", viewModel);
         }
 
         public ActionResult EditarProducto(int Id)
@@ -361,10 +369,15 @@ namespace NaturalFrut.Controllers
 
             var producto = productoBL.GetProductoById(Id);
 
+            ProductoViewModel viewModel = new ProductoViewModel(producto)
+            {
+                Categoria = productoBL.GetCategoriaList()
+            };
+
             if (producto == null)
                 return HttpNotFound();
 
-            return View("ProductoForm", producto);
+            return View("ProductoForm", viewModel);
         }
 
         public ActionResult BorrarProducto(int Id)
@@ -387,7 +400,12 @@ namespace NaturalFrut.Controllers
             if (!ModelState.IsValid)
             {
 
-                return View("ProductoForm");
+                ProductoViewModel viewModel = new ProductoViewModel(producto)
+                {
+                    Categoria = productoBL.GetCategoriaList()
+                };
+
+                return View("ProductoForm", viewModel);
             }
 
             if (producto.ID == 0)

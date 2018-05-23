@@ -295,8 +295,17 @@
     <Compile Include="Migrations\201805192129534_SeedUsersAndRoles.Designer.cs">
       <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805230237342_NuevoModelCategorias.cs" />
+    <Compile Include="Migrations\201805230237342_NuevoModelCategorias.Designer.cs">
+      <DependentUpon>201805230237342_NuevoModelCategorias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805230254029_TablaProductosCambioNombre.cs" />
+    <Compile Include="Migrations\201805230254029_TablaProductosCambioNombre.Designer.cs">
+      <DependentUpon>201805230254029_TablaProductosCambioNombre.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Vendedor.cs" />
     <Compile Include="Models\Producto.cs" />
@@ -439,6 +448,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805192129534_SeedUsersAndRoles.resx">
       <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805230237342_NuevoModelCategorias.resx">
+      <DependentUpon>201805230237342_NuevoModelCategorias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805230254029_TablaProductosCambioNombre.resx">
+      <DependentUpon>201805230254029_TablaProductosCambioNombre.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

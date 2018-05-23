@@ -39,7 +39,11 @@ namespace NaturalFrut.App_BLL
 
         public Cliente GetClienteById(int id)
         {
-            return clienteRP.GetAll().Include(c => c.TipoCliente).Include(c => c.CondicionIVA).Where(c => c.ID == id).SingleOrDefault();
+            return clienteRP
+                .GetAll()
+                .Include(c => c.TipoCliente)
+                .Include(c => c.CondicionIVA)
+                .Where(c => c.ID == id).SingleOrDefault();
         }
 
         public void RemoveCliente(Cliente cliente)

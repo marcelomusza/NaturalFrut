@@ -28,6 +28,7 @@ namespace NaturalFrut.Models
         public DbSet<Proveedor> Proveedores { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Vendedor> Vendedor { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         // CONTEXT MARCELO        
         public ApplicationDbContext()

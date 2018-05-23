@@ -8,7 +8,7 @@ using System.Web;
 
 namespace NaturalFrut.Models
 {
-    [Table("Producto")]
+    [Table("Productos")]
     public class Producto : IEntity
     {
         public int ID { get; set; }
@@ -18,9 +18,11 @@ namespace NaturalFrut.Models
 
         [Required]
         public int Cantidad { get; set; }
+        
+        public Categoria Categoria { get; set; }
 
         [Required]
-        public string Categoria { get; set; }
+        public int CategoriaId { get; set; }
 
         [Required]
         public string Marca { get; set; }
