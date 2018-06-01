@@ -24,11 +24,11 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public IEnumerable<Categoria> Categoria { get; set; }
 
-
         [Required]
-        public string Marca { get; set; }
+        [Display(Name = "Marca")]
+        public int MarcaId { get; set; }
 
-
+        public IEnumerable<Marca> Marca { get; set; }
 
         public ProductoViewModel()
         {
@@ -40,7 +40,7 @@ namespace NaturalFrut.App_BLL.ViewModels
             ID = producto.ID;
             Descripcion = producto.Descripcion;
             Cantidad = producto.Cantidad;
-            Marca = producto.Marca;
+            MarcaId = producto.MarcaId;
 
             CategoriaId = producto.CategoriaId;
         }

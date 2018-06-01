@@ -29,20 +29,21 @@ namespace NaturalFrut.Models
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Vendedor> Vendedor { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Marca> Marcas { get; set; }
 
         // CONTEXT MARCELO        
-        public ApplicationDbContext()
-            : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
-        {
-        }
+        /* public ApplicationDbContext()
+             : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
+         {
+         }*/
 
 
         // CONTEXT YESICA
 
-        /*public ApplicationDbContext()
+        public ApplicationDbContext()
             : base("DefaultConnectionYesica", throwIfV1Schema: false)
         {
-        }*/
+        }
        
 
         public static ApplicationDbContext Create()

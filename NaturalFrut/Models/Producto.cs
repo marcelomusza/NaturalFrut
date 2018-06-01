@@ -27,5 +27,8 @@ namespace NaturalFrut.Models
         [Required]
         public string Marca { get; set; }
 
+        [Required]
+        public int MarcaId { get; set; }
+
     }
 }

@@ -19,12 +19,12 @@ namespace NaturalFrut.Migrations
             AddColumn("dbo.Producto", "CategoriaId", c => c.Int(nullable: false));
             CreateIndex("dbo.Producto", "CategoriaId");
             AddForeignKey("dbo.Producto", "CategoriaId", "dbo.Categorias", "ID", cascadeDelete: true);
-            DropColumn("dbo.Producto", "Categoria");
+           
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Producto", "Categoria", c => c.String(nullable: false));
+           
             DropForeignKey("dbo.Producto", "CategoriaId", "dbo.Categorias");
             DropIndex("dbo.Producto", new[] { "CategoriaId" });
             DropColumn("dbo.Producto", "CategoriaId");

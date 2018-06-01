@@ -13,17 +13,20 @@ namespace NaturalFrut.App_BLL
 
         private readonly IRepository<Producto> productoRP;
         private readonly IRepository<Categoria> categoriaRP;
+        private readonly IRepository<Marca> marcaRP;
 
-        public ProductoLogic(IRepository<Producto> ProductoRepository, IRepository<Categoria> CategoriaRepository)
+        public ProductoLogic(IRepository<Producto> ProductoRepository, IRepository<Categoria> CategoriaRepository, IRepository<Marca> MarcaRepository)
         {
             productoRP = ProductoRepository;
             categoriaRP = CategoriaRepository;
+            marcaRP = MarcaRepository;
         }
 
         public List<Producto> GetAllProducto()
         {
             return productoRP.GetAll()
                 .Include(c => c.Categoria)
+                .Include(c => c.Marca)
                 .ToList();
         }
 
@@ -32,6 +35,7 @@ namespace NaturalFrut.App_BLL
             return productoRP
                 .GetAll()
                 .Include(c => c.Categoria)
+                .Include(c => c.Marca)
                 .Where(p => p.ID == id)
                 .SingleOrDefault();
         }
@@ -57,6 +61,11 @@ namespace NaturalFrut.App_BLL
         public List<Categoria> GetCategoriaList()
         {
             return categoriaRP.GetAll().ToList();
+        }
+
+        public List<Marca> GetMarcaList()
+        {
+            return marcaRP.GetAll().ToList();
         }
     }
 }

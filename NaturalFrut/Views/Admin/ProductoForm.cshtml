@@ -40,9 +40,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Marca)
-                @Html.TextBoxFor(c => c.Marca, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Marca)
+                @Html.LabelFor(c => c.MarcaId)
+                @Html.DropDownListFor(c => c.MarcaId, new SelectList(Model.Categoria, "Id", "Nombre"), "Seleccione la Marca", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.MarcaId)
             </div>
 
         </div>      

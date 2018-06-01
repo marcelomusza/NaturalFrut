@@ -352,10 +352,12 @@ namespace NaturalFrut.Controllers
         {
 
             var categoria = productoBL.GetCategoriaList();
+            var marca = productoBL.GetMarcaList();
 
             ProductoViewModel viewModel = new ProductoViewModel
             {
-                Categoria = categoria
+                Categoria = categoria,
+                Marca = marca
             };
 
 
@@ -371,7 +373,8 @@ namespace NaturalFrut.Controllers
 
             ProductoViewModel viewModel = new ProductoViewModel(producto)
             {
-                Categoria = productoBL.GetCategoriaList()
+                Categoria = productoBL.GetCategoriaList(),
+                Marca = productoBL.GetMarcaList()
             };
 
             if (producto == null)
@@ -402,7 +405,8 @@ namespace NaturalFrut.Controllers
 
                 ProductoViewModel viewModel = new ProductoViewModel(producto)
                 {
-                    Categoria = productoBL.GetCategoriaList()
+                    Categoria = productoBL.GetCategoriaList(),
+                    Marca = productoBL.GetMarcaList()
                 };
 
                 return View("ProductoForm", viewModel);
