@@ -359,10 +359,7 @@ namespace NaturalFrut.Controllers
                 Categoria = categoria,
                 Marca = marca
             };
-
-
-            Producto producto = new Producto();
-
+            
             return View("ProductoForm", viewModel);
         }
 
@@ -493,6 +490,139 @@ namespace NaturalFrut.Controllers
             return RedirectToAction("Vendedores", "Admin");
 
         }
+        #endregion
+
+        #region Acciones Categoria
+        public ActionResult Categorias()
+        {
+
+            var categorias = commonBL.GetAllCategorias();
+
+            return View(categorias);
+        }
+
+        public ActionResult NuevoCategoria()
+        {
+
+            Categoria categoria = new Categoria();
+
+            return View("CategoriaForm", categoria);
+        }
+
+        public ActionResult EditarCategoria(int Id)
+        {
+
+            var categoria = commonBL.GetCategoriaById(Id);
+
+            if (categoria == null)
+                return HttpNotFound();
+
+            return View("CategoriaForm", categoria);
+        }
+
+        public ActionResult BorrarCategoria(int Id)
+        {
+
+            var categoria = commonBL.GetCategoriaById(Id);
+
+            if (categoria != null)
+                commonBL.RemoveCategoria(categoria);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("Categorias", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarCategoria(Categoria categoria)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("CategoriaForm");
+            }
+
+            if (categoria.ID == 0)
+            {
+                //Agregamos nuevo TipoCliente
+                commonBL.AddCategoria(categoria);
+            }
+            else
+            {
+                //Edicion de Tipo Cliente existente
+                commonBL.UpdateCategoria(categoria);
+            }
+
+            return RedirectToAction("Categorias", "Admin");
+
+        }
+        #endregion
+
+        #region Acciones Marca
+        public ActionResult Marcas()
+        {
+            var marcas = commonBL.GetAllMarcas();
+
+            return View(marcas);
+        }
+
+        public ActionResult NuevoMarca()
+        {
+
+            Marca marca = new Marca();
+
+            return View("MarcaForm", marca);
+        }
+
+        public ActionResult EditarMarca(int Id)
+        {
+
+            var marca = commonBL.GetMarcaById(Id);
+
+            if (marca == null)
+                return HttpNotFound();
+
+            return View("MarcaForm", marca);
+        }
+
+        public ActionResult BorrarMarca(int Id)
+        {
+
+            var marca = commonBL.GetMarcaById(Id);
+
+            if (marca != null)
+                commonBL.RemoveMarca(marca);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("Marcas", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarMarca(Marca marca)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("MarcaForm");
+            }
+
+            if (marca.ID == 0)
+            {
+                //Agregamos nuevo TipoCliente
+                commonBL.AddMarca(marca);
+            }
+            else
+            {
+                //Edicion de Tipo Cliente existente
+                commonBL.UpdateMarca(marca);
+            }
+
+            return RedirectToAction("Marcas", "Admin");
+
+        } 
         #endregion
     }
 }

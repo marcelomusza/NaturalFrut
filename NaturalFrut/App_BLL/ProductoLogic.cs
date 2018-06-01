@@ -67,5 +67,7 @@ namespace NaturalFrut.App_BLL
         {
             return marcaRP.GetAll().ToList();
         }
+
+        
     }
 }

@@ -1,0 +1,51 @@
+﻿@model NaturalFrut.Models.Marca
+@{
+    ViewBag.Title = "Marca";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Marcas</h2>
+
+<h4>Ingrese una Marca</h4>
+<br />
+
+@using (Html.BeginForm("GuardarMarca", "Admin"))
+{
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Nombre)
+                @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Nombre)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(c => c.ID)
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

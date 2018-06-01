@@ -279,14 +279,6 @@
     <Compile Include="Migrations\201805090108414_TablaProveedores.Designer.cs">
       <DependentUpon>201805090108414_TablaProveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805152003091_tablaProducto.cs" />
-    <Compile Include="Migrations\201805152003091_tablaProducto.Designer.cs">
-      <DependentUpon>201805152003091_tablaProducto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805152008001_productoTablaNuevoNombre.cs" />
-    <Compile Include="Migrations\201805152008001_productoTablaNuevoNombre.Designer.cs">
-      <DependentUpon>201805152008001_productoTablaNuevoNombre.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201805172030097_creacionTablaVendedor.cs" />
     <Compile Include="Migrations\201805172030097_creacionTablaVendedor.Designer.cs">
       <DependentUpon>201805172030097_creacionTablaVendedor.cs</DependentUpon>
@@ -295,21 +287,9 @@
     <Compile Include="Migrations\201805192129534_SeedUsersAndRoles.Designer.cs">
       <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805230237342_NuevoModelCategorias.cs" />
-    <Compile Include="Migrations\201805230237342_NuevoModelCategorias.Designer.cs">
-      <DependentUpon>201805230237342_NuevoModelCategorias.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805230254029_TablaProductosCambioNombre.cs" />
-    <Compile Include="Migrations\201805230254029_TablaProductosCambioNombre.Designer.cs">
-      <DependentUpon>201805230254029_TablaProductosCambioNombre.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805311621124_creacionTablaMarcas.cs" />
-    <Compile Include="Migrations\201805311621124_creacionTablaMarcas.Designer.cs">
-      <DependentUpon>201805311621124_creacionTablaMarcas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805311730484_relacionMarcaProducto.cs" />
-    <Compile Include="Migrations\201805311730484_relacionMarcaProducto.Designer.cs">
-      <DependentUpon>201805311730484_relacionMarcaProducto.cs</DependentUpon>
+    <Compile Include="Migrations\201806010239123_FixTablaProductos.cs" />
+    <Compile Include="Migrations\201806010239123_FixTablaProductos.Designer.cs">
+      <DependentUpon>201806010239123_FixTablaProductos.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -398,6 +378,10 @@
     <Content Include="Views\Admin\ProductoForm.cshtml" />
     <Content Include="Views\Admin\VendedorForm.cshtml" />
     <Content Include="Views\Admin\Vendedores.cshtml" />
+    <Content Include="Views\Admin\Categorias.cshtml" />
+    <Content Include="Views\Admin\CategoriaForm.cshtml" />
+    <Content Include="Views\Admin\MarcaForm.cshtml" />
+    <Content Include="Views\Admin\Marcas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -446,29 +430,14 @@
     <EmbeddedResource Include="Migrations\201805090108414_TablaProveedores.resx">
       <DependentUpon>201805090108414_TablaProveedores.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805152003091_tablaProducto.resx">
-      <DependentUpon>201805152003091_tablaProducto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805152008001_productoTablaNuevoNombre.resx">
-      <DependentUpon>201805152008001_productoTablaNuevoNombre.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805172030097_creacionTablaVendedor.resx">
       <DependentUpon>201805172030097_creacionTablaVendedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805192129534_SeedUsersAndRoles.resx">
       <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805230237342_NuevoModelCategorias.resx">
-      <DependentUpon>201805230237342_NuevoModelCategorias.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805230254029_TablaProductosCambioNombre.resx">
-      <DependentUpon>201805230254029_TablaProductosCambioNombre.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805311621124_creacionTablaMarcas.resx">
-      <DependentUpon>201805311621124_creacionTablaMarcas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805311730484_relacionMarcaProducto.resx">
-      <DependentUpon>201805311730484_relacionMarcaProducto.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806010239123_FixTablaProductos.resx">
+      <DependentUpon>201806010239123_FixTablaProductos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

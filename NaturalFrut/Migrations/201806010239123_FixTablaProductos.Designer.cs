@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class tablaProducto : IMigrationMetadata
+    public sealed partial class FixTablaProductos : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(tablaProducto));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(FixTablaProductos));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805152003091_tablaProducto"; }
+            get { return "201806010239123_FixTablaProductos"; }
         }
         
         string IMigrationMetadata.Source

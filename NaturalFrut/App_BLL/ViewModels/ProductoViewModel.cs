@@ -40,9 +40,9 @@ namespace NaturalFrut.App_BLL.ViewModels
             ID = producto.ID;
             Descripcion = producto.Descripcion;
             Cantidad = producto.Cantidad;
-            MarcaId = producto.MarcaId;
 
             CategoriaId = producto.CategoriaId;
+            MarcaId = producto.MarcaId;
         }
 
         public string Titulo

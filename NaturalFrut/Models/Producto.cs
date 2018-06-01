@@ -24,8 +24,8 @@ namespace NaturalFrut.Models
         [Required]
         public int CategoriaId { get; set; }
 
-        [Required]
-        public string Marca { get; set; }
+        
+        public Marca Marca { get; set; }
 
         [Required]
         public int MarcaId { get; set; }

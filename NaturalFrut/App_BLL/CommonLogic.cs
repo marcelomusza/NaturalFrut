@@ -12,12 +12,18 @@ namespace NaturalFrut.App_BLL
 
         private readonly IRepository<CondicionIVA> condicionIVARP;
         private readonly IRepository<TipoCliente> tipoClienteRP;
+        private readonly IRepository<Categoria> categoriaRP;
+        private readonly IRepository<Marca> marcaRP;
 
         public CommonLogic(IRepository<CondicionIVA> CondicionIVARepository,
-            IRepository<TipoCliente> TipoClienteRepository)
+            IRepository<TipoCliente> TipoClienteRepository,
+            IRepository<Categoria> CategoriaRepository,
+            IRepository<Marca> MarcaRepository)
         {
             condicionIVARP = CondicionIVARepository;
             tipoClienteRP = TipoClienteRepository;
+            categoriaRP = CategoriaRepository;
+            marcaRP = MarcaRepository;
         }
 
 
@@ -78,7 +84,69 @@ namespace NaturalFrut.App_BLL
         {
             tipoClienteRP.Update(tipoCliente);
             tipoClienteRP.Save();
+        }
+        #endregion
+
+        #region Operaciones Categoria
+        public List<Categoria> GetAllCategorias()
+        {
+            return categoriaRP.GetAll().ToList();
+        }
+
+        public Categoria GetCategoriaById(int id)
+        {
+            return categoriaRP.GetByID(id);
+        }
+
+        public void RemoveCategoria(Categoria categoria)
+        {
+            categoriaRP.Delete(categoria);
+            categoriaRP.Save();
+        }
+
+        public void AddCategoria(Categoria categoria)
+        {
+            categoriaRP.Add(categoria);
+            categoriaRP.Save();
+        }
+
+        public void UpdateCategoria(Categoria categoria)
+        {
+            categoriaRP.Update(categoria);
+            categoriaRP.Save();
+        }
+        #endregion
+
+        #region Operaciones Marca
+        public void AddMarca(Marca marca)
+        {
+            marcaRP.Add(marca);
+            marcaRP.Save();
+        }
+
+        public void UpdateMarca(Marca marca)
+        {
+            marcaRP.Update(marca);
+            marcaRP.Save();
+        }
+
+        public Marca GetMarcaById(int id)
+        {
+            return marcaRP.GetByID(id);
+        }
+
+        public void RemoveMarca(Marca marca)
+        {
+            marcaRP.Delete(marca);
+            marcaRP.Save();
+        }
+
+        public List<Marca> GetAllMarcas()
+        {
+            return marcaRP.GetAll().ToList();
         } 
         #endregion
+
+
     }
 }
