@@ -21,6 +21,9 @@ namespace NaturalFrut.App_Start
 
             Mapper.CreateMap<TipoCliente, TipoClienteDTO>();
             Mapper.CreateMap<TipoClienteDTO, TipoCliente>();
+
+            Mapper.CreateMap<Proveedor, ProveedorDTO>();
+            Mapper.CreateMap<ProveedorDTO, Proveedor>();
         }
 
        

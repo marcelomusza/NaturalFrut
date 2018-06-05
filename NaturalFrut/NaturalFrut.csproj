@@ -230,9 +230,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\ProveedoresController.cs" />
     <Compile Include="Controllers\Api\ClientesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DTOs\ProveedorDTO.cs" />
     <Compile Include="DTOs\ClienteDTO.cs" />
     <Compile Include="DTOs\CondicionIVADTO.cs" />
     <Compile Include="DTOs\TipoClienteDTO.cs" />
@@ -290,6 +292,10 @@
     <Compile Include="Migrations\201806010239123_FixTablaProductos.cs" />
     <Compile Include="Migrations\201806010239123_FixTablaProductos.Designer.cs">
       <DependentUpon>201806010239123_FixTablaProductos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806011456071_modelMarcaProductoCategoria.cs" />
+    <Compile Include="Migrations\201806011456071_modelMarcaProductoCategoria.Designer.cs">
+      <DependentUpon>201806011456071_modelMarcaProductoCategoria.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -438,6 +444,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806010239123_FixTablaProductos.resx">
       <DependentUpon>201806010239123_FixTablaProductos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806011456071_modelMarcaProductoCategoria.resx">
+      <DependentUpon>201806011456071_modelMarcaProductoCategoria.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

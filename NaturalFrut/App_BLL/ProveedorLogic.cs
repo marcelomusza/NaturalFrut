@@ -2,6 +2,7 @@
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -20,14 +21,23 @@ namespace NaturalFrut.App_BLL
             condicionIVARP = CondicionIVARepository;
         }
 
+        public ProveedorLogic(IRepository<Proveedor> ClienteRepository)
+        {
+            proveedorRP = ClienteRepository;
+        }
+
         public List<Proveedor> GetAllProveedores()
         {
-            return proveedorRP.GetAll().ToList();
+            return proveedorRP.GetAll()
+                .Include(c => c.CondicionIVA)
+                .ToList();
         }
 
         public Proveedor GetProveedorById(int id)
         {
-            return proveedorRP.GetByID(id);
+            return proveedorRP.GetAll()
+                .Include(c => c.CondicionIVA)
+                .Where(c => c.ID == id).SingleOrDefault();
         }
 
         public void RemoveProveedor(Proveedor proveedor)
