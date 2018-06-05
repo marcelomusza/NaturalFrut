@@ -22,6 +22,11 @@ namespace NaturalFrut.App_BLL
             marcaRP = MarcaRepository;
         }
 
+        public ProductoLogic(IRepository<Producto> ProductoRepository)
+        {
+            productoRP = ProductoRepository;
+        }
+
         public List<Producto> GetAllProducto()
         {
             return productoRP.GetAll()
