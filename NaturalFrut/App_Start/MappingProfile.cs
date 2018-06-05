@@ -24,6 +24,16 @@ namespace NaturalFrut.App_Start
 
             Mapper.CreateMap<Proveedor, ProveedorDTO>();
             Mapper.CreateMap<ProveedorDTO, Proveedor>();
+
+            Mapper.CreateMap<Producto, ProductoDTO>();
+            Mapper.CreateMap<ProductoDTO, Producto>();
+
+            Mapper.CreateMap<Categoria, CategoriaDTO>();
+            Mapper.CreateMap<CategoriaDTO, Categoria>();
+
+            Mapper.CreateMap<Marca, MarcaDTO>();
+            Mapper.CreateMap<MarcaDTO, Marca>();
+
         }
 
        

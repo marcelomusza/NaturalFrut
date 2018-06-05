@@ -21,9 +21,9 @@ namespace NaturalFrut.App_BLL
             condicionIVARP = CondicionIVARepository;
         }
 
-        public ProveedorLogic(IRepository<Proveedor> ClienteRepository)
+        public ProveedorLogic(IRepository<Proveedor> ProveedorRepository)
         {
-            proveedorRP = ClienteRepository;
+            proveedorRP = ProveedorRepository;
         }
 
         public List<Proveedor> GetAllProveedores()
