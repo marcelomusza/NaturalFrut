@@ -25,23 +25,15 @@
         }
         else
         {
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
+            <table id="proveedores" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    @foreach (var proveedor in Model)
-                    {
-                        <tr>
-                            <td>@proveedor.Nombre</td>
-                            <td>
-                                @Html.ActionLink("Editar", "EditarProveedor", "Admin", new { id = proveedor.ID }, null)
-                                &nbsp;
-                                @Html.ActionLink("Borrar", "BorrarProveedor", "Admin", new { id = proveedor.ID }, null)
-                            </td>
-                        </tr>
-                    }
+                    
                 </tbody>
             </table>
 
@@ -50,3 +42,77 @@
 
     </div>
 </div>
+
+@section scripts 
+{
+    
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#proveedores").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/proveedores",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Nombre"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-customer-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#proveedores").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/proveedores/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Proveedor eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#proveedores").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarProveedor/" + button.attr("data-customer-id");
+
+            });
+
+
+        });
+
+
+    </script>    
+    
+    
+    
+}

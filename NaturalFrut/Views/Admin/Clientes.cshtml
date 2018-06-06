@@ -49,6 +49,10 @@
 
             var table = $("#clientes").DataTable({
 
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
                 ajax: {
 
                     url: "/api/clientes",
@@ -79,7 +83,8 @@
                             url: "/api/clientes/" + button.attr("data-customer-id"),
                             method: "DELETE",
                             success: function () {
-                                console.log("Cliente eliminado de la base de datos.");
+
+                                toastr.success("Cliente eliminado satisfactoriamente");
 
                                 table.row(button.parents("tr")).remove().draw();
                             }

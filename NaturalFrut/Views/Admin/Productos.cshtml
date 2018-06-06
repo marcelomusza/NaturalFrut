@@ -25,23 +25,15 @@
         }
         else
         {
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
+            <table id="productos" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    @foreach (var producto in Model)
-                    {
-                        <tr>
-                            <td>@producto.Descripcion</td>
-                            <td>
-                                @Html.ActionLink("Editar", "EditarProducto", "Admin", new { id = producto.ID }, null)
-                                &nbsp;
-                                @Html.ActionLink("Borrar", "BorrarProducto", "Admin", new { id = producto.ID }, null)
-                            </td>
-                        </tr>
-                    }
+                    
                 </tbody>
             </table>
 
@@ -50,3 +42,74 @@
 
     </div>
 </div>
+
+@section scripts
+{
+    
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#productos").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/productos",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Descripcion"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-customer-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#productos").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/productos/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Producto eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#productos").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarProducto/" + button.attr("data-customer-id");
+
+            });
+
+        });
+
+    </script>
+    
+    
+}
