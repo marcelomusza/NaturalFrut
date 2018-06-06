@@ -17,7 +17,7 @@ namespace NaturalFrut.App_BLL
             vendedorRP = VendedorRepository;
         }
 
-        public List<Vendedor> GetAllProducto()
+        public List<Vendedor> GetAllVendedores()
         {
             return vendedorRP.GetAll().ToList();
         }

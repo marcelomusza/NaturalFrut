@@ -19,6 +19,7 @@ namespace NaturalFrut
             container.RegisterType<IRepository<Cliente>, BaseRepository<Cliente>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<Proveedor>, BaseRepository<Proveedor>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<Producto>, BaseRepository<Producto>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<Vendedor>, BaseRepository<Vendedor>>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
 

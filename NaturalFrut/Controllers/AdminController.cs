@@ -429,7 +429,7 @@ namespace NaturalFrut.Controllers
         public ActionResult vendedores()
         {
 
-            var vendedores = vendedorBL.GetAllProducto();
+            var vendedores = vendedorBL.GetAllVendedores();
 
             return View(vendedores);
         }

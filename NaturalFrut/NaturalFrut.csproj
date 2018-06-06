@@ -230,11 +230,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\VendedoresController.cs" />
     <Compile Include="Controllers\Api\ProductosController.cs" />
     <Compile Include="Controllers\Api\ProveedoresController.cs" />
     <Compile Include="Controllers\Api\ClientesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="DTOs\MarcaDTO.cs" />
     <Compile Include="DTOs\CategoriaDTO.cs" />
     <Compile Include="DTOs\ProductoDTO.cs" />
