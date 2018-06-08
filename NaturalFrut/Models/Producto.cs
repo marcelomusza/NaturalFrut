@@ -30,5 +30,11 @@ namespace NaturalFrut.Models
         [Required]
         public int MarcaId { get; set; }
 
+
+        public IList<Venta> Ventas { get; set; }
+
+        [Required]
+        public int VentaID { get; set; }
+
     }
 }

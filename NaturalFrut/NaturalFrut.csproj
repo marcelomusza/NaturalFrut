@@ -236,6 +236,7 @@
     <Compile Include="Controllers\Api\ClientesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="DTOs\MarcaDTO.cs" />
     <Compile Include="DTOs\CategoriaDTO.cs" />
@@ -303,6 +304,14 @@
     <Compile Include="Migrations\201806011456071_modelMarcaProductoCategoria.Designer.cs">
       <DependentUpon>201806011456071_modelMarcaProductoCategoria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806081544533_ModelVentasInicial.cs" />
+    <Compile Include="Migrations\201806081544533_ModelVentasInicial.Designer.cs">
+      <DependentUpon>201806081544533_ModelVentasInicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806081546250_RelacionMuchosAMuchosVentasProductos.cs" />
+    <Compile Include="Migrations\201806081546250_RelacionMuchosAMuchosVentasProductos.Designer.cs">
+      <DependentUpon>201806081546250_RelacionMuchosAMuchosVentasProductos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Marca.cs" />
@@ -316,6 +325,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Venta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Startup.cs" />
@@ -643,6 +653,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Venta\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -699,6 +710,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806011456071_modelMarcaProductoCategoria.resx">
       <DependentUpon>201806011456071_modelMarcaProductoCategoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806081544533_ModelVentasInicial.resx">
+      <DependentUpon>201806081544533_ModelVentasInicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806081546250_RelacionMuchosAMuchosVentasProductos.resx">
+      <DependentUpon>201806081546250_RelacionMuchosAMuchosVentasProductos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
