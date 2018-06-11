@@ -23,32 +23,41 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>                    
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Ventas
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Ingresar Venta", "IngresarVenta", "Venta")</li>
+                            <li>@Html.ActionLink("Ver Ventas", "VerVenta", "Venta")</li>
+                        </ul>
+                    </li>
 
                     <!--Menu Administrador START-->
                     @if (User.IsInRole(RoleName.Administrator))
-                    {
+    {
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Administración
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Clientes", "Clientes", "Admin")</li>
-                                <li>@Html.ActionLink("Proveedores", "Proveedores", "Admin")</li>
-                                <li>@Html.ActionLink("Condición IVA", "CondicionIVA", "Admin")</li>
-                                <li>@Html.ActionLink("Tipo de Cliente", "TipoCliente", "Admin")</li>
-                                <li>@Html.ActionLink("Categorias", "Categorias", "Admin")</li>
-                                <li>@Html.ActionLink("Marcas", "Marcas", "Admin")</li>
-                                <li>@Html.ActionLink("Productos", "Productos", "Admin")</li>
-                                <li>@Html.ActionLink("Vendedores", "Vendedores", "Admin")</li>
-                            </ul>
-                        </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Administración
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Clientes", "Clientes", "Admin")</li>
+                        <li>@Html.ActionLink("Proveedores", "Proveedores", "Admin")</li>
+                        <li>@Html.ActionLink("Condición IVA", "CondicionIVA", "Admin")</li>
+                        <li>@Html.ActionLink("Tipo de Cliente", "TipoCliente", "Admin")</li>
+                        <li>@Html.ActionLink("Categorias", "Categorias", "Admin")</li>
+                        <li>@Html.ActionLink("Marcas", "Marcas", "Admin")</li>
+                        <li>@Html.ActionLink("Productos", "Productos", "Admin")</li>
+                        <li>@Html.ActionLink("Vendedores", "Vendedores", "Admin")</li>
+                    </ul>
+                </li>
 
-                    }
+}
                     <!--Menu Administrador END-->
 
 

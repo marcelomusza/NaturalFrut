@@ -218,6 +218,7 @@
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
+    <Compile Include="App_BLL\ViewModels\VentaViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -650,10 +651,10 @@
     <Content Include="Views\Admin\CategoriaForm.cshtml" />
     <Content Include="Views\Admin\MarcaForm.cshtml" />
     <Content Include="Views\Admin\Marcas.cshtml" />
+    <Content Include="Views\Venta\IngresarVenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Venta\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

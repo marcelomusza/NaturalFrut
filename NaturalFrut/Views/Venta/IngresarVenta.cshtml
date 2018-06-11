@@ -1,0 +1,177 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.VentaViewModel
+@{
+    ViewBag.Title = "CargarVenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ingresar Venta</h2>
+
+@using (Html.BeginForm("GuardarVenta", "Venta"))
+{
+
+    <div class="row">
+        @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+    </div>
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Nombre)
+                @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Nombre)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Prop1)
+                @Html.TextBoxFor(c => c.Prop1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Prop1)
+            </div>
+                      
+
+        </div>
+
+        <!--Agrupamos campos de la columna derecha-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Prop2)
+                @Html.TextBoxFor(c => c.Prop2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Prop2)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Prop3)
+                @Html.TextBoxFor(c => c.Prop3, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Prop3)
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Productos</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Categoría</th>
+                    <th>Marca</th>
+                </tr>
+                <tbody>
+                    @foreach (var p in Model.Productos)
+                    {
+                        <tr>
+                            <td>@p.Descripcion</td>
+                            <td>@p.Cantidad</td>
+                            <td>@p.Categoria.Nombre</td>
+                            <td>@p.Marca.Nombre</td>                           
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(c => c.ID)
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+
+        </div>
+    </div>
+
+
+}
+
+
+
+
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#clientes").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/clientes",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Nombre"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-customer-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#clientes").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/clientes/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Cliente eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#clientes").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarCliente/" + button.attr("data-customer-id");
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+
+}
