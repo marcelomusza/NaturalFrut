@@ -11,15 +11,23 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public int? ID { get; set; }
 
-        public string Nombre { get; set; }
+        //public string Cliente { get; set; }
 
-        public string Prop1 { get; set; }
+        public DateTime Fecha { get; set; }
 
-        public string Prop2 { get; set; }
+        public float SaldoAnterior { get; set; }
 
-        public string Prop3 { get; set; }
-        
+        public float EntregaEfectivo { get; set; }
+
+        public float Saldo { get; set; }
+
+        public string Vendedor { get; set; }
+
         public IEnumerable<Producto> Productos { get; set; }
+
+        public IEnumerable<Cliente> Clientes { get; set; }
+
+        public bool NoConcretado { get; set; } 
 
 
         public VentaViewModel()

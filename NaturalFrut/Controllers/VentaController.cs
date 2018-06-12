@@ -38,8 +38,17 @@ namespace NaturalFrut.Controllers
             var viewModel = new VentaViewModel();
 
             var productos = productoBL.GetAllProducto();
+            var clientes = clienteBL.GetAllClientes();
+            
+            if(productos != null)
+            {
+              viewModel.Productos = productos;
+            }
 
-            viewModel.Productos = productos;
+            if(clientes != null)
+            {
+              viewModel.Clientes = clientes;
+            }         
 
 
             return View(viewModel);

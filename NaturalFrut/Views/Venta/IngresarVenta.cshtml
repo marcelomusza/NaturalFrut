@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <h2>Ingresar Venta</h2>
 
 @using (Html.BeginForm("GuardarVenta", "Venta"))
@@ -19,15 +21,27 @@
         <div class="col-sm-6">
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Nombre)
-                @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Nombre)
+                <label>N° Venta</label>
+                @Html.TextBoxFor(c => c.ID, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.ID)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Prop1)
-                @Html.TextBoxFor(c => c.Prop1, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Prop1)
+                @Html.LabelFor(c => c.Fecha)
+                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value= DateTime.Now.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly"})
+                @Html.ValidationMessageFor(c => c.Fecha)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Clientes)
+                @Html.DropDownListFor(c => c.Clientes, new SelectList(Model.Clientes,"Id", "Nombre"), new{ @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Clientes)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Vendedor)
+                @Html.DropDownListFor(c => c.Vendedor, new SelectList("", "VendedorId", "Name"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Vendedor)
             </div>
                       
 
@@ -35,18 +49,31 @@
 
         <!--Agrupamos campos de la columna derecha-->
         <div class="col-sm-6">
-
             <div class="form-group">
-                @Html.LabelFor(c => c.Prop2)
-                @Html.TextBoxFor(c => c.Prop2, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Prop2)
+                <label>Saldo Anterior</label>
+                @Html.TextBoxFor(c => c.SaldoAnterior, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.SaldoAnterior)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Prop3)
-                @Html.TextBoxFor(c => c.Prop3, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Prop3)
+                <label>Entrega Efectivo</label>
+                @Html.TextBoxFor(c => c.EntregaEfectivo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.EntregaEfectivo)
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Saldo)
+                @Html.TextBoxFor(c => c.Saldo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Saldo)
+            </div>
+
+            <div class="form-group">
+                <label>No Concretado</label>
+                @Html.CheckBox("marcaConcretado", false)
+                @Html.ValidationMessageFor(c => c.NoConcretado)
+            </div>
+
+            
 
         </div>
 
@@ -104,7 +131,7 @@
 
 @section scripts
 {
-
+   
     <script>
 
         $(document).ready(function () {
@@ -166,11 +193,10 @@
 
             });
 
+          
+
 
         });
-
-
-
 
     </script>
 
