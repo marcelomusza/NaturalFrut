@@ -55,5 +55,30 @@ namespace NaturalFrut.Controllers
         }
 
 
+        public ActionResult NuevoCliente()
+        {
+
+            var condicionIva = clienteBL.GetCondicionIvaList();
+            var tipoCliente = clienteBL.GetTipoClienteList();
+
+            ClienteViewModel viewModel = new ClienteViewModel
+            {
+                CondicionIVA = condicionIva,
+                TipoCliente = tipoCliente
+            };
+
+            return PartialView(viewModel);
+        }
+
+       public ActionResult GetCondicionIVAAsync()
+       {
+            return Json(clienteBL.GetCondicionIvaList(), JsonRequestBehavior.AllowGet);
+       }
+
+       public ActionResult GetTipoClienteAsync()
+       {
+           return Json(clienteBL.GetTipoClienteList(), JsonRequestBehavior.AllowGet);
+       }
+
     }
 }

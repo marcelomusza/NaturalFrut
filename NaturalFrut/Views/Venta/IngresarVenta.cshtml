@@ -28,13 +28,20 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Fecha)
-                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value= DateTime.Now.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly"})
+                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly" })
                 @Html.ValidationMessageFor(c => c.Fecha)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Clientes)
-                @Html.DropDownListFor(c => c.Clientes, new SelectList(Model.Clientes,"Id", "Nombre"), new{ @class = "form-control" })
+
+                <div style="display:flex;">
+
+                    @Html.DropDownListFor(c => c.Clientes, new SelectList(Model.Clientes, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;
+                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Cliente" /></a>
+
+                </div>
+               
                 @Html.ValidationMessageFor(c => c.Clientes)
             </div>
 
@@ -43,7 +50,7 @@
                 @Html.DropDownListFor(c => c.Vendedor, new SelectList("", "VendedorId", "Name"), new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Vendedor)
             </div>
-                      
+
 
         </div>
 
@@ -73,7 +80,7 @@
                 @Html.ValidationMessageFor(c => c.NoConcretado)
             </div>
 
-            
+
 
         </div>
 
@@ -102,7 +109,7 @@
                             <td>@p.Descripcion</td>
                             <td>@p.Cantidad</td>
                             <td>@p.Categoria.Nombre</td>
-                            <td>@p.Marca.Nombre</td>                           
+                            <td>@p.Marca.Nombre</td>
                         </tr>
                     }
                 </tbody>
@@ -125,13 +132,45 @@
 
 }
 
+<div class="modal fade" id="clienteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Nuevo Cliente</h3>
+            </div>
+            <div class="modal-body" id="clienteModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
 
 
 
 
 @section scripts
 {
-   
+    <script>
+
+        var NuevoClienteModal = function (clienteID) {
+
+            var url = "/Venta/NuevoCliente?ID=" + clienteID;
+
+            $("#clienteModalBody").load(url, function () {
+                $("#clienteModal").modal("show");
+
+            })
+
+        }
+
+    </script>
+
     <script>
 
         $(document).ready(function () {
@@ -193,7 +232,7 @@
 
             });
 
-          
+
 
 
         });

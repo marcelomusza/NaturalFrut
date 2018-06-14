@@ -1,0 +1,195 @@
+﻿@model dynamic
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<form id="nuevoCliente">
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <input id="Nombre" name="Nombre" data-rule-validNombre="true" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Razon Social</label>
+                <input id="RazonSocial" name="RazonSocial" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input id="Email" name="Email" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Dirección</label>
+                <input id="Direccion" name="Direccion" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Provincia</label>
+                <input id="Provincia" name="Provincia" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Localidad</label>
+                <input id="Localidad" name="Localidad" required type="text" value="" class="form-control" />
+            </div>
+
+        </div>
+
+        <!-- Agrupamos campos de la columna derecha -->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Telefono Negocio</label>
+                <input id="TelefonoNegocio" name="TelefonoNegocio" required type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Telefono Celular</label>
+                <input id="TelefonoCelular" name="TelefonoCelular" required type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>CUIT</label>
+                <input id="Cuit" name="Cuit" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>IIBB</label>
+                <input id="Iibb" name="Iibb" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Condición IVA</label>
+                <!--input id="CondicionIVA" name="CondicionIVA" required type="text" value="" class="form-control" /-->
+                <select id="CondicionIVA" name="CondicionIVAId" class="form-control" required>
+                   
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Cliente</label>
+                <!--input id="Iibb" name="Iibb" required type="text" value="" class="form-control" /-->
+                <select id="TipoCliente" name="TipoClienteId" class="form-control" required>
+                    
+                </select>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("IngresarVenta", "Venta")';">Cancelar</button>
+
+        </div>
+    </div>
+</form>
+
+@Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            //Cargamos los drop-dows con ajax
+            $.getJSON("GetCondicionIVAAsync", {  }, populateCondicionIVA)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+            $.getJSON("GetTipoClienteAsync", {}, populateTipoCliente)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+            //loadValidators();
+
+            $.validator.messages.required = "El campo no puede estar vacío";
+
+            var validator = $("#nuevoCliente").validate({
+
+                submitHandler: function () {
+
+                    var formData = $("#nuevoCliente").serialize();
+
+                    $.ajax({
+                        url: "/api/clientes",
+                        method: "post",
+                        data: formData
+                    })
+                        .done(function () {
+
+                            toastr.success("Cliente creado satisfactoriamente");
+
+                            setTimeout(function () {
+
+                                $("#clienteModal").modal("hide");
+                                window.location.href = "/Venta/IngresarVenta";
+
+                            }, 1500);                     
+
+
+                        })
+                        .fail(function () {
+
+                            toastr.error("Error. El Cliente no ha sido creado");
+
+                            setTimeout(function () {
+
+                                $("#clienteModal").modal("hide");
+                                window.location.href = "/Venta/IngresarVenta";
+
+                            }, 1500);
+
+                        });
+
+                    return false;
+                }
+            });
+
+        });
+
+
+        function populateCondicionIVA(data) {
+
+            $.each(data, function () {
+                $("#CondicionIVA").append($("<option     />").val(this.ID).text(this.Nombre));
+            });
+
+        }
+
+        function populateTipoCliente(data) {
+
+            $.each(data, function () {
+                $("#TipoCliente").append($("<option     />").val(this.ID).text(this.Nombre));
+            });
+
+        }
+
+        //function loadValidators() {
+
+        //    $.validator.addMethod("validNombre", function (value, element) {
+
+        //        return $.trim($("#Nombre").val()) !== "";
+                
+        //    }, "Debes ingresar un Nombre"); 
+
+        //}
+
+
+    </script>
+
+
+
+
+
+
