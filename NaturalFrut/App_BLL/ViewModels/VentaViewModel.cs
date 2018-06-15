@@ -21,11 +21,13 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public float Saldo { get; set; }
 
-        public string Vendedor { get; set; }
+        //public string Vendedor { get; set; }
 
         public IEnumerable<Producto> Productos { get; set; }
 
         public IEnumerable<Cliente> Clientes { get; set; }
+
+        public IEnumerable<Vendedor> Vendedores { get; set; }
 
         public bool NoConcretado { get; set; } 
 

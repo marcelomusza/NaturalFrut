@@ -1,5 +1,6 @@
 ﻿using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.ViewModels;
+using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +40,9 @@ namespace NaturalFrut.Controllers
 
             var productos = productoBL.GetAllProducto();
             var clientes = clienteBL.GetAllClientes();
-            
-            if(productos != null)
+            var vendedores = vendedorBL.GetAllVendedores();
+
+            if (productos != null)
             {
               viewModel.Productos = productos;
             }
@@ -48,7 +50,12 @@ namespace NaturalFrut.Controllers
             if(clientes != null)
             {
               viewModel.Clientes = clientes;
-            }         
+            }   
+            
+            if(vendedores != null)
+            {
+                viewModel.Vendedores = vendedores;
+            }      
 
 
             return View(viewModel);
@@ -70,7 +77,15 @@ namespace NaturalFrut.Controllers
             return PartialView(viewModel);
         }
 
-       public ActionResult GetCondicionIVAAsync()
+        public ActionResult NuevoVendedor()
+        {
+            Vendedor model = new Vendedor();
+
+
+            return PartialView(model);
+        }
+
+        public ActionResult GetCondicionIVAAsync()
        {
             return Json(clienteBL.GetCondicionIvaList(), JsonRequestBehavior.AllowGet);
        }
@@ -79,6 +94,8 @@ namespace NaturalFrut.Controllers
        {
            return Json(clienteBL.GetTipoClienteList(), JsonRequestBehavior.AllowGet);
        }
+
+
 
     }
 }

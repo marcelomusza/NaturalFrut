@@ -46,11 +46,13 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Vendedor)
-                @Html.DropDownListFor(c => c.Vendedor, new SelectList("", "VendedorId", "Name"), new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Vendedor)
+                @Html.LabelFor(c => c.Vendedores)
+                <div style="display:flex;">
+                    @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;
+                    <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
+                </div>               
+                @Html.ValidationMessageFor(c => c.Vendedores)
             </div>
-
 
         </div>
 
@@ -151,6 +153,25 @@
 
 </div>
 
+<div class="modal fade" id="vendedorModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Nuevo Vendedor</h3>
+            </div>
+            <div class="modal-body" id="vendedorModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
 
 
 
@@ -164,6 +185,17 @@
 
             $("#clienteModalBody").load(url, function () {
                 $("#clienteModal").modal("show");
+
+            })
+
+        }
+
+        var NuevoVendedorModal = function (vendedorID) {
+
+            var url = "/Venta/NuevoVendedor?ID=" + vendedorID;
+
+            $("#vendedorModalBody").load(url, function () {
+                $("#vendedorModal").modal("show");
 
             })
 
