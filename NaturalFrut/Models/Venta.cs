@@ -23,22 +23,18 @@ namespace NaturalFrut.Models
 
         public int Descuento { get; set; }
 
-
-        public Cliente Cliente { get; set; }
-
         [Required]
         public int ClienteID { get; set; }
-
-        public Vendedor Vendedor { get; set; }
 
         [Required]
         public int VendedorID { get; set; }
 
 
-        public IList<Producto> Productos { get; set; }
 
-       [Required]
-       public int ProductoID { get; set; }
+        public Cliente Cliente { get; set; }        
 
+        public Vendedor Vendedor { get; set; }
+
+        public IList<ProductoXVenta> ProductosXVenta { get; set; }
     }
 }

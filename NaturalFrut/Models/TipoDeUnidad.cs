@@ -8,29 +8,21 @@ using System.Web;
 
 namespace NaturalFrut.Models
 {
-    [Table("Productos")]
-    public class Producto : IEntity
+    [Table("TiposDeUnidad")]
+    public class TipoDeUnidad : IEntity
     {
+        [ForeignKey("ProductoXVenta")]
         public int ID { get; set; }
 
         [Required]
         public string Nombre { get; set; }
 
-        [Required]
-        public int CategoriaId { get; set; }
-
-        [Required]
-        public int MarcaId { get; set; }
-        
-
-        public Categoria Categoria { get; set; }
-
-        public Marca Marca { get; set; }
 
 
-        public IList<ProductoXVenta> ProductosXVenta { get; set; }
+        public ProductoXVenta ProductoXVenta { get; set; }
 
         public IList<ListaDePrecios> ListasDePrecios { get; set; }
+
 
     }
 }

@@ -309,15 +309,46 @@
     <Compile Include="Migrations\201806081544533_ModelVentasInicial.Designer.cs">
       <DependentUpon>201806081544533_ModelVentasInicial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201806081546250_RelacionMuchosAMuchosVentasProductos.cs" />
-    <Compile Include="Migrations\201806081546250_RelacionMuchosAMuchosVentasProductos.Designer.cs">
-      <DependentUpon>201806081546250_RelacionMuchosAMuchosVentasProductos.cs</DependentUpon>
+    <Compile Include="Migrations\201806180239519_Model_ProductosFIX.cs" />
+    <Compile Include="Migrations\201806180239519_Model_ProductosFIX.Designer.cs">
+      <DependentUpon>201806180239519_Model_ProductosFIX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806180251146_Model_TiposDeUnidad.cs" />
+    <Compile Include="Migrations\201806180251146_Model_TiposDeUnidad.Designer.cs">
+      <DependentUpon>201806180251146_Model_TiposDeUnidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806180305301_Model_ProductosXVenta.cs" />
+    <Compile Include="Migrations\201806180305301_Model_ProductosXVenta.Designer.cs">
+      <DependentUpon>201806180305301_Model_ProductosXVenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806180310410_Relacion_ProductoXVentaYTipoDeUnidad.cs" />
+    <Compile Include="Migrations\201806180310410_Relacion_ProductoXVentaYTipoDeUnidad.Designer.cs">
+      <DependentUpon>201806180310410_Relacion_ProductoXVentaYTipoDeUnidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806180336192_Model_ProductoFIXVenta.cs" />
+    <Compile Include="Migrations\201806180336192_Model_ProductoFIXVenta.Designer.cs">
+      <DependentUpon>201806180336192_Model_ProductoFIXVenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806180344214_Relacion_ProductoYProductoXVenta.cs" />
+    <Compile Include="Migrations\201806180344214_Relacion_ProductoYProductoXVenta.Designer.cs">
+      <DependentUpon>201806180344214_Relacion_ProductoYProductoXVenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806180350566_Relacion_VentaYProductosXVenta.cs" />
+    <Compile Include="Migrations\201806180350566_Relacion_VentaYProductosXVenta.Designer.cs">
+      <DependentUpon>201806180350566_Relacion_VentaYProductosXVenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806200044369_Model_ListaDePrecios.cs" />
+    <Compile Include="Migrations\201806200044369_Model_ListaDePrecios.Designer.cs">
+      <DependentUpon>201806200044369_Model_ListaDePrecios.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ListaDePrecios.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\ProductoXVenta.cs" />
     <Compile Include="Models\RoleName.cs" />
+    <Compile Include="Models\TipoDeUnidad.cs" />
     <Compile Include="Models\Vendedor.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Proveedor.cs" />
@@ -718,8 +749,29 @@
     <EmbeddedResource Include="Migrations\201806081544533_ModelVentasInicial.resx">
       <DependentUpon>201806081544533_ModelVentasInicial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806081546250_RelacionMuchosAMuchosVentasProductos.resx">
-      <DependentUpon>201806081546250_RelacionMuchosAMuchosVentasProductos.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806180239519_Model_ProductosFIX.resx">
+      <DependentUpon>201806180239519_Model_ProductosFIX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180251146_Model_TiposDeUnidad.resx">
+      <DependentUpon>201806180251146_Model_TiposDeUnidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180305301_Model_ProductosXVenta.resx">
+      <DependentUpon>201806180305301_Model_ProductosXVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180310410_Relacion_ProductoXVentaYTipoDeUnidad.resx">
+      <DependentUpon>201806180310410_Relacion_ProductoXVentaYTipoDeUnidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180336192_Model_ProductoFIXVenta.resx">
+      <DependentUpon>201806180336192_Model_ProductoFIXVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180344214_Relacion_ProductoYProductoXVenta.resx">
+      <DependentUpon>201806180344214_Relacion_ProductoYProductoXVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180350566_Relacion_VentaYProductosXVenta.resx">
+      <DependentUpon>201806180350566_Relacion_VentaYProductosXVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806200044369_Model_ListaDePrecios.resx">
+      <DependentUpon>201806200044369_Model_ListaDePrecios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

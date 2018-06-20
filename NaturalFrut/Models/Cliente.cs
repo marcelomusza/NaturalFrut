@@ -50,6 +50,9 @@ namespace NaturalFrut.Models
         public int TipoClienteId { get; set; }
 
 
+        public IList<ListaDePrecios> ListasDePrecios { get; set; }
+
+
 
     }
 }

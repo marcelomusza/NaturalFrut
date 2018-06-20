@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class RelacionMuchosAMuchosVentasProductos : IMigrationMetadata
+    public sealed partial class Model_ProductosXVenta : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RelacionMuchosAMuchosVentasProductos));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Model_ProductosXVenta));
         
         string IMigrationMetadata.Id
         {
-            get { return "201806081546250_RelacionMuchosAMuchosVentasProductos"; }
+            get { return "201806180305301_Model_ProductosXVenta"; }
         }
         
         string IMigrationMetadata.Source
