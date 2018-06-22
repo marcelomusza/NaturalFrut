@@ -208,6 +208,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_BLL\ListaDePreciosLogic.cs" />
     <Compile Include="App_BLL\ClienteLogic.cs" />
     <Compile Include="App_BLL\CommonLogic.cs" />
     <Compile Include="App_BLL\Interfaces\IEntity.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="App_BLL\VendedorLogic.cs" />
     <Compile Include="App_BLL\ProductoLogic.cs" />
     <Compile Include="App_BLL\ProveedorLogic.cs" />
+    <Compile Include="App_BLL\ViewModels\ProductosXListaViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\ProductosXListaController.cs" />
     <Compile Include="DTOs\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\VendedoresController.cs" />
@@ -238,6 +241,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\VentaController.cs" />
+    <Compile Include="DTOs\ProductoXListaDTO.cs" />
     <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="DTOs\MarcaDTO.cs" />
     <Compile Include="DTOs\CategoriaDTO.cs" />
@@ -341,11 +345,28 @@
     <Compile Include="Migrations\201806200044369_Model_ListaDePrecios.Designer.cs">
       <DependentUpon>201806200044369_Model_ListaDePrecios.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806202237027_Model_FKFixParaTipoDeUnidad.cs" />
+    <Compile Include="Migrations\201806202237027_Model_FKFixParaTipoDeUnidad.Designer.cs">
+      <DependentUpon>201806202237027_Model_FKFixParaTipoDeUnidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806210339056_Model_ProductosXLista.cs" />
+    <Compile Include="Migrations\201806210339056_Model_ProductosXLista.Designer.cs">
+      <DependentUpon>201806210339056_Model_ProductosXLista.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806210358263_Model_FixEnRelaciones.cs" />
+    <Compile Include="Migrations\201806210358263_Model_FixEnRelaciones.Designer.cs">
+      <DependentUpon>201806210358263_Model_FixEnRelaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806220249123_Model_ProductosXLista_TableNameChange.cs" />
+    <Compile Include="Migrations\201806220249123_Model_ProductosXLista_TableNameChange.Designer.cs">
+      <DependentUpon>201806220249123_Model_ProductosXLista_TableNameChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ListaDePrecios.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\ProductoXLista.cs" />
     <Compile Include="Models\ProductoXVenta.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\TipoDeUnidad.cs" />
@@ -686,6 +707,12 @@
     <Content Include="Views\Venta\IngresarVenta.cshtml" />
     <Content Include="Views\Venta\NuevoCliente.cshtml" />
     <Content Include="Views\Venta\NuevoVendedor.cshtml" />
+    <Content Include="Views\Admin\TiposDeUnidad.cshtml" />
+    <Content Include="Views\Admin\TipoDeUnidadForm.cshtml" />
+    <Content Include="Views\Admin\ProductosXLista.cshtml" />
+    <Content Include="Views\Admin\ProductosXListaForm.cshtml" />
+    <Content Include="Views\Admin\ListaDePrecios.cshtml" />
+    <Content Include="Views\Admin\ListaDePreciosForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -772,6 +799,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806200044369_Model_ListaDePrecios.resx">
       <DependentUpon>201806200044369_Model_ListaDePrecios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806202237027_Model_FKFixParaTipoDeUnidad.resx">
+      <DependentUpon>201806202237027_Model_FKFixParaTipoDeUnidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806210339056_Model_ProductosXLista.resx">
+      <DependentUpon>201806210339056_Model_ProductosXLista.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806210358263_Model_FixEnRelaciones.resx">
+      <DependentUpon>201806210358263_Model_FixEnRelaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806220249123_Model_ProductosXLista_TableNameChange.resx">
+      <DependentUpon>201806220249123_Model_ProductosXLista_TableNameChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

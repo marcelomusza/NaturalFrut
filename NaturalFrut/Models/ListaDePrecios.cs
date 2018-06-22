@@ -15,24 +15,25 @@ namespace NaturalFrut.Models
         [Required]
         public string Nombre { get; set; }        
 
-        [Required]
-        public int ProductoID { get; set; }
+        //[Required]
+        //public int ProductoID { get; set; }
 
-        [Required]
-        public int TipoDeUnidadID { get; set; }
+        //[Required]
+        //public int TipoDeUnidadID { get; set; }
 
-        [Required]
-        public int ClienteID { get; set; }
+        //[Required]
+        //public int ClienteID { get; set; }
 
-        [Required]
-        public float Precio { get; set; }
+        //[Required]
+        //public float Precio { get; set; }
 
 
+        public IList<ProductoXLista> ProductosXLista { get; set; }
 
-        public Producto Producto { get; set; }
+        //public Producto Producto { get; set; }
 
-        public TipoDeUnidad TipoDeUnidad { get; set; }
+        //public TipoDeUnidad TipoDeUnidad { get; set; }
 
-        public Cliente Cliente { get; set; }
+        //public Cliente Cliente { get; set; }
     }
 }

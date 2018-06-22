@@ -14,16 +14,19 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<TipoCliente> tipoClienteRP;
         private readonly IRepository<Categoria> categoriaRP;
         private readonly IRepository<Marca> marcaRP;
+        private readonly IRepository<TipoDeUnidad> tipoDeUnidadRP;
 
         public CommonLogic(IRepository<CondicionIVA> CondicionIVARepository,
             IRepository<TipoCliente> TipoClienteRepository,
             IRepository<Categoria> CategoriaRepository,
-            IRepository<Marca> MarcaRepository)
+            IRepository<Marca> MarcaRepository,
+            IRepository<TipoDeUnidad> TipoDeUnidad)
         {
             condicionIVARP = CondicionIVARepository;
             tipoClienteRP = TipoClienteRepository;
             categoriaRP = CategoriaRepository;
             marcaRP = MarcaRepository;
+            tipoDeUnidadRP = TipoDeUnidad;
         }
 
 
@@ -144,6 +147,36 @@ namespace NaturalFrut.App_BLL
         public List<Marca> GetAllMarcas()
         {
             return marcaRP.GetAll().ToList();
+        }
+        #endregion
+
+        #region Operaciones Tipo de Unidad
+        public void AddTipoDeUnidad(TipoDeUnidad tipoDeUnidad)
+        {
+            tipoDeUnidadRP.Add(tipoDeUnidad);
+            tipoDeUnidadRP.Save();
+        }
+
+        public void UpdateTipoDeUnidad(TipoDeUnidad tipoDeUnidad)
+        {
+            tipoDeUnidadRP.Update(tipoDeUnidad);
+            tipoDeUnidadRP.Save();
+        }
+
+        public TipoDeUnidad GetTipoDeUnidadById(int id)
+        {
+            return tipoDeUnidadRP.GetByID(id);
+        }
+
+        public void RemoveTipoDeUnidad(TipoDeUnidad tipoDeUnidad)
+        {
+            tipoDeUnidadRP.Delete(tipoDeUnidad);
+            tipoDeUnidadRP.Save();
+        }
+
+        public List<TipoDeUnidad> GetAllTiposDeUnidad()
+        {
+            return tipoDeUnidadRP.GetAll().ToList();
         } 
         #endregion
 

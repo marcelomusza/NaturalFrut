@@ -1,0 +1,129 @@
+﻿@model IEnumerable<NaturalFrut.Models.ProductoXLista>
+@{
+    ViewBag.Title = "Listas de Precios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Productos</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Ingresar Productos", "NuevoProductoXLista", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Productos en las listas</h2>
+        }
+        else
+        {
+
+            <table id="productosXLista" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Lista</th>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Tipo de Unidad</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#productosXLista").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/productosXLista",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "ListaDePrecios.Nombre"
+                    },
+                    {
+                        data: "Cliente.Nombre"
+                    },
+                    {
+                        data: "Producto.Nombre"
+                    },
+                    {
+                        data: "TipoDeUnidad.Nombre"
+                    },
+                    {
+                        data: "Precio"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-pxl-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-pxl-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#productosXLista").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/productosXLista/" + button.attr("data-pxl-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Registro eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#productosXLista").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarProductoXLista/" + button.attr("data-pxl-id");
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+
+}

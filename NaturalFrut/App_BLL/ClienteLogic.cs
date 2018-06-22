@@ -15,7 +15,7 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<CondicionIVA> condicionIVARP;
         private readonly IRepository<TipoCliente> tipoClienteRP;
 
-        public ClienteLogic(IRepository<Cliente> ClienteRepository, 
+        public ClienteLogic(IRepository<Cliente> ClienteRepository,
             IRepository<CondicionIVA> CondicionIVARepository,
             IRepository<TipoCliente> TipoClienteRepository)
         {

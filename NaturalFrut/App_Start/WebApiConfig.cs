@@ -20,8 +20,11 @@ namespace NaturalFrut
             container.RegisterType<IRepository<Proveedor>, BaseRepository<Proveedor>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<Producto>, BaseRepository<Producto>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<Vendedor>, BaseRepository<Vendedor>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<ListaDePrecios>, BaseRepository<ListaDePrecios>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<ProductoXLista>, BaseRepository<ProductoXLista>>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             config.MapHttpAttributeRoutes();
 

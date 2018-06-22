@@ -28,9 +28,9 @@ namespace NaturalFrut.Models
         public Marca Marca { get; set; }
 
 
-        public IList<ProductoXVenta> ProductosXVenta { get; set; }
+        public IList<ProductoXLista> ProductosXLista { get; set; }
 
-        public IList<ListaDePrecios> ListasDePrecios { get; set; }
+        public IList<ProductoXVenta> ProductosXVenta { get; set; }
 
     }
 }

@@ -22,14 +22,16 @@ namespace NaturalFrut.Controllers
         private readonly CommonLogic commonBL;
         private readonly ProductoLogic productoBL;
         private readonly VendedorLogic vendedorBL;
+        private readonly ListaDePreciosLogic listaDePreciosBL;
 
-        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic)
+        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaDePreciosLogic ListaDePreciosLogic)
         {            
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
             proveedorBL = ProveedorLogic;
             productoBL = ProductoLogic;
             vendedorBL = VendedorLogic;
+            listaDePreciosBL = ListaDePreciosLogic;
         }
 
         public ActionResult Index()
@@ -622,7 +624,232 @@ namespace NaturalFrut.Controllers
 
             return RedirectToAction("Marcas", "Admin");
 
+        }
+        #endregion
+
+        #region Acciones Tipo de Unidad
+        public ActionResult TiposDeUnidad()
+        {
+
+            var tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
+
+            return View(tiposDeUnidad);
+        }
+
+        public ActionResult NuevoTipoDeUnidad()
+        {
+            TipoDeUnidad tipoDeUnidad = new TipoDeUnidad();
+
+            return View("TipoDeUnidadForm", tipoDeUnidad);
+        }
+
+        public ActionResult EditarTipoDeUnidad(int Id)
+        {
+
+            var tipoDeUnidad = commonBL.GetTipoDeUnidadById(Id);
+
+
+            if (tipoDeUnidad == null)
+                return HttpNotFound();
+
+            return View("TipoDeUnidadForm", tipoDeUnidad);
+        }
+
+        public ActionResult BorrarTipoDeUnidad(int Id)
+        {
+            var tipoDeUnidad = commonBL.GetTipoDeUnidadById(Id);
+
+            if (tipoDeUnidad != null)
+                commonBL.RemoveTipoDeUnidad(tipoDeUnidad);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("TiposDeUnidad", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarTipoDeUnidad(TipoDeUnidad tipoDeUnidad)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("TipoDeUnidadForm");
+            }
+
+            if (tipoDeUnidad.ID == 0)
+            {
+                //Agregamos nuevo TipoCliente
+                commonBL.AddTipoDeUnidad(tipoDeUnidad);
+            }
+            else
+            {
+                //Edicion de Tipo Cliente existente
+                commonBL.UpdateTipoDeUnidad(tipoDeUnidad);
+            }
+
+            return RedirectToAction("TiposDeUnidad", "Admin");
+
+        }
+        #endregion
+
+        #region Acciones Lista de Precios
+        public ActionResult ListaDePrecios()
+        {
+            var listasDePrecios = listaDePreciosBL.GetAllListaDePrecios();
+
+            return View(listasDePrecios);
+        }
+
+        public ActionResult NuevoListaDePrecios()
+        {
+            ListaDePrecios listaDePrecios = new ListaDePrecios();
+
+            return View("ListaDePreciosForm", listaDePrecios);
+        }
+
+        public ActionResult EditarListaDePrecios(int Id)
+        {
+
+            var listaDePrecios = listaDePreciosBL.GetListaDePreciosById(Id);
+
+            if (listaDePrecios == null)
+                return HttpNotFound();
+
+            return View("ListaDePreciosForm", listaDePrecios);
+        }
+
+        public ActionResult BorrarListaDePrecios(int Id)
+        {
+
+            var listaDePrecios = listaDePreciosBL.GetListaDePreciosById(Id);
+
+            if (listaDePrecios != null)
+                listaDePreciosBL.RemoveListaDePrecios(listaDePrecios);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("ListaDePrecios", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarListaDePrecios(ListaDePrecios listaDePrecios)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("ListaDePreciosForm");
+            }
+
+            if (listaDePrecios.ID == 0)
+            {
+                //Agregamos nuevo Lista de Precios
+                listaDePreciosBL.AddListaDePrecios(listaDePrecios);
+            }
+            else
+            {
+                //Edicion de Cliente Existente
+                listaDePreciosBL.UpdateListaDePrecios(listaDePrecios);
+            }
+
+            return RedirectToAction("ListaDePrecios", "Admin");
+
         } 
         #endregion
+
+        #region Acciones Producto X Lista
+        public ActionResult ProductosXLista()
+        {
+            var productosXLista = listaDePreciosBL.GetAllProductosXLista();
+
+            return View(productosXLista);
+        }
+
+        public ActionResult NuevoProductoXLista()
+        {
+            var listaDePrecios = listaDePreciosBL.GetListaDePreciosList();
+            var cliente = listaDePreciosBL.GetClienteList();
+            var producto = listaDePreciosBL.GetProductoList();
+            var tipoDeUnidad = listaDePreciosBL.GetTipoDeUnidadList();
+
+            ProductosXListaViewModel viewModel = new ProductosXListaViewModel
+            {
+                ListaDePrecios = listaDePrecios,
+                Cliente = cliente,
+                Producto = producto,
+                TipoDeUnidad = tipoDeUnidad
+            };
+
+            return View("ProductosXListaForm", viewModel);
+        }
+
+        public ActionResult EditarProductoXLista(int Id)
+        {
+
+            var productoXLista = listaDePreciosBL.GetProductoXListaById(Id);
+
+            ProductosXListaViewModel viewModel = new ProductosXListaViewModel(productoXLista)
+            {
+                ListaDePrecios = listaDePreciosBL.GetListaDePreciosList(),
+                Cliente = listaDePreciosBL.GetClienteList(),
+                Producto = listaDePreciosBL.GetProductoList(),
+                TipoDeUnidad = listaDePreciosBL.GetTipoDeUnidadList()
+            };
+
+            if (productoXLista == null)
+                return HttpNotFound();
+
+            return View("ProductosXListaForm", viewModel);
+        }
+
+        public ActionResult BorrarProductoXLista(int Id)
+        {
+
+            var productoXLista = listaDePreciosBL.GetProductoXListaById(Id);
+
+            if (productoXLista != null)
+                listaDePreciosBL.RemoveProductoXLista(productoXLista);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("ProductosXLista", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarProductoXLista(ProductoXLista productoXLista)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+                ProductosXListaViewModel viewModel = new ProductosXListaViewModel(productoXLista)
+                {
+                    ListaDePrecios = listaDePreciosBL.GetListaDePreciosList(),
+                    Cliente = listaDePreciosBL.GetClienteList(),
+                    Producto = listaDePreciosBL.GetProductoList(),
+                    TipoDeUnidad = listaDePreciosBL.GetTipoDeUnidadList()
+                };
+
+                return View("ProductosXListaForm");
+            }
+
+            if (productoXLista.ID == 0)
+            {
+                //Agregamos nuevo Lista de Precios
+                listaDePreciosBL.AddProductoXLista(productoXLista);
+            }
+            else
+            {
+                //Edicion de Cliente Existente
+                listaDePreciosBL.UpdateProductoXLista(productoXLista);
+            }
+
+            return RedirectToAction("ProductosXLista", "Admin");
+
+        } 
+        #endregion
+
     }
 }

@@ -1,0 +1,81 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.ProductosXListaViewModel
+@{
+    ViewBag.Title = "Productos por Lista - Formulario de Ingreso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Titulo</h2>
+
+<h4>Complete los campos del formulario para dar de alta productos en sus respectivas listas de precios</h4>
+<br />
+
+@using (Html.BeginForm("GuardarProductoXLista", "Admin"))
+{
+
+    <div class="row">
+        @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+    </div>
+    
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.ListaDePreciosId)
+                @Html.DropDownListFor(c => c.ListaDePreciosId, new SelectList(Model.ListaDePrecios, "Id", "Nombre"), "Seleccione una Lista", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ListaDePreciosId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.ClienteId)
+                @Html.DropDownListFor(c => c.ClienteId, new SelectList(Model.Cliente, "Id", "Nombre"), "Seleccione un Cliente", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ClienteId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.ProductoId)
+                @Html.DropDownListFor(c => c.ProductoId, new SelectList(Model.Producto, "Id", "Nombre"), "Seleccione un Producto", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ProductoId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TipoDeUnidadId)
+                @Html.DropDownListFor(c => c.TipoDeUnidadId, new SelectList(Model.TipoDeUnidad, "Id", "Nombre"), "Seleccione tipo de Unidad", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TipoDeUnidadId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Precio)
+                @Html.TextBoxFor(c => c.Precio, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Precio)
+            </div>
+
+        </div>
+
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(c => c.ID)
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("ListasDePrecios", "Admin")';">Cancelar</button>          
+
+        </div>
+    </div>
+
+    
+
+    
+
+
+    
+}
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
