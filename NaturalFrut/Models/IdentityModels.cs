@@ -33,8 +33,8 @@ namespace NaturalFrut.Models
         public DbSet<Venta> Ventas { get; set; }
         public DbSet<TipoDeUnidad> TipoDeUnidad { get; set; }
         public DbSet<ProductoXVenta> ProductoXVenta { get; set; }
-        public DbSet<ListaDePrecios> ListaDePrecios { get; set; }
-        public DbSet<ProductoXLista> ProductosXLista { get; set; }
+        public DbSet<Lista> Listas { get; set; }
+        public DbSet<ListaPrecio> ListaPrecios { get; set; }
 
         // CONTEXT MARCELO        
         public ApplicationDbContext()
@@ -58,12 +58,11 @@ namespace NaturalFrut.Models
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
-            
-        //    modelBuilder.Entity<Proveedor>()
-        //        .ToTable("Proveedores");
-        //}
 
+        //}
     }
+
+    
 
    
 }

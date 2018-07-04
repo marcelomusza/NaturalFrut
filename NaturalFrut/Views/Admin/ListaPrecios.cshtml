@@ -1,6 +1,6 @@
-﻿@model IEnumerable<NaturalFrut.Models.ProductoXLista>
+﻿@model IEnumerable<NaturalFrut.Models.ListaPrecio>
 @{
-    ViewBag.Title = "Listas de Precios";
+    ViewBag.Title = "Lista de Precios - Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-sm-12">
         <p>
-            @Html.ActionLink("Ingresar Productos", "NuevoProductoXLista", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Ingresar Productos", "NuevoListaPrecios", null, new { @class = "btn btn-primary" })
         </p>
     </div>
 </div>
@@ -24,14 +24,15 @@
         else
         {
 
-            <table id="productosXLista" class="table table-bordered table-hover">
+            <table id="listaPrecios" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Lista</th>
-                        <th>Cliente</th>
                         <th>Producto</th>
-                        <th>Tipo de Unidad</th>
-                        <th>Precio</th>
+                        <th>Precio x Kg.</th>
+                        <th>Precio x Bulto Cerrado</th>
+                        <th>Precio x Unidad</th>
+                        <th>Kg. Bulto Cerrado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -49,7 +50,7 @@
 
         $(document).ready(function () {
 
-            var table = $("#productosXLista").DataTable({
+            var table = $("#listaPrecios").DataTable({
 
                 "language": {
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
@@ -57,24 +58,27 @@
 
                 ajax: {
 
-                    url: "/api/productosXLista",
+                    url: "/api/listaprecios",
                     dataSrc: ""
                 },
                 columns: [
                     {
-                        data: "ListaDePrecios.Nombre"
-                    },
-                    {
-                        data: "Cliente.Nombre"
+                        data: "Lista.Nombre"
                     },
                     {
                         data: "Producto.Nombre"
                     },
                     {
-                        data: "TipoDeUnidad.Nombre"
+                        data: "PrecioXKG"
                     },
                     {
-                        data: "Precio"
+                        data: "PrecioXBultoCerrado"
+                    },
+                    {
+                        data: "PrecioXUnidad"
+                    },
+                    {
+                        data: "KGBultoCerrado"
                     },
                     {
                         data: "ID",
@@ -86,7 +90,7 @@
                 ]
             });
 
-            $("#productosXLista").on("click", ".js-delete", function () {
+            $("#listaPrecios").on("click", ".js-delete", function () {
 
                 var button = $(this);
 
@@ -94,7 +98,7 @@
 
                     if (result) {
                         $.ajax({
-                            url: "/api/productosXLista/" + button.attr("data-pxl-id"),
+                            url: "/api/listaprecios/" + button.attr("data-pxl-id"),
                             method: "DELETE",
                             success: function () {
 
@@ -110,11 +114,11 @@
 
             });
 
-            $("#productosXLista").on("click", ".js-edit", function () {
+            $("#listaPrecios").on("click", ".js-edit", function () {
 
                 var button = $(this);
 
-                location.href = "EditarProductoXLista/" + button.attr("data-pxl-id");
+                location.href = "EditarListaPrecios/" + button.attr("data-pxl-id");
 
             });
 

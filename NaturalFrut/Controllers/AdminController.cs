@@ -22,16 +22,16 @@ namespace NaturalFrut.Controllers
         private readonly CommonLogic commonBL;
         private readonly ProductoLogic productoBL;
         private readonly VendedorLogic vendedorBL;
-        private readonly ListaDePreciosLogic listaDePreciosBL;
+        private readonly ListaPreciosLogic listaPreciosBL;
 
-        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaDePreciosLogic ListaDePreciosLogic)
+        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaPreciosLogic ListaPreciosLogic)
         {            
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
             proveedorBL = ProveedorLogic;
             productoBL = ProductoLogic;
             vendedorBL = VendedorLogic;
-            listaDePreciosBL = ListaDePreciosLogic;
+            listaPreciosBL = ListaPreciosLogic;
         }
 
         public ActionResult Index()
@@ -693,160 +693,154 @@ namespace NaturalFrut.Controllers
         }
         #endregion
 
-        #region Acciones Lista de Precios
-        public ActionResult ListaDePrecios()
+        #region Acciones Lista
+        public ActionResult Lista()
         {
-            var listasDePrecios = listaDePreciosBL.GetAllListaDePrecios();
+            var lista = listaPreciosBL.GetAllLista();
 
-            return View(listasDePrecios);
+            return View(lista);
         }
 
-        public ActionResult NuevoListaDePrecios()
+        public ActionResult NuevoLista()
         {
-            ListaDePrecios listaDePrecios = new ListaDePrecios();
+            Lista lista = new Lista();
 
-            return View("ListaDePreciosForm", listaDePrecios);
+            return View("ListaForm", lista);
         }
 
-        public ActionResult EditarListaDePrecios(int Id)
+        public ActionResult EditarLista(int Id)
         {
 
-            var listaDePrecios = listaDePreciosBL.GetListaDePreciosById(Id);
+            var lista = listaPreciosBL.GetListaById(Id);
 
-            if (listaDePrecios == null)
+            if (lista == null)
                 return HttpNotFound();
 
-            return View("ListaDePreciosForm", listaDePrecios);
+            return View("ListaForm", lista);
         }
 
-        public ActionResult BorrarListaDePrecios(int Id)
+        public ActionResult BorrarLista(int Id)
         {
 
-            var listaDePrecios = listaDePreciosBL.GetListaDePreciosById(Id);
+            var lista = listaPreciosBL.GetListaById(Id);
 
-            if (listaDePrecios != null)
-                listaDePreciosBL.RemoveListaDePrecios(listaDePrecios);
+            if (lista != null)
+                listaPreciosBL.RemoveLista(lista);
             else
                 return HttpNotFound();
 
-            return RedirectToAction("ListaDePrecios", "Admin");
+            return RedirectToAction("Lista", "Admin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GuardarListaDePrecios(ListaDePrecios listaDePrecios)
+        public ActionResult GuardarLista(Lista lista)
         {
 
             if (!ModelState.IsValid)
             {
-                return View("ListaDePreciosForm");
+                return View("ListaForm");
             }
 
-            if (listaDePrecios.ID == 0)
+            if (lista.ID == 0)
             {
                 //Agregamos nuevo Lista de Precios
-                listaDePreciosBL.AddListaDePrecios(listaDePrecios);
+                listaPreciosBL.AddLista(lista);
             }
             else
             {
                 //Edicion de Cliente Existente
-                listaDePreciosBL.UpdateListaDePrecios(listaDePrecios);
+                listaPreciosBL.UpdateLista(lista);
             }
 
-            return RedirectToAction("ListaDePrecios", "Admin");
+            return RedirectToAction("Lista", "Admin");
 
         } 
         #endregion
 
-        #region Acciones Producto X Lista
-        public ActionResult ProductosXLista()
+        #region Acciones Lista Precios
+        public ActionResult ListaPrecios()
         {
-            var productosXLista = listaDePreciosBL.GetAllProductosXLista();
+            var listaPrecio = listaPreciosBL.GetAllListaPrecio();
 
-            return View(productosXLista);
+            return View(listaPrecio);
         }
 
-        public ActionResult NuevoProductoXLista()
+        public ActionResult NuevoListaPrecios()
         {
-            var listaDePrecios = listaDePreciosBL.GetListaDePreciosList();
-            var cliente = listaDePreciosBL.GetClienteList();
-            var producto = listaDePreciosBL.GetProductoList();
-            var tipoDeUnidad = listaDePreciosBL.GetTipoDeUnidadList();
+            var lista = listaPreciosBL.GetListaList();
+            var cliente = listaPreciosBL.GetClienteList();
+            var producto = listaPreciosBL.GetProductoList();
+            var tipoDeUnidad = listaPreciosBL.GetTipoDeUnidadList();
 
-            ProductosXListaViewModel viewModel = new ProductosXListaViewModel
+            ListaPreciosViewModel viewModel = new ListaPreciosViewModel
             {
-                ListaDePrecios = listaDePrecios,
-                Cliente = cliente,
-                Producto = producto,
-                TipoDeUnidad = tipoDeUnidad
+                //Lista = lista,
+                Producto = producto
             };
 
-            return View("ProductosXListaForm", viewModel);
+            return View("ListaPreciosForm", viewModel);
         }
 
-        public ActionResult EditarProductoXLista(int Id)
+        public ActionResult EditarListaPrecios(int Id)
         {
 
-            var productoXLista = listaDePreciosBL.GetProductoXListaById(Id);
+            var listaPrecio = listaPreciosBL.GetListaPrecioById(Id);
 
-            ProductosXListaViewModel viewModel = new ProductosXListaViewModel(productoXLista)
+            ListaPreciosViewModel viewModel = new ListaPreciosViewModel(listaPrecio)
             {
-                ListaDePrecios = listaDePreciosBL.GetListaDePreciosList(),
-                Cliente = listaDePreciosBL.GetClienteList(),
-                Producto = listaDePreciosBL.GetProductoList(),
-                TipoDeUnidad = listaDePreciosBL.GetTipoDeUnidadList()
+                //Lista = listaPreciosBL.GetListaList(),
+                Producto = listaPreciosBL.GetProductoList()
             };
 
-            if (productoXLista == null)
+            if (listaPrecio == null)
                 return HttpNotFound();
 
-            return View("ProductosXListaForm", viewModel);
+            return View("ListaPreciosForm", viewModel);
         }
 
-        public ActionResult BorrarProductoXLista(int Id)
+        public ActionResult BorrarListaPrecios(int Id)
         {
 
-            var productoXLista = listaDePreciosBL.GetProductoXListaById(Id);
+            var listaPrecio = listaPreciosBL.GetListaPrecioById(Id);
 
-            if (productoXLista != null)
-                listaDePreciosBL.RemoveProductoXLista(productoXLista);
+            if (listaPrecio != null)
+                listaPreciosBL.RemoveListaPrecio(listaPrecio);
             else
                 return HttpNotFound();
 
-            return RedirectToAction("ProductosXLista", "Admin");
+            return RedirectToAction("ListaPrecios", "Admin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GuardarProductoXLista(ProductoXLista productoXLista)
+        public ActionResult GuardarListaPrecios(ListaPrecio listaPrecio)
         {
 
             if (!ModelState.IsValid)
             {
 
-                ProductosXListaViewModel viewModel = new ProductosXListaViewModel(productoXLista)
+                ListaPreciosViewModel viewModel = new ListaPreciosViewModel(listaPrecio)
                 {
-                    ListaDePrecios = listaDePreciosBL.GetListaDePreciosList(),
-                    Cliente = listaDePreciosBL.GetClienteList(),
-                    Producto = listaDePreciosBL.GetProductoList(),
-                    TipoDeUnidad = listaDePreciosBL.GetTipoDeUnidadList()
+                    //Lista = listaPreciosBL.GetListaList(),
+                    Producto = listaPreciosBL.GetProductoList()
                 };
 
-                return View("ProductosXListaForm");
+                return View("ListaPreciosForm");
             }
 
-            if (productoXLista.ID == 0)
+            if (listaPrecio.ID == 0)
             {
                 //Agregamos nuevo Lista de Precios
-                listaDePreciosBL.AddProductoXLista(productoXLista);
+                listaPreciosBL.AddListaPrecio(listaPrecio);
             }
             else
             {
                 //Edicion de Cliente Existente
-                listaDePreciosBL.UpdateProductoXLista(productoXLista);
+                listaPreciosBL.UpdateListaPrecio(listaPrecio);
             }
 
-            return RedirectToAction("ProductosXLista", "Admin");
+            return RedirectToAction("ListaPrecios", "Admin");
 
         } 
         #endregion

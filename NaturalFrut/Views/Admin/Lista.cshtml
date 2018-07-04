@@ -1,0 +1,53 @@
+﻿@model IEnumerable<NaturalFrut.Models.Lista>
+@{
+    ViewBag.Title = "Listas de Precios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listas de Precios</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Agregar nuevo", "NuevoLista", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Datos en el sistema</h2>
+        }
+        else
+        {
+
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Porcentaje de Aumento</th>
+                    <th>Acciones</th>
+                </tr>
+                <tbody>
+                    @foreach (var lista in Model)
+                    {
+                    <tr>
+                        <td>@lista.Nombre</td>
+                        <td>@lista.PorcentajeAumento</td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditarLista", "Admin", new { id = lista.ID }, null)
+                            &nbsp;
+                            @Html.ActionLink("Borrar", "BorrarLista", "Admin", new { id = lista.ID }, null)
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        }
+    </div>
+</div>

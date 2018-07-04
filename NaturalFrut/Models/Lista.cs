@@ -8,18 +8,25 @@ using System.Web;
 
 namespace NaturalFrut.Models
 {
-    [Table("TiposDeUnidad")]
-    public class TipoDeUnidad : IEntity
-    {       
-        
+    [Table("Listas")]
+    public class Lista : IEntity
+    {
+
         public int ID { get; set; }
 
         [Required]
         public string Nombre { get; set; }
 
+        [Required]
+        [Display(Name = "Porcentaje de Aumento")]
+        public int PorcentajeAumento { get; set; }
+
+
+
+        public IList<ListaPrecio> ListaPrecios { get; set; }
         
+        public IList<Cliente> Cliente { get; set; }
 
-        public IList<ProductoXVenta> ProductosXVenta{ get; set; }
-
+       
     }
 }
