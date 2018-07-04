@@ -18,10 +18,10 @@ namespace NaturalFrut.Models
         public int Cantidad { get; set; }
 
         [Required]
-        public float Importe { get; set; }
+        public double Importe { get; set; }
 
         [Required]
-        public float Total { get; set; }
+        public double Total { get; set; }
 
         [Required]
         public int TipoDeUnidadID { get; set; }

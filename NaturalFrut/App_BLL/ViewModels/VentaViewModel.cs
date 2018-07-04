@@ -15,11 +15,11 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public DateTime Fecha { get; set; }
 
-        public float SaldoAnterior { get; set; }
+        public double SaldoAnterior { get; set; }
 
-        public float EntregaEfectivo { get; set; }
+        public double EntregaEfectivo { get; set; }
 
-        public float Saldo { get; set; }
+        public double Saldo { get; set; }
 
         //public string Vendedor { get; set; }
 
