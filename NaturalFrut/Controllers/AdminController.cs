@@ -53,11 +53,13 @@ namespace NaturalFrut.Controllers
 
             var condicionIva = clienteBL.GetCondicionIvaList();
             var tipoCliente = clienteBL.GetTipoClienteList();
+            var lista = clienteBL.GetListaList();
 
             ClienteViewModel viewModel = new ClienteViewModel
             {
                 CondicionIVA = condicionIva,
-                TipoCliente = tipoCliente
+                TipoCliente = tipoCliente,
+                Lista = lista
             };
 
             return View("ClienteForm", viewModel);
@@ -71,7 +73,8 @@ namespace NaturalFrut.Controllers
             ClienteViewModel viewModel = new ClienteViewModel(cliente)
             {
                 CondicionIVA = clienteBL.GetCondicionIvaList(),
-                TipoCliente = clienteBL.GetTipoClienteList()
+                TipoCliente = clienteBL.GetTipoClienteList(),
+                Lista = clienteBL.GetListaList()
             };
 
             if (cliente == null)
@@ -103,7 +106,8 @@ namespace NaturalFrut.Controllers
                 ClienteViewModel viewModel = new ClienteViewModel(cliente)
                 {
                     CondicionIVA = clienteBL.GetCondicionIvaList(),
-                    TipoCliente = clienteBL.GetTipoClienteList()
+                    TipoCliente = clienteBL.GetTipoClienteList(),
+                    Lista = clienteBL.GetListaList()
                 };
 
                 return View("ClienteForm", viewModel);

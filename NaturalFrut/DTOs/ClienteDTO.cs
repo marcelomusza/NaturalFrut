@@ -49,5 +49,10 @@ namespace NaturalFrut.DTOs
         [Required]
         public int TipoClienteId { get; set; }
 
+        public ListaDTO Lista { get; set; }
+
+        [Required]
+        public int ListaId { get; set; }
+
     }
 }

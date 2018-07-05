@@ -67,18 +67,17 @@
 
             <div class="form-group">
                 <label>Condición IVA</label>
-                <!--input id="CondicionIVA" name="CondicionIVA" required type="text" value="" class="form-control" /-->
-                <select id="CondicionIVA" name="CondicionIVAId" class="form-control" required>
-                   
-                </select>
+                <select id="CondicionIVA" name="CondicionIVAId" class="form-control" required></select>
             </div>
 
             <div class="form-group">
                 <label>Tipo de Cliente</label>
-                <!--input id="Iibb" name="Iibb" required type="text" value="" class="form-control" /-->
-                <select id="TipoCliente" name="TipoClienteId" class="form-control" required>
-                    
-                </select>
+                <select id="TipoCliente" name="TipoClienteId" class="form-control" required></select>
+            </div>
+
+            <div class="form-group">
+                <label>Lista Asociada</label>
+                <select id="ListaAsociada" name="ListaId" class="form-control" required></select>
             </div>
 
 
@@ -91,7 +90,7 @@
 
             @Html.AntiForgeryToken()
             <button class="btn btn-primary">Guardar</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("IngresarVenta", "Venta")';">Cancelar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("NuevaVentaMayorista", "VentaMayorista")';">Cancelar</button>
 
         </div>
     </div>
@@ -109,6 +108,9 @@
                 .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
             $.getJSON("GetTipoClienteAsync", {}, populateTipoCliente)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+            $.getJSON("GetListaAsociadaAsync", {}, populateListaAsociada)
                 .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
             //loadValidators();
@@ -133,7 +135,7 @@
                             setTimeout(function () {
 
                                 $("#clienteModal").modal("hide");
-                                window.location.href = "/Venta/IngresarVenta";
+                                window.location.href = "/VentaMayorista/NuevaVentaMayorista";
 
                             }, 1500);                     
 
@@ -146,7 +148,7 @@
                             setTimeout(function () {
 
                                 $("#clienteModal").modal("hide");
-                                window.location.href = "/Venta/IngresarVenta";
+                                window.location.href = "/VentaMayorista/NuevaVentaMayorista";
 
                             }, 1500);
 
@@ -171,6 +173,14 @@
 
             $.each(data, function () {
                 $("#TipoCliente").append($("<option     />").val(this.ID).text(this.Nombre));
+            });
+
+        }
+
+        function populateListaAsociada(data) {
+
+            $.each(data, function () {
+                $("#ListaAsociada").append($("<option     />").val(this.ID).text(this.Nombre));
             });
 
         }

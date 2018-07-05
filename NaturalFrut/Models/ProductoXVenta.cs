@@ -37,7 +37,7 @@ namespace NaturalFrut.Models
 
         public Producto Producto { get; set; }
 
-        public Venta Venta { get; set; }
+        public VentaMayorista Venta { get; set; }
 
     }
 }

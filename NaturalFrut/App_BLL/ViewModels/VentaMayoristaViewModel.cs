@@ -1,12 +1,13 @@
 ﻿using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace NaturalFrut.App_BLL.ViewModels
 {
-    public class VentaViewModel
+    public class VentaMayoristaViewModel
     {
 
         public int? ID { get; set; }
@@ -32,7 +33,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public bool NoConcretado { get; set; } 
 
 
-        public VentaViewModel()
+        public VentaMayoristaViewModel()
         {
             ID = 0;
         }
