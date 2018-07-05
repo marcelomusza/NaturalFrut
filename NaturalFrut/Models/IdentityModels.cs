@@ -30,7 +30,7 @@ namespace NaturalFrut.Models
         public DbSet<Vendedor> Vendedor { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Marca> Marcas { get; set; }
-        public DbSet<Venta> Ventas { get; set; }
+        public DbSet<VentaMayorista> Ventas { get; set; }
         public DbSet<TipoDeUnidad> TipoDeUnidad { get; set; }
         public DbSet<ProductoXVenta> ProductoXVenta { get; set; }
         public DbSet<Lista> Listas { get; set; }

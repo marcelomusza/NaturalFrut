@@ -208,6 +208,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_BLL\VentaMayoristaLogic.cs" />
     <Compile Include="App_BLL\ListaPreciosLogic.cs" />
     <Compile Include="App_BLL\ClienteLogic.cs" />
     <Compile Include="App_BLL\CommonLogic.cs" />
@@ -220,7 +221,7 @@
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
-    <Compile Include="App_BLL\ViewModels\VentaViewModel.cs" />
+    <Compile Include="App_BLL\ViewModels\VentaMayoristaViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -240,7 +241,8 @@
     <Compile Include="Controllers\Api\ClientesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\VentaController.cs" />
+    <Compile Include="Controllers\VentaMayoristaController.cs" />
+    <Compile Include="DTOs\ListaDTO.cs" />
     <Compile Include="DTOs\ListaPrecioDTO.cs" />
     <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="DTOs\MarcaDTO.cs" />
@@ -256,6 +258,22 @@
     <Compile Include="Migrations\201807042033560_nuevaBase.cs" />
     <Compile Include="Migrations\201807042033560_nuevaBase.Designer.cs">
       <DependentUpon>201807042033560_nuevaBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807050019363_Model_CambiosVentaMayorista.cs" />
+    <Compile Include="Migrations\201807050019363_Model_CambiosVentaMayorista.Designer.cs">
+      <DependentUpon>201807050019363_Model_CambiosVentaMayorista.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807050340423_Seed_Clientes.cs" />
+    <Compile Include="Migrations\201807050340423_Seed_Clientes.Designer.cs">
+      <DependentUpon>201807050340423_Seed_Clientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807050347546_Seed_Vendedores.cs" />
+    <Compile Include="Migrations\201807050347546_Seed_Vendedores.Designer.cs">
+      <DependentUpon>201807050347546_Seed_Vendedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807050351359_Seed_Listas.cs" />
+    <Compile Include="Migrations\201807050351359_Seed_Listas.Designer.cs">
+      <DependentUpon>201807050351359_Seed_Listas.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -274,7 +292,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Venta.cs" />
+    <Compile Include="Models\VentaMayorista.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Startup.cs" />
@@ -444,10 +462,13 @@
     <Content Include="Content\Images\EditIcon.png" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\typeahead.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bloodhound.js" />
+    <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -549,6 +570,10 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
+    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.jquery.js" />
+    <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -600,15 +625,16 @@
     <Content Include="Views\Admin\CategoriaForm.cshtml" />
     <Content Include="Views\Admin\MarcaForm.cshtml" />
     <Content Include="Views\Admin\Marcas.cshtml" />
-    <Content Include="Views\Venta\IngresarVenta.cshtml" />
-    <Content Include="Views\Venta\NuevoCliente.cshtml" />
-    <Content Include="Views\Venta\NuevoVendedor.cshtml" />
+    <Content Include="Views\VentaMayorista\VentaMayoristaForm.cshtml" />
+    <Content Include="Views\VentaMayorista\NuevoCliente.cshtml" />
+    <Content Include="Views\VentaMayorista\NuevoVendedor.cshtml" />
     <Content Include="Views\Admin\TiposDeUnidad.cshtml" />
     <Content Include="Views\Admin\TipoDeUnidadForm.cshtml" />
     <Content Include="Views\Admin\ListaPrecios.cshtml" />
     <Content Include="Views\Admin\ListaPreciosForm.cshtml" />
     <Content Include="Views\Admin\Lista.cshtml" />
     <Content Include="Views\Admin\ListaForm.cshtml" />
+    <Content Include="Views\VentaMayorista\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -629,6 +655,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807042033560_nuevaBase.resx">
       <DependentUpon>201807042033560_nuevaBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807050019363_Model_CambiosVentaMayorista.resx">
+      <DependentUpon>201807050019363_Model_CambiosVentaMayorista.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807050340423_Seed_Clientes.resx">
+      <DependentUpon>201807050340423_Seed_Clientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807050347546_Seed_Vendedores.resx">
+      <DependentUpon>201807050347546_Seed_Vendedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807050351359_Seed_Listas.resx">
+      <DependentUpon>201807050351359_Seed_Listas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

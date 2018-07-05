@@ -14,14 +14,17 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Cliente> clienteRP;
         private readonly IRepository<CondicionIVA> condicionIVARP;
         private readonly IRepository<TipoCliente> tipoClienteRP;
+        private readonly IRepository<Lista> listaRP;
 
         public ClienteLogic(IRepository<Cliente> ClienteRepository,
             IRepository<CondicionIVA> CondicionIVARepository,
-            IRepository<TipoCliente> TipoClienteRepository)
+            IRepository<TipoCliente> TipoClienteRepository,
+            IRepository<Lista> ListaRepository)
         {
             clienteRP = ClienteRepository;
             condicionIVARP = CondicionIVARepository;
             tipoClienteRP = TipoClienteRepository;
+            listaRP = ListaRepository;
         }
 
         public ClienteLogic(IRepository<Cliente> ClienteRepository)
@@ -72,6 +75,11 @@ namespace NaturalFrut.App_BLL
         public List<CondicionIVA> GetCondicionIvaList()
         {
             return condicionIVARP.GetAll().ToList();
+        }
+
+        public List<Lista> GetListaList()
+        {
+            return listaRP.GetAll().ToList();
         }
     }
 }

@@ -43,7 +43,7 @@
 
             @Html.AntiForgeryToken()
             <button class="btn btn-primary">Guardar</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("IngresarVenta", "Venta")';">Cancelar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("NuevaVentaMayorista", "VentaMayorista")';">Cancelar</button>
 
         </div>
     </div>
@@ -78,7 +78,7 @@
                             setTimeout(function () {
 
                                 $("#vendedorModal").modal("hide");
-                                window.location.href = "/Venta/IngresarVenta";
+                                window.location.href = "/VentaMayorista/NuevaVentaMayorista";
 
                             }, 1500);                     
 
@@ -91,7 +91,7 @@
                             setTimeout(function () {
 
                                 $("#vendedorModal").modal("hide");
-                                window.location.href = "/Venta/IngresarVenta";
+                                window.location.href = "/VentaMayorista/NuevaVentaMayorista";
 
                             }, 1500);
 

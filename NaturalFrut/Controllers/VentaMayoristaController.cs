@@ -9,57 +9,51 @@ using System.Web.Mvc;
 
 namespace NaturalFrut.Controllers
 {
-    public class VentaController : Controller
+    public class VentaMayoristaController : Controller
     {
-
+        private readonly VentaMayoristaLogic ventaMayoristaBL;
         private readonly ClienteLogic clienteBL;
-        private readonly ProveedorLogic proveedorBL;
-        private readonly CommonLogic commonBL;
-        private readonly ProductoLogic productoBL;
-        private readonly VendedorLogic vendedorBL;
 
-        public VentaController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic)
+        public VentaMayoristaController(VentaMayoristaLogic VentaMayoristaLogic, ClienteLogic ClienteLogic)
         {
+            ventaMayoristaBL = VentaMayoristaLogic;
             clienteBL = ClienteLogic;
-            commonBL = CommonLogic;
-            proveedorBL = ProveedorLogic;
-            productoBL = ProductoLogic;
-            vendedorBL = VendedorLogic;
         }
 
         // GET: Venta
         public ActionResult Index()
         {
-            return View();
+
+            var venta = ventaMayoristaBL.GetAllVentaMayorista();
+
+            return View(venta);
         }
 
-        public ActionResult IngresarVenta()
+        //public ActionResult VentaMayorista()
+        //{
+        //    var venta = ventaMayoristaBL.GetAllVentaMayorista();
+
+        //    return View(venta);
+
+        //}
+
+        public ActionResult NuevaVentaMayorista()
         {
 
-            var viewModel = new VentaViewModel();
+            var clientes = ventaMayoristaBL.GetClienteList();
+            var vendedores = ventaMayoristaBL.GetVendedorList();
 
-            var productos = productoBL.GetAllProducto();
-            var clientes = clienteBL.GetAllClientes();
-            var vendedores = vendedorBL.GetAllVendedores();
-
-            if (productos != null)
+            VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel
             {
-              viewModel.Productos = productos;
-            }
+                Clientes = clientes,
+                Vendedores = vendedores
+                
+            };
 
-            if(clientes != null)
-            {
-              viewModel.Clientes = clientes;
-            }   
-            
-            if(vendedores != null)
-            {
-                viewModel.Vendedores = vendedores;
-            }      
-
-
-            return View(viewModel);
+            return View("VentaMayoristaForm", viewModel);
         }
+
+
 
 
         public ActionResult NuevoCliente()
@@ -94,6 +88,11 @@ namespace NaturalFrut.Controllers
        {
            return Json(clienteBL.GetTipoClienteList(), JsonRequestBehavior.AllowGet);
        }
+
+        public ActionResult GetListaAsociadaAsync()
+        {
+            return Json(clienteBL.GetListaList(), JsonRequestBehavior.AllowGet);
+        }
 
 
 

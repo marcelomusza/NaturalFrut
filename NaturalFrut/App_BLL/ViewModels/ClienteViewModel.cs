@@ -60,6 +60,12 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Tipo de Cliente")]
         public int TipoClienteId { get; set; }
 
+        public IEnumerable<Lista> Lista { get; set; }
+
+        [Required]
+        [Display(Name = "Lista de Precios Asociada")]
+        public int ListaId { get; set; }
+
         public ClienteViewModel()
         {
             ID = 0;
@@ -81,6 +87,7 @@ namespace NaturalFrut.App_BLL.ViewModels
 
             CondicionIVAId = cliente.CondicionIVAId;
             TipoClienteId = cliente.TipoClienteId;
+            ListaId = cliente.ListaId;
             
         }
 
