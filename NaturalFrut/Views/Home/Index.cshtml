@@ -3,29 +3,65 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h2>Natural Frut</h2>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-bookmark"></span> Panel Administrativo
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4" style="margin-left: auto; margin-right: auto; text-align: center; margin-top: 5%; margin-bottom: 5%; ">
+                        <div class="dropdown ">
+                            <button class="btn btn-primary btn-lg" role="button" type="button" data-toggle="dropdown">
+                                Admin<br> Personas                                
+                                <span class="glyphicon glyphicon-user"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Admin/Clientes">Clientes</a></li>
+                                <li><a href="/Admin/Proveedores">Proveedores</a></li>
+                                <li><a href="/Admin/Vendedores">Vendedores</a></li>
+                                <li><a href="/Admin/CondicionIVA">Condicion IVA</a></li>
+                                <li><a href="/Admin/TipoCliente">Tipo Cliente</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4" style="margin-left: auto; margin-right: auto; text-align: center; margin-top: 5%; margin-bottom: 5%;">
+                        <div class="dropdown ">
+                            <button class="btn btn-warning btn-lg" role="button" type="button" data-toggle="dropdown">
+                                Productos <br /> 
+                                <span class="glyphicon glyphicon-inbox"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Admin/Productos">Productos</a></li>
+                                <li><a href="/Admin/Marcas">Marca</a></li>
+                                <li><a href="/Admin/Categorias">Categoría</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4" style="margin-left: auto; margin-right: auto; text-align: center; margin-top: 5%; margin-bottom: 5%;">
+                        <div class="dropdown ">
+                            <button class="btn btn-success btn-lg" role="button" type="button" data-toggle="dropdown">
+                                Lista de <br/> Precios 
+                                <span class="glyphicon glyphicon-list-alt"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Admin/TiposDeUnidad">Tipo Unidad</a></li>
+                                <li><a href="/Admin/ListaDePrecios">Lista de Precios</a></li>
+                                <li><a href="/Admin/ProductosXLista">Productos por Lista</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>

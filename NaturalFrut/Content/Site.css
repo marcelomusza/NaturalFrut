@@ -41,4 +41,10 @@ input.error {
     border: 2px solid red;
 }
 
+.centrado{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 /* NaturalFrut Custom CSS END*/
