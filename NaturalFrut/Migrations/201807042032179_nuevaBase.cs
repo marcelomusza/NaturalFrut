@@ -3,7 +3,7 @@ namespace NaturalFrut.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FreshDB : DbMigration
+    public partial class nuevaBase : DbMigration
     {
         public override void Up()
         {
@@ -36,15 +36,15 @@ namespace NaturalFrut.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        ListaID = c.Int(nullable: false),
+                        ListaID = c.Int(),
                         ProductoID = c.Int(nullable: false),
-                        PrecioXKG = c.Single(nullable: false),
-                        PrecioXBultoCerrado = c.Single(nullable: false),
-                        KGBultoCerrado = c.Single(nullable: false),
-                        PrecioXUnidad = c.Single(nullable: false),
+                        PrecioXKG = c.Double(nullable: false),
+                        PrecioXBultoCerrado = c.Double(nullable: false),
+                        KGBultoCerrado = c.Double(nullable: false),
+                        PrecioXUnidad = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Listas", t => t.ListaID, cascadeDelete: true)
+                .ForeignKey("dbo.Listas", t => t.ListaID)
                 .ForeignKey("dbo.Productos", t => t.ProductoID, cascadeDelete: true)
                 .Index(t => t.ListaID)
                 .Index(t => t.ProductoID);
@@ -55,6 +55,7 @@ namespace NaturalFrut.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Nombre = c.String(nullable: false),
+                        PorcentajeAumento = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -118,8 +119,8 @@ namespace NaturalFrut.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Cantidad = c.Int(nullable: false),
-                        Importe = c.Single(nullable: false),
-                        Total = c.Single(nullable: false),
+                        Importe = c.Double(nullable: false),
+                        Total = c.Double(nullable: false),
                         TipoDeUnidadID = c.Int(nullable: false),
                         ProductoID = c.Int(nullable: false),
                         VentaID = c.Int(nullable: false),

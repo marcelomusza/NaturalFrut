@@ -253,33 +253,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805192129534_SeedUsersAndRoles.cs" />
-    <Compile Include="Migrations\201805192129534_SeedUsersAndRoles.Designer.cs">
-      <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806290451575_FreshDB.cs" />
-    <Compile Include="Migrations\201806290451575_FreshDB.Designer.cs">
-      <DependentUpon>201806290451575_FreshDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806290457324_Seed_CondicionIVA_TipoClientes.cs" />
-    <Compile Include="Migrations\201806290457324_Seed_CondicionIVA_TipoClientes.Designer.cs">
-      <DependentUpon>201806290457324_Seed_CondicionIVA_TipoClientes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807040136432_Model_Lista_PorcentajeAumento.cs" />
-    <Compile Include="Migrations\201807040136432_Model_Lista_PorcentajeAumento.Designer.cs">
-      <DependentUpon>201807040136432_Model_Lista_PorcentajeAumento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807040137479_Seed_ListaPrincipal.cs" />
-    <Compile Include="Migrations\201807040137479_Seed_ListaPrincipal.Designer.cs">
-      <DependentUpon>201807040137479_Seed_ListaPrincipal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807040326168_Model_ListaPrecios_RelacionLista.cs" />
-    <Compile Include="Migrations\201807040326168_Model_ListaPrecios_RelacionLista.Designer.cs">
-      <DependentUpon>201807040326168_Model_ListaPrecios_RelacionLista.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807040343550_Models_CambiarFloatADouble.cs" />
-    <Compile Include="Migrations\201807040343550_Models_CambiarFloatADouble.Designer.cs">
-      <DependentUpon>201807040343550_Models_CambiarFloatADouble.cs</DependentUpon>
+    <Compile Include="Migrations\201807042033560_nuevaBase.cs" />
+    <Compile Include="Migrations\201807042033560_nuevaBase.Designer.cs">
+      <DependentUpon>201807042033560_nuevaBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -651,26 +627,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805192129534_SeedUsersAndRoles.resx">
-      <DependentUpon>201805192129534_SeedUsersAndRoles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806290451575_FreshDB.resx">
-      <DependentUpon>201806290451575_FreshDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806290457324_Seed_CondicionIVA_TipoClientes.resx">
-      <DependentUpon>201806290457324_Seed_CondicionIVA_TipoClientes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807040136432_Model_Lista_PorcentajeAumento.resx">
-      <DependentUpon>201807040136432_Model_Lista_PorcentajeAumento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807040137479_Seed_ListaPrincipal.resx">
-      <DependentUpon>201807040137479_Seed_ListaPrincipal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807040326168_Model_ListaPrecios_RelacionLista.resx">
-      <DependentUpon>201807040326168_Model_ListaPrecios_RelacionLista.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807040343550_Models_CambiarFloatADouble.resx">
-      <DependentUpon>201807040343550_Models_CambiarFloatADouble.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807042033560_nuevaBase.resx">
+      <DependentUpon>201807042033560_nuevaBase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
