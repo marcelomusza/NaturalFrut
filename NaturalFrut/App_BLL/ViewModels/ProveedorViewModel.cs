@@ -13,14 +13,28 @@ namespace NaturalFrut.App_BLL.ViewModels
         public int? ID { get; set; }
 
         [Required]
-        [Display(Name = "Nombre y Apellido")]
+        [Display(Name = "Proveedor")]
         public string Nombre { get; set; }
 
         [Required]
-        [Display(Name = "Razón Social")]
-        public string RazonSocial { get; set; }
+        [Display(Name = "Contacto")]
+        public string Contacto { get; set; }
 
-        public double Saldo { get; set; }
+        [Required]
+        [Display(Name = "Dirección")]
+        public string Direccion { get; set; }
+
+        [Required]
+        public string Localidad { get; set; }
+
+        [Display(Name = "Teléfono Oficina")]
+        public int TelefonoOficina { get; set; }
+
+        [Display(Name = "Teléfono Celular")]
+        public int TelefonoCelular { get; set; }
+
+        [Display(Name = "Teléfono Otros")]
+        public int TelefonoOtros { get; set; }
 
         [Required]
         [Display(Name = "CUIT")]
@@ -31,30 +45,8 @@ namespace NaturalFrut.App_BLL.ViewModels
         public string Iibb { get; set; }
 
         [Required]
-        [Display(Name = "Dirección")]
-        public string Direccion { get; set; }
-
-        [Required]
-        public string Provincia { get; set; }
-
-        [Required]
-        public string Localidad { get; set; }
-
-        [Display(Name = "Teléfono Negocio")]
-        public int TelefonoNegocio { get; set; }
-
-        [Display(Name = "Teléfono Celular")]
-        public int TelefonoCelular { get; set; }
-
-        [Required]
         [Display(Name = "Dirección Email")]
-        public string Email { get; set; }
-
-        public IEnumerable<CondicionIVA> CondicionIVA { get; set; }
-
-        [Required]
-        [Display(Name = "Condición ante IVA")]
-        public int CondicionIVAId { get; set; }
+        public string Email { get; set; }      
 
        
         public ProveedorViewModel()
@@ -66,18 +58,15 @@ namespace NaturalFrut.App_BLL.ViewModels
         {
             ID = proveedor.ID;
             Nombre = proveedor.Nombre;
-            RazonSocial = proveedor.RazonSocial;
+            Contacto = proveedor.Contacto;
             Cuit = proveedor.Cuit;
             Iibb = proveedor.Iibb;
             Direccion = proveedor.Direccion;
-            Provincia = proveedor.Provincia;
             Localidad = proveedor.Localidad;
-            TelefonoNegocio = proveedor.TelefonoNegocio;
+            TelefonoOficina = proveedor.TelefonoOficina;
             TelefonoCelular = proveedor.TelefonoCelular;
-            Email = proveedor.Email;
-            Saldo = proveedor.Saldo;
-
-            CondicionIVAId = proveedor.CondicionIVAId;           
+            TelefonoOtros = proveedor.TelefonoOtros;
+            Email = proveedor.Email;          
 
         }
 

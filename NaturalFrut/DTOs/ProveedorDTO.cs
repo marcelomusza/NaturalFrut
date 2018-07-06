@@ -15,36 +15,28 @@ namespace NaturalFrut.DTOs
         public string Nombre { get; set; }
 
         [Required]
-        public string RazonSocial { get; set; }
-
-        public double Saldo { get; set; }
-
-        [Required]
-        public string Cuit { get; set; }
-
-        [Required]
-        public string Iibb { get; set; }
+        public string Contacto { get; set; }
 
         [Required]
         public string Direccion { get; set; }
 
         [Required]
-        public string Provincia { get; set; }
-
-        [Required]
         public string Localidad { get; set; }
 
-        public int TelefonoNegocio { get; set; }
+        public int TelefonoOficina { get; set; }
 
         public int TelefonoCelular { get; set; }
 
+        public int TelefonoOtros { get; set; }
+
+        [Required]
+        public string Cuit { get; set; }
+
+        [Required]
+        public string Iibb { get; set; }      
+
         [Required]
         public string Email { get; set; }
-
-        public CondicionIVADTO CondicionIVA { get; set; }
-
-        [Required]
-        public int CondicionIVAId { get; set; }
 
     }
 }

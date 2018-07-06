@@ -1,4 +1,4 @@
-﻿@model NaturalFrut.App_BLL.ViewModels.VentaMayoristaViewModel
+﻿@model NaturalFrut.App_BLL.ViewModels.VentaMinoristaViewModel
 @{
     ViewBag.Title = "CargarVenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +8,7 @@
 
 <h2>Ingresar Venta</h2>
 
-@using (Html.BeginForm("GuardarVentaMayorista", "VentaMayorista"))
+@using (Html.BeginForm("GuardarVentaMinorista", "VentaMinorista"))
 {
 
     <div class="row">
@@ -33,104 +33,115 @@
             </div>
 
             <div class="form-group">
-                <label>Cliente</label>
-                <div class="tt-container">
-                    <input id="cliente" name="cliente" data-rule-validCustomer="true" required type="text" value="" class="form-control" />&nbsp;
-                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Cliente" /></a>
-
-                </div>
+                <label>IVA</label>
+                @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Iva)
             </div>
-
-            @*<div class="form-group">
-                @Html.LabelFor(c => c.Clientes)
-
-                <div style="display:flex;">
-
-                    @Html.DropDownListFor(c => c.Clientes, new SelectList(Model.Clientes, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;
-                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Cliente" /></a>
-
-                </div>
-
-                @Html.ValidationMessageFor(c => c.Clientes)
-            </div>*@
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Vendedores)
-                <div style="display:flex;">
-                    @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;
-                    <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
-                </div>
-                @Html.ValidationMessageFor(c => c.Vendedores)
+                <label>Importe Venta Total</label>
+                @Html.TextBoxFor(c => c.ImporteVentaTotal, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
             </div>
 
-        </div>
+            <div class="form-group">
+                <label>Importe Informe Z</label>
+                @Html.TextBoxFor(c => c.ImporteInformeZ, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ImporteInformeZ)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.CantidadPersonas)
+                @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.CantidadPersonas)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Promedio)
+                @Html.TextBoxFor(c => c.Promedio, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Promedio)
+            </div>
+
+            <div class="form-group">
+                <label>Importe IVA Z</label>
+                @Html.TextBoxFor(c => c.ImporteIva, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ImporteIva)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.PrimerNumeroTicket)
+                @Html.TextBoxFor(c => c.PrimerNumeroTicket, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.PrimerNumeroTicket)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.UltimoNumeroTicket)
+                @Html.TextBoxFor(c => c.UltimoNumeroTicket, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.UltimoNumeroTicket)
+            </div>
+       </div>
+
 
         <!--Agrupamos campos de la columna derecha-->
         <div class="col-sm-6">
             <div class="form-group">
-                <label>Saldo Anterior</label>
-                @Html.TextBoxFor(c => c.SaldoAnterior, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.SaldoAnterior)
+                @Html.LabelFor(c => c.NumFactura)
+                @Html.TextBoxFor(c => c.NumFactura, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.NumFactura)
             </div>
 
             <div class="form-group">
-                <label>Entrega Efectivo</label>
-                @Html.TextBoxFor(c => c.EntregaEfectivo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.EntregaEfectivo)
+                @Html.LabelFor(c => c.RazonSocial)
+                @Html.TextBoxFor(c => c.RazonSocial, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.RazonSocial)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Saldo)
-                @Html.TextBoxFor(c => c.Saldo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Saldo)
+                @Html.LabelFor(c => c.TipoFactura)
+                @Html.TextBoxFor(c => c.TipoFactura, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TipoFactura)
             </div>
 
             <div class="form-group">
-                <label>No Concretado</label>
-                @Html.CheckBox("marcaConcretado", false)
-                @Html.ValidationMessageFor(c => c.NoConcretado)
+                @Html.LabelFor(c => c.TarjetaVisa)
+                @Html.TextBoxFor(c => c.TarjetaVisa, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TarjetaVisa)
             </div>
 
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaVisaDeb)
+                @Html.TextBoxFor(c => c.TarjetaVisaDeb, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TarjetaVisaDeb)
+            </div>
 
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaMaster)
+                @Html.TextBoxFor(c => c.TarjetaMaster, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TarjetaMaster)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaMaestro)
+                @Html.TextBoxFor(c => c.TarjetaMaestro, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TarjetaMaestro)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaCabal)
+                @Html.TextBoxFor(c => c.TarjetaCabal, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TarjetaCabal)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TotalTarjetas)
+                @Html.TextBoxFor(c => c.TotalTarjetas, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TotalTarjetas)
+            </div>
 
         </div>
 
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Productos</h3>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Unidad</th>
-                    <th>Importe</th>
-                    <th>Total Importe</th>
-                </tr>
-                <tbody>
-
-                    <tr>
-                        @*<td>@Html.DropDownListFor(p => p.Productos, new SelectList(Model.Productos, "Id", "Descripcion"), new { @class = "form-control" })</td>*@
-                        @*<td>@Html.TextBoxFor(p => p, new { @class = "form-control" })</td>*@
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                </tbody>
-            </table>
-
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -146,43 +157,7 @@
 
 }
 
-<div class="modal fade" id="clienteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Nuevo Cliente</h3>
-            </div>
-            <div class="modal-body" id="clienteModalBody">
 
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</div>
-
-<div class="modal fade" id="vendedorModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Nuevo Vendedor</h3>
-            </div>
-            <div class="modal-body" id="vendedorModalBody">
-
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</div>
 
 
 

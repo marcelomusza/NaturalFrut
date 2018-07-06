@@ -28,9 +28,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.RazonSocial)
-                @Html.TextBoxFor(c => c.RazonSocial, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.RazonSocial)
+                @Html.LabelFor(c => c.Contacto)
+                @Html.TextBoxFor(c => c.Contacto, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Contacto)
             </div>
 
             <div class="form-group">
@@ -46,12 +46,6 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Provincia)
-                @Html.TextBoxFor(c => c.Provincia, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Provincia)
-            </div>
-
-            <div class="form-group">
                 @Html.LabelFor(c => c.Localidad)
                 @Html.TextBoxFor(c => c.Localidad, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Localidad)
@@ -63,15 +57,21 @@
         <div class="col-sm-6">
 
             <div class="form-group">
-                @Html.LabelFor(c => c.TelefonoNegocio)
-                @Html.TextBoxFor(c => c.TelefonoNegocio, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.TelefonoNegocio)
+                @Html.LabelFor(c => c.TelefonoOficina)
+                @Html.TextBoxFor(c => c.TelefonoOficina, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TelefonoOficina)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TelefonoCelular)
                 @Html.TextBoxFor(c => c.TelefonoCelular, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.TelefonoCelular)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TelefonoOtros)
+                @Html.TextBoxFor(c => c.TelefonoOtros, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TelefonoOtros)
             </div>
 
             <div class="form-group">
@@ -84,18 +84,6 @@
                 @Html.LabelFor(c => c.Iibb)
                 @Html.TextBoxFor(c => c.Iibb, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Iibb)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(c => c.CondicionIVAId)
-                @Html.DropDownListFor(c => c.CondicionIVAId, new SelectList(Model.CondicionIVA, "Id", "Nombre"), "Seleccione Condicion ante IVA", new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.CondicionIVAId)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(c => c.Saldo)
-                @Html.TextBoxFor(c => c.Saldo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Saldo)
             </div>
 
         </div>

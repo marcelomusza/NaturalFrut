@@ -208,6 +208,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_BLL\VentaMinoristaLogic.cs" />
     <Compile Include="App_BLL\VentaMayoristaLogic.cs" />
     <Compile Include="App_BLL\ListaPreciosLogic.cs" />
     <Compile Include="App_BLL\ClienteLogic.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
+    <Compile Include="App_BLL\ViewModels\VentaMinoristaViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\VentaMayoristaViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
+    <Compile Include="Controllers\VentaMinoristaController.cs" />
     <Compile Include="DTOs\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\VendedoresController.cs" />
@@ -255,25 +258,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807042033560_nuevaBase.cs" />
-    <Compile Include="Migrations\201807042033560_nuevaBase.Designer.cs">
-      <DependentUpon>201807042033560_nuevaBase.cs</DependentUpon>
+    <Compile Include="Migrations\201807052035202_nuevaProveedores.cs" />
+    <Compile Include="Migrations\201807052035202_nuevaProveedores.Designer.cs">
+      <DependentUpon>201807052035202_nuevaProveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807050019363_Model_CambiosVentaMayorista.cs" />
-    <Compile Include="Migrations\201807050019363_Model_CambiosVentaMayorista.Designer.cs">
-      <DependentUpon>201807050019363_Model_CambiosVentaMayorista.cs</DependentUpon>
+    <Compile Include="Migrations\201807060250463_tablaVentaMinorista.cs" />
+    <Compile Include="Migrations\201807060250463_tablaVentaMinorista.Designer.cs">
+      <DependentUpon>201807060250463_tablaVentaMinorista.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807050340423_Seed_Clientes.cs" />
-    <Compile Include="Migrations\201807050340423_Seed_Clientes.Designer.cs">
-      <DependentUpon>201807050340423_Seed_Clientes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807050347546_Seed_Vendedores.cs" />
-    <Compile Include="Migrations\201807050347546_Seed_Vendedores.Designer.cs">
-      <DependentUpon>201807050347546_Seed_Vendedores.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807050351359_Seed_Listas.cs" />
-    <Compile Include="Migrations\201807050351359_Seed_Listas.Designer.cs">
-      <DependentUpon>201807050351359_Seed_Listas.cs</DependentUpon>
+    <Compile Include="Migrations\201807060300338_tablaVentaMinoristas.cs" />
+    <Compile Include="Migrations\201807060300338_tablaVentaMinoristas.Designer.cs">
+      <DependentUpon>201807060300338_tablaVentaMinoristas.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -292,6 +287,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\VentaMinorista.cs" />
     <Compile Include="Models\VentaMayorista.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
@@ -635,6 +631,8 @@
     <Content Include="Views\Admin\Lista.cshtml" />
     <Content Include="Views\Admin\ListaForm.cshtml" />
     <Content Include="Views\VentaMayorista\Index.cshtml" />
+    <Content Include="Views\VentaMinorista\Index.cshtml" />
+    <Content Include="Views\VentaMinorista\VentaMinoristaForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -653,20 +651,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807042033560_nuevaBase.resx">
-      <DependentUpon>201807042033560_nuevaBase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807052035202_nuevaProveedores.resx">
+      <DependentUpon>201807052035202_nuevaProveedores.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807050019363_Model_CambiosVentaMayorista.resx">
-      <DependentUpon>201807050019363_Model_CambiosVentaMayorista.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807060250463_tablaVentaMinorista.resx">
+      <DependentUpon>201807060250463_tablaVentaMinorista.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807050340423_Seed_Clientes.resx">
-      <DependentUpon>201807050340423_Seed_Clientes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807050347546_Seed_Vendedores.resx">
-      <DependentUpon>201807050347546_Seed_Vendedores.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807050351359_Seed_Listas.resx">
-      <DependentUpon>201807050351359_Seed_Listas.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807060300338_tablaVentaMinoristas.resx">
+      <DependentUpon>201807060300338_tablaVentaMinoristas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -274,13 +274,7 @@ namespace NaturalFrut.Controllers
 
         public ActionResult NuevoProveedor()
         {
-
-            var condicionIva = proveedorBL.GetCondicionIvaList();
-
-            ProveedorViewModel viewModel = new ProveedorViewModel
-            {
-                CondicionIVA = condicionIva
-            };
+            ProveedorViewModel viewModel = new ProveedorViewModel();
 
             return View("ProveedorForm", viewModel);
         }
@@ -291,9 +285,7 @@ namespace NaturalFrut.Controllers
             var proveedor = proveedorBL.GetProveedorById(Id);
 
             ProveedorViewModel viewModel = new ProveedorViewModel(proveedor)
-            {
-                CondicionIVA = proveedorBL.GetCondicionIvaList()
-            };
+ ;
 
             if (proveedor == null)
                 return HttpNotFound();
@@ -321,10 +313,8 @@ namespace NaturalFrut.Controllers
             if (!ModelState.IsValid)
             {
 
-                ProveedorViewModel viewModel = new ProveedorViewModel(proveedor)
-                {
-                    CondicionIVA = proveedorBL.GetCondicionIvaList()
-                };
+                ProveedorViewModel viewModel = new ProveedorViewModel(proveedor);
+                
 
                 return View("ProveedorForm", viewModel);
             }

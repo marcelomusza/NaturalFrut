@@ -18,9 +18,19 @@ namespace NaturalFrut.Models
         public string Nombre { get; set; }
 
         [Required]
-        public string RazonSocial { get; set; }
+        public string Contacto { get; set; }
 
-        public double Saldo { get; set; }
+        [Required]
+        public string Direccion { get; set; }
+
+        [Required]
+        public string Localidad { get; set; }
+
+        public int TelefonoOficina { get; set; }
+
+        public int TelefonoCelular { get; set; }
+
+        public int TelefonoOtros { get; set; }
 
         [Required]
         public string Cuit { get; set; }
@@ -29,26 +39,8 @@ namespace NaturalFrut.Models
         public string Iibb { get; set; }
 
         [Required]
-        public string Direccion { get; set; }
-
-        [Required]
-        public string Provincia { get; set; }
-
-        [Required]
-        public string Localidad { get; set; }
-
-        public int TelefonoNegocio { get; set; }
-
-        public int TelefonoCelular { get; set; }
-
-        [Required]
         public string Email { get; set; }
 
-        public CondicionIVA CondicionIVA { get; set; }
 
-        [Required]
-        public int CondicionIVAId { get; set; }
-
-       
     }
 }
