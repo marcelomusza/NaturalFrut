@@ -47,4 +47,32 @@ input.error {
     text-align: center;
 }
 
+
+/* ESTILOS HOME ADMIN START */
+.admin-boton {
+    width: 200px;
+    height: 100px;
+    font-size: 20px;
+}
+
+.admin-dropdownul {
+    width: 200px;    
+    position: relative;
+}
+
+.admin-dropdown {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Fix de ancho para textbox de typeahead*/
+.vtamay-cliente > span {
+    width:51%;
+}
+
+/* ESTILOS HOME ADMIN END*/
+
 /* NaturalFrut Custom CSS END*/

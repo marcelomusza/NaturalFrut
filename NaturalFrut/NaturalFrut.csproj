@@ -258,6 +258,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Migrations\201807052035202_nuevaProveedores.cs" />
     <Compile Include="Migrations\201807052035202_nuevaProveedores.Designer.cs">
       <DependentUpon>201807052035202_nuevaProveedores.cs</DependentUpon>
@@ -269,6 +270,14 @@
     <Compile Include="Migrations\201807060300338_tablaVentaMinoristas.cs" />
     <Compile Include="Migrations\201807060300338_tablaVentaMinoristas.Designer.cs">
       <DependentUpon>201807060300338_tablaVentaMinoristas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807071617035_Model_Producto_MarcaCategoriaNulleable.cs" />
+    <Compile Include="Migrations\201807071617035_Model_Producto_MarcaCategoriaNulleable.Designer.cs">
+      <DependentUpon>201807071617035_Model_Producto_MarcaCategoriaNulleable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807100235104_Seed_TipoDeUnidad.cs" />
+    <Compile Include="Migrations\201807100235104_Seed_TipoDeUnidad.Designer.cs">
+      <DependentUpon>201807100235104_Seed_TipoDeUnidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -659,6 +668,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807060300338_tablaVentaMinoristas.resx">
       <DependentUpon>201807060300338_tablaVentaMinoristas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807071617035_Model_Producto_MarcaCategoriaNulleable.resx">
+      <DependentUpon>201807071617035_Model_Producto_MarcaCategoriaNulleable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807100235104_Seed_TipoDeUnidad.resx">
+      <DependentUpon>201807100235104_Seed_TipoDeUnidad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

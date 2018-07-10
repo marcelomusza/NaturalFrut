@@ -34,30 +34,17 @@
 
             <div class="form-group">
                 <label>Cliente</label>
-                <div class="tt-container">
-                    <input id="cliente" name="cliente" data-rule-validCustomer="true" required type="text" value="" class="form-control" />&nbsp;
-                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Cliente" /></a>
+                <div class="tt-container vtamay-cliente">
+                    <input id="cliente" name="cliente" data-rule-validCustomer="true" data-cliente-id="" required type="text" value="" class="form-control" />
+                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
 
                 </div>
             </div>
 
-            @*<div class="form-group">
-                @Html.LabelFor(c => c.Clientes)
-
-                <div style="display:flex;">
-
-                    @Html.DropDownListFor(c => c.Clientes, new SelectList(Model.Clientes, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;
-                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Cliente" /></a>
-
-                </div>
-
-                @Html.ValidationMessageFor(c => c.Clientes)
-            </div>*@
-
             <div class="form-group">
                 @Html.LabelFor(c => c.Vendedores)
                 <div style="display:flex;">
-                    @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;
+                    @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;&nbsp;
                     <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
                 </div>
                 @Html.ValidationMessageFor(c => c.Vendedores)
@@ -113,17 +100,41 @@
                     <th>Unidad</th>
                     <th>Importe</th>
                     <th>Total Importe</th>
+                    <th>Acciones</th>
                 </tr>
                 <tbody>
 
                     <tr>
-                        @*<td>@Html.DropDownListFor(p => p.Productos, new SelectList(Model.Productos, "Id", "Descripcion"), new { @class = "form-control" })</td>*@
-                        @*<td>@Html.TextBoxFor(p => p, new { @class = "form-control" })</td>*@
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <div class="tt-container">
+                                <input id="producto" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">                                
+                                <input id="cantidad" name="cantidad" required type="number" value="" class="form-control" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.DropDownListFor(c => c.TiposDeUnidad, new SelectList(Model.TiposDeUnidad, "Id", "Nombre"), new { @class = "form-control", onChange = "CalcularValorProducto()" })
+                                @Html.ValidationMessageFor(c => c.TiposDeUnidad)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input id="importe" name="importe" required type="number" value="" class="form-control" disabled/>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input id="totalimporte" name="totalimporte" required type="number" value="" class="form-control" disabled />
+                            </div>
+                        </td>
+                        <td>
+                            <button class='btn-link'><img title='Agregar nuevo Producto' src='~/Content/Images/addSign.png' /></button>
+                            <button class='btn-link'><img title='Remover Producto' src='~/Content/Images/DeleteIcon.png' /></button>
+                        </td>
                     </tr>
 
                 </tbody>
@@ -173,15 +184,9 @@
                 <h3 class="modal-title">Nuevo Vendedor</h3>
             </div>
             <div class="modal-body" id="vendedorModalBody">
-
-
             </div>
-
-
         </div>
-
     </div>
-
 </div>
 
 
@@ -189,6 +194,10 @@
 
 @section scripts
 {
+
+
+
+    <!--TAG SCRIPT PARA MODAL-->
     <script>
 
         var NuevoClienteModal = function (clienteID) {
@@ -217,11 +226,15 @@
 
     <script>
 
-        $(document).ready(function () {
+        $(document).ready(function () {            
+
+            //Default Placeholder
+            $("#TiposDeUnidad").prepend("<option value='' selected='selected'>Seleccione...</option>");
 
 
-            var vm = {};
 
+
+            // Autocomplete para Cliente            
             var clientes = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -242,68 +255,75 @@
                     display: 'Nombre',
                     source: clientes
                 }).on("typeahead:select", function (e, cliente) {
-                    vm.clienteId = cliente.id;
-                });
 
-
-            var table = $("#clientes").DataTable({
-
-                "language": {
-                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                },
-
-                ajax: {
-
-                    url: "/api/clientes",
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "Nombre"
-                    },
-                    {
-                        data: "ID",
-                        render: function (data) {
-                            return "<button class='btn-link js-delete' data-customer-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
-                                "<button class='btn-link js-edit' data-customer-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
-                        }
-                    }
-                ]
-            });
-
-            $("#clientes").on("click", ".js-delete", function () {
-
-                var button = $(this);
-
-                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
-
-                    if (result) {
-                        $.ajax({
-                            url: "/api/clientes/" + button.attr("data-customer-id"),
-                            method: "DELETE",
-                            success: function () {
-
-                                toastr.success("Cliente eliminado satisfactoriamente");
-
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
-                    }
+                    $("#cliente").attr("data-cliente-id", cliente.ID);
 
                 });
 
 
+            //Autocomplete para Producto
+            var productos = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/productos?query=%QUERY',
+                    wildcard: '%QUERY',
+                    cache: false
+                }
             });
 
-            $("#clientes").on("click", ".js-edit", function () {
+            $('#producto').typeahead({
+                minLength: 3,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'producto',
+                    display: 'Nombre',
+                    source: productos
+                }).on("typeahead:select", function (e, producto) {
 
-                var button = $(this);
+                    $("#producto").attr("data-producto-id", producto.ID);
 
-                location.href = "EditarCliente/" + button.attr("data-customer-id");
+                });
 
-            });
+
+
+
+
+
+
+
+
+            
 
         });
+
+    </script>
+
+    <!-- FUNCIONES -->
+    <script>
+
+        function CalcularValorProducto() {
+
+            var clienteID = $("#cliente").attr("data-cliente-id");
+            var productoID = $("#producto").attr("data-producto-id");
+            var cantidad = $("#cantidad").val();
+            var tipoUnidadID = $("#TiposDeUnidad option:selected").val();
+
+            $.getJSON("CalcularValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID }, ActualizarValores)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+        }
+
+        ActualizarValores = function (data) {
+
+            var importe = data.Importe;
+            var importeTotal = data.ImporteTotal;
+
+            $("#importe").val(importe);
+            $("#totalimporte").val(importeTotal);
+        }
 
     </script>
 

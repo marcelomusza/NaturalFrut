@@ -5,5 +5,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="jumbotron">
+    <h2>Natural Frut</h2>
+</div>
 
+<div class="row">
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-bookmark"></span> Panel Administrativo
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4" style="margin-left: auto; margin-right: auto; text-align: center; margin-top: 5%; margin-bottom: 5%; ">
+                        <div class="dropdown admin-dropdown">
+                            <button class="btn btn-primary btn-lg admin-boton" role="button" type="button" data-toggle="dropdown">
+                                Admin<br /> Personas<br />
+                                <span class="glyphicon glyphicon-user"></span>
+                            </button>
+                            <ul class="dropdown-menu admin-dropdownul dropdown-menu-left">
+                                <li><a href="/Admin/Clientes">Clientes</a></li>
+                                <li><a href="/Admin/Proveedores">Proveedores</a></li>
+                                <li><a href="/Admin/Vendedores">Vendedores</a></li>
+                                <li><a href="/Admin/CondicionIVA">Condicion IVA</a></li>
+                                <li><a href="/Admin/TipoCliente">Tipo Cliente</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4" style="margin-left: auto; margin-right: auto; text-align: center; margin-top: 5%; margin-bottom: 5%;">
+                        <div class="dropdown admin-dropdown">
+                            <button class="btn btn-warning btn-lg admin-boton" role="button" type="button" data-toggle="dropdown">
+                                Productos <br />
+                                <span class="glyphicon glyphicon-inbox"></span>
+                            </button>
+                            <ul class="dropdown-menu admin-dropdownul">
+                                <li><a href="/Admin/Productos">Productos</a></li>
+                                <li><a href="/Admin/Marcas">Marca</a></li>
+                                <li><a href="/Admin/Categorias">Categoría</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4" style="margin-left: auto; margin-right: auto; text-align: center; margin-top: 5%; margin-bottom: 5%;">
+                        <div class="dropdown admin-dropdown">
+                            <button class="btn btn-success btn-lg admin-boton" role="button" type="button" data-toggle="dropdown">
+                                Lista de <br /> Precios <br />
+                                <span class="glyphicon glyphicon-list-alt"></span>
+                            </button>
+                            <ul class="dropdown-menu admin-dropdownul">
+                                <li><a href="/Admin/TiposDeUnidad">Tipo Unidad</a></li>
+                                <li><a href="/Admin/Lista">Lista de Precios</a></li>
+                                <li><a href="/Admin/ListaPrecios">Productos por Lista</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,16 +15,19 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Cliente> clienteRP;
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
+        private readonly IRepository<ListaPrecio> listaPreciosRP;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
             IRepository<Vendedor> VendedorRepository,
-            IRepository<Lista> ListaRepository)
+            IRepository<Lista> ListaRepository,
+            IRepository<ListaPrecio> ListaPrecioRepository)
         {
             ventaMayoristaRP = VentaMayoristaRepository;
             clienteRP = ClienteRepository;
             vendedorRP = VendedorRepository;
             listaRP = ListaRepository;
+            listaPreciosRP = ListaPrecioRepository;
         }
 
         public VentaMayoristaLogic(IRepository<Cliente> ClienteRepository)
@@ -80,6 +83,23 @@ namespace NaturalFrut.App_BLL
         public List<Lista> GetListaList()
         {
             return listaRP.GetAll().ToList();
+        }
+
+        public ListaPrecio CalcularImporteSegunCliente(int clienteID, int productoID, int cantidad)
+        {
+
+            var cliente = clienteRP.GetByID(clienteID);
+
+            int listaAsociada = cliente.ListaId;
+
+            var productoSegunLista = listaPreciosRP.GetAll()
+                .Where(p => p.ProductoID == productoID)
+                .Where(p => p.ListaID == listaAsociada)
+                .SingleOrDefault();
+
+
+            return productoSegunLista;
+
         }
     }
 }

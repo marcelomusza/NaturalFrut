@@ -31,6 +31,15 @@ namespace NaturalFrut.Controllers.Api
         {
 
             var productos = productoBL.GetAllProducto();
+
+            foreach (var prod in productos)
+            {
+                if(prod.Marca != null)
+                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+
+                if(prod.Categoria != null)
+                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+            }
             
             return productos.Select(Mapper.Map<Producto, ProductoDTO>);
         }

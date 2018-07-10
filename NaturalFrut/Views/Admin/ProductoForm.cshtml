@@ -49,7 +49,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(c => c.ID)
             <button type="submit" class="btn btn-primary">Guardar</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Productos", "Admin")';">Cancelar</button>
 
         </div>
     </div>
@@ -65,6 +65,48 @@
 @section scripts {
 
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+            
+
+            $("#MarcaId").change(function () {
+
+
+                $("#CategoriaId").attr("disabled", "disabled"); 
+
+                //MODO EDICION
+                if ($("#MarcaId").val() == "") {
+                    $("#MarcaId").attr("disabled", "disabled");
+                    $("#CategoriaId").removeAttr("disabled");
+                }
+
+                if ($("#CategoriaId").val() != null)
+                    $("#CategoriaId option:eq(0)").prop("selected", true);                
+
+            });
+
+            $("#CategoriaId").change(function () {
+
+                $("#MarcaId").attr("disabled", "disabled");
+
+                //MODO EDICION
+                if ($("#CategoriaId").val() == "") {
+                    $("#CategoriaId").attr("disabled", "disabled"); 
+                    $("#MarcaId").removeAttr("disabled");
+                }
+                    
+
+                if ($("#MarcaId").val() != null)
+                    $("#MarcaId option:eq(0)").prop("selected", true);
+
+            });
+    
+        });
+
+    </script>
+    
 
 }
 

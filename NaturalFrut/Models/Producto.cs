@@ -16,11 +16,11 @@ namespace NaturalFrut.Models
         [Required]
         public string Nombre { get; set; }
 
-        [Required]
-        public int CategoriaId { get; set; }
+        
+        public int? CategoriaId { get; set; }
 
-        [Required]
-        public int MarcaId { get; set; }
+        
+        public int? MarcaId { get; set; }
         
 
         public Categoria Categoria { get; set; }

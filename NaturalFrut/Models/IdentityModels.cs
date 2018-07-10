@@ -38,18 +38,18 @@ namespace NaturalFrut.Models
         public DbSet<ListaPrecio> ListaPrecios { get; set; }
 
         // CONTEXT MARCELO        
-        //public ApplicationDbContext()
-        //    : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
-        //{
-        //}
+        public ApplicationDbContext()
+            : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
+        {
+        }
 
 
         // CONTEXT YESICA
 
-        public ApplicationDbContext()
-            : base("DefaultConnectionYesica", throwIfV1Schema: false)
-        {
-        }
+        //public ApplicationDbContext()
+        //    : base("DefaultConnectionYesica", throwIfV1Schema: false)
+        //{
+        //}
 
 
         public static ApplicationDbContext Create()

@@ -15,15 +15,15 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Required]
         public string Nombre { get; set; }
 
-        [Required]
+        
         [Display(Name = "Categoría")]
-        public int CategoriaId { get; set; }
+        public int? CategoriaId { get; set; }
 
         public IEnumerable<Categoria> Categoria { get; set; }
 
-        [Required]
+        
         [Display(Name = "Marca")]
-        public int MarcaId { get; set; }
+        public int? MarcaId { get; set; }
 
         public IEnumerable<Marca> Marca { get; set; }
 
@@ -37,8 +37,10 @@ namespace NaturalFrut.App_BLL.ViewModels
             ID = producto.ID;
             Nombre = producto.Nombre;
 
-            CategoriaId = producto.CategoriaId;
-            MarcaId = producto.MarcaId;
+            if(producto.CategoriaId != null)
+                CategoriaId = producto.CategoriaId;
+            if(producto.MarcaId != null)
+                MarcaId = producto.MarcaId;
         }
 
         public string Titulo
