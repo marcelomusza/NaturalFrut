@@ -99,7 +99,7 @@ namespace NaturalFrut.Controllers
             return Json(clienteBL.GetListaList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CalcularValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID)
+        public ActionResult CalcularValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
         {
 
             double importe;
@@ -129,7 +129,21 @@ namespace NaturalFrut.Controllers
             importeTotal = importe * cantidad;
 
 
-            return Json(new { Importe = importe, ImporteTotal = importeTotal }, JsonRequestBehavior.AllowGet);
+            return Json(new { Importe = importe, ImporteTotal = importeTotal, Counter = counter }, JsonRequestBehavior.AllowGet);
+        }
+
+        //public ActionResult GetTiposDeUnidadAsync()
+        //{
+
+        //    return Json(commonBL.GetAllTiposDeUnidad(), JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult GetTiposDeUnidadDynamicAsync(int counter)
+        {
+
+            List<TipoDeUnidad> tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
+
+            return Json(new { TiposDeUnidad = tiposDeUnidad, Counter = counter }, JsonRequestBehavior.AllowGet);
         }
 
     }

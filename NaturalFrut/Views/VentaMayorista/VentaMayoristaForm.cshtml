@@ -93,37 +93,38 @@
     <div class="row">
         <div class="col-sm-12">
 
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Unidad</th>
-                    <th>Importe</th>
-                    <th>Total Importe</th>
-                    <th>Acciones</th>
-                </tr>
+            <table class="table-bordered table-hover table order-list">
+                <thead>
+                    <tr>
+                        <td>Producto</td>
+                        <td>Cantidad</td>
+                        <td>Unidad</td>
+                        <td>Importe</td>
+                        <td>Total Importe</td>
+                        <td>Acciones</td>
+                    </tr>
+                </thead>
                 <tbody>
 
-                    <tr>
+                    @*<tr>
                         <td>
                             <div class="tt-container">
                                 <input id="producto" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" />
                             </div>
                         </td>
                         <td>
-                            <div class="form-group">                                
+                            <div class="form-group">
                                 <input id="cantidad" name="cantidad" required type="number" value="" class="form-control" />
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                @Html.DropDownListFor(c => c.TiposDeUnidad, new SelectList(Model.TiposDeUnidad, "Id", "Nombre"), new { @class = "form-control", onChange = "CalcularValorProducto()" })
-                                @Html.ValidationMessageFor(c => c.TiposDeUnidad)
+                                <select id="tiposdeunidad" class="form-control"><option value='' selected='selected'>Seleccione...</option></select>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <input id="importe" name="importe" required type="number" value="" class="form-control" disabled/>
+                                <input id="importe" name="importe" required type="number" value="" class="form-control" disabled />
                             </div>
                         </td>
                         <td>
@@ -131,13 +132,20 @@
                                 <input id="totalimporte" name="totalimporte" required type="number" value="" class="form-control" disabled />
                             </div>
                         </td>
-                        <td>
-                            <button class='btn-link'><img title='Agregar nuevo Producto' src='~/Content/Images/addSign.png' /></button>
-                            <button class='btn-link'><img title='Remover Producto' src='~/Content/Images/DeleteIcon.png' /></button>
+                        <td class="">
+                            <a class="deleteRow"></a>
                         </td>
-                    </tr>
+                    </tr>*@
 
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align: left;">
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
+                        </td>
+                    </tr>
+                    <tr></tr>
+                </tfoot>
             </table>
 
         </div>
@@ -228,10 +236,46 @@
 
         $(document).ready(function () {            
 
-            //Default Placeholder
-            $("#TiposDeUnidad").prepend("<option value='' selected='selected'>Seleccione...</option>");
+            var counter = 0;
+            
+            //Asignamos primer valor al dropdown y luego populamos la lista async            
+           // GetTiposDeUnidad();
+
+            
+
+            $("#addrow").on("click", function () {
+                var newRow = $("<tr>");
+                var cols = "";
+
+               // $('#producto').typeahead('destroy');
+                cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
+                
+
+                cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" required type="number" value="" class="form-control" /></div></td>';
+                
+                cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" class="form-control" onChange="CalcularValorProducto(' + counter + ');"><option value="" selected="selected">Seleccione...</option></select></div></td>';
+                GetTiposDeUnidadDynamic(counter);
+
+                cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="form-control" disabled /></div></td>';
+
+                cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="number" value="" class="form-control" disabled /></div></td>';
+
+                cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
+                newRow.append(cols);
+                $("table.order-list").append(newRow);
+
+                typeahead_initialize(counter);
+
+                counter++;
+                
+            });
 
 
+
+            $("table.order-list").on("click", ".ibtnDel", function (event) {
+                $(this).closest("tr").remove();
+                counter -= 1
+            });
 
 
             // Autocomplete para Cliente            
@@ -261,7 +305,19 @@
                 });
 
 
-            //Autocomplete para Producto
+
+        });
+
+    </script>
+
+    <!-- FUNCIONES -->
+    <script>
+
+        function typeahead_initialize(counter) {
+
+
+            //Inicializacion necesaria para typeahead dinamicos
+
             var productos = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -272,7 +328,9 @@
                 }
             });
 
-            $('#producto').typeahead({
+            productos.initialize();
+
+            $('#producto' + counter).typeahead({
                 minLength: 3,
                 highlight: true,
                 hint: true,
@@ -283,35 +341,22 @@
                     source: productos
                 }).on("typeahead:select", function (e, producto) {
 
-                    $("#producto").attr("data-producto-id", producto.ID);
+                    $("#producto" + counter).attr("data-producto-id", producto.ID);
 
                 });
 
+        }
 
+        typeahead_initialize();
 
-
-
-
-
-
-
-            
-
-        });
-
-    </script>
-
-    <!-- FUNCIONES -->
-    <script>
-
-        function CalcularValorProducto() {
+        function CalcularValorProducto(counter) {
 
             var clienteID = $("#cliente").attr("data-cliente-id");
-            var productoID = $("#producto").attr("data-producto-id");
-            var cantidad = $("#cantidad").val();
-            var tipoUnidadID = $("#TiposDeUnidad option:selected").val();
+            var productoID = $("#producto" + counter).attr("data-producto-id");
+            var cantidad = $("#cantidad" + counter).val();
+            var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
 
-            $.getJSON("CalcularValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID }, ActualizarValores)
+            $.getJSON("CalcularValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
                 .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
         }
@@ -321,8 +366,40 @@
             var importe = data.Importe;
             var importeTotal = data.ImporteTotal;
 
-            $("#importe").val(importe);
-            $("#totalimporte").val(importeTotal);
+            $("#importe" + data.Counter).val(importe);
+            $("#totalimporte" + data.Counter).val(importeTotal);
+        }
+
+
+
+        //function GetTiposDeUnidad() {
+
+        //    $.getJSON("GetTiposDeUnidadAsync", {}, PopulateTiposDeUnidad)
+        //        .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+        //}
+
+        //PopulateTiposDeUnidad = function (data) {
+            
+        //    $.each(data, function () {
+        //        $("#tiposdeunidad").append($("<option />").val(this.ID).text(this.Nombre));
+        //    });
+
+        //}
+
+        function GetTiposDeUnidadDynamic(counter) {
+
+            $.getJSON("GetTiposDeUnidadDynamicAsync", { Counter: counter }, PopulateTiposDeUnidadDynamic)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+        }
+
+        PopulateTiposDeUnidadDynamic = function (data) {
+
+            $.each(data.TiposDeUnidad, function () {
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val(this.ID).text(this.Nombre));
+            });
+
         }
 
     </script>
