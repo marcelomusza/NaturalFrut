@@ -14,17 +14,29 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Producto> productoRP;
         private readonly IRepository<Categoria> categoriaRP;
         private readonly IRepository<Marca> marcaRP;
+        private readonly IRepository<Cliente> clienteRP;
+        private readonly IRepository<ListaPrecio> listaPrecioRP;
 
-        public ProductoLogic(IRepository<Producto> ProductoRepository, IRepository<Categoria> CategoriaRepository, IRepository<Marca> MarcaRepository)
+        public ProductoLogic(IRepository<Producto> ProductoRepository, 
+            IRepository<Categoria> CategoriaRepository, 
+            IRepository<Marca> MarcaRepository,
+            IRepository<Cliente> ClienteRepository,
+            IRepository<ListaPrecio> ListaPrecioRepository)
         {
             productoRP = ProductoRepository;
             categoriaRP = CategoriaRepository;
             marcaRP = MarcaRepository;
+            clienteRP = ClienteRepository;
+            listaPrecioRP = ListaPrecioRepository;
         }
 
-        public ProductoLogic(IRepository<Producto> ProductoRepository)
+        public ProductoLogic(IRepository<Producto> ProductoRepository, 
+            IRepository<Cliente> ClienteRepository,
+            IRepository<ListaPrecio> ListaPrecioRepository)
         {
             productoRP = ProductoRepository;
+            clienteRP = ClienteRepository;
+            listaPrecioRP = ListaPrecioRepository;
         }
 
         public List<Producto> GetAllProducto()
@@ -73,6 +85,28 @@ namespace NaturalFrut.App_BLL
             return marcaRP.GetAll().ToList();
         }
 
-        
+
+        public List<Producto> GetAllProductosSegunListaAsociada(int clienteID)
+        {
+            var cliente = clienteRP.GetByID(clienteID);
+            int listaAsociada = cliente.ListaId;
+
+            List<ListaPrecio> productosSegunLista = listaPrecioRP.GetAll()
+                .Include(p => p.Producto)  
+                .Include(p => p.Producto.Categoria)
+                .Include(p => p.Producto.Marca)
+                .Where(p => p.ListaID == listaAsociada)
+                .ToList();
+
+            List<Producto> listaProductos = new List<Producto>();
+
+            foreach (var prod in productosSegunLista)
+            {
+                listaProductos.Add(prod.Producto);
+            }
+
+            return listaProductos;
+        }
+
     }
 }

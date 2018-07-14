@@ -18,10 +18,14 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ProductoLogic productoBL;
+        private readonly ClienteLogic clienteBL;
 
-        public ProductosController(IRepository<Producto> ProductoRepo)
+        public ProductosController(IRepository<Producto> ProductoRepo,
+            IRepository<Cliente> ClienteRepo,
+            IRepository<ListaPrecio> ListaPrecioRepo)
         {            
-            productoBL = new ProductoLogic(ProductoRepo);
+            productoBL = new ProductoLogic(ProductoRepo, ClienteRepo, ListaPrecioRepo);
+            clienteBL = new ClienteLogic(ClienteRepo);
         }
 
 
@@ -32,17 +36,37 @@ namespace NaturalFrut.Controllers.Api
 
             var productos = productoBL.GetAllProducto();
 
-            foreach (var prod in productos)
-            {
-                if(prod.Marca != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+            //foreach (var prod in productos)
+            //{
+            //    if(prod.Marca != null)
+            //        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
 
-                if(prod.Categoria != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
-            }
+            //    if(prod.Categoria != null)
+            //        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+            //}
             
             return productos.Select(Mapper.Map<Producto, ProductoDTO>);
         }
+
+        [HttpGet]
+        [Route("ventamayorista/api/productos/productosxlista")]
+        public IEnumerable<ProductoDTO> ProductosXLista(int clienteId)
+        {
+
+            var productos = productoBL.GetAllProductosSegunListaAsociada(clienteId);
+
+            foreach (var prod in productos)
+            {
+                if (prod.Marca != null)
+                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+
+                if (prod.Categoria != null)
+                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+            }
+
+            return productos.Select(Mapper.Map<Producto, ProductoDTO>);
+        }
+
 
         //GET /api/producto/1
         public IHttpActionResult GetProducto(int id)
