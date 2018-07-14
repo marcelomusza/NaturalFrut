@@ -279,9 +279,14 @@
     <Compile Include="Migrations\201807100235104_Seed_TipoDeUnidad.Designer.cs">
       <DependentUpon>201807100235104_Seed_TipoDeUnidad.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807112059270_seAgregaTablaStock.cs" />
+    <Compile Include="Migrations\201807112059270_seAgregaTablaStock.Designer.cs">
+      <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Lista.cs" />
+    <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ListaPrecio.cs" />
@@ -674,6 +679,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807100235104_Seed_TipoDeUnidad.resx">
       <DependentUpon>201807100235104_Seed_TipoDeUnidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807112059270_seAgregaTablaStock.resx">
+      <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

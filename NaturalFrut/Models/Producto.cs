@@ -21,7 +21,7 @@ namespace NaturalFrut.Models
 
         
         public int? MarcaId { get; set; }
-        
+
 
         public Categoria Categoria { get; set; }
 
@@ -31,6 +31,8 @@ namespace NaturalFrut.Models
         public IList<ListaPrecio> ListaPrecios { get; set; }
 
         public IList<ProductoXVenta> ProductosXVenta { get; set; }
+
+        public IList<Stock> Stock { get; set; }
 
     }
 }
