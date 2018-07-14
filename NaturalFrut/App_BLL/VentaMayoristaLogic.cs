@@ -16,6 +16,7 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
         private readonly IRepository<ListaPrecio> listaPreciosRP;
+        private IRepository<VentaMayorista> ventaMayoristaRepo;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
@@ -35,6 +36,11 @@ namespace NaturalFrut.App_BLL
             clienteRP = ClienteRepository;
         }
 
+        public VentaMayoristaLogic(IRepository<VentaMayorista> ventaMayoristaRepo)
+        {
+            this.ventaMayoristaRepo = ventaMayoristaRepo;
+        }
+
         public List<VentaMayorista> GetAllVentaMayorista()
         {
             return ventaMayoristaRP.GetAll()
@@ -51,6 +57,8 @@ namespace NaturalFrut.App_BLL
                 .Include(v => v.Vendedor)
                 .Where(c => c.ID == id).SingleOrDefault();
         }
+
+        
 
         public void RemoveCliente(VentaMayorista ventaMayorista)
         {

@@ -8,7 +8,8 @@
 
 <h2>Ingresar Venta</h2>
 
-@using (Html.BeginForm("GuardarVentaMayorista", "VentaMayorista"))
+@*@using (Html.BeginForm("GuardarVentaMayorista", "VentaMayorista"))*@
+@using (Html.BeginForm("GuardarVentaMayorista", "VentaMayorista", FormMethod.Post, new { id = "vtamayformID" }))
 {
 
     <div class="row">
@@ -35,8 +36,10 @@
             <div class="form-group">
                 <label>Cliente</label>
                 <div class="tt-container vtamay-cliente">
-                    <input id="cliente" name="cliente" data-rule-validCustomer="true" data-cliente-id="" required type="text" value="" class="form-control" />
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
                     <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
+                    <br/>
+                    <span class="field-validation-valid" data-valmsg-for="cliente" data-valmsg-replace="true"></span>
 
                 </div>
             </div>
@@ -96,55 +99,27 @@
             <table class="table-bordered table-hover table order-list">
                 <thead>
                     <tr>
-                        <td>Producto</td>
-                        <td>Cantidad</td>
-                        <td>Unidad</td>
-                        <td>Importe</td>
-                        <td>Total Importe</td>
-                        <td>Acciones</td>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Importe</th>
+                        <th>Total Importe</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                    @*<tr>
-                        <td>
-                            <div class="tt-container">
-                                <input id="producto" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" />
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input id="cantidad" name="cantidad" required type="number" value="" class="form-control" />
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <select id="tiposdeunidad" class="form-control"><option value='' selected='selected'>Seleccione...</option></select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input id="importe" name="importe" required type="number" value="" class="form-control" disabled />
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input id="totalimporte" name="totalimporte" required type="number" value="" class="form-control" disabled />
-                            </div>
-                        </td>
-                        <td class="">
-                            <a class="deleteRow"></a>
-                        </td>
-                    </tr>*@
-
-                </tbody>
+                <tbody></tbody>
                 <tfoot>
                     <tr>
                         <td colspan="6" style="text-align: left;">
-                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto"  />
                         </td>
                     </tr>
-                    <tr></tr>
+                    <tr>
+                        <td colspan="6" style="text-align: right;">
+                            <label>Total Venta:</label>
+                            <input type="number" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
 
@@ -162,6 +137,8 @@
         </div>
     </div>
 
+    <input type="hidden" id="CounterAnterior" />
+    <input type="hidden" id="ImporteTotalAnterior" />
 
 }
 
@@ -203,7 +180,7 @@
 @section scripts
 {
 
-
+    @Scripts.Render("~/bundles/jqueryval")
 
     <!--TAG SCRIPT PARA MODAL-->
     <script>
@@ -234,51 +211,75 @@
 
     <script>
 
-        $(document).ready(function () {            
+        $(document).ready(function () {
 
             var counter = 0;
-            
-            //Asignamos primer valor al dropdown y luego populamos la lista async            
-           // GetTiposDeUnidad();
 
-            
+            var validator = $("#cliente").validate({
+                rules: {
+                    cliente: "required",
+                },
+                messages: {                    
+                    cliente: "Por favor ingresa un Cliente",                        
+                },
+               
+            });
 
             $("#addrow").on("click", function () {
-                var newRow = $("<tr>");
-                var cols = "";
 
-               // $('#producto').typeahead('destroy');
-                cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
-                
 
-                cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" required type="number" value="" class="form-control" /></div></td>';
-                
-                cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" class="form-control" onChange="CalcularValorProducto(' + counter + ');"><option value="" selected="selected">Seleccione...</option></select></div></td>';
-                GetTiposDeUnidadDynamic(counter);
+                var validarCliente = $("#cliente").valid();
 
-                cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="form-control" disabled /></div></td>';
+                if (validarCliente) {
 
-                cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="number" value="" class="form-control" disabled /></div></td>';
+                    var newRow = $("<tr>");
+                    var cols = "";
 
-                cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
-                newRow.append(cols);
-                $("table.order-list").append(newRow);
+                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
 
-                typeahead_initialize(counter);
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" required type="number" value="" class="form-control" /></div></td>';
 
-                counter++;
-                
+                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" class="form-control" onChange="CalcularValorProducto(' + counter + '); "><option value="" selected="selected">Seleccione...</option></select></div></td>';
+                    GetTiposDeUnidadDynamic(counter);
+
+                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="form-control" disabled /></div></td>';
+
+                    cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="number" value=""  class="totalimporte form-control"  disabled /></div></td>';
+
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
+                    newRow.append(cols);
+                    $("table.order-list").append(newRow);
+
+                    typeahead_initialize(counter);
+
+                    counter++;
+
+                }
+
             });
 
 
 
             $("table.order-list").on("click", ".ibtnDel", function (event) {
                 $(this).closest("tr").remove();
-                counter -= 1
+
+                var valor = parseInt(this.attributes.name.value);
+                valor += 1;
+
+                if (valor == counter) {
+                    counter -= 1;
+                } else {
+                    counter += 1;
+                }
+
+
+                typeahead_initialize(counter);
+
+                RecalcularTotal();
             });
 
 
-            // Autocomplete para Cliente            
+            // Autocomplete para Cliente
             var clientes = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -317,18 +318,16 @@
 
 
             //Inicializacion necesaria para typeahead dinamicos
+            var clienteID = $("#cliente").attr("data-cliente-id");
 
             var productos = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 prefetch: {
-                    url: '/api/productos?query=%QUERY',
-                    wildcard: '%QUERY',
+                    url: 'api/productos/ProductosXLista?clienteID=' + clienteID,
                     cache: false
                 }
             });
-
-            productos.initialize();
 
             $('#producto' + counter).typeahead({
                 minLength: 3,
@@ -347,8 +346,6 @@
 
         }
 
-        typeahead_initialize();
-
         function CalcularValorProducto(counter) {
 
             var clienteID = $("#cliente").attr("data-cliente-id");
@@ -365,27 +362,29 @@
 
             var importe = data.Importe;
             var importeTotal = data.ImporteTotal;
+            var sumaVentaTotal = 0;
 
             $("#importe" + data.Counter).val(importe);
             $("#totalimporte" + data.Counter).val(importeTotal);
+
+            $(".totalimporte").each(function () {
+                sumaVentaTotal += parseFloat(this.value);
+            });
+
+            $("#totalventa").val(sumaVentaTotal);
+
         }
 
+        function RecalcularTotal() {
 
+            var sumaVentaTotal = 0;
 
-        //function GetTiposDeUnidad() {
+            $(".totalimporte").each(function () {
+                sumaVentaTotal += parseFloat(this.value);
+            });
 
-        //    $.getJSON("GetTiposDeUnidadAsync", {}, PopulateTiposDeUnidad)
-        //        .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
-
-        //}
-
-        //PopulateTiposDeUnidad = function (data) {
-            
-        //    $.each(data, function () {
-        //        $("#tiposdeunidad").append($("<option />").val(this.ID).text(this.Nombre));
-        //    });
-
-        //}
+            $("#totalventa").val(sumaVentaTotal);
+        }
 
         function GetTiposDeUnidadDynamic(counter) {
 
@@ -401,6 +400,20 @@
             });
 
         }
+
+        //function ValidarCliente() {
+
+        //    var cliente = $("#cliente").val();
+
+        //    if (cliente == "") {
+        //        $("#cliente").addClass("input.error");
+        //    }
+        //    else {
+        //        $("#cliente").removeClass("input.error");
+        //    }
+
+
+        //}
 
     </script>
 
