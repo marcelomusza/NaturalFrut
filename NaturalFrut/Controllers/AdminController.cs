@@ -836,7 +836,73 @@ namespace NaturalFrut.Controllers
 
             return RedirectToAction("ListaPrecios", "Admin");
 
-        } 
+        }
+        #endregion
+
+        #region Acciones Clasificacion
+        public ActionResult Clasificacion()
+        {
+            var clasificacion = commonBL.GetAllClasificacion();
+
+            return View(clasificacion);
+        }
+
+        public ActionResult NuevaClasificacion()
+        {
+
+            Clasificacion clasificacion = new Clasificacion();
+
+            return View("ClasificacionForm", clasificacion);
+        }
+
+        public ActionResult EditarClasificacion(int Id)
+        {
+
+            var clasificacion = commonBL.GetClasificacionById(Id);
+
+            if (clasificacion == null)
+                return HttpNotFound();
+
+            return View("ClasificacionForm", clasificacion);
+        }
+
+        public ActionResult BorrarClasificacion(int Id)
+        {
+
+            var clasificacion = commonBL.GetClasificacionById(Id);
+
+            if (clasificacion != null)
+                commonBL.RemoveClasificacion(clasificacion);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("Clasificacion", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarClasificacion(Clasificacion clasificacion)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("ClasificacionForm");
+            }
+
+            if (clasificacion.ID == 0)
+            {
+                
+                commonBL.AddClasificacion(clasificacion);
+            }
+            else
+            {
+                
+                commonBL.UpdateClasificacion(clasificacion);
+            }
+
+            return RedirectToAction("Clasificacion", "Admin");
+
+        }
         #endregion
 
     }

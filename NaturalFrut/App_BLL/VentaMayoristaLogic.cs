@@ -16,7 +16,7 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
         private readonly IRepository<ListaPrecio> listaPreciosRP;
-        private IRepository<VentaMayorista> ventaMayoristaRepo;
+        //private IRepository<VentaMayorista> ventaMayoristaRepo;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
@@ -38,7 +38,7 @@ namespace NaturalFrut.App_BLL
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> ventaMayoristaRepo)
         {
-            this.ventaMayoristaRepo = ventaMayoristaRepo;
+            this.ventaMayoristaRP = ventaMayoristaRepo;
         }
 
         public List<VentaMayorista> GetAllVentaMayorista()

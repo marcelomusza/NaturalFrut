@@ -223,6 +223,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_BLL\CompraLogic.cs" />
     <Compile Include="App_BLL\VentaMinoristaLogic.cs" />
     <Compile Include="App_BLL\VentaMayoristaLogic.cs" />
     <Compile Include="App_BLL\ListaPreciosLogic.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
+    <Compile Include="App_BLL\ViewModels\CompraViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\VentaMinoristaViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\VentaMayoristaViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
@@ -299,9 +301,15 @@
     <Compile Include="Migrations\201807112059270_seAgregaTablaStock.Designer.cs">
       <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.cs" />
+    <Compile Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.Designer.cs">
+      <DependentUpon>201807150206320_creacionNuevasTablasComprasClas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Lista.cs" />
+    <Compile Include="Models\Clasificacion.cs" />
+    <Compile Include="Models\ProductoXCompra.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Categoria.cs" />
@@ -317,6 +325,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Compra.cs" />
     <Compile Include="Models\VentaMinorista.cs" />
     <Compile Include="Models\VentaMayorista.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -698,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807112059270_seAgregaTablaStock.resx">
       <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.resx">
+      <DependentUpon>201807150206320_creacionNuevasTablasComprasClas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
