@@ -1,4 +1,4 @@
-﻿@model NaturalFrut.App_BLL.ViewModels.VentaMayoristaViewModel
+﻿@model dynamic
 @{
     ViewBag.Title = "CargarVenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,13 +8,7 @@
 
 <h2>Ingresar Venta</h2>
 
-@*@using (Html.BeginForm("GuardarVentaMayorista", "VentaMayorista"))*@
-@using (Html.BeginForm("GuardarVentaMayorista", "VentaMayorista", FormMethod.Post, new { id = "vtamayformID" }))
-{
-
-    <div class="row">
-        @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
-    </div>
+<form id="vtamayform">
 
     <div class="row">
 
@@ -23,69 +17,117 @@
 
             <div class="form-group">
                 <label>N° Venta</label>
-                @Html.TextBoxFor(c => c.ID, new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(c => c.ID)
+                <input id="numeroventa" name="numeroventa" required type="text" value="@ViewBag.NumeroVenta" class="form-control" disabled/>
             </div>
 
+            @*<div class="form-group">
+            <label>N° Venta</label>
+            @Html.TextBoxFor(c => c.ID, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(c => c.ID)
+        </div>*@
+
             <div class="form-group">
-                @Html.LabelFor(c => c.Fecha)
-                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly" })
-                @Html.ValidationMessageFor(c => c.Fecha)
+                <label>Fecha</label>
+                <input id="fecha" name="fecha" required type="datetime" value="@ViewBag.Fecha" class="form-control" disabled />
             </div>
+
+            @*<div class="form-group">
+            @Html.LabelFor(c => c.Fecha)
+            @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = DateTime.Now, @readonly = "readonly" })
+            @Html.ValidationMessageFor(c => c.Fecha)
+        </div>*@
 
             <div class="form-group">
                 <label>Cliente</label>
                 <div class="tt-container vtamay-cliente">
                     <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
                     <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
-                    <br/>
+                    <br />
                     <span class="field-validation-valid" data-valmsg-for="cliente" data-valmsg-replace="true"></span>
 
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.Vendedores)
+                <label>Vendedor</label>
                 <div style="display:flex;">
-                    @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;&nbsp;
+                    <select id="vendedor" name="vendedor" class="form-control">
+                        <option value="" selected="selected">Seleccione...</option>
+                        @foreach (var vendedor in @ViewBag.Vendedores)
+                        {
+                            <option value="@vendedor.ID">@vendedor.Nombre</option>
+                        }
+                    </select>&nbsp;&nbsp;
                     <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
                 </div>
-                @Html.ValidationMessageFor(c => c.Vendedores)
+
             </div>
 
-        </div>
 
-        <!--Agrupamos campos de la columna derecha-->
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>Saldo Anterior</label>
-                @Html.TextBoxFor(c => c.SaldoAnterior, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.SaldoAnterior)
+                @*<div class="form-group">
+            @Html.LabelFor(c => c.Vendedores)
+            <div style="display:flex;">
+                @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;&nbsp;
+                <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
+            </div>
+            @Html.ValidationMessageFor(c => c.Vendedores)
+        </div>*@
+
             </div>
 
-            <div class="form-group">
+            <!--Agrupamos campos de la columna derecha-->
+            <div class="col-sm-6">
+
+                <div class="form-group">
+                    <label>Saldo Anterior</label>
+                    <input id="SaldoAnteriorID" name="SaldoAnteriorID" required type="number" value="" class="form-control" disabled />
+                </div>
+
+
+                @*<div class="form-group">
+            <label>Saldo Anterior</label>
+            @Html.TextBoxFor(c => c.SaldoAnterior, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.SaldoAnterior)
+            </div>*@
+
+                <div class="form-group">
+                    <label>Entrega Efectivo</label>
+                    <input id="EntregaEfectivoID" name="EntregaEfectivoID" required type="number" value="" class="form-control" disabled />
+                </div>
+
+                @*<div class="form-group">
                 <label>Entrega Efectivo</label>
                 @Html.TextBoxFor(c => c.EntregaEfectivo, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.EntregaEfectivo)
-            </div>
+            </div>*@
 
-            <div class="form-group">
+                <div class="form-group">
+                    <label>Saldo</label>
+                    <input id="SaldoID" name="SaldoID" required type="number" value="" class="form-control" disabled />
+                </div>
+
+                @*<div class="form-group">
                 @Html.LabelFor(c => c.Saldo)
                 @Html.TextBoxFor(c => c.Saldo, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Saldo)
-            </div>
+            </div>*@
 
-            <div class="form-group">
+                <div class="form-group">
+                    <label>No Concretado</label>
+                    <input id="noconcretado" name="noconcretado" type="checkbox" value="" class="form-control" />
+                </div>
+
+                @*<div class="form-group">
                 <label>No Concretado</label>
                 @Html.CheckBox("marcaConcretado", false)
                 @Html.ValidationMessageFor(c => c.NoConcretado)
+            </div>*@
+
+
+
             </div>
 
-
-
         </div>
-
-    </div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -107,11 +149,11 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody class="listaproductos"></tbody>
                 <tfoot>
                     <tr>
                         <td colspan="6" style="text-align: left;">
-                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto"  />
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
                         </td>
                     </tr>
                     <tr>
@@ -130,17 +172,16 @@
         <div class="col-sm-12">
 
             @Html.AntiForgeryToken()
-            @Html.HiddenFor(c => c.ID)
+            <input type="hidden" id="CounterAnterior" />
+            <input type="hidden" id="ImporteTotalAnterior" />
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
         </div>
     </div>
 
-    <input type="hidden" id="CounterAnterior" />
-    <input type="hidden" id="ImporteTotalAnterior" />
-
-}
+    
+</form>
 
 <div class="modal fade" id="clienteModal">
     <div class="modal-dialog">
@@ -213,20 +254,33 @@
 
         $(document).ready(function () {
 
-            var counter = 0;
+            //ViewModel para pasar al webAPI
+            var vm = {                
+                fecha: "",
+                clienteID: 0,
+                vendedorID: 0,
+                numeroVenta: 0,
+                noConcretado: false,
+                sumaTotal: 0,
+                productosXVenta : []
+            };
 
-            var validator = $("#cliente").validate({
+            CargarValoresInicialesEnVM(vm);
+
+            //**EVENTOS START **//
+            
+            $("#cliente").validate({
                 rules: {
                     cliente: "required",
                 },
-                messages: {                    
-                    cliente: "Por favor ingresa un Cliente",                        
+                messages: {
+                    cliente: "Por favor ingresa un Cliente",
                 },
-               
+
             });
 
+            var counter = 0;
             $("#addrow").on("click", function () {
-
 
                 var validarCliente = $("#cliente").valid();
 
@@ -235,11 +289,11 @@
                     var newRow = $("<tr>");
                     var cols = "";
 
-                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-rule-validProducto="true" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" required type="number" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" class="form-control" onChange="CalcularValorProducto(' + counter + '); "><option value="" selected="selected">Seleccione...</option></select></div></td>';
+                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularValorProducto(' + counter + '); " required ><option value="" >Seleccione...</option></select></div></td>';
                     GetTiposDeUnidadDynamic(counter);
 
                     cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="form-control" disabled /></div></td>';
@@ -254,11 +308,41 @@
 
                     counter++;
 
+                    $("#producto" + counter).validate({
+                        rules: {
+                            producto: "required",
+                        },
+                        messages: {
+                            producto: "Por favor ingresa un Producto",
+                        },
+
+                    });
+
+                    $("#cantidad" + counter).validate({
+                        rules: {
+                            cantidad: "required",
+                        },
+                        messages: {
+                            cantidad: "Por favor ingresa una Cantidad",
+                        },
+
+                    });
+
+                    $("#tiposdeunidad" + counter).validate({
+                        rules: {
+                            tiposdeunidad: "required",
+                        },
+                        messages: {
+                            tiposdeunidad: "Por favor ingresa una Unidad",
+                        },
+
+                    });
+
+
+
                 }
 
             });
-
-
 
             $("table.order-list").on("click", ".ibtnDel", function (event) {
                 $(this).closest("tr").remove();
@@ -278,6 +362,22 @@
                 RecalcularTotal();
             });
 
+            $("#vendedor").on('change', function () {
+                vm.vendedorID = this.value;
+            })
+
+            $("#noconcretado").on('change', function () {
+                if (this.checked) {
+                    vm.noConcretado = true;
+                }
+                else {
+                    vm.noConcretado = false;
+                }
+
+               
+            })
+
+            //**EVENTOS END **//
 
             // Autocomplete para Cliente
             var clientes = new Bloodhound({
@@ -291,7 +391,7 @@
             });
 
             $('#cliente').typeahead({
-                minLength: 3,
+                minLength: 1,
                 highlight: true,
                 hint: true,
                 limit: Infinity
@@ -302,10 +402,56 @@
                 }).on("typeahead:select", function (e, cliente) {
 
                     $("#cliente").attr("data-cliente-id", cliente.ID);
+                    vm.clienteID = cliente.ID;
 
                 });
 
 
+            var validator = $("#vtamayform").validate({
+
+                submitHandler: function () {
+
+                    var validarProducto = $('input[name*="producto"]').valid();
+                    var validarCantidad = $('input[name*="cantidad"]').valid();
+                    var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
+
+                    if (validarProducto && validarCantidad && validartipodeUnidad) {
+
+                        //Modal para aceptacion de venta
+                        bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
+
+                            if (result) {
+
+                                CargarProductosAlVM(vm);
+
+
+                                $.ajax({
+                                    url: "/api/ventasmayorista",
+                                    method: "post",
+                                    data: vm
+                                })
+                                    .done(function () {
+
+                                        toastr.success("La venta se ha guardado correctamente.");
+
+                                        setTimeout(function () {
+                                            window.location.href = "/VentaMayorista";
+                                        }, 4000);
+
+                                    })
+                                    .fail(function () {
+                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+                                    });
+
+                            }
+
+                        });
+
+                    }
+                   
+                    return false;
+                }
+            });
 
         });
 
@@ -346,15 +492,26 @@
 
         }
 
+
+
         function CalcularValorProducto(counter) {
 
-            var clienteID = $("#cliente").attr("data-cliente-id");
-            var productoID = $("#producto" + counter).attr("data-producto-id");
-            var cantidad = $("#cantidad" + counter).val();
-            var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
+            var validarProducto = $("#producto" + counter).valid();
+            var validarCantidad = $("#cantidad" + counter).valid();
 
-            $.getJSON("CalcularValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
-                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            if (validarProducto && validarCantidad) {
+
+                var clienteID = $("#cliente").attr("data-cliente-id");
+                var productoID = $("#producto" + counter).attr("data-producto-id");
+                var cantidad = $("#cantidad" + counter).val();
+                var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
+
+                $.getJSON("CalcularValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
+                    .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+            }
+
+
 
         }
 
@@ -401,19 +558,49 @@
 
         }
 
-        //function ValidarCliente() {
+        function CargarValoresInicialesEnVM(vm) {
 
-        //    var cliente = $("#cliente").val();
+            var numeroventa = $("#numeroventa").val();
+            var fecha = $("#fecha").val();
 
-        //    if (cliente == "") {
-        //        $("#cliente").addClass("input.error");
-        //    }
-        //    else {
-        //        $("#cliente").removeClass("input.error");
-        //    }
+            vm.numeroVenta = numeroventa;
+            vm.fecha = fecha;
+        }
 
+        function CargarProductosAlVM(vm) {
 
-        //}
+            //Cargamos la lista de productos
+            $(".listaproductos tr").each(function (i, row) {
+                
+                var $row = $(row),
+                    $producto = $row.find('input[name*="producto"]'),
+                    $cantidad = $row.find('input[name*="cantidad"]'),
+                    $tipodeunidad = $row.find('select[name*="tiposdeunidad"]'),
+                    $importe = $row.find('input[name*="importe"]'),
+                    $totalimporte = $row.find('input[name*="totalimporte"]');
+
+                var productoid = $producto.attr("data-producto-id");
+                var cantidad = $cantidad.val();
+                var tipodeunidad = $tipodeunidad.val();
+                var importe = $importe.val();
+                var totalimporte = $totalimporte.val();
+
+                vm.productosXVenta.push(
+                    {
+                        ProductoID: productoid,
+                        Cantidad: cantidad,
+                        TipoDeUnidadID: tipodeunidad,
+                        Importe: importe,
+                        Total: totalimporte
+                    }
+                );
+
+            });
+
+            //Cargamos la suma total
+            vm.sumaTotal = $("#totalventa").val();
+
+        }
 
     </script>
 

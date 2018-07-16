@@ -24,10 +24,13 @@
         else
         {
 
-            <table id="ventasmayoristas" class="table table-bordered table-hover">
+            <table id="ventasmayorista" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Fecha</th>
+                        <th>Numero de Venta</th>
+                        <th>Cliente</th>
+                        <th>Importe Total</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -47,20 +50,37 @@
 
         $(document).ready(function () {
 
-            var table = $("#ventasmayoristas").DataTable({
+            var table = $("#ventasmayorista").DataTable({
 
                 "language": {
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
 
+                "columnDefs": [
+                    { "width": "15%", "targets": 0 },
+                    { "width": "15%", "targets": 1 },
+                    { "width": "25%", "targets": 2 },
+                    { "width": "15%", "targets": 3 },
+                    { "width": "30%", "targets": 4 },
+                ],
+
                 ajax: {
 
-                    url: "/api/ventasmayoristas",
+                    url: "/api/ventasmayorista",
                     dataSrc: ""
                 },
                 columns: [
                     {
                         data: "Fecha"
+                    },
+                    {
+                        data: "NumeroVenta"
+                    },
+                    {
+                        data: "Cliente.Nombre"
+                    },
+                    {
+                        data: "SumaTotal"
                     },
                     {
                         data: "ID",
@@ -70,9 +90,9 @@
                         }
                     }
                 ]
-            });
+            });            
 
-            $("#ventasmayoristas").on("click", ".js-delete", function () {
+            $("#ventasmayorista").on("click", ".js-delete", function () {
 
                 var button = $(this);
 
@@ -80,7 +100,7 @@
 
                     if (result) {
                         $.ajax({
-                            url: "/api/ventasmayoristas/" + button.attr("data-ventamayorista-id"),
+                            url: "/api/ventasmayorista/" + button.attr("data-ventamayorista-id"),
                             method: "DELETE",
                             success: function () {
 
@@ -96,7 +116,7 @@
 
             });
 
-            $("#ventasmayoristas").on("click", ".js-edit", function () {
+            $("#ventasmayorista").on("click", ".js-edit", function () {
 
                 var button = $(this);
 

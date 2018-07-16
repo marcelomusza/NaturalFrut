@@ -250,6 +250,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
+    <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\VentaMinoristaController.cs" />
     <Compile Include="DTOs\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Controllers\VentaMayoristaController.cs" />
     <Compile Include="DTOs\ListaDTO.cs" />
     <Compile Include="DTOs\ListaPrecioDTO.cs" />
+    <Compile Include="DTOs\ProductoXVentaDTO.cs" />
     <Compile Include="DTOs\VendedorDTO.cs" />
     <Compile Include="DTOs\MarcaDTO.cs" />
     <Compile Include="DTOs\CategoriaDTO.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="DTOs\ClienteDTO.cs" />
     <Compile Include="DTOs\CondicionIVADTO.cs" />
     <Compile Include="DTOs\TipoClienteDTO.cs" />
+    <Compile Include="DTOs\VentaMayoristaDTO.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -298,6 +301,10 @@
     <Compile Include="Migrations\201807112059270_seAgregaTablaStock.cs" />
     <Compile Include="Migrations\201807112059270_seAgregaTablaStock.Designer.cs">
       <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807152238189_Model_UpdateVentaMayorista.cs" />
+    <Compile Include="Migrations\201807152238189_Model_UpdateVentaMayorista.Designer.cs">
+      <DependentUpon>201807152238189_Model_UpdateVentaMayorista.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -698,6 +705,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807112059270_seAgregaTablaStock.resx">
       <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807152238189_Model_UpdateVentaMayorista.resx">
+      <DependentUpon>201807152238189_Model_UpdateVentaMayorista.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

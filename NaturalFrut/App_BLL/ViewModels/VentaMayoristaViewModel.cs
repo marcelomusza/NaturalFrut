@@ -9,10 +9,11 @@ namespace NaturalFrut.App_BLL.ViewModels
 {
     public class VentaMayoristaViewModel
     {
+        private VentaMayorista ventaMayorista;
 
         public int? ID { get; set; }
 
-        //public string Cliente { get; set; }
+        public string Cliente { get; set; }
 
         public DateTime Fecha { get; set; }
 
@@ -22,11 +23,11 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double Saldo { get; set; }
 
-        //public string Vendedor { get; set; }
+        public string Vendedor { get; set; }
 
         //public IEnumerable<Producto> Productos { get; set; }
 
-        //public IEnumerable<Cliente> Clientes { get; set; }
+        public IEnumerable<Cliente> Clientes { get; set; }
 
         public IEnumerable<Vendedor> Vendedores { get; set; }
 
@@ -40,7 +41,9 @@ namespace NaturalFrut.App_BLL.ViewModels
             ID = 0;
         }
 
-
-
+        public VentaMayoristaViewModel(VentaMayorista ventaMayorista)
+        {
+            this.ventaMayorista = ventaMayorista;
+        }
     }
 }

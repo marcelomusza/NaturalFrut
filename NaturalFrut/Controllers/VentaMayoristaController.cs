@@ -45,20 +45,58 @@ namespace NaturalFrut.Controllers
         public ActionResult NuevaVentaMayorista()
         {
 
-            var tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
-            var vendedores = ventaMayoristaBL.GetVendedorList();
+            var ultimaVenta = ventaMayoristaBL.GetNumeroDeVenta();            
 
-            VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel
+            //Cargamos datos a mandar a la view
+            ViewBag.Fecha = DateTime.Now;
+            ViewBag.Vendedores = ventaMayoristaBL.GetVendedorList();
+
+            if (ultimaVenta == null)
             {
-                TiposDeUnidad = tiposDeUnidad,
-                Vendedores = vendedores
-                
-            };
+                //No se ha cargado ventas en el sistema, asignamos numero cero
+                ViewBag.NumeroVenta = 0;
+            }
+            else
+            {
+                //Asignamos número siguiente a la última venta cargada
+                ViewBag.NumeroVenta = ultimaVenta.NumeroVenta + 1;
+            }
 
-            return View("VentaMayoristaForm", viewModel);
+
+
+            return View("VentaMayoristaForm");
         }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult GuardarVentaMayorista(VentaMayorista ventaMayorista)
+        //{
 
+        //    if (!ModelState.IsValid)
+        //    {
+
+        //        VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(ventaMayorista)
+        //        {
+                    
+        //        };
+
+        //        return View("VentaMayoristaForm", viewModel);
+        //    }
+
+        //    if (ventaMayorista.ID == 0)
+        //    {
+        //        //Agregamos nueva Venta Mayorista
+        //        ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
+        //    }
+        //    else
+        //    {
+        //        //Edicion de Venta Mayorista existente
+        //        ventaMayoristaBL.UpdateVentaMayorista(ventaMayorista);
+        //    }
+
+        //    return RedirectToAction("Clientes", "Admin");
+
+        //}
 
 
         public ActionResult NuevoCliente()
@@ -131,13 +169,7 @@ namespace NaturalFrut.Controllers
 
             return Json(new { Importe = importe, ImporteTotal = importeTotal, Counter = counter }, JsonRequestBehavior.AllowGet);
         }
-
-        //public ActionResult GetTiposDeUnidadAsync()
-        //{
-
-        //    return Json(commonBL.GetAllTiposDeUnidad(), JsonRequestBehavior.AllowGet);
-        //}
-
+        
         public ActionResult GetTiposDeUnidadDynamicAsync(int counter)
         {
 
