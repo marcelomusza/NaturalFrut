@@ -16,6 +16,7 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
         private readonly IRepository<ListaPrecio> listaPreciosRP;
+        //private IRepository<VentaMayorista> ventaMayoristaRepo;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
@@ -30,21 +31,14 @@ namespace NaturalFrut.App_BLL
             listaPreciosRP = ListaPrecioRepository;
         }
 
-        public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository)
-        {
-            ventaMayoristaRP = VentaMayoristaRepository;
-        }
-
         public VentaMayoristaLogic(IRepository<Cliente> ClienteRepository)
         {
             clienteRP = ClienteRepository;
         }
 
-        public VentaMayorista GetNumeroDeVenta()
+        public VentaMayoristaLogic(IRepository<VentaMayorista> ventaMayoristaRepo)
         {
-            var ultimaVenta = ventaMayoristaRP.GetAll().OrderByDescending(p => p.ID).FirstOrDefault();
-
-            return ultimaVenta;
+            this.ventaMayoristaRP = ventaMayoristaRepo;
         }
 
         public List<VentaMayorista> GetAllVentaMayorista()
@@ -63,22 +57,22 @@ namespace NaturalFrut.App_BLL
                 .Include(v => v.Vendedor)
                 .Where(c => c.ID == id).SingleOrDefault();
         }
-               
 
-        public void RemoveVentaMayorista(VentaMayorista ventaMayorista)
+        
+
+        public void RemoveCliente(VentaMayorista ventaMayorista)
         {
             ventaMayoristaRP.Delete(ventaMayorista);
             ventaMayoristaRP.Save();
         }
 
-        public void AddVentaMayorista(VentaMayorista ventaMayorista)
+        public void AddCliente(VentaMayorista ventaMayorista)
         {
             ventaMayoristaRP.Add(ventaMayorista);
             ventaMayoristaRP.Save();
         }
-                
 
-        public void UpdateVentaMayorista(VentaMayorista ventaMayorista)
+        public void UpdateCliente(VentaMayorista ventaMayorista)
         {
             ventaMayoristaRP.Update(ventaMayorista);
             ventaMayoristaRP.Save();

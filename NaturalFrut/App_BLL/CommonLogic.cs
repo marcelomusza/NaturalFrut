@@ -15,18 +15,21 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Categoria> categoriaRP;
         private readonly IRepository<Marca> marcaRP;
         private readonly IRepository<TipoDeUnidad> tipoDeUnidadRP;
+        private readonly IRepository<Clasificacion> clasificacionRP;
 
         public CommonLogic(IRepository<CondicionIVA> CondicionIVARepository,
             IRepository<TipoCliente> TipoClienteRepository,
             IRepository<Categoria> CategoriaRepository,
             IRepository<Marca> MarcaRepository,
-            IRepository<TipoDeUnidad> TipoDeUnidad)
+            IRepository<TipoDeUnidad> TipoDeUnidad,
+            IRepository<Clasificacion> ClasificacionRepository)
         {
             condicionIVARP = CondicionIVARepository;
             tipoClienteRP = TipoClienteRepository;
             categoriaRP = CategoriaRepository;
             marcaRP = MarcaRepository;
             tipoDeUnidadRP = TipoDeUnidad;
+            clasificacionRP = ClasificacionRepository;
         }
 
 
@@ -177,9 +180,37 @@ namespace NaturalFrut.App_BLL
         public List<TipoDeUnidad> GetAllTiposDeUnidad()
         {
             return tipoDeUnidadRP.GetAll().ToList();
-        } 
+        }
         #endregion
 
+        #region Operaciones Clasificacion
+        public List<Clasificacion> GetAllClasificacion()
+        {
+            return clasificacionRP.GetAll().ToList();
+        }
 
+        public Clasificacion GetClasificacionById(int id)
+        {
+            return clasificacionRP.GetByID(id);
+        }
+
+        public void RemoveClasificacion(Clasificacion clasificacion)
+        {
+            clasificacionRP.Delete(clasificacion);
+            categoriaRP.Save();
+        }
+
+        public void AddClasificacion(Clasificacion clasificacion)
+        {
+            clasificacionRP.Add(clasificacion);
+            clasificacionRP.Save();
+        }
+
+        public void UpdateClasificacion(Clasificacion clasificacion)
+        {
+            clasificacionRP.Update(clasificacion);
+            clasificacionRP.Save();
+        }
+        #endregion
     }
 }
