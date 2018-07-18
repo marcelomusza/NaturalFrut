@@ -23,7 +23,7 @@ namespace NaturalFrut.Models
 
         public bool EntregaEfectivo { get; set; }
 
-        public int Descuento { get; set; }
+        public double Descuento { get; set; }
 
         [Required]
         public int ClienteID { get; set; }

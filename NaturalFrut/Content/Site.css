@@ -74,8 +74,27 @@ input.error {
 }
 
 .vtamay-totalventa {
-    display:inline;
-    
+    display: inline;
+    width: 13%;
+    text-align: right;
+}
+
+.vtamay-descuento {
+    display: inline;
+    width: 7%;
+    text-align: right;
+}
+
+.vtamay-tipodescuento {
+    display: inline;
+    width: 5%;
+    text-align: right;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* ESTILOS HOME ADMIN END*/

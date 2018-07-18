@@ -19,23 +19,11 @@
                 <label>N° Venta</label>
                 <input id="numeroventa" name="numeroventa" required type="text" value="@ViewBag.NumeroVenta" class="form-control" disabled/>
             </div>
-
-            @*<div class="form-group">
-            <label>N° Venta</label>
-            @Html.TextBoxFor(c => c.ID, new { @class = "form-control", @readonly = "readonly" })
-            @Html.ValidationMessageFor(c => c.ID)
-        </div>*@
-
+            
             <div class="form-group">
                 <label>Fecha</label>
                 <input id="fecha" name="fecha" required type="datetime" value="@ViewBag.Fecha" class="form-control" disabled />
             </div>
-
-            @*<div class="form-group">
-            @Html.LabelFor(c => c.Fecha)
-            @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = DateTime.Now, @readonly = "readonly" })
-            @Html.ValidationMessageFor(c => c.Fecha)
-        </div>*@
 
             <div class="form-group">
                 <label>Cliente</label>
@@ -63,16 +51,6 @@
 
             </div>
 
-
-                @*<div class="form-group">
-            @Html.LabelFor(c => c.Vendedores)
-            <div style="display:flex;">
-                @Html.DropDownListFor(c => c.Vendedores, new SelectList(Model.Vendedores, "Id", "Nombre"), new { @class = "form-control" }) &nbsp;&nbsp;
-                <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
-            </div>
-            @Html.ValidationMessageFor(c => c.Vendedores)
-        </div>*@
-
             </div>
 
             <!--Agrupamos campos de la columna derecha-->
@@ -83,47 +61,20 @@
                     <input id="SaldoAnteriorID" name="SaldoAnteriorID" required type="number" value="" class="form-control" disabled />
                 </div>
 
-
-                @*<div class="form-group">
-            <label>Saldo Anterior</label>
-            @Html.TextBoxFor(c => c.SaldoAnterior, new { @class = "form-control" })
-            @Html.ValidationMessageFor(c => c.SaldoAnterior)
-            </div>*@
-
                 <div class="form-group">
                     <label>Entrega Efectivo</label>
                     <input id="EntregaEfectivoID" name="EntregaEfectivoID" required type="number" value="" class="form-control" disabled />
                 </div>
-
-                @*<div class="form-group">
-                <label>Entrega Efectivo</label>
-                @Html.TextBoxFor(c => c.EntregaEfectivo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.EntregaEfectivo)
-            </div>*@
 
                 <div class="form-group">
                     <label>Saldo</label>
                     <input id="SaldoID" name="SaldoID" required type="number" value="" class="form-control" disabled />
                 </div>
 
-                @*<div class="form-group">
-                @Html.LabelFor(c => c.Saldo)
-                @Html.TextBoxFor(c => c.Saldo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Saldo)
-            </div>*@
-
                 <div class="form-group">
                     <label>No Concretado</label>
                     <input id="noconcretado" name="noconcretado" type="checkbox" value="" class="form-control" />
                 </div>
-
-                @*<div class="form-group">
-                <label>No Concretado</label>
-                @Html.CheckBox("marcaConcretado", false)
-                @Html.ValidationMessageFor(c => c.NoConcretado)
-            </div>*@
-
-
 
             </div>
 
@@ -156,8 +107,16 @@
                             <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6" style="text-align: right;">
+                    <tr>                        
+                        <td colspan="6" style="text-align: right;">&nbsp;
+                            <label>Descuento:</label>
+                            <select id="tipoDescuento" name="tipoDescuento" class="form-control vtamay-tipodescuento">
+                                <option value="" selected="selected">...</option>
+                                <option value="1">$</option>
+                                <option value="2">%</option>
+                            </select>
+                            <input type="number" class="form-control vtamay-descuento" id="descuento" value="" disabled />
+                            <br/><br />
                             <label>Total Venta:</label>
                             <input type="number" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
                         </td>
@@ -262,8 +221,11 @@
                 numeroVenta: 0,
                 noConcretado: false,
                 sumaTotal: 0,
+                descuento: 0,
                 productosXVenta : []
             };
+
+            var descuentoAplicado = false;
 
             CargarValoresInicialesEnVM(vm);
 
@@ -365,6 +327,36 @@
             $("#vendedor").on('change', function () {
                 vm.vendedorID = this.value;
             })
+
+            $("#tipoDescuento").on('change', function () {
+                $("#descuento").removeAttr("disabled");
+
+                descuentoAplicado = false;
+                $("#descuento").val(0);
+            })
+
+            $("#descuento").on('blur', function () {
+
+                if (!descuentoAplicado) {
+
+                    if ($(".totalimporte").length && $(".totalimporte").val() != "") {
+
+                        var sumaTotalParcial = $("#totalventa").val();
+                        var descuento = $("#descuento").val();
+
+                        sumaTotalParcial = sumaTotalParcial - descuento;
+
+                        $("#totalventa").val(sumaTotalParcial);
+
+                        descuentoAplicado = true;
+
+                    }
+                }
+                
+                
+            })
+
+            
 
             $("#noconcretado").on('change', function () {
                 if (this.checked) {

@@ -308,6 +308,10 @@
     <Compile Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.Designer.cs">
       <DependentUpon>201807150206320_creacionNuevasTablasComprasClas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.cs" />
+    <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.Designer.cs">
+      <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Lista.cs" />
@@ -713,6 +717,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.resx">
       <DependentUpon>201807150206320_creacionNuevasTablasComprasClas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.resx">
+      <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
