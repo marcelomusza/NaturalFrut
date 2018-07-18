@@ -33,7 +33,7 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public IEnumerable<TipoDeUnidad> TiposDeUnidad { get; set; }
 
-        public bool NoConcretado { get; set; } 
+        public bool NoConcretado { get; set; }
 
 
         public VentaMayoristaViewModel()
