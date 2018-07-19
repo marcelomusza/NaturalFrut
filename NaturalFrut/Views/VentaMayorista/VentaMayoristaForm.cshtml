@@ -226,6 +226,7 @@
             };
 
             var descuentoAplicado = false;
+            var totalAnteriorParaDescuento = 0;
 
             CargarValoresInicialesEnVM(vm);
 
@@ -329,29 +330,82 @@
             })
 
             $("#tipoDescuento").on('change', function () {
-                $("#descuento").removeAttr("disabled");
 
-                descuentoAplicado = false;
-                $("#descuento").val(0);
+                //Seleccion = 1 ---> $
+                //Seleccion = 2 ---> %
+                var seleccion = $("#tipoDescuento").val();
+
+                if (seleccion == 1 || seleccion == 2) {
+                    $("#descuento").removeAttr("disabled");
+
+                    descuentoAplicado = false;
+                    $("#descuento").val("");
+                }
+                else {
+                    $("#descuento").attr("disabled", "disabled");
+                    $("#descuento").val("");
+                }
+
+                
             })
 
             $("#descuento").on('blur', function () {
 
-                if (!descuentoAplicado) {
+                //Seleccion = 1 ---> $
+                //Seleccion = 2 ---> %
+                var seleccion = $("#tipoDescuento").val();
 
-                    if ($(".totalimporte").length && $(".totalimporte").val() != "") {
+                if (seleccion == 1 || seleccion == 2) {
 
-                        var sumaTotalParcial = $("#totalventa").val();
-                        var descuento = $("#descuento").val();
+                    if (!descuentoAplicado) {
 
-                        sumaTotalParcial = sumaTotalParcial - descuento;
+                        if ($(".totalimporte").length && $(".totalimporte").val() != "") {
 
-                        $("#totalventa").val(sumaTotalParcial);
+                            var sumaTotalParcial = parseFloat($("#totalventa").val());
+                            var descuento = parseFloat($("#descuento").val());
 
-                        descuentoAplicado = true;
+                            if (seleccion == 1)
+                                sumaTotalParcial = sumaTotalParcial - descuento;
+                            else
+                                sumaTotalParcial = sumaTotalParcial - ((sumaTotalParcial * descuento) / 100);
+
+                            $("#totalventa").val(sumaTotalParcial);
+
+                            descuentoAplicado = true;
+                            totalAnteriorParaDescuento = sumaTotalParcial;
+
+                        }
+                        else {
+                            $("#descuento").val("");
+                        }
+                    }
+                    else {
+
+                        var sumaVentaTotal = 0;
+                        var nuevoTotal = 0;
+
+                        $(".totalimporte").each(function () {
+                            sumaVentaTotal += parseFloat(this.value);
+                        });
+
+                        var descuento = parseFloat($("#descuento").val());
+
+                        if (seleccion == 1)
+                            nuevoTotal = sumaVentaTotal - descuento;
+                        else
+                            nuevoTotal = sumaVentaTotal - ((sumaVentaTotal * descuento) / 100);
+
+                        $("#totalventa").val(nuevoTotal);
 
                     }
+
                 }
+                else {
+                    $("#descuento").attr("disabled", "disabled");
+                    $("#descuento").val("");
+                }
+
+                
                 
                 
             })
