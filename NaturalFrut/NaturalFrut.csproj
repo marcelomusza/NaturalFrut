@@ -68,6 +68,10 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -312,6 +316,10 @@
     <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.Designer.cs">
       <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807190414256_ventaMayorista.cs" />
+    <Compile Include="Migrations\201807190414256_ventaMayorista.Designer.cs">
+      <DependentUpon>201807190414256_ventaMayorista.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Lista.cs" />
@@ -509,6 +517,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootbox.js" />
@@ -523,6 +535,7 @@
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -720,6 +733,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.resx">
       <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807190414256_ventaMayorista.resx">
+      <DependentUpon>201807190414256_ventaMayorista.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
