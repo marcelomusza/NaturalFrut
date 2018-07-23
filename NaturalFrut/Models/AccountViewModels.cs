@@ -109,4 +109,16 @@ namespace NaturalFrut.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class UserViewModel
+    {
+        public string Id { get; set; }
+
+        [Display(Name = "Usuario")]
+        public string Username { get; set; }
+
+        [Display(Name = "Rol")]
+        public IList<string> Roles { get; set; }
+    }
+
 }

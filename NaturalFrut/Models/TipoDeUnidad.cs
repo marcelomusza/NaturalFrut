@@ -21,5 +21,6 @@ namespace NaturalFrut.Models
 
         public IList<ProductoXVenta> ProductosXVenta{ get; set; }
 
+        public IList<Stock> Stock { get; set; }
     }
 }

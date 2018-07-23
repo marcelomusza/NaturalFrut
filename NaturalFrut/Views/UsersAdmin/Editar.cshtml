@@ -1,0 +1,66 @@
+﻿@model NaturalFrut.Models.ApplicationUser
+@{
+    /**/
+
+    ViewBag.Title = "Editar Usuario";
+}
+
+
+<h2>Administración de Usuario</h2>
+
+<h4>Seleccione los datos a modificar en el usuario</h4>
+<br />
+
+
+@using (Html.BeginForm("Guardar","UsersAdmin"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                <h4>Usuario:</h4>
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.UserName)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                <h4>Rol de Usuario:</h4>
+                @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RoleId, "Seleccionar Rol", new { id = "RoleId", @class = "form-control" })
+            </div>
+
+        </div>
+    </div>
+    <br /><br />
+    <div class="row">
+        <div class="col-sm-12">
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+
+        </div>
+    </div>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

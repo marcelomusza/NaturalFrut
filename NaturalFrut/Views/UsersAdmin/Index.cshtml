@@ -1,0 +1,35 @@
+﻿@model IEnumerable<NaturalFrut.Models.UserViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Administración de Usuarios</h2>
+<div class="row">
+    <div class="col-sm-12">
+
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Username)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Roles)</td>
+                        <td>
+                            <a href='@Url.Action("Detalles", "UsersAdmin", new { id = item.Id })'>
+                                <img src="/Content/Images/DetailsIcon.png" title="Ver Detalles de Usuario" />
+                            </a> &nbsp;
+                            <a href='@Url.Action("Editar", "UsersAdmin", new { id = item.Id })'>
+                                <img src="/Content/Images/EditIcon.png" title="Editar Usuario" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
