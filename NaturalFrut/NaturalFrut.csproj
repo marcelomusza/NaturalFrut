@@ -224,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_BLL\CompraLogic.cs" />
+    <Compile Include="App_BLL\StockLogic.cs" />
     <Compile Include="App_BLL\VentaMinoristaLogic.cs" />
     <Compile Include="App_BLL\VentaMayoristaLogic.cs" />
     <Compile Include="App_BLL\ListaPreciosLogic.cs" />
@@ -253,8 +254,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
+    <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Controllers\VentaMinoristaController.cs" />
-    <Compile Include="DTOs\AccountController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\VendedoresController.cs" />
     <Compile Include="Controllers\Api\ProductosController.cs" />
@@ -311,6 +313,22 @@
     <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.cs" />
     <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.Designer.cs">
       <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807202259335_Model_ProductoXVenta_Descuento.cs" />
+    <Compile Include="Migrations\201807202259335_Model_ProductoXVenta_Descuento.Designer.cs">
+      <DependentUpon>201807202259335_Model_ProductoXVenta_Descuento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807222241111_Model_StockUpdate.cs" />
+    <Compile Include="Migrations\201807222241111_Model_StockUpdate.Designer.cs">
+      <DependentUpon>201807222241111_Model_StockUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807222244552_Model_StockUpdate1.cs" />
+    <Compile Include="Migrations\201807222244552_Model_StockUpdate1.Designer.cs">
+      <DependentUpon>201807222244552_Model_StockUpdate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807222322597_Relacion_TipoDeUnidadYStock.cs" />
+    <Compile Include="Migrations\201807222322597_Relacion_TipoDeUnidadYStock.Designer.cs">
+      <DependentUpon>201807222322597_Relacion_TipoDeUnidadYStock.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -501,6 +519,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\Images\addSign.png" />
     <Content Include="Content\Images\DeleteIcon.png" />
+    <Content Include="Content\Images\DetailsIcon.png" />
     <Content Include="Content\Images\EditIcon.png" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
@@ -679,6 +698,9 @@
     <Content Include="Views\VentaMayorista\Index.cshtml" />
     <Content Include="Views\VentaMinorista\Index.cshtml" />
     <Content Include="Views\VentaMinorista\VentaMinoristaForm.cshtml" />
+    <Content Include="Views\UsersAdmin\Detalles.cshtml" />
+    <Content Include="Views\UsersAdmin\Editar.cshtml" />
+    <Content Include="Views\UsersAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -720,6 +742,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.resx">
       <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807202259335_Model_ProductoXVenta_Descuento.resx">
+      <DependentUpon>201807202259335_Model_ProductoXVenta_Descuento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807222241111_Model_StockUpdate.resx">
+      <DependentUpon>201807222241111_Model_StockUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807222244552_Model_StockUpdate1.resx">
+      <DependentUpon>201807222244552_Model_StockUpdate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807222322597_Relacion_TipoDeUnidadYStock.resx">
+      <DependentUpon>201807222322597_Relacion_TipoDeUnidadYStock.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

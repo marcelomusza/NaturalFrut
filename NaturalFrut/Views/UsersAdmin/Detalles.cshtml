@@ -1,0 +1,54 @@
+﻿@model NaturalFrut.Models.UserViewModel
+@{
+    ViewBag.Title = "Detalles";
+}
+<h2>Detalles</h2>
+<h4>Detalles del Usuario</h4>
+
+
+<div class="row">
+    <div class="col-sm-12">
+       
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(m => m.Username)
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.Username)
+            </dd>
+            <br />
+            <dt>
+                @Html.DisplayNameFor(m => m.Roles)
+            </dt>
+            <dd>
+                
+                @foreach (var rol in Model.Roles)
+                {
+                
+                 @Html.DisplayFor(r => rol)
+                
+                }
+                     
+            </dd>
+
+        </dl>
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("Index", "Home")';">Volver</button>
+
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -66,11 +66,18 @@ namespace NaturalFrut
             container.RegisterType<IRepository<VentaMinorista>, BaseRepository<VentaMinorista>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Compra>, BaseRepository<Compra>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Clasificacion>, BaseRepository<Clasificacion>>(new TransientLifetimeManager());
+            container.RegisterType<IRepository<Stock>, BaseRepository<Stock>>(new TransientLifetimeManager());
+
 
 
             container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
+
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<RoleManager<IdentityRole>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRoleStore<IdentityRole, string>, RoleStore<IdentityRole>>(new HierarchicalLifetimeManager());
+
 
             container.RegisterType<AccountController>(new InjectionConstructor());
 

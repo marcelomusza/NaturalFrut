@@ -15,14 +15,17 @@ namespace NaturalFrut.Controllers
         private readonly VentaMayoristaLogic ventaMayoristaBL;
         private readonly ClienteLogic clienteBL;
         private readonly CommonLogic commonBL;
+        private readonly StockLogic stockBL;
 
         public VentaMayoristaController(VentaMayoristaLogic VentaMayoristaLogic, 
             ClienteLogic ClienteLogic,
-            CommonLogic CommonLogic)
+            CommonLogic CommonLogic,
+            StockLogic StockLogic)
         {
             ventaMayoristaBL = VentaMayoristaLogic;
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
+            stockBL = StockLogic;
         }
 
         // GET: Venta
@@ -137,11 +140,13 @@ namespace NaturalFrut.Controllers
             return Json(clienteBL.GetListaList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CalcularValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
+        public ActionResult CalcularStockYValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
         {
 
             double importe;
             double importeTotal;
+
+            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
 
             ListaPrecio productoSegunLista = ventaMayoristaBL.CalcularImporteSegunCliente(clienteID, productoID, cantidad);
             
@@ -167,7 +172,7 @@ namespace NaturalFrut.Controllers
             importeTotal = importe * cantidad;
 
 
-            return Json(new { Importe = importe, ImporteTotal = importeTotal, Counter = counter }, JsonRequestBehavior.AllowGet);
+            return Json(new { Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
         }
         
         public ActionResult GetTiposDeUnidadDynamicAsync(int counter)
