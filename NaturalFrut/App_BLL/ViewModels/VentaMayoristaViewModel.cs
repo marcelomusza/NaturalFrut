@@ -13,7 +13,9 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public int? ID { get; set; }
 
-        public string Cliente { get; set; }
+        public Cliente ClienteObj { get; set; }
+
+        public String Cliente { get; set; }
 
         public DateTime Fecha { get; set; }
 
@@ -21,7 +23,13 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double EntregaEfectivo { get; set; }
 
+        public double Total { get; set; }
+
         public double Saldo { get; set; }
+
+        public int NumeroVenta { get; set; }
+
+        public Vendedor VendedorObj { get; set; }
 
         public string Vendedor { get; set; }
 
@@ -33,6 +41,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public IEnumerable<TipoDeUnidad> TiposDeUnidad { get; set; }
 
+        public IEnumerable<ProductoXVenta> ProductoXVenta { get; set; }
+
         public bool NoConcretado { get; set; }
 
 
@@ -43,6 +53,13 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public VentaMayoristaViewModel(VentaMayorista ventaMayorista)
         {
+            NumeroVenta = ventaMayorista.NumeroVenta;
+            Fecha = ventaMayorista.Fecha;
+            ClienteObj = ventaMayorista.Cliente;
+            VendedorObj = ventaMayorista.Vendedor;
+            Total = ventaMayorista.SumaTotal;
+            EntregaEfectivo = ventaMayorista.EntregaEfectivo;
+            
             this.ventaMayorista = ventaMayorista;
         }
     }

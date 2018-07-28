@@ -67,6 +67,7 @@ namespace NaturalFrut
             container.RegisterType<IRepository<Compra>, BaseRepository<Compra>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Clasificacion>, BaseRepository<Clasificacion>>(new TransientLifetimeManager());
             container.RegisterType<IRepository<Stock>, BaseRepository<Stock>>(new TransientLifetimeManager());
+            container.RegisterType<IRepository<ProductoXVenta>, BaseRepository<ProductoXVenta>>(new TransientLifetimeManager());
 
 
 

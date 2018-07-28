@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NaturalFrut.Helpers;
+using Rotativa;
+using Rotativa.Options;
 
 namespace NaturalFrut.Controllers
 {
@@ -16,16 +18,19 @@ namespace NaturalFrut.Controllers
         private readonly ClienteLogic clienteBL;
         private readonly CommonLogic commonBL;
         private readonly StockLogic stockBL;
+        private readonly ProductoXVentaLogic productoxVentaBL;
 
         public VentaMayoristaController(VentaMayoristaLogic VentaMayoristaLogic, 
             ClienteLogic ClienteLogic,
             CommonLogic CommonLogic,
-            StockLogic StockLogic)
+            StockLogic StockLogic,
+            ProductoXVentaLogic ProductoXVentaLogic)
         {
             ventaMayoristaBL = VentaMayoristaLogic;
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
             stockBL = StockLogic;
+            productoxVentaBL = ProductoXVentaLogic;
         }
 
         // GET: Venta
@@ -36,6 +41,8 @@ namespace NaturalFrut.Controllers
 
             return View(venta);
         }
+
+        
 
         //public ActionResult VentaMayorista()
         //{
@@ -181,6 +188,50 @@ namespace NaturalFrut.Controllers
             List<TipoDeUnidad> tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
 
             return Json(new { TiposDeUnidad = tiposDeUnidad, Counter = counter }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult GenerarNotaPedido(int Id)
+        {
+
+            var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+
+            VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
+            {
+               // Clientes = clienteBL.GetClienteById(venta.ClienteID),
+                ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
+
+            };
+
+
+
+            ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
+
+
+
+
+            return View("NotaDePedidoForm", viewModel);
+        }
+
+        [AllowAnonymous]
+        public ActionResult PrintAll(int Id)
+        {
+            var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+            var q = new ActionAsPdf("GenerarNotaPedido", new { Id = Id }) { FileName = "ExamReport.pdf",
+                PageSize = Size.A4,
+                CustomSwitches = "--disable-smart-shrinking",
+                PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
+                /* CustomSwitches =
+                     "--header-center \"Name: " + venta.Cliente.Nombre + "  DOS: " +
+                     DateTime.Now.Date.ToString("MM/dd/yyyy") + "  Page: [page]/[toPage]\"" +
+                     " --header-line --footer-font-size \"9\" "*/
+
+            };
+
+
+            return q;
+
         }
 
     }
