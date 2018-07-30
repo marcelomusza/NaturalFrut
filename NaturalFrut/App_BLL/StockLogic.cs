@@ -23,7 +23,12 @@ namespace NaturalFrut.App_BLL
             ProductoRP = ProductoRepository;
             TipoDeUnidadRP = TipoDeUnidadRepository;
         }
-        
+
+        public StockLogic(IRepository<Stock> StockRepository)
+        {
+            StockRP = StockRepository;
+        }
+
 
         public List<Stock> GetAllStock()
         {
@@ -74,5 +79,6 @@ namespace NaturalFrut.App_BLL
                .Where(t => t.TipoDeUnidadID == tipoUnidadID)
                .SingleOrDefault();
         }
+                
     }
 }

@@ -146,42 +146,101 @@ namespace NaturalFrut.Controllers
         {
             return Json(clienteBL.GetListaList(), JsonRequestBehavior.AllowGet);
         }
-
+                
         public ActionResult CalcularStockYValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
         {
 
-            double importe;
-            double importeTotal;
+            try
+            {
+                double importe;
+                double importeTotal;
 
-            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+                Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
 
-            ListaPrecio productoSegunLista = ventaMayoristaBL.CalcularImporteSegunCliente(clienteID, productoID, cantidad);
+                if (productoSegunStock == null)
+                    throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+                   
+                ListaPrecio productoSegunLista = ventaMayoristaBL.CalcularImporteSegunCliente(clienteID, productoID, cantidad);
+
+                switch (tipoUnidadID)
+                {
+                    case Constants.PRECIO_X_KG:
+
+                        if (productoSegunLista.PrecioXKG > 0)
+                        {
+                            //Casos en la lista de precios donde hay precio x kg y precio por bulto en base a cantidad
+                            if (productoSegunLista.KGBultoCerrado != 0 && (cantidad >= productoSegunLista.KGBultoCerrado))
+                                importe = productoSegunLista.PrecioXBultoCerrado;
+                            else
+                                importe = productoSegunLista.PrecioXKG;
+
+                        }
+                        else
+                        {
+                            //Casos en la lista de precios donde no hay precio x kg pero sí hay precio por bulto
+                            if (productoSegunLista.PrecioXBultoCerrado > 0)
+                                importe = productoSegunLista.PrecioXBultoCerrado;
+                            else
+                                throw new Exception("El Producto seleccionado no tiene precios correctamente cargados en el sistema, " +
+                                    "por favor revisar la tabla de Lista de Precios antes de continuar" );
+
+                        }
+                       
+                        break;
+
+                    case Constants.PRECIO_X_UNIDAD:
+
+                        if (productoSegunLista.PrecioXUnidad > 0)
+                        {
+                            //Casos en la lista de precios donde hay precio x unidad y precio por bulto en base a cantidad
+                            if (productoSegunLista.KGBultoCerrado != 0 && (cantidad >= productoSegunLista.KGBultoCerrado))
+                                importe = productoSegunLista.PrecioXBultoCerrado;
+                            else
+                                importe = productoSegunLista.PrecioXUnidad;
+
+                        }
+                        else
+                        {
+                            //Casos en la lista de precios donde no hay precio x unidad pero sí hay precio por bulto
+                            if (productoSegunLista.PrecioXBultoCerrado > 0)
+                                importe = productoSegunLista.PrecioXBultoCerrado;
+                            else
+                                throw new Exception("El Producto seleccionado no tiene precios correctamente cargados en el sistema, " +
+                                    "por favor revisar la tabla de Lista de Precios antes de continuar");
+
+                        }
+
+                       
+                        break;
+
+                    default:
+                        importe = 0;
+                        break;
+
+                }
+
+                //Sumamos el importe total
+                importeTotal = importe * cantidad;
+
+
+                return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
             
 
-            switch(tipoUnidadID)
-            {
-                case Constants.PRECIO_X_KG:
-                    importe = productoSegunLista.PrecioXKG;
-                    break;
-                case Constants.PRECIO_X_BULTO:
-                    importe = productoSegunLista.PrecioXBultoCerrado;
-                    break;
-                case Constants.PRECIO_X_UNIDAD:
-                    importe = productoSegunLista.PrecioXUnidad;
-                    break;
-                default:
-                    importe = 0;
-                    break;
+           
+
+            
 
             }
 
-            //Sumamos el importe total
-            importeTotal = importe * cantidad;
 
-
-            return Json(new { Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
-        }
-        
         public ActionResult GetTiposDeUnidadDynamicAsync(int counter)
         {
 

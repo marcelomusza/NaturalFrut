@@ -18,9 +18,9 @@ namespace NaturalFrut.DTOs
 
         public bool NoConcretado { get; set; }
 
-        public bool EntregaEfectivo { get; set; }
+        public double EntregaEfectivo { get; set; }
 
-        public int Descuento { get; set; }
+        public double? Descuento { get; set; }
 
         public int NumeroVenta { get; set; }
 

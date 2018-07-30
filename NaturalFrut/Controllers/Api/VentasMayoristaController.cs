@@ -16,14 +16,18 @@ namespace NaturalFrut.Controllers.Api
     {
 
         private readonly VentaMayoristaLogic ventaMayoristaBL;
+        private readonly StockLogic stockBL;
+        private readonly ClienteLogic clienteBL;
 
-        public VentasMayoristaController(IRepository<VentaMayorista> VentaMayoristaRepo)
+        public VentasMayoristaController(IRepository<VentaMayorista> VentaMayoristaRepo,
+            IRepository<Stock> StockRepo,
+            IRepository<Cliente> ClienteRepo)
         {
             ventaMayoristaBL = new VentaMayoristaLogic(VentaMayoristaRepo);
+            stockBL = new StockLogic(StockRepo);
+            clienteBL = new ClienteLogic(ClienteRepo);
         }
-
-
-
+        
         //GET /api/ventasMayorista
         public IEnumerable<VentaMayoristaDTO> GetVentasMayorista()
         {
@@ -42,11 +46,37 @@ namespace NaturalFrut.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            var cliente = clienteBL.GetClienteById(ventaMayoristaDTO.ClienteID);
+
+            if (cliente == null)
+                return BadRequest();
+
             var ventaMayorista = Mapper.Map<VentaMayoristaDTO, VentaMayorista>(ventaMayoristaDTO);
 
             ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
 
-            //listaPrecioDTO.ID = listaPrecio.ID;
+            //if (cliente.Saldo > 0)
+            //    cliente.Saldo = cliente.Saldo + ventaMayoristaDTO.EntregaEfectivo;
+
+            if (ventaMayorista.NoConcretado)
+            {
+                //Logica para Ventas No Concretadas -- Devolución de Stock
+            }
+            else
+            {
+                //Una vez cargada la venta, actualizamos Stock
+                foreach (var item in ventaMayorista.ProductosXVenta)
+                {
+                    Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+
+                    stock.Cantidad = stock.Cantidad - item.Cantidad;
+
+                    stockBL.UpdateStock(stock);
+    
+
+                }
+            }
+                        
 
             return Ok();
         }

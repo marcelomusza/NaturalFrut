@@ -339,6 +339,14 @@
     <Compile Include="Migrations\201807232213358_modificacionTipoDato.Designer.cs">
       <DependentUpon>201807232213358_modificacionTipoDato.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807292114093_Model_VentaMayorista_DescuentoDouble.cs" />
+    <Compile Include="Migrations\201807292114093_Model_VentaMayorista_DescuentoDouble.Designer.cs">
+      <DependentUpon>201807292114093_Model_VentaMayorista_DescuentoDouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.cs" />
+    <Compile Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.Designer.cs">
+      <DependentUpon>201807292318247_Model_Cliente_CampoSaldo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Lista.cs" />
@@ -767,6 +775,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807232213358_modificacionTipoDato.resx">
       <DependentUpon>201807232213358_modificacionTipoDato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807292114093_Model_VentaMayorista_DescuentoDouble.resx">
+      <DependentUpon>201807292114093_Model_VentaMayorista_DescuentoDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.resx">
+      <DependentUpon>201807292318247_Model_Cliente_CampoSaldo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

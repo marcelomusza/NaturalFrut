@@ -16,6 +16,7 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
         private readonly IRepository<ListaPrecio> listaPreciosRP;
+        private readonly IRepository<Stock> stockRP;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
@@ -39,6 +40,8 @@ namespace NaturalFrut.App_BLL
         {
             clienteRP = ClienteRepository;
         }
+
+        
 
         public VentaMayorista GetNumeroDeVenta()
         {

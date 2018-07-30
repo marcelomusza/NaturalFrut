@@ -38,6 +38,8 @@ namespace NaturalFrut.Models
 
         public int TelefonoCelular { get; set; }
 
+        public double? Saldo { get; set; }
+
         [Required]
         public string Email { get; set; }
 
