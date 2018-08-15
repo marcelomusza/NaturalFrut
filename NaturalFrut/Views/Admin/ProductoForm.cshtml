@@ -39,6 +39,12 @@
                 @Html.ValidationMessageFor(c => c.MarcaId)
             </div>
 
+            <div class="form-group">
+                @Html.CheckBoxFor(c => c.EsBlister)
+                @Html.LabelFor(c => c.EsBlister)
+                @Html.ValidationMessageFor(c => c.EsBlister)               
+            </div>
+
         </div>      
 
     </div>

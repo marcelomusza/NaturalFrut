@@ -40,6 +40,9 @@ namespace NaturalFrut.App_Start
             Mapper.CreateMap<ListaPrecio, ListaPrecioDTO>();
             Mapper.CreateMap<ListaPrecioDTO, ListaPrecio>();
 
+            Mapper.CreateMap<ListaPrecioBlister, ListaPrecioBlisterDTO>();
+            Mapper.CreateMap<ListaPrecioBlisterDTO, ListaPrecioBlister>();
+
             Mapper.CreateMap<VentaMayorista, VentaMayoristaDTO>();
             Mapper.CreateMap<VentaMayoristaDTO, VentaMayorista>();
 

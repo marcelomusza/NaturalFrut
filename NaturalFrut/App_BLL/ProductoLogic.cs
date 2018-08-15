@@ -57,6 +57,8 @@ namespace NaturalFrut.App_BLL
                 .SingleOrDefault();
         }
 
+        
+
         public void RemoveProducto(Producto producto)
         {
             productoRP.Delete(producto);
@@ -106,6 +108,15 @@ namespace NaturalFrut.App_BLL
             }
 
             return listaProductos;
+        }
+
+        public List<Producto> GetAllProductosBlister()
+        {
+            return productoRP.GetAll()
+                .Include(p => p.Categoria)
+                .Include(p => p.Marca)
+                .Where(p => p.EsBlister == true)
+                .ToList();
         }
 
     }

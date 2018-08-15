@@ -77,6 +77,23 @@ namespace NaturalFrut.Controllers
             return View("VentaMayoristaForm");
         }
 
+        public ActionResult EditarVentaMayorista(int Id)
+        {
+
+            var vtaMayorista = ventaMayoristaBL.GetVentaMayoristaById(Id);
+
+            //VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(vtaMayorista)
+            //{
+            //    Cliente = clienteBL.get
+            //    Producto = listaPreciosBL.GetProductoList()
+            //};
+
+            if (vtaMayorista == null)
+                return HttpNotFound();
+
+            return View("VentaMayoristaFormEdit", vtaMayorista);
+        }
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult GuardarVentaMayorista(VentaMayorista ventaMayorista)
@@ -87,7 +104,7 @@ namespace NaturalFrut.Controllers
 
         //        VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(ventaMayorista)
         //        {
-                    
+
         //        };
 
         //        return View("VentaMayoristaForm", viewModel);
@@ -249,6 +266,38 @@ namespace NaturalFrut.Controllers
             return Json(new { TiposDeUnidad = tiposDeUnidad, Counter = counter }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ValidarTipoDeProductoAsync(int productoID, int counter)
+        {
+
+            bool esBlister = ventaMayoristaBL.ValidateTipoDeProducto(productoID);
+
+            return Json(new { EsBlister = esBlister, Counter = counter }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult GetSaldoClienteAsync(int clienteID)
+        {
+
+            try
+            {
+                
+                Cliente cliente = clienteBL.GetClienteById(clienteID);                
+
+                if (cliente == null)
+                    throw new Exception("Cliente invalido al cargar Saldo Deudor");
+
+                var saldo = cliente.Saldo;
+
+                return Json(new { Saldo = saldo }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+           
+
+        }
 
         [AllowAnonymous]
         public ActionResult GenerarNotaPedido(int Id)
@@ -259,7 +308,7 @@ namespace NaturalFrut.Controllers
             VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
             {
                // Clientes = clienteBL.GetClienteById(venta.ClienteID),
-                ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
+                //ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
 
             };
 

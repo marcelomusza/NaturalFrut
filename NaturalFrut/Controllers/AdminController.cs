@@ -839,6 +839,93 @@ namespace NaturalFrut.Controllers
         }
         #endregion
 
+
+        #region Acciones Lista Precios Blister
+        public ActionResult ListaPreciosBlister()
+        {
+            var listaPrecioBlister = listaPreciosBL.GetAllListaPrecioBlister();
+
+            return View(listaPrecioBlister);
+        }
+
+        public ActionResult NuevoListaPreciosBlister()
+        {
+
+            var producto = listaPreciosBL.GetProductoBlisterList();
+
+            ListaPreciosBlisterViewModel viewModel = new ListaPreciosBlisterViewModel
+            {                
+                Producto = producto
+            };
+
+            return View("ListaPreciosBlisterForm", viewModel);
+        }
+
+        public ActionResult EditarListaPreciosBlister(int Id)
+        {
+
+            var listaPrecioBlister = listaPreciosBL.GetListaPrecioBlisterById(Id);
+
+            ListaPreciosBlisterViewModel viewModel = new ListaPreciosBlisterViewModel(listaPrecioBlister)
+            {
+                Producto = listaPreciosBL.GetProductoList()
+            };
+
+            if (listaPrecioBlister == null)
+                return HttpNotFound();
+
+            return View("ListaPreciosBlisterForm", viewModel);
+        }
+
+        public ActionResult BorrarListaPreciosBlister(int Id)
+        {
+
+            var listaPrecioBlister = listaPreciosBL.GetListaPrecioBlisterById(Id);
+
+            if (listaPrecioBlister != null)
+                listaPreciosBL.RemoveListaPrecioBlister(listaPrecioBlister);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("ListaPreciosBlister", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarListaPreciosBlister(ListaPrecioBlister listaPrecioBlister)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+                ListaPreciosBlisterViewModel viewModel = new ListaPreciosBlisterViewModel(listaPrecioBlister)
+                {
+                    Producto = listaPreciosBL.GetProductoList()
+                };
+
+                return View("ListaPreciosBlisterForm");
+            }
+
+            if (listaPrecioBlister.ID == 0)
+            {
+                //Agregamos nuevo Lista de Precios
+                listaPreciosBL.AddListaPrecioBlister(listaPrecioBlister);
+            }
+            else
+            {
+                //Edicion de Cliente Existente
+                listaPreciosBL.UpdateListaPrecioBlister(listaPrecioBlister);
+            }
+
+            return RedirectToAction("ListaPreciosBlister", "Admin");
+
+        }
+
+        #endregion
+
+
+
+
         #region Acciones Clasificacion
         public ActionResult Clasificacion()
         {
@@ -904,8 +991,6 @@ namespace NaturalFrut.Controllers
 
         }
         #endregion
-
-
 
     }
 }

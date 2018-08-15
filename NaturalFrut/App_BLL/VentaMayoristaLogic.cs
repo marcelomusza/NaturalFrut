@@ -16,19 +16,21 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
         private readonly IRepository<ListaPrecio> listaPreciosRP;
-        private readonly IRepository<Stock> stockRP;
+        private readonly IRepository<Producto> productoRP;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
             IRepository<Vendedor> VendedorRepository,
             IRepository<Lista> ListaRepository,
-            IRepository<ListaPrecio> ListaPrecioRepository)
+            IRepository<ListaPrecio> ListaPrecioRepository,
+            IRepository<Producto> ProductoRepository)
         {
             ventaMayoristaRP = VentaMayoristaRepository;
             clienteRP = ClienteRepository;
             vendedorRP = VendedorRepository;
             listaRP = ListaRepository;
             listaPreciosRP = ListaPrecioRepository;
+            productoRP = ProductoRepository;
         }
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository)
@@ -64,6 +66,7 @@ namespace NaturalFrut.App_BLL
                 .GetAll()
                 .Include(c => c.Cliente)
                 .Include(v => v.Vendedor)
+                .Include(p => p.ProductosXVenta)
                 .Where(c => c.ID == id).SingleOrDefault();
         }
 
@@ -118,6 +121,18 @@ namespace NaturalFrut.App_BLL
             return productoSegunLista;
 
         }
-       
+
+        public bool ValidateTipoDeProducto(int productoID)
+        {
+
+            Producto producto = productoRP.GetByID(productoID);
+
+            if (producto != null)
+                return producto.EsBlister;
+            else
+                throw new Exception("Error al Validar tipo de Producto");
+
+
+        }
     }
 }

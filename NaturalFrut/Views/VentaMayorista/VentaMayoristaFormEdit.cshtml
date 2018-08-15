@@ -1,12 +1,12 @@
-﻿@model dynamic
+﻿@model NaturalFrut.Models.VentaMayorista
 @{
-    ViewBag.Title = "CargarVenta";
+    ViewBag.Title = "Editar Venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 
-<h2>Ingresar Venta</h2>
+<h2>Editar Venta</h2>
 
 <form id="vtamayform">
 
@@ -17,67 +17,79 @@
 
             <div class="form-group">
                 <label>N° Venta</label>
-                <input id="numeroventa" name="numeroventa" required type="text" value="@ViewBag.NumeroVenta" class="form-control" disabled/>
+                <input id="numeroventa" name="numeroventa" required type="text" value="@Model.NumeroVenta" class="form-control" disabled />
             </div>
-            
+
             <div class="form-group">
                 <label>Fecha</label>
-                <input id="fecha" name="fecha" required type="datetime" value="@ViewBag.Fecha" class="form-control" disabled />
+                <input id="fecha" name="fecha" required type="datetime" value="@Model.Fecha" class="form-control" disabled />
             </div>
+
+            @*<div class="form-group">
+            <label>Cliente</label>
+            <div class="tt-container vtamay-cliente">
+                <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" onblur="GetSaldoCliente();" class="form-control" />
+                <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
+
+
+            </div>
+        </div>*@
 
             <div class="form-group">
                 <label>Cliente</label>
                 <div class="tt-container vtamay-cliente">
-                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" onblur="GetSaldoCliente();" class="form-control" />
-                    <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
-                    
-
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="@Model.ClienteID" required type="text" value="@Model.Cliente.Nombre" onblur="GetSaldoCliente();" class="form-control" disabled/>
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <label>Vendedor</label>
                 <div style="display:flex;">
                     <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor" required>
                         <option value="" selected="selected">Seleccione...</option>
                         @foreach (var vendedor in @ViewBag.Vendedores)
-            {
-                <option value="@vendedor.ID">@vendedor.Nombre</option>
-}
+                {
+                    <option value="@vendedor.ID">@vendedor.Nombre</option>
+        }
                     </select>&nbsp;&nbsp;
                     <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
                 </div>
                 <label class="error field-validation-valid" for="vendedor" data-valmsg-replace="true"></label>
 
-            </div>
-
-            </div>
-
-            <!--Agrupamos campos de la columna derecha-->
-        <div class="col-sm-6">
+            </div>*@
 
             <div class="form-group">
-                <label>Entrega Efectivo</label>
-                <input id="entregaefectivo" name="entregaefectivo" required type="number" value="" class="form-control" />
+                <label>Vendedor</label>
+                <input id="vendedor" name="vendedor" type="text" value="@Model.Vendedor.Nombre" class="form-control" disabled />
             </div>
-
-            <div class="form-group">
-                <label>Saldo</label>
-                <input id="saldo" name="saldo" type="number" value="" class="form-control" disabled />
-            </div>
-
-            <div class="checkbox">
-
-                <input id="noconcretado" name="noconcretado" type="checkbox" value=""  />
-                <label><strong>No Concretado</strong></label>
-
-            </div>
-
-           
 
         </div>
 
-        </div>
+                <!--Agrupamos campos de la columna derecha-->
+                <div class="col-sm-6">
+
+                    <div class="form-group">
+                        <label>Entrega Efectivo</label>
+                        <input id="entregaefectivo" name="entregaefectivo" required type="number" value="@Model.EntregaEfectivo" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Saldo</label>
+                        <input id="saldo" name="saldo" type="number" value="@Model.Cliente.Saldo" class="form-control" disabled />
+                    </div>
+
+                    <div class="checkbox">
+
+                        <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
+                        <label><strong>No Concretado</strong></label>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -107,8 +119,9 @@
                             <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
                         </td>
                     </tr>
-                    <tr>                        
-                        <td colspan="7" style="text-align: right;">&nbsp;
+                    <tr>
+                        <td colspan="7" style="text-align: right;">
+                            &nbsp;
                             <label>Descuento:</label>
                             <select id="tipoDescuento" name="tipoDescuento" class="form-control vtamay-tipodescuento">
                                 <option value="" selected="selected">...</option>
@@ -116,7 +129,7 @@
                                 <option value="2">%</option>
                             </select>
                             <input type="number" class="form-control vtamay-descuento" id="descuento" value="" disabled />
-                            <br/><br />
+                            <br /><br />
                             <label>Total Venta:</label>
                             <input type="number" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
                         </td>
@@ -131,17 +144,16 @@
         <div class="col-sm-12">
 
             @Html.AntiForgeryToken()
-            <input type="hidden" id="CounterAnterior" />            
             <button type="submit" class="btn btn-primary">Finalizar Venta</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
         </div>
     </div>
 
-    
+
 </form>
 
-<div class="modal fade" id="clienteModal">
+@*<div class="modal fade" id="clienteModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -171,7 +183,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 
@@ -182,7 +194,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <!--TAG SCRIPT PARA MODAL-->
-    <script>
+    @*<script>
 
         var NuevoClienteModal = function (clienteID) {
 
@@ -206,14 +218,14 @@
 
         }
 
-    </script>
+    </script>*@
 
     <script>
 
         $(document).ready(function () {
 
             //ViewModel para pasar al webAPI
-            var vm = {                
+            var vm = {
                 fecha: "",
                 clienteID: 0,
                 vendedorID: 0,
@@ -231,11 +243,8 @@
 
             CargarValoresInicialesEnVM(vm);
 
-            //Valor inicial para Saldo
-            $("#saldo").val(0);
-
             //**EVENTOS START **//
-            
+
             $("#cliente").validate({
                 rules: {
                     cliente: "required",
@@ -256,12 +265,12 @@
                     var newRow = $("<tr>");
                     var cols = "";
 
-                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
+                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this);" /><label id="stockdisponible' + counter + '" ></label></div></td>';
 
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
-                    //GetTiposDeUnidadDynamic(counter);
+                    GetTiposDeUnidadDynamic(counter);
 
                     cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control"  /></div></td>';
 
@@ -305,7 +314,7 @@
                             tiposdeunidad: "Por favor ingresa una Unidad",
                         },
 
-                    });                    
+                    });
 
                 }
 
@@ -347,11 +356,11 @@
                 }
                 else {
                     $("#descuento").attr("disabled", "disabled");
-                    $("#descuento").val("");                    
+                    $("#descuento").val("");
                 }
 
                 RecalcularTotal();
-                
+
             })
 
             $("#descuento").on('blur', function () {
@@ -397,7 +406,7 @@
 
                     $("#totalventa").val(nuevoTotal);
 
-                    
+
 
                 }
                 else {
@@ -405,7 +414,7 @@
                     $("#descuento").val("");
 
                 }
-                
+
             })
 
             $("#noconcretado").on('change', function () {
@@ -416,7 +425,7 @@
                     vm.noConcretado = false;
                 }
 
-               
+
             })
 
             $("#entregaefectivo").on('change', function () {
@@ -441,7 +450,7 @@
                 var importe = $("#importe" + counter).val();
 
                 if (descuento != "") {
-                    
+
                     var importeTotal = cantidad * importe;
 
                     var importeConDesc = importeTotal - ((importeTotal * descuento) / 100);
@@ -451,17 +460,17 @@
 
                 }
                 else {
-                   
+
                     var importeTotal = cantidad * importe;
                     $("#totalimporte" + counter).val(importeTotal);
 
                     RecalcularTotal();
                 }
-                    
-            
+
+
             });
 
-            
+
             //**EVENTOS END **//
 
             // Autocomplete para Cliente
@@ -533,7 +542,7 @@
                         });
 
                     }
-                   
+
                     return false;
                 }
             });
@@ -581,12 +590,10 @@
 
             var clienteID = $("#cliente").attr("data-cliente-id");
 
-            if (clienteID != "") {
-                $.getJSON("GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
-            }           
+            $.getJSON("GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
+                .error(function (xhr, textStatus, exceptionThrown) {
+                    bootbox.alert(xhr.responseText);
+                })
 
         }
 
@@ -612,13 +619,19 @@
                 var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
 
                 if (tipoUnidadID > 0) {
-                    $.getJSON("CalcularStockYValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
+                    $.getJSON("/VentaMayorista/CalcularStockYValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
                         .error(function (xhr, textStatus, exceptionThrown) {
                             bootbox.alert(xhr.responseText);
                         })
                 }
 
+
+
+
             }
+
+
+
         }
 
         ActualizarValores = function (data) {
@@ -642,7 +655,7 @@
 
                 $("#importe" + data.Counter).val(importe);
                 $("#totalimporte" + data.Counter).val(importeTotal);
-                
+
                 RecalcularTotal();
 
             }
@@ -650,10 +663,10 @@
                 bootbox.alert(data.Error);
             }
 
-            
+
 
         }
-                
+
         function RecalcularTotal() {
 
             var sumaVentaTotal = 0;
@@ -661,7 +674,7 @@
 
             if ($("#saldo").val() != "")
                 saldo = $("#saldo").val();
-            
+
 
             $(".totalimporte").each(function () {
                 sumaVentaTotal += parseFloat(this.value);
@@ -673,9 +686,11 @@
         }
 
         function GetTiposDeUnidadDynamic(counter) {
-        
-            $.getJSON("GetTiposDeUnidadDynamicAsync", { Counter: counter }, PopulateTiposDeUnidadDynamic)
+
+            $.getJSON("/VentaMayorista/GetTiposDeUnidadDynamicAsync", { Counter: counter }, PopulateTiposDeUnidadDynamic)
                 .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            //$.getJSON("/api/ventasmayorista/GetTiposDeUnidadDynamic", { Counter: counter }, PopulateTiposDeUnidadDynamic)
+            //    .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
         }
 
@@ -722,7 +737,7 @@
 
             //Cargamos la lista de productos
             $(".listaproductos tr").each(function (i, row) {
-                
+
                 var $row = $(row),
                     $producto = $row.find('input[name*="producto"]'),
                     $cantidad = $row.find('input[name*="cantidad"]'),
@@ -757,43 +772,6 @@
             vm.sumaTotal = $("#totalventa").val();
 
         }
-
-        function ValidarTipoDeProducto(counter) {
-
-            var productoID = $("#producto" + counter).attr("data-producto-id");
-
-            if (productoID > 0) {
-                $.getJSON("ValidarTipoDeProductoAsync", { ProductoID : productoID, Counter: counter }, PopulateTipoDeUnidadSegunProducto)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
-            }
-
-        }
-
-        PopulateTipoDeUnidadSegunProducto = function (data) {
-
-            if (data.EsBlister) {
-                $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("999").text("Blister..."));
-                //$("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
-                $("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
-
-            }
-            else {
-                $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
-                GetTiposDeUnidadDynamic(data.Counter);
-                
-                $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
-               
-            }
-
-        }
-
-
-
-
 
     </script>
 

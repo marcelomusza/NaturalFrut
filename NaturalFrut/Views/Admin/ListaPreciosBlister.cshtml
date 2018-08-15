@@ -1,0 +1,121 @@
+﻿@model IEnumerable<NaturalFrut.Models.ListaPrecioBlister>
+@{
+    ViewBag.Title = "Lista de Precios Blister - Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Precios Blister - Productos</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Ingresar Productos", "NuevoListaPreciosBlister", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Productos en las listas</h2>
+        }
+        else
+        {
+
+            <table id="listaPreciosBlister" class="table table-bordered table-hover">
+                <thead>
+                    <tr>                        
+                        <th>Producto</th>
+                        <th>Gramos</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#listaPreciosBlister").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/listapreciosblister",
+                    dataSrc: ""
+                },
+                columns: [                    
+                    {
+                        data: "Producto.Nombre"
+                    },
+                    {
+                        data: "Gramos"
+                    },
+                    {
+                        data: "Precio"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-pxl-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-pxl-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#listaPreciosBlister").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/listapreciosblister/" + button.attr("data-pxl-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Registro eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#listaPreciosBlister").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarListaPreciosBlister/" + button.attr("data-pxl-id");
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+
+}

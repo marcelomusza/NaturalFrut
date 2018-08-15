@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -37,8 +38,6 @@ namespace NaturalFrut.Controllers.Api
         }
 
 
-
-
         //POST /api/ventasMayorista
         [HttpPost]
         public IHttpActionResult CreateVentasMayorista(VentaMayoristaDTO ventaMayoristaDTO)
@@ -55,8 +54,9 @@ namespace NaturalFrut.Controllers.Api
 
             ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
 
-            //if (cliente.Saldo > 0)
-            //    cliente.Saldo = cliente.Saldo + ventaMayoristaDTO.EntregaEfectivo;
+            //Actualizamos el Saldo en base a la Entrega de Efectivo            
+            cliente.Saldo = ventaMayoristaDTO.SumaTotal - ventaMayoristaDTO.EntregaEfectivo;
+            clienteBL.UpdateCliente(cliente);           
 
             if (ventaMayorista.NoConcretado)
             {
@@ -72,8 +72,6 @@ namespace NaturalFrut.Controllers.Api
                     stock.Cantidad = stock.Cantidad - item.Cantidad;
 
                     stockBL.UpdateStock(stock);
-    
-
                 }
             }
                         
@@ -81,6 +79,7 @@ namespace NaturalFrut.Controllers.Api
             return Ok();
         }
 
+       
 
     }
 }

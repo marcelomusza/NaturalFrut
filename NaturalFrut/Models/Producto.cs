@@ -22,6 +22,8 @@ namespace NaturalFrut.Models
         
         public int? MarcaId { get; set; }
 
+        public bool EsBlister { get; set; }
+
 
         public Categoria Categoria { get; set; }
 

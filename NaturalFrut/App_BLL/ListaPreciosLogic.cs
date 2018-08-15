@@ -15,18 +15,21 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Cliente> clienteRP;
         private readonly IRepository<Producto> productoRP;
         private readonly IRepository<TipoDeUnidad> tipoDeUnidadRP;
+        private readonly IRepository<ListaPrecioBlister> listaPrecioBlisterRP;
 
         public ListaPreciosLogic(IRepository<ListaPrecio> ListaPrecioRepository,
             IRepository<Lista> ListaRepository,
             IRepository<Cliente> ClienteRepository,
             IRepository<Producto> ProductoRepository,
-            IRepository<TipoDeUnidad> TipoDeUnidadRepository)
+            IRepository<TipoDeUnidad> TipoDeUnidadRepository,
+            IRepository<ListaPrecioBlister> ListaPrecioBlisterRepository)
         {
             listaPrecioRP = ListaPrecioRepository;
             listaRP = ListaRepository;
             clienteRP = ClienteRepository;
             productoRP = ProductoRepository;
             tipoDeUnidadRP = TipoDeUnidadRepository;
+            listaPrecioBlisterRP = ListaPrecioBlisterRepository;
         }
 
         public ListaPreciosLogic(IRepository<Lista> ListaRepository)
@@ -37,6 +40,11 @@ namespace NaturalFrut.App_BLL
         public ListaPreciosLogic(IRepository<ListaPrecio> ListaPrecioRepository)
         {
             listaPrecioRP = ListaPrecioRepository;            
+        }
+
+        public ListaPreciosLogic(IRepository<ListaPrecioBlister> ListaPrecioBlisterRepository)
+        {
+            listaPrecioBlisterRP = ListaPrecioBlisterRepository;
         }
 
         #region Operaciones Lista
@@ -84,7 +92,16 @@ namespace NaturalFrut.App_BLL
 
         public List<Producto> GetProductoList()
         {
-            return productoRP.GetAll().ToList();
+            return productoRP.GetAll()
+                .Where(p => p.EsBlister != true)
+                .ToList();
+        }
+
+        public List<Producto> GetProductoBlisterList()
+        {
+            return productoRP.GetAll()
+                .Where(p => p.EsBlister == true)
+                .ToList();
         }
 
         public List<TipoDeUnidad> GetTipoDeUnidadList()
@@ -146,9 +163,46 @@ namespace NaturalFrut.App_BLL
         {
             listaPrecioRP.Delete(ListaPrecio);
             listaPrecioRP.Save();
-        } 
+        }
         #endregion
 
+        #region Operaciones Lista Precio Blister
+        public List<ListaPrecioBlister> GetAllListaPrecioBlister()
+        {
+            return listaPrecioBlisterRP.GetAll()
+                .Include(p => p.Producto)
+                .ToList();
+
+        }
+
+        public ListaPrecioBlister GetListaPrecioBlisterById(int id)
+        {
+            return listaPrecioBlisterRP.GetAll()
+                .Include(c => c.Producto)
+                .Where(c => c.ID == id).SingleOrDefault();
+
+        }
+
+        public void AddListaPrecioBlister(ListaPrecioBlister listaPrecioBlister)
+        {
+            
+            listaPrecioBlisterRP.Add(listaPrecioBlister);
+            listaPrecioBlisterRP.Save();
+
+        }
+
+        public void UpdateListaPrecioBlister(ListaPrecioBlister listaPrecioBlister)
+        {
+            listaPrecioBlisterRP.Update(listaPrecioBlister);
+            listaPrecioBlisterRP.Save();
+        }
+
+        public void RemoveListaPrecioBlister(ListaPrecioBlister listaPrecioBlister)
+        {
+            listaPrecioBlisterRP.Delete(listaPrecioBlister);
+            listaPrecioBlisterRP.Save();
+        }
+        #endregion
 
     }
 }

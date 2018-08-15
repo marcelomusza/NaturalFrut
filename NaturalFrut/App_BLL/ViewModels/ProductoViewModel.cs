@@ -27,6 +27,12 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public IEnumerable<Marca> Marca { get; set; }
 
+        [Display(Name = "El producto forma parte de la lista de Blister?")]
+        [Required]
+        public bool EsBlister { get; set; }
+        
+
+
         public ProductoViewModel()
         {
             ID = 0;
@@ -41,6 +47,8 @@ namespace NaturalFrut.App_BLL.ViewModels
                 CategoriaId = producto.CategoriaId;
             if(producto.MarcaId != null)
                 MarcaId = producto.MarcaId;
+
+            EsBlister = producto.EsBlister;
         }
 
         public string Titulo
