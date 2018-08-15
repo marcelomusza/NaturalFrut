@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using System.Globalization;
+
 
 namespace NaturalFrut.App_BLL
 {
@@ -15,21 +17,18 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Cliente> clienteRP;
         private readonly IRepository<Producto> productoRP;
         private readonly IRepository<TipoDeUnidad> tipoDeUnidadRP;
-        private readonly IRepository<ListaPrecioBlister> listaPrecioBlisterRP;
 
         public ListaPreciosLogic(IRepository<ListaPrecio> ListaPrecioRepository,
             IRepository<Lista> ListaRepository,
             IRepository<Cliente> ClienteRepository,
             IRepository<Producto> ProductoRepository,
-            IRepository<TipoDeUnidad> TipoDeUnidadRepository,
-            IRepository<ListaPrecioBlister> ListaPrecioBlisterRepository)
+            IRepository<TipoDeUnidad> TipoDeUnidadRepository)
         {
             listaPrecioRP = ListaPrecioRepository;
             listaRP = ListaRepository;
             clienteRP = ClienteRepository;
             productoRP = ProductoRepository;
             tipoDeUnidadRP = TipoDeUnidadRepository;
-            listaPrecioBlisterRP = ListaPrecioBlisterRepository;
         }
 
         public ListaPreciosLogic(IRepository<Lista> ListaRepository)
@@ -40,11 +39,6 @@ namespace NaturalFrut.App_BLL
         public ListaPreciosLogic(IRepository<ListaPrecio> ListaPrecioRepository)
         {
             listaPrecioRP = ListaPrecioRepository;            
-        }
-
-        public ListaPreciosLogic(IRepository<ListaPrecioBlister> ListaPrecioBlisterRepository)
-        {
-            listaPrecioBlisterRP = ListaPrecioBlisterRepository;
         }
 
         #region Operaciones Lista
@@ -92,16 +86,7 @@ namespace NaturalFrut.App_BLL
 
         public List<Producto> GetProductoList()
         {
-            return productoRP.GetAll()
-                .Where(p => p.EsBlister != true)
-                .ToList();
-        }
-
-        public List<Producto> GetProductoBlisterList()
-        {
-            return productoRP.GetAll()
-                .Where(p => p.EsBlister == true)
-                .ToList();
+            return productoRP.GetAll().ToList();
         }
 
         public List<TipoDeUnidad> GetTipoDeUnidadList()
@@ -129,34 +114,48 @@ namespace NaturalFrut.App_BLL
 
         }
 
+
+        public List<ListaPrecio> GetListaPrecioByIdProducto(int id , int idVenta)
+        {
+            return listaPrecioRP.GetAll()
+                .Include(c => c.Lista)
+                .Include(c => c.Producto)
+                .Where(c => c.ProductoID == id)
+                .Where(c => c.ID != idVenta).ToList();
+
+        }
+
         public void AddListaPrecio(ListaPrecio ListaPrecio)
         {
-            
+
             var listas = GetAllLista();
-            
+ 
             foreach (var lista in listas)
             {
-                ListaPrecio listaModificada = new ListaPrecio();
-                
-                listaModificada.ListaID = lista.ID;
-                listaModificada.ProductoID = ListaPrecio.ProductoID;
-                listaModificada.KGBultoCerrado = ListaPrecio.KGBultoCerrado;
-                listaModificada.PrecioXUnidad = Math.Round(((ListaPrecio.PrecioXUnidad * lista.PorcentajeAumento) / 100) + ListaPrecio.PrecioXUnidad, 2);
-                listaModificada.PrecioXKG = Math.Round(((ListaPrecio.PrecioXKG * lista.PorcentajeAumento) / 100) + ListaPrecio.PrecioXKG, 2);
-                listaModificada.PrecioXBultoCerrado = Math.Round(((ListaPrecio.PrecioXBultoCerrado * lista.PorcentajeAumento) / 100) + ListaPrecio.PrecioXBultoCerrado, 2);
-
-                listaPrecioRP.Add(listaModificada);
+                listaPrecioRP.Add(CalculaPrecios(ListaPrecio, lista, false, null));
                 listaPrecioRP.Save();
 
             }
 
-            
         }
 
         public void UpdateListaPrecio(ListaPrecio ListaPrecio)
         {
+            List<ListaPrecio> lista = new List<ListaPrecio>();
+
+            lista = GetListaPrecioByIdProducto(ListaPrecio.ProductoID , ListaPrecio.ID);
             listaPrecioRP.Update(ListaPrecio);
             listaPrecioRP.Save();
+
+
+            foreach (var listas in lista)
+            {            
+                listaPrecioRP.Update(CalculaPrecios(ListaPrecio, listas.Lista, true, listas));
+                listaPrecioRP.Save();
+            }
+
+
+           
         }
 
         public void RemoveListaPrecio(ListaPrecio ListaPrecio)
@@ -166,43 +165,46 @@ namespace NaturalFrut.App_BLL
         }
         #endregion
 
-        #region Operaciones Lista Precio Blister
-        public List<ListaPrecioBlister> GetAllListaPrecioBlister()
+        public ListaPrecio CalculaPrecios(ListaPrecio ListaPrecio, Lista lista, bool var, ListaPrecio ListaPrecioMod)
         {
-            return listaPrecioBlisterRP.GetAll()
-                .Include(p => p.Producto)
-                .ToList();
 
+            decimal precioXKG;
+            decimal unidad;
+            decimal bulto;
+            ListaPrecio listaModificada;
+            CultureInfo.CurrentCulture = new CultureInfo("es-AR");
+
+            if (var)
+            {
+                listaModificada = ListaPrecioMod;
+
+            }
+            else
+            {
+                listaModificada = new ListaPrecio();
+
+            }
+
+            precioXKG = decimal.Parse(ListaPrecio.PrecioXKG, System.Globalization.NumberStyles.AllowDecimalPoint, new System.Globalization.CultureInfo("es-AR"));
+            unidad = decimal.Parse(ListaPrecio.PrecioXUnidad, System.Globalization.NumberStyles.AllowDecimalPoint, new System.Globalization.CultureInfo("es-AR"));
+            bulto = decimal.Parse(ListaPrecio.PrecioXBultoCerrado, System.Globalization.NumberStyles.AllowDecimalPoint, new System.Globalization.CultureInfo("es-AR"));
+
+           
+            listaModificada.ListaID = lista.ID;
+            listaModificada.ProductoID = ListaPrecio.ProductoID;
+            listaModificada.KGBultoCerrado = ListaPrecio.KGBultoCerrado;
+            unidad = Math.Round((((unidad) * lista.PorcentajeAumento) / 100) + unidad, 2);
+            listaModificada.PrecioXUnidad = Convert.ToString(unidad);
+            precioXKG = Math.Round((((precioXKG) * lista.PorcentajeAumento) / 100) + precioXKG,2);
+            listaModificada.PrecioXKG = Convert.ToString(precioXKG);
+
+            bulto = Math.Round((((bulto) * lista.PorcentajeAumento) / 100) + bulto,2);
+            listaModificada.PrecioXBultoCerrado = Convert.ToString(bulto);
+
+            return listaModificada;
         }
 
-        public ListaPrecioBlister GetListaPrecioBlisterById(int id)
-        {
-            return listaPrecioBlisterRP.GetAll()
-                .Include(c => c.Producto)
-                .Where(c => c.ID == id).SingleOrDefault();
+
 
         }
-
-        public void AddListaPrecioBlister(ListaPrecioBlister listaPrecioBlister)
-        {
-            
-            listaPrecioBlisterRP.Add(listaPrecioBlister);
-            listaPrecioBlisterRP.Save();
-
-        }
-
-        public void UpdateListaPrecioBlister(ListaPrecioBlister listaPrecioBlister)
-        {
-            listaPrecioBlisterRP.Update(listaPrecioBlister);
-            listaPrecioBlisterRP.Save();
-        }
-
-        public void RemoveListaPrecioBlister(ListaPrecioBlister listaPrecioBlister)
-        {
-            listaPrecioBlisterRP.Delete(listaPrecioBlister);
-            listaPrecioBlisterRP.Save();
-        }
-        #endregion
-
-    }
 }

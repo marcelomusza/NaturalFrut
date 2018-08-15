@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using NaturalFrut.Helpers;
 using Rotativa;
 using Rotativa.Options;
+using NaturalFrut.Pdf;
+//using NaturalFrut.Pdf;
 
 namespace NaturalFrut.Controllers
 {
@@ -163,7 +165,7 @@ namespace NaturalFrut.Controllers
         {
             return Json(clienteBL.GetListaList(), JsonRequestBehavior.AllowGet);
         }
-                
+
         public ActionResult CalcularStockYValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
         {
 
@@ -176,58 +178,58 @@ namespace NaturalFrut.Controllers
 
                 if (productoSegunStock == null)
                     throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
-                   
+
                 ListaPrecio productoSegunLista = ventaMayoristaBL.CalcularImporteSegunCliente(clienteID, productoID, cantidad);
 
                 switch (tipoUnidadID)
                 {
                     case Constants.PRECIO_X_KG:
 
-                        if (productoSegunLista.PrecioXKG > 0)
+                        if (Convert.ToDouble(productoSegunLista.PrecioXKG) > 0)
                         {
                             //Casos en la lista de precios donde hay precio x kg y precio por bulto en base a cantidad
-                            if (productoSegunLista.KGBultoCerrado != 0 && (cantidad >= productoSegunLista.KGBultoCerrado))
-                                importe = productoSegunLista.PrecioXBultoCerrado;
+                            if (Convert.ToDouble(productoSegunLista.KGBultoCerrado) != 0 && (cantidad >= Convert.ToDouble(productoSegunLista.KGBultoCerrado)))
+                                importe = Convert.ToDouble(productoSegunLista.PrecioXBultoCerrado);
                             else
-                                importe = productoSegunLista.PrecioXKG;
+                                importe = Convert.ToDouble(productoSegunLista.PrecioXKG);
 
                         }
                         else
                         {
                             //Casos en la lista de precios donde no hay precio x kg pero sí hay precio por bulto
-                            if (productoSegunLista.PrecioXBultoCerrado > 0)
-                                importe = productoSegunLista.PrecioXBultoCerrado;
-                            else
-                                throw new Exception("El Producto seleccionado no tiene precios correctamente cargados en el sistema, " +
-                                    "por favor revisar la tabla de Lista de Precios antes de continuar" );
-
-                        }
-                       
-                        break;
-
-                    case Constants.PRECIO_X_UNIDAD:
-
-                        if (productoSegunLista.PrecioXUnidad > 0)
-                        {
-                            //Casos en la lista de precios donde hay precio x unidad y precio por bulto en base a cantidad
-                            if (productoSegunLista.KGBultoCerrado != 0 && (cantidad >= productoSegunLista.KGBultoCerrado))
-                                importe = productoSegunLista.PrecioXBultoCerrado;
-                            else
-                                importe = productoSegunLista.PrecioXUnidad;
-
-                        }
-                        else
-                        {
-                            //Casos en la lista de precios donde no hay precio x unidad pero sí hay precio por bulto
-                            if (productoSegunLista.PrecioXBultoCerrado > 0)
-                                importe = productoSegunLista.PrecioXBultoCerrado;
+                            if (Convert.ToDouble(productoSegunLista.PrecioXBultoCerrado) > 0)
+                                importe = Convert.ToDouble(productoSegunLista.PrecioXBultoCerrado);
                             else
                                 throw new Exception("El Producto seleccionado no tiene precios correctamente cargados en el sistema, " +
                                     "por favor revisar la tabla de Lista de Precios antes de continuar");
 
                         }
 
-                       
+                        break;
+
+                    case Constants.PRECIO_X_UNIDAD:
+
+                        if (Convert.ToDouble(productoSegunLista.PrecioXUnidad) > 0)
+                        {
+                            //Casos en la lista de precios donde hay precio x unidad y precio por bulto en base a cantidad
+                            if (Convert.ToDouble(productoSegunLista.KGBultoCerrado) != 0 && (cantidad >= Convert.ToDouble(productoSegunLista.KGBultoCerrado)))
+                                importe = Convert.ToDouble(productoSegunLista.PrecioXBultoCerrado);
+                            else
+                                importe = Convert.ToDouble(productoSegunLista.PrecioXUnidad);
+
+                        }
+                        else
+                        {
+                            //Casos en la lista de precios donde no hay precio x unidad pero sí hay precio por bulto
+                            if (Convert.ToDouble(productoSegunLista.PrecioXBultoCerrado) > 0)
+                                importe = Convert.ToDouble(productoSegunLista.PrecioXBultoCerrado);
+                            else
+                                throw new Exception("El Producto seleccionado no tiene precios correctamente cargados en el sistema, " +
+                                    "por favor revisar la tabla de Lista de Precios antes de continuar");
+
+                        }
+
+
                         break;
 
                     default:
@@ -249,13 +251,13 @@ namespace NaturalFrut.Controllers
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
-            
 
-           
 
-            
 
-            }
+
+
+
+        }
 
 
         public ActionResult GetTiposDeUnidadDynamicAsync(int counter)
@@ -325,20 +327,26 @@ namespace NaturalFrut.Controllers
         [AllowAnonymous]
         public ActionResult PrintAll(int Id)
         {
-            var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
-            var q = new ActionAsPdf("GenerarNotaPedido", new { Id = Id }) { FileName = "ExamReport.pdf",
-                PageSize = Size.A4,
-                CustomSwitches = "--disable-smart-shrinking",
-                PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
-                /* CustomSwitches =
-                     "--header-center \"Name: " + venta.Cliente.Nombre + "  DOS: " +
-                     DateTime.Now.Date.ToString("MM/dd/yyyy") + "  Page: [page]/[toPage]\"" +
-                     " --header-line --footer-font-size \"9\" "*/
+           // var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+            //var q = new ActionAsPdf("GenerarNotaPedido", new { Id = Id }) { FileName = "ExamReport.pdf",
+            //    PageSize = Size.A4,
+            //    CustomSwitches = "--disable-smart-shrinking",
+            //    PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
+            //    /* CustomSwitches =
+            //         "--header-center \"Name: " + venta.Cliente.Nombre + "  DOS: " +
+            //         DateTime.Now.Date.ToString("MM/dd/yyyy") + "  Page: [page]/[toPage]\"" +
+            //         " --header-line --footer-font-size \"9\" "*/
 
-            };
+            //};
+
+            GenerarPdf pdf = new GenerarPdf(ventaMayoristaBL,productoxVentaBL);
+
+            pdf.CrearPdf(Id);
 
 
-            return q;
+            return View("Index");
+
+
 
         }
 

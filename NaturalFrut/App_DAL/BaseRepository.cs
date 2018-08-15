@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace NaturalFrut.App_DAL
 {
@@ -62,8 +63,13 @@ namespace NaturalFrut.App_DAL
             }
             catch (DbEntityValidationException e)
             {
-                //PARA EDITAR MAS ADELANTE
-                throw;
+                foreach (var validationErrors in e.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
             }
         }
 

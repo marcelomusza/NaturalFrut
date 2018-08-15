@@ -8,6 +8,7 @@ using System.Web.Routing;
 using System.Web.Http;
 using NaturalFrut.App_Start;
 using AutoMapper;
+using Naturalfrut.Helpers;
 
 namespace NaturalFrut
 {
@@ -21,6 +22,10 @@ namespace NaturalFrut
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders[typeof(float)] = new SingleModelBinder();
+            ModelBinders.Binders[typeof(double)] = new DoubleModelBinder();
+            ModelBinders.Binders[typeof(decimal)] = new DecimalModelBinder();
+
         }
     }
 }

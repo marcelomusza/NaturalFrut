@@ -19,16 +19,16 @@ namespace NaturalFrut.DTOs
         public int ProductoID { get; set; }
 
         [Required]
-        public double PrecioXKG { get; set; }
+        public string PrecioXKG { get; set; }
 
         [Required]
-        public double PrecioXBultoCerrado { get; set; }
+        public string PrecioXBultoCerrado { get; set; }
 
         [Required]
-        public double KGBultoCerrado { get; set; }
+        public int KGBultoCerrado { get; set; }
 
         [Required]
-        public double PrecioXUnidad { get; set; }
+        public string PrecioXUnidad { get; set; }
 
 
         public Lista Lista { get; set; }

@@ -18,23 +18,24 @@ namespace NaturalFrut.Models
 
         [Required]
         [Display(Name = "Producto")]
-        public int ProductoID { get; set; }        
+        public int ProductoID { get; set; }
 
+       
         [Required]
         [Display(Name = "Precio x Kg.")]
-        public double PrecioXKG { get; set; }
+        public string PrecioXKG { get; set; }
 
         [Required]
         [Display(Name = "Precio x Bulto Cerrado")]
-        public double PrecioXBultoCerrado{ get; set; }
+        public string PrecioXBultoCerrado { get; set; }
 
         [Required]
         [Display(Name = "Kg. del Bulto Cerrado")]
-        public double KGBultoCerrado { get; set; }
+        public string KGBultoCerrado { get; set; }
 
         [Required]
         [Display(Name = "Precio x Unidad")]
-        public double PrecioXUnidad { get; set; }
+        public string PrecioXUnidad { get; set; }
 
 
         public Lista Lista { get; set; }

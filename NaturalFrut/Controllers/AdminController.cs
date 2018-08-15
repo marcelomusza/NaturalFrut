@@ -762,10 +762,10 @@ namespace NaturalFrut.Controllers
 
         public ActionResult NuevoListaPrecios()
         {
-            var lista = listaPreciosBL.GetListaList();
+            //var lista = listaPreciosBL.GetListaList();
             var cliente = listaPreciosBL.GetClienteList();
             var producto = listaPreciosBL.GetProductoList();
-            var tipoDeUnidad = listaPreciosBL.GetTipoDeUnidadList();
+            //var tipoDeUnidad = listaPreciosBL.GetTipoDeUnidadList();
 
             ListaPreciosViewModel viewModel = new ListaPreciosViewModel
             {
@@ -783,7 +783,7 @@ namespace NaturalFrut.Controllers
 
             ListaPreciosViewModel viewModel = new ListaPreciosViewModel(listaPrecio)
             {
-                //Lista = listaPreciosBL.GetListaList(),
+                Lista = listaPreciosBL.GetListaList(),
                 Producto = listaPreciosBL.GetProductoList()
             };
 
@@ -820,7 +820,7 @@ namespace NaturalFrut.Controllers
                     Producto = listaPreciosBL.GetProductoList()
                 };
 
-                return View("ListaPreciosForm");
+                return View("ListaPreciosForm", viewModel);
             }
 
             if (listaPrecio.ID == 0)

@@ -81,11 +81,22 @@
                         data: "KGBultoCerrado"
                     },
                     {
-                        data: "ID",
+                        
+                        data: null,
                         render: function (data) {
-                            return "<button class='btn-link js-delete' data-pxl-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
-                                "<button class='btn-link js-edit' data-pxl-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                      
+                            if (data.ListaID == 9) {
+                                return "<button class='btn-link js-edit' data-pxl-id=" + data.ID + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                            } else {
+                                return null;
+                            }
+
+                            
+                            
+                            
                         }
+                        
+                       
                     }
                 ]
             });
