@@ -64,6 +64,10 @@
     <Reference Include="Glimpse.Mvc5, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -260,6 +264,21 @@
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
+    <Compile Include="Migrations\201808070107363_model_listaprecio_decimals.cs" />
+    <Compile Include="Migrations\201808070107363_model_listaprecio_decimals.Designer.cs">
+      <DependentUpon>201808070107363_model_listaprecio_decimals.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808071907428_sePasaAString.cs" />
+    <Compile Include="Migrations\201808071907428_sePasaAString.Designer.cs">
+      <DependentUpon>201808071907428_sePasaAString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808081502112_sePasaAString1.cs" />
+    <Compile Include="Migrations\201808081502112_sePasaAString1.Designer.cs">
+      <DependentUpon>201808081502112_sePasaAString1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pdf\GenerarPdf.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Controllers\VentaMinoristaController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -287,6 +306,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\DecimalModelBinder.cs" />
     <Compile Include="Migrations\201807052035202_nuevaProveedores.cs" />
     <Compile Include="Migrations\201807052035202_nuevaProveedores.Designer.cs">
       <DependentUpon>201807052035202_nuevaProveedores.cs</DependentUpon>
@@ -346,6 +366,42 @@
     <Compile Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.cs" />
     <Compile Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.Designer.cs">
       <DependentUpon>201807292318247_Model_Cliente_CampoSaldo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311452151_cambioDetipo.cs" />
+    <Compile Include="Migrations\201807311452151_cambioDetipo.Designer.cs">
+      <DependentUpon>201807311452151_cambioDetipo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311522570_cambiostring.cs" />
+    <Compile Include="Migrations\201807311522570_cambiostring.Designer.cs">
+      <DependentUpon>201807311522570_cambiostring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807312017537_vueltaAtrasIdLista.cs" />
+    <Compile Include="Migrations\201807312017537_vueltaAtrasIdLista.Designer.cs">
+      <DependentUpon>201807312017537_vueltaAtrasIdLista.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808011525123_cambioAdecimal.cs" />
+    <Compile Include="Migrations\201808011525123_cambioAdecimal.Designer.cs">
+      <DependentUpon>201808011525123_cambioAdecimal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808011612461_cambioAStringnuevo.cs" />
+    <Compile Include="Migrations\201808011612461_cambioAStringnuevo.Designer.cs">
+      <DependentUpon>201808011612461_cambioAStringnuevo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808012027071_cambioid.cs" />
+    <Compile Include="Migrations\201808012027071_cambioid.Designer.cs">
+      <DependentUpon>201808012027071_cambioid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808012035458_cambioIdLista.cs" />
+    <Compile Include="Migrations\201808012035458_cambioIdLista.Designer.cs">
+      <DependentUpon>201808012035458_cambioIdLista.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808012140241_cambioidListaPrecio.cs" />
+    <Compile Include="Migrations\201808012140241_cambioidListaPrecio.Designer.cs">
+      <DependentUpon>201808012140241_cambioidListaPrecio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808021625084_cambioAdecimal1.cs" />
+    <Compile Include="Migrations\201808021625084_cambioAdecimal1.Designer.cs">
+      <DependentUpon>201808021625084_cambioAdecimal1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -733,7 +789,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
@@ -781,6 +839,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.resx">
       <DependentUpon>201807292318247_Model_Cliente_CampoSaldo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311452151_cambioDetipo.resx">
+      <DependentUpon>201807311452151_cambioDetipo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311522570_cambiostring.resx">
+      <DependentUpon>201807311522570_cambiostring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807312017537_vueltaAtrasIdLista.resx">
+      <DependentUpon>201807312017537_vueltaAtrasIdLista.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808011525123_cambioAdecimal.resx">
+      <DependentUpon>201808011525123_cambioAdecimal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808011612461_cambioAStringnuevo.resx">
+      <DependentUpon>201808011612461_cambioAStringnuevo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808012027071_cambioid.resx">
+      <DependentUpon>201808012027071_cambioid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808012035458_cambioIdLista.resx">
+      <DependentUpon>201808012035458_cambioIdLista.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808012140241_cambioidListaPrecio.resx">
+      <DependentUpon>201808012140241_cambioidListaPrecio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808021625084_cambioAdecimal1.resx">
+      <DependentUpon>201808021625084_cambioAdecimal1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808070107363_model_listaprecio_decimals.resx">
+      <DependentUpon>201808070107363_model_listaprecio_decimals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808071907428_sePasaAString.resx">
+      <DependentUpon>201808071907428_sePasaAString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808081502112_sePasaAString1.resx">
+      <DependentUpon>201808081502112_sePasaAString1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

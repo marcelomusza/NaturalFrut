@@ -1,7 +1,7 @@
 ﻿@model NaturalFrut.App_BLL.ViewModels.VentaMayoristaViewModel
 @{
-  //  ViewBag.Title = "CargarVenta";
-   // Layout = "~/Views/Shared/_Layout.cshtml";
+//  ViewBag.Title = "CargarVenta";
+// Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -34,14 +34,14 @@
             <div class="form-group">
                 <label>Vendedor: @Model.VendedorObj.Nombre </label>
             </div>
-            
+
             <div class="form-group">
                 <label>Fecha: @Model.Fecha </label>
             </div>
 
-         </div>
-
         </div>
+
+    </div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -73,15 +73,16 @@
                             <td>@item.Descuento</td>
                             <td>@item.Importe</td>
                             <td>@item.Total</td>
-                            
+
                         </tr>
                     }
 
                 </tbody>
                 <tfoot style="page-break-after: always;">
 
-                    <tr>                        
-                        <td colspan="7" style="text-align: right;">&nbsp;
+                    <tr>
+                        <td colspan="7" style="text-align: right;">
+                            &nbsp;
                             <label>Suma de Venta:</label>
                             <input type="text" class="form-control vtamay-totalventa" id="totalventa" value=@Model.Total disabled /><br />
                             <br />

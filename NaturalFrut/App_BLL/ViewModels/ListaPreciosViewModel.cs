@@ -11,18 +11,18 @@ namespace NaturalFrut.App_BLL.ViewModels
     {
 
         public int? ID { get; set; }
+        
+        [Required]
+        public string PrecioXKG { get; set; }
 
         [Required]
-        public double PrecioXKG { get; set; }
+        public string PrecioXBultoCerrado { get; set; }
 
         [Required]
-        public double PrecioXBultoCerrado { get; set; }
+        public string KGBultoCerrado { get; set; }
 
         [Required]
-        public double KGBultoCerrado { get; set; }
-
-        [Required]
-        public double PrecioXUnidad { get; set; }
+        public string PrecioXUnidad { get; set; }
 
 
         public IEnumerable<Producto> Producto { get; set; }
@@ -33,7 +33,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public IEnumerable<Lista> Lista { get; set; }
 
         [Required]
-        public int ListaId { get; set; }
+        public int? ListaId { get; set; }
 
 
 
@@ -46,7 +46,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         {
             ID = listaPrecio.ID;                 
             ProductoId = listaPrecio.ProductoID;
-            //ListaId = listaPrecio.ListaID;
+            ListaId = listaPrecio.ListaID;
             PrecioXKG = listaPrecio.PrecioXKG;
             PrecioXBultoCerrado = listaPrecio.PrecioXBultoCerrado;
             PrecioXUnidad = listaPrecio.PrecioXUnidad;
