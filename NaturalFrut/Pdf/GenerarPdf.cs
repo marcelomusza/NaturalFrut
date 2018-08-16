@@ -51,9 +51,12 @@ namespace NaturalFrut.Pdf
                     sb.Append("<br />");
                     sb.Append("<br />");
                     sb.Append("<br />");
+                    sb.Append("<br />");
+                    sb.Append("<br />");
+                   
 
                     //Generar contenido del body de la tabla
-                    sb.Append("<table style='font-size:10px;' border = '0' ;>");
+                    sb.Append("<table style='font-size:8px;' border = '0' ;>");
 
 
 
@@ -74,39 +77,68 @@ namespace NaturalFrut.Pdf
 
                         sb.Append("<td width='25%'>" + prod.Producto.Nombre + "</td>");
                         //sb.Append("<td>pasas c/cobertura chocolate negrox 1kg</td>");
-                        sb.Append("<td width='5%'>" + prod.Cantidad + "</td>");
-                        sb.Append("<td width='5%'>" + prod.TipoDeUnidad.Nombre + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Descuento + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Importe + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Total + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + prod.Descuento + "</td>");
+                        sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("<td width='25%'>" + prod.Producto.Nombre + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Cantidad + "</td>");
-                        sb.Append("<td width='5%'>" + prod.TipoDeUnidad.Nombre + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Descuento + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Importe + "</td>");
-                        sb.Append("<td width='5%'>" + prod.Total + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + prod.Descuento + "</td>");
+                        sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
                     }
 
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Suma de Venta: </td>");
+                    sb.Append("<td>$"+venta.SumaTotal+"</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Suma de Venta: </td>");
+                    sb.Append("<td>$" + venta.SumaTotal + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Anterior: </td>");
+                    sb.Append("<td>$"+ venta.Saldo +"</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Anterior: </td>");
+                    sb.Append("<td>$" + venta.Saldo + "</td>");
+                    sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Total: </td>");
-                    sb.Append("<td>$22232</td>");
+                    sb.Append("<td>$" + venta.SumaTotal + "</td>");
+                    sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Total: </td>");
-                    sb.Append("<td>$22232</td>");
+                    sb.Append("<td>$" + venta.SumaTotal + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Efectivo: </td>");
+                    sb.Append("<td>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Efectivo: </td>");
+                    sb.Append("<td>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Saldo: </td>");
+                    sb.Append("<td>$" + venta.Saldo + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '5'>Saldo: </td>");
+                    sb.Append("<td>$" + venta.Saldo + "</td>");
+                    sb.Append("</tr>");
+
                     sb.Append("</tr></table>");
 
                     //Export HTML String as PDF.
                     StringReader sr = new StringReader(sb.ToString());
-                    Document pdfDoc = new Document(PageSize.A4.Rotate(), 36, 36, 80, 36);
+                    Document pdfDoc = new Document(PageSize.A4.Rotate(), 25, 25, 30,25);
 
                     //Instanciamos Componentes para el Header
                     PDFHeader pageHeader = new PDFHeader();
                     pageHeader.VentaMayorista = viewModel;
+                    PDFFooter pagefooter = new PDFFooter();
+                    pagefooter.VentaMayorista = viewModel;
 
                     HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
                     PdfWriter writer = PdfWriter.GetInstance(pdfDoc, HttpContext.Current.Response.OutputStream);
 
                     writer.PageEvent = pageHeader;
-                    writer.PageEvent = new PDFFooter();
+                    writer.PageEvent = pagefooter;
 
                     //Donde la magia sucede
                     pdfDoc.Open();
@@ -137,13 +169,13 @@ namespace NaturalFrut.Pdf
         {
 
             int pageN = writer.PageNumber;
-            var titleFont = FontFactory.GetFont("Arial", 18, Font.BOLD);
-            var subTitleFont = FontFactory.GetFont("Arial", 14, Font.BOLD);
+            var titleFont = FontFactory.GetFont("Arial", 16, Font.BOLD);
+            var subTitleFont = FontFactory.GetFont("Arial", 12, Font.BOLD);
             var boldTableFont = FontFactory.GetFont("Arial", 9, Font.BOLD);
             var endingMessageFont = FontFactory.GetFont("Arial", 10, Font.ITALIC);
             var bodyFont = FontFactory.GetFont("Arial", 12, Font.NORMAL);
             var headerTable = new PdfPTable(12);
-
+            
             if (pageN == 1)
             {
 
@@ -153,7 +185,9 @@ namespace NaturalFrut.Pdf
                 headerTable.DefaultCell.Border = 5;
                 headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
 
-                headerTable.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
+               
+
+                headerTable.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });             
 
 
                 PdfPCell cell;
@@ -196,47 +230,48 @@ namespace NaturalFrut.Pdf
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("N Venta: " + VentaMayorista.NumeroVenta, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("Cliente: " + VentaMayorista.Cliente, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("N Venta: " + VentaMayorista.NumeroVenta, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("Cliente: " + VentaMayorista.Cliente, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.Vendedor, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("Direccion: " + VentaMayorista.ClienteObj.Direccion, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.Vendedor, boldTableFont));
-                cell.Colspan = 3;
-                cell.Border = 0;
-                headerTable.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase("Direccion: " + VentaMayorista.ClienteObj.Direccion, boldTableFont));
+                cell = new PdfPCell(new Phrase("Num. Venta: " + VentaMayorista.NumeroVenta, boldTableFont));
                 cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Fecha: " + VentaMayorista.Fecha, boldTableFont));
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);                
+
+                cell = new PdfPCell(new Phrase("Num. Venta: " + VentaMayorista.NumeroVenta, boldTableFont));
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Fecha: " + VentaMayorista.Fecha, boldTableFont));
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Cliente: " + VentaMayorista.ClienteObj.Nombre, boldTableFont));
+                cell.Colspan = 6;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Cliente: " + VentaMayorista.ClienteObj.Nombre, boldTableFont));
+                cell.Colspan = 6;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Direccion: " + VentaMayorista.ClienteObj.Direccion, boldTableFont));
+                cell.Colspan = 6;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+
+                cell = new PdfPCell(new Phrase("Direccion: " + VentaMayorista.ClienteObj.Direccion, boldTableFont));
+                cell.Colspan = 6;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
                 cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
@@ -246,7 +281,7 @@ namespace NaturalFrut.Pdf
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("Fecha: " + VentaMayorista.Fecha, boldTableFont));
+                cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
                 cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
@@ -311,7 +346,7 @@ namespace NaturalFrut.Pdf
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
 
-                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 36, writer.DirectContent);
+                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 20, writer.DirectContent);
 
 
 
@@ -326,8 +361,9 @@ namespace NaturalFrut.Pdf
                 headerTable.SpacingAfter = 0;
                 headerTable.DefaultCell.Border = 5;
                 headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
+                headerTable.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
 
-                PdfPCell cell;
+                PdfPCell cell;         
 
                 cell = new PdfPCell(new Phrase("Producto", boldTableFont));
                 cell.BorderWidth = 0;
@@ -394,6 +430,7 @@ namespace NaturalFrut.Pdf
 
     public class PDFFooter : PdfPageEventHelper
     {
+        public VentaMayoristaViewModel VentaMayorista { get; set; }
         // write on end of each page
         public override void OnEndPage(PdfWriter writer, Document document)
         {
@@ -401,8 +438,8 @@ namespace NaturalFrut.Pdf
             PdfPTable tabFot = new PdfPTable(12);
             // PdfPTable tabFot = new PdfPTable(12);
             tabFot.HorizontalAlignment = 0;
-            tabFot.SpacingBefore = 10;
-            tabFot.SpacingAfter = 10;
+            tabFot.SpacingBefore = 0;
+            tabFot.SpacingAfter = 0;
             tabFot.DefaultCell.Border = 5;
 
             var boldTableFont = FontFactory.GetFont("Arial", 8, Font.BOLD);
@@ -416,17 +453,21 @@ namespace NaturalFrut.Pdf
 
 
             tabFot.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
-            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-6832//15-2415-0520 o 15-5429-6101", boldTableFont));
+            tabFot.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
+      
+
+            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-6832//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));
             cell.BorderWidth = 0;
             cell.Colspan = 6;
             tabFot.AddCell(cell);
 
-            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-6832//15-2415-0520 o 15-5429-6101", boldTableFont));
+
+            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-6832//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));
             cell.BorderWidth = 0;
             cell.Colspan = 6;
             tabFot.AddCell(cell);
 
-            tabFot.WriteSelectedRows(0, -1, 150, document.Bottom, writer.DirectContent);
+            tabFot.WriteSelectedRows(0, -1, document.LeftMargin, document.Bottom, writer.DirectContent);
         }
     }
 

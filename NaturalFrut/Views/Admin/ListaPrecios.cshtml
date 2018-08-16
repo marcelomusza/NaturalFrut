@@ -85,7 +85,7 @@
                         data: null,
                         render: function (data) {
                       
-                            if (data.ListaID == 9) {
+                            if (data.ListaID == @ViewBag.ListaPrincipalID) {
                                 return "<button class='btn-link js-edit' data-pxl-id=" + data.ID + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
                             } else {
                                 return null;

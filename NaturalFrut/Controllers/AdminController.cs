@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.App_BLL.ViewModels;
+using NaturalFrut.Helpers;
 
 namespace NaturalFrut.Controllers
 {
@@ -756,6 +757,7 @@ namespace NaturalFrut.Controllers
         public ActionResult ListaPrecios()
         {
             var listaPrecio = listaPreciosBL.GetAllListaPrecio();
+            ViewBag.ListaPrincipalID = Constants.LISTAPRINCIPAL;
 
             return View(listaPrecio);
         }

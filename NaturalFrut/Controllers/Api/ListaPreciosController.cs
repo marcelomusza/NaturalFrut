@@ -14,83 +14,83 @@ using System.Data.Entity;
 namespace NaturalFrut.Controllers.Api
 {
 
-    public class ListaPreciosBlisterController : ApiController
+    public class ListaPreciosController : ApiController
     {
         
         private readonly ListaPreciosLogic listaPreciosBL;
 
-        public ListaPreciosBlisterController(IRepository<ListaPrecioBlister> ListaPrecioRepo)
+        public ListaPreciosController(IRepository<ListaPrecio> ListaPrecioRepo)
         {
             listaPreciosBL = new ListaPreciosLogic(ListaPrecioRepo);
         }
 
 
 
-        //GET /api/listaPreciosblister
-        public IEnumerable<ListaPrecioBlisterDTO> GetListaPreciosBlister()
+        //GET /api/listaPrecios
+        public IEnumerable<ListaPrecioDTO> GetListaPrecios()
         {
-            var listaPrecioBlister = listaPreciosBL.GetAllListaPrecioBlister();
+            var listaPrecio = listaPreciosBL.GetAllListaPrecio();
 
-            return listaPrecioBlister.Select(Mapper.Map<ListaPrecioBlister, ListaPrecioBlisterDTO>);
+            return listaPrecio.Select(Mapper.Map<ListaPrecio, ListaPrecioDTO>);
         }
 
-        //GET /api/listaPreciosBlister/1
-        public IHttpActionResult GetListaPreciosBlister(int id)
+        //GET /api/listaPrecios/1
+        public IHttpActionResult GetListaPrecios(int id)
         {
-            var listaPrecioBlister = listaPreciosBL.GetListaPrecioBlisterById(id);
+            var listaPrecio = listaPreciosBL.GetListaPrecioById(id);
 
-            if (listaPrecioBlister == null)
+            if (listaPrecio == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<ListaPrecioBlister, ListaPrecioBlisterDTO>(listaPrecioBlister));
+            return Ok(Mapper.Map<ListaPrecio, ListaPrecioDTO>(listaPrecio));
         }
 
-        //POST /api/listaPreciosBlister
+        //POST /api/listaPrecios
         [HttpPost]
-        public IHttpActionResult CreateListaPrecios(ListaPrecioBlisterDTO listaPrecioBlisterDTO)
+        public IHttpActionResult CreateListaPrecios(ListaPrecioDTO listaPrecioDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var listaPrecioBlister = Mapper.Map<ListaPrecioBlisterDTO, ListaPrecioBlister>(listaPrecioBlisterDTO);
+            var listaPrecio = Mapper.Map<ListaPrecioDTO, ListaPrecio>(listaPrecioDTO);
 
-            listaPreciosBL.AddListaPrecioBlister(listaPrecioBlister);
+            listaPreciosBL.AddListaPrecio(listaPrecio);
 
-            listaPrecioBlisterDTO.ID = listaPrecioBlister.ID;
+            listaPrecioDTO.ID = listaPrecio.ID;
 
-            return Created(new Uri(Request.RequestUri + "/" + listaPrecioBlister.ID), listaPrecioBlisterDTO);
+            return Created(new Uri(Request.RequestUri + "/" + listaPrecio.ID), listaPrecioDTO);
         }
 
-        //PUT /api/listaPreciosBlister/1
+        //PUT /api/listaPrecios/1
         [HttpPut]
-        public IHttpActionResult UpdateListaPrecios(int id, ListaPrecioBlisterDTO listaPrecioBlisterDTO)
+        public IHttpActionResult UpdateListaPrecios(int id, ListaPrecioDTO listaPrecioDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var listaPrecioBlisterInDB = listaPreciosBL.GetListaPrecioBlisterById(id);
+            var listaPrecioInDB = listaPreciosBL.GetListaPrecioById(id);
 
-            if (listaPrecioBlisterInDB == null)
+            if (listaPrecioInDB == null)
                 return NotFound();
 
-            Mapper.Map(listaPrecioBlisterDTO, listaPrecioBlisterInDB);
+            Mapper.Map(listaPrecioDTO, listaPrecioInDB);
 
-            listaPreciosBL.UpdateListaPrecioBlister(listaPrecioBlisterInDB);
+            listaPreciosBL.UpdateListaPrecio(listaPrecioInDB);
 
             return Ok();
         }
 
-        //DELETE /api/listaPreciosBlister/1
+        //DELETE /api/listaPrecios/1
         [HttpDelete]
         public IHttpActionResult DeleteListaPrecios(int id)
         {
 
-            var listaPrecioBlisterInDB = listaPreciosBL.GetListaPrecioBlisterById(id);
+            var listaPrecioInDB = listaPreciosBL.GetListaPrecioById(id);
 
-            if (listaPrecioBlisterInDB == null)
+            if (listaPrecioInDB == null)
                 return NotFound();
 
-            listaPreciosBL.RemoveListaPrecioBlister(listaPrecioBlisterInDB);
+            listaPreciosBL.RemoveListaPrecio(listaPrecioInDB);
 
             return Ok();
 
