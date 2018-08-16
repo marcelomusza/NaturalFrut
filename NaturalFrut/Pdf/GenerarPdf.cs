@@ -26,12 +26,12 @@ namespace NaturalFrut.Pdf
             ProductoXVentaLogic ProductoXVentaLogic)
         {
             ventaMayoristaBL = VentaMayoristaLogic;
-       
+
             productoxVentaBL = ProductoXVentaLogic;
         }
         public void CrearPdf(int id)
         {
-             
+
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -45,10 +45,17 @@ namespace NaturalFrut.Pdf
 
                     };
 
-                    //Generar contenido del body de la tabla
-                    sb.Append("<table style='font-size:10px;' border = '0' ; Width ='100%';>");
+                    sb.Append("<br />");
+                    sb.Append("<br />");
+                    sb.Append("<br />");
+                    sb.Append("<br />");
+                    sb.Append("<br />");
+                    sb.Append("<br />");
 
-                    
+                    //Generar contenido del body de la tabla
+                    sb.Append("<table style='font-size:10px;' border = '0' ;>");
+
+
 
                     bool fondoColor = true;
                     foreach (var prod in viewModel.ProductoXVenta)
@@ -56,7 +63,7 @@ namespace NaturalFrut.Pdf
 
                         if (fondoColor)
                         {
-                            sb.Append("<tr bgcolor='#e1e3e8'>");                            
+                            sb.Append("<tr bgcolor='#e1e3e8'>");
                             fondoColor = false;
                         }
                         else
@@ -65,19 +72,19 @@ namespace NaturalFrut.Pdf
                             fondoColor = true;
                         }
 
-                        sb.Append("<td>" + prod.Producto.Nombre + "</td>");
+                        sb.Append("<td width='25%'>" + prod.Producto.Nombre + "</td>");
                         //sb.Append("<td>pasas c/cobertura chocolate negrox 1kg</td>");
-                        sb.Append("<td>" + prod.Cantidad + "</td>");
-                        sb.Append("<td>" + prod.TipoDeUnidad.Nombre + "</td>");
-                        sb.Append("<td>" + prod.Descuento + "</td>");
-                        sb.Append("<td>" + prod.Importe + "</td>");
-                        sb.Append("<td>" + prod.Total + "</td>");
-                        sb.Append("<td>" + prod.Producto.Nombre + "</td>");
-                        sb.Append("<td>" + prod.Cantidad + "</td>");
-                        sb.Append("<td>" + prod.TipoDeUnidad.Nombre + "</td>");
-                        sb.Append("<td>" + prod.Descuento + "</td>");
-                        sb.Append("<td>" + prod.Importe + "</td>");
-                        sb.Append("<td>" + prod.Total + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Cantidad + "</td>");
+                        sb.Append("<td width='5%'>" + prod.TipoDeUnidad.Nombre + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Descuento + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Total + "</td>");
+                        sb.Append("<td width='25%'>" + prod.Producto.Nombre + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Cantidad + "</td>");
+                        sb.Append("<td width='5%'>" + prod.TipoDeUnidad.Nombre + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Descuento + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='5%'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
                     }
 
@@ -89,8 +96,8 @@ namespace NaturalFrut.Pdf
 
                     //Export HTML String as PDF.
                     StringReader sr = new StringReader(sb.ToString());
-                    Document pdfDoc = new Document(PageSize.A4.Rotate(), 36, 36, 150, 36);
-                  
+                    Document pdfDoc = new Document(PageSize.A4.Rotate(), 36, 36, 80, 36);
+
                     //Instanciamos Componentes para el Header
                     PDFHeader pageHeader = new PDFHeader();
                     pageHeader.VentaMayorista = viewModel;
@@ -132,7 +139,7 @@ namespace NaturalFrut.Pdf
             int pageN = writer.PageNumber;
             var titleFont = FontFactory.GetFont("Arial", 18, Font.BOLD);
             var subTitleFont = FontFactory.GetFont("Arial", 14, Font.BOLD);
-            var boldTableFont = FontFactory.GetFont("Arial", 10, Font.BOLD);
+            var boldTableFont = FontFactory.GetFont("Arial", 9, Font.BOLD);
             var endingMessageFont = FontFactory.GetFont("Arial", 10, Font.ITALIC);
             var bodyFont = FontFactory.GetFont("Arial", 12, Font.NORMAL);
             var headerTable = new PdfPTable(12);
@@ -145,16 +152,18 @@ namespace NaturalFrut.Pdf
                 headerTable.SpacingAfter = 0;
                 headerTable.DefaultCell.Border = 5;
                 headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
-                
-                
+
+                headerTable.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
+
+
                 PdfPCell cell;
 
-               
+
                 cell = new PdfPCell();
-                
+
                 cell.Colspan = 12;
                 cell.Border = 0;
-                
+
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Nota de Pedido", titleFont));
@@ -255,9 +264,8 @@ namespace NaturalFrut.Pdf
                 cell = new PdfPCell(new Phrase("Producto", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
-              
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Cant", boldTableFont));
+                cell = new PdfPCell(new Phrase("Cant.", boldTableFont));
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
@@ -265,7 +273,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Descuento", boldTableFont));
+                cell = new PdfPCell(new Phrase("Desc.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -282,7 +290,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Cant", boldTableFont));
+                cell = new PdfPCell(new Phrase("Cant.", boldTableFont));
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
@@ -290,7 +298,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Descuento", boldTableFont));
+                cell = new PdfPCell(new Phrase("Desc.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -303,28 +311,29 @@ namespace NaturalFrut.Pdf
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
 
-               headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 36, writer.DirectContent);
+                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 36, writer.DirectContent);
 
 
 
-            }else
+            }
+            else
             {
 
-                
+
                 // var headerTable2 = new PdfPTable(12);
                 headerTable.HorizontalAlignment = 0;
                 headerTable.SpacingBefore = 0;
                 headerTable.SpacingAfter = 0;
                 headerTable.DefaultCell.Border = 5;
                 headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
-                
+
                 PdfPCell cell;
 
                 cell = new PdfPCell(new Phrase("Producto", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Cant", boldTableFont));
+                cell = new PdfPCell(new Phrase("Cant.", boldTableFont));
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
@@ -332,7 +341,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Descuento", boldTableFont));
+                cell = new PdfPCell(new Phrase("Desc.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -349,7 +358,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Cant", boldTableFont));
+                cell = new PdfPCell(new Phrase("Cant.", boldTableFont));
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
@@ -357,7 +366,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
-                cell = new PdfPCell(new Phrase("Descuento", boldTableFont));
+                cell = new PdfPCell(new Phrase("Desc.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -370,17 +379,17 @@ namespace NaturalFrut.Pdf
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
 
-                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height-20, writer.DirectContent);
+                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 20, writer.DirectContent);
 
-    
+
 
             }
 
-           // 
+            // 
 
         }
 
-       
+
     }
 
     public class PDFFooter : PdfPageEventHelper
@@ -397,7 +406,7 @@ namespace NaturalFrut.Pdf
             tabFot.DefaultCell.Border = 5;
 
             var boldTableFont = FontFactory.GetFont("Arial", 8, Font.BOLD);
-           
+
             PdfPCell cell;
 
             cell = new PdfPCell();
@@ -422,4 +431,4 @@ namespace NaturalFrut.Pdf
     }
 
 
-    }
+}

@@ -9,36 +9,41 @@ namespace NaturalFrut.App_BLL.ViewModels
 {
     public class VentaMayoristaViewModel
     {
-        public int ID { get; set; }
+        private VentaMayorista ventaMayorista;
 
-        [Required]
+        public int? ID { get; set; }
+
+        public Cliente ClienteObj { get; set; }
+
+        public String Cliente { get; set; }
+
         public DateTime Fecha { get; set; }
 
-        public bool Impreso { get; set; }
-
-        public bool NoConcretado { get; set; }
+        public double SaldoAnterior { get; set; }
 
         public double EntregaEfectivo { get; set; }
 
-        public double? Descuento { get; set; }
+        public double Total { get; set; }
 
         public double Saldo { get; set; }
-        
-        public int ClienteID { get; set; }
-        
-        public int VendedorID { get; set; }
 
         public int NumeroVenta { get; set; }
 
-        public double SumaTotal { get; set; }
+        public Vendedor VendedorObj { get; set; }
 
+        public string Vendedor { get; set; }
 
+        //public IEnumerable<Producto> Productos { get; set; }
 
-        public Cliente Cliente { get; set; }
+        public IEnumerable<Cliente> Clientes { get; set; }
 
-        public Vendedor Vendedor { get; set; }
+        public IEnumerable<Vendedor> Vendedores { get; set; }
 
-        public IList<ProductoXVenta> ProductosXVenta { get; set; }
+        public IEnumerable<TipoDeUnidad> TiposDeUnidad { get; set; }
+
+        public IEnumerable<ProductoXVenta> ProductoXVenta { get; set; }
+
+        public bool NoConcretado { get; set; }
 
 
         public VentaMayoristaViewModel()
@@ -50,11 +55,12 @@ namespace NaturalFrut.App_BLL.ViewModels
         {
             NumeroVenta = ventaMayorista.NumeroVenta;
             Fecha = ventaMayorista.Fecha;
-            Cliente = ventaMayorista.Cliente;
-            Vendedor = ventaMayorista.Vendedor;
-            SumaTotal = ventaMayorista.SumaTotal;
+            ClienteObj = ventaMayorista.Cliente;
+            VendedorObj = ventaMayorista.Vendedor;
+            Total = ventaMayorista.SumaTotal;
             EntregaEfectivo = ventaMayorista.EntregaEfectivo;
-                       
+
+            this.ventaMayorista = ventaMayorista;
         }
     }
 }

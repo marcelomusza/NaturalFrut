@@ -10,7 +10,6 @@ using NaturalFrut.Helpers;
 using Rotativa;
 using Rotativa.Options;
 using NaturalFrut.Pdf;
-//using NaturalFrut.Pdf;
 
 namespace NaturalFrut.Controllers
 {
@@ -327,7 +326,7 @@ namespace NaturalFrut.Controllers
         [AllowAnonymous]
         public ActionResult PrintAll(int Id)
         {
-           // var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+            // var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
             //var q = new ActionAsPdf("GenerarNotaPedido", new { Id = Id }) { FileName = "ExamReport.pdf",
             //    PageSize = Size.A4,
             //    CustomSwitches = "--disable-smart-shrinking",
@@ -339,7 +338,7 @@ namespace NaturalFrut.Controllers
 
             //};
 
-            GenerarPdf pdf = new GenerarPdf(ventaMayoristaBL,productoxVentaBL);
+            GenerarPdf pdf = new GenerarPdf(ventaMayoristaBL, productoxVentaBL);
 
             pdf.CrearPdf(Id);
 

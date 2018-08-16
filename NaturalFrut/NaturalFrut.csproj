@@ -244,6 +244,7 @@
     <Compile Include="App_BLL\VendedorLogic.cs" />
     <Compile Include="App_BLL\ProductoLogic.cs" />
     <Compile Include="App_BLL\ProveedorLogic.cs" />
+    <Compile Include="App_BLL\ViewModels\ListaPreciosBlisterViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ListaPreciosViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
+    <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
     <Compile Include="Migrations\201808070107363_model_listaprecio_decimals.cs" />
     <Compile Include="Migrations\201808070107363_model_listaprecio_decimals.Designer.cs">
       <DependentUpon>201808070107363_model_listaprecio_decimals.cs</DependentUpon>
@@ -276,6 +278,11 @@
     <Compile Include="Migrations\201808081502112_sePasaAString1.Designer.cs">
       <DependentUpon>201808081502112_sePasaAString1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808152312334_repair.cs" />
+    <Compile Include="Migrations\201808152312334_repair.Designer.cs">
+      <DependentUpon>201808152312334_repair.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -307,66 +314,6 @@
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\DecimalModelBinder.cs" />
-    <Compile Include="Migrations\201807052035202_nuevaProveedores.cs" />
-    <Compile Include="Migrations\201807052035202_nuevaProveedores.Designer.cs">
-      <DependentUpon>201807052035202_nuevaProveedores.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807060250463_tablaVentaMinorista.cs" />
-    <Compile Include="Migrations\201807060250463_tablaVentaMinorista.Designer.cs">
-      <DependentUpon>201807060250463_tablaVentaMinorista.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807060300338_tablaVentaMinoristas.cs" />
-    <Compile Include="Migrations\201807060300338_tablaVentaMinoristas.Designer.cs">
-      <DependentUpon>201807060300338_tablaVentaMinoristas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807071617035_Model_Producto_MarcaCategoriaNulleable.cs" />
-    <Compile Include="Migrations\201807071617035_Model_Producto_MarcaCategoriaNulleable.Designer.cs">
-      <DependentUpon>201807071617035_Model_Producto_MarcaCategoriaNulleable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807100235104_Seed_TipoDeUnidad.cs" />
-    <Compile Include="Migrations\201807100235104_Seed_TipoDeUnidad.Designer.cs">
-      <DependentUpon>201807100235104_Seed_TipoDeUnidad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807112059270_seAgregaTablaStock.cs" />
-    <Compile Include="Migrations\201807112059270_seAgregaTablaStock.Designer.cs">
-      <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.cs" />
-    <Compile Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.Designer.cs">
-      <DependentUpon>201807150206320_creacionNuevasTablasComprasClas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.cs" />
-    <Compile Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.Designer.cs">
-      <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807202259335_Model_ProductoXVenta_Descuento.cs" />
-    <Compile Include="Migrations\201807202259335_Model_ProductoXVenta_Descuento.Designer.cs">
-      <DependentUpon>201807202259335_Model_ProductoXVenta_Descuento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807222241111_Model_StockUpdate.cs" />
-    <Compile Include="Migrations\201807222241111_Model_StockUpdate.Designer.cs">
-      <DependentUpon>201807222241111_Model_StockUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807222244552_Model_StockUpdate1.cs" />
-    <Compile Include="Migrations\201807222244552_Model_StockUpdate1.Designer.cs">
-      <DependentUpon>201807222244552_Model_StockUpdate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807222322597_Relacion_TipoDeUnidadYStock.cs" />
-    <Compile Include="Migrations\201807222322597_Relacion_TipoDeUnidadYStock.Designer.cs">
-      <DependentUpon>201807222322597_Relacion_TipoDeUnidadYStock.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807232213358_modificacionTipoDato.cs" />
-    <Compile Include="Migrations\201807232213358_modificacionTipoDato.Designer.cs">
-      <DependentUpon>201807232213358_modificacionTipoDato.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807292114093_Model_VentaMayorista_DescuentoDouble.cs" />
-    <Compile Include="Migrations\201807292114093_Model_VentaMayorista_DescuentoDouble.Designer.cs">
-      <DependentUpon>201807292114093_Model_VentaMayorista_DescuentoDouble.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.cs" />
-    <Compile Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.Designer.cs">
-      <DependentUpon>201807292318247_Model_Cliente_CampoSaldo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201807311452151_cambioDetipo.cs" />
     <Compile Include="Migrations\201807311452151_cambioDetipo.Designer.cs">
       <DependentUpon>201807311452151_cambioDetipo.cs</DependentUpon>
@@ -795,51 +742,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807052035202_nuevaProveedores.resx">
-      <DependentUpon>201807052035202_nuevaProveedores.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807060250463_tablaVentaMinorista.resx">
-      <DependentUpon>201807060250463_tablaVentaMinorista.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807060300338_tablaVentaMinoristas.resx">
-      <DependentUpon>201807060300338_tablaVentaMinoristas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807071617035_Model_Producto_MarcaCategoriaNulleable.resx">
-      <DependentUpon>201807071617035_Model_Producto_MarcaCategoriaNulleable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807100235104_Seed_TipoDeUnidad.resx">
-      <DependentUpon>201807100235104_Seed_TipoDeUnidad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807112059270_seAgregaTablaStock.resx">
-      <DependentUpon>201807112059270_seAgregaTablaStock.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807150206320_creacionNuevasTablasComprasClas.resx">
-      <DependentUpon>201807150206320_creacionNuevasTablasComprasClas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807180150293_model_ventamayoristaDescuentoDOUBLE.resx">
-      <DependentUpon>201807180150293_model_ventamayoristaDescuentoDOUBLE.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807202259335_Model_ProductoXVenta_Descuento.resx">
-      <DependentUpon>201807202259335_Model_ProductoXVenta_Descuento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807222241111_Model_StockUpdate.resx">
-      <DependentUpon>201807222241111_Model_StockUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807222244552_Model_StockUpdate1.resx">
-      <DependentUpon>201807222244552_Model_StockUpdate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807222322597_Relacion_TipoDeUnidadYStock.resx">
-      <DependentUpon>201807222322597_Relacion_TipoDeUnidadYStock.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807232213358_modificacionTipoDato.resx">
-      <DependentUpon>201807232213358_modificacionTipoDato.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807292114093_Model_VentaMayorista_DescuentoDouble.resx">
-      <DependentUpon>201807292114093_Model_VentaMayorista_DescuentoDouble.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807292318247_Model_Cliente_CampoSaldo.resx">
-      <DependentUpon>201807292318247_Model_Cliente_CampoSaldo.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807311452151_cambioDetipo.resx">
       <DependentUpon>201807311452151_cambioDetipo.cs</DependentUpon>
     </EmbeddedResource>
@@ -875,6 +777,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808081502112_sePasaAString1.resx">
       <DependentUpon>201808081502112_sePasaAString1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808152312334_repair.resx">
+      <DependentUpon>201808152312334_repair.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
