@@ -58,6 +58,19 @@ namespace NaturalFrut.Models
         [Required]
         public int ListaId { get; set; }
 
-        
+        [Required]
+        public string Transporte { get; set; }
+
+        [Required]
+        public string DireccionTransporte { get; set; }
+
+        public int TelefonoTransporte { get; set; }
+
+        [Required]
+        public string Dias { get; set; }
+
+        [Required]
+        public string Horarios { get; set; }
+
     }
 }

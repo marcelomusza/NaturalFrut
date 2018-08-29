@@ -57,6 +57,24 @@
                 @Html.ValidationMessageFor(c => c.Localidad)
             </div>
 
+            <div class="form-group">
+                @Html.LabelFor(c => c.Transporte)
+                @Html.TextBoxFor(c => c.Transporte, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Transporte)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.DireccionTransporte)
+                @Html.TextBoxFor(c => c.DireccionTransporte, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.DireccionTransporte)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TelefonoTransporte)
+                @Html.TextBoxFor(c => c.TelefonoTransporte, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TelefonoTransporte)
+            </div>
+
         </div>
 
         <!--Agrupamos campos de la columna derecha-->
@@ -102,6 +120,18 @@
                 @Html.LabelFor(c => c.ListaId )
                 @Html.DropDownListFor(c => c.ListaId, new SelectList(Model.Lista, "Id", "Nombre"), "Seleccione Lista de Precios", new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.ListaId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Dias)
+                @Html.TextBoxFor(c => c.Dias, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Dias)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Horarios)
+                @Html.TextBoxFor(c => c.Horarios, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Horarios)
             </div>
 
         </div>

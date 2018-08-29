@@ -283,6 +283,18 @@
     <Compile Include="Migrations\201808160019583_repararModel.Designer.cs">
       <DependentUpon>201808160019583_repararModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808231744288_nuevosCamposCliente.cs" />
+    <Compile Include="Migrations\201808231744288_nuevosCamposCliente.Designer.cs">
+      <DependentUpon>201808231744288_nuevosCamposCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808231901016_SEELIMINACOLUMNA.cs" />
+    <Compile Include="Migrations\201808231901016_SEELIMINACOLUMNA.Designer.cs">
+      <DependentUpon>201808231901016_SEELIMINACOLUMNA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808231902217_cambioTipo.cs" />
+    <Compile Include="Migrations\201808231902217_cambioTipo.Designer.cs">
+      <DependentUpon>201808231902217_cambioTipo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -781,6 +793,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808160019583_repararModel.resx">
       <DependentUpon>201808160019583_repararModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808231744288_nuevosCamposCliente.resx">
+      <DependentUpon>201808231744288_nuevosCamposCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808231901016_SEELIMINACOLUMNA.resx">
+      <DependentUpon>201808231901016_SEELIMINACOLUMNA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808231902217_cambioTipo.resx">
+      <DependentUpon>201808231902217_cambioTipo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

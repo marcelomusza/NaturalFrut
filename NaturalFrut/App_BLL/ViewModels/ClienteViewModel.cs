@@ -48,6 +48,22 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Dirección Email")]
         public string Email { get; set; }
 
+        [Required]
+        public string Transporte { get; set; }
+
+        [Required]
+        [Display(Name = "Dirección Transporte")]
+        public string DireccionTransporte { get; set; }
+
+        [Display(Name = "Teléfono Transporte")]
+        public int TelefonoTransporte { get; set; }
+
+        [Required]
+        public string Dias { get; set; }
+
+        [Required]
+        public string Horarios { get; set; }
+
         public IEnumerable<CondicionIVA> CondicionIVA { get; set; }
 
         [Required]
@@ -84,6 +100,11 @@ namespace NaturalFrut.App_BLL.ViewModels
             TelefonoNegocio = cliente.TelefonoNegocio;
             TelefonoCelular = cliente.TelefonoCelular;
             Email = cliente.Email;
+            Transporte = cliente.Transporte;
+            DireccionTransporte = cliente.DireccionTransporte;
+            TelefonoTransporte = cliente.TelefonoTransporte;
+            Dias = cliente.Dias;
+            Horarios = cliente.Horarios;
 
             CondicionIVAId = cliente.CondicionIVAId;
             TipoClienteId = cliente.TipoClienteId;
