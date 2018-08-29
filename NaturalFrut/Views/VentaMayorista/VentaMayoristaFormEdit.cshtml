@@ -26,70 +26,77 @@
             </div>
 
             @*<div class="form-group">
-            <label>Cliente</label>
-            <div class="tt-container vtamay-cliente">
-                <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" onblur="GetSaldoCliente();" class="form-control" />
-                <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
+                    <label>Cliente</label>
+                    <div class="tt-container vtamay-cliente">
+                        <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" onblur="GetSaldoCliente();" class="form-control" />
+                        <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
 
 
-            </div>
-        </div>*@
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 <label>Cliente</label>
                 <div class="tt-container vtamay-cliente">
-                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="@Model.ClienteID" required type="text" value="@Model.Cliente.Nombre" onblur="GetSaldoCliente();" class="form-control" disabled/>
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="@Model.ClienteID" required type="text" value="@Model.Cliente.Nombre" class="form-control" disabled />
                 </div>
             </div>
 
             @*<div class="form-group">
-                <label>Vendedor</label>
-                <div style="display:flex;">
-                    <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor" required>
-                        <option value="" selected="selected">Seleccione...</option>
-                        @foreach (var vendedor in @ViewBag.Vendedores)
-                {
-                    <option value="@vendedor.ID">@vendedor.Nombre</option>
-        }
-                    </select>&nbsp;&nbsp;
-                    <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
-                </div>
-                <label class="error field-validation-valid" for="vendedor" data-valmsg-replace="true"></label>
+                        <label>Vendedor</label>
+                        <div style="display:flex;">
+                            <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor" required>
+                                <option value="" selected="selected">Seleccione...</option>
+                                @foreach (var vendedor in @ViewBag.Vendedores)
+                        {
+                            <option value="@vendedor.ID">@vendedor.Nombre</option>
+                }
+                            </select>&nbsp;&nbsp;
+                            <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
+                        </div>
+                        <label class="error field-validation-valid" for="vendedor" data-valmsg-replace="true"></label>
 
-            </div>*@
+                    </div>*@
 
             <div class="form-group">
                 <label>Vendedor</label>
-                <input id="vendedor" name="vendedor" type="text" value="@Model.Vendedor.Nombre" class="form-control" disabled />
+                <input id="vendedor" name="vendedor" type="text" value="@Model.Vendedor.Nombre" data-vendedor-id="@Model.VendedorID" class="form-control" disabled />
             </div>
 
         </div>
 
-                <!--Agrupamos campos de la columna derecha-->
-                <div class="col-sm-6">
+        <!--Agrupamos campos de la columna derecha-->
+        <div class="col-sm-6">
 
-                    <div class="form-group">
-                        <label>Entrega Efectivo</label>
-                        <input id="entregaefectivo" name="entregaefectivo" required type="number" value="@Model.EntregaEfectivo" class="form-control" />
-                    </div>
+            <div class="form-group">
+                <label>Entrega Efectivo</label>
+                <input id="entregaefectivo" name="entregaefectivo" required type="number" value="@Model.EntregaEfectivo" class="form-control" />
+            </div>
 
-                    <div class="form-group">
-                        <label>Saldo</label>
-                        <input id="saldo" name="saldo" type="number" value="@Model.Cliente.Saldo" class="form-control" disabled />
-                    </div>
+            <div class="form-group">
+                <label>Saldo</label>
+                <input id="saldo" name="saldo" type="number" value="@Model.Cliente.Saldo" class="form-control" disabled />
+            </div>
 
-                    <div class="checkbox">
+            <div class="checkbox">
 
-                        <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
-                        <label><strong>No Concretado</strong></label>
-
-                    </div>
-
-
-
-                </div>
+                <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
+                <label><strong>No Concretado</strong></label>
 
             </div>
+
+            <div class="checkbox">
+
+                <input id="facturado" name="facturado" type="checkbox" value="" />
+                <label><strong>Venta Facturada?</strong></label>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -112,7 +119,25 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="listaproductos"></tbody>
+                <tbody class="listaproductos">
+                    @{ int counter = 0;}
+                    @foreach (var producto in Model.ProductosXVenta)
+                    {
+                        <tr>
+                            <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
+                            <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
+                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="number" value="@producto.Importe" class="form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="number" data-js-counter="@counter" value="@producto.Total" class="totalimporte form-control" disabled /></div></td>
+                            <td><input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
+                            <input type="hidden" name="prodxventaid" value="@producto.ID"/>
+                            </td>
+                        </tr>
+                            counter++;
+                    }
+
+                </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="7" style="text-align: left;">
@@ -144,7 +169,7 @@
         <div class="col-sm-12">
 
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-primary">Finalizar Venta</button>
+            <button type="submit" class="btn btn-primary">Actualizar Venta</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
         </div>
@@ -154,36 +179,36 @@
 </form>
 
 @*<div class="modal fade" id="clienteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Nuevo Cliente</h3>
-            </div>
-            <div class="modal-body" id="clienteModalBody">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Nuevo Cliente</h3>
+                </div>
+                <div class="modal-body" id="clienteModalBody">
+
+
+                </div>
 
 
             </div>
-
 
         </div>
 
     </div>
 
-</div>
-
-<div class="modal fade" id="vendedorModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Nuevo Vendedor</h3>
-            </div>
-            <div class="modal-body" id="vendedorModalBody">
+    <div class="modal fade" id="vendedorModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Nuevo Vendedor</h3>
+                </div>
+                <div class="modal-body" id="vendedorModalBody">
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 
 
@@ -196,53 +221,67 @@
     <!--TAG SCRIPT PARA MODAL-->
     @*<script>
 
-        var NuevoClienteModal = function (clienteID) {
+            var NuevoClienteModal = function (clienteID) {
 
-            var url = "/VentaMayorista/NuevoCliente?ID=" + clienteID;
+                var url = "/VentaMayorista/NuevoCliente?ID=" + clienteID;
 
-            $("#clienteModalBody").load(url, function () {
-                $("#clienteModal").modal("show");
+                $("#clienteModalBody").load(url, function () {
+                    $("#clienteModal").modal("show");
 
-            })
+                })
 
-        }
+            }
 
-        var NuevoVendedorModal = function (vendedorID) {
+            var NuevoVendedorModal = function (vendedorID) {
 
-            var url = "/VentaMayorista/NuevoVendedor?ID=" + vendedorID;
+                var url = "/VentaMayorista/NuevoVendedor?ID=" + vendedorID;
 
-            $("#vendedorModalBody").load(url, function () {
-                $("#vendedorModal").modal("show");
+                $("#vendedorModalBody").load(url, function () {
+                    $("#vendedorModal").modal("show");
 
-            })
+                })
 
-        }
+            }
 
-    </script>*@
+        </script>*@
 
     <script>
 
         $(document).ready(function () {
 
+            //Inicializamos typeahead para los productos existentes
+            $("input[name='producto']").each(function () {
+
+                var input = $(this);               
+                var cont = input.attr("data-js-counter");
+                typeahead_initialize(cont);
+
+            });
+
             //ViewModel para pasar al webAPI
             var vm = {
+                ID: 0,
                 fecha: "",
                 clienteID: 0,
                 vendedorID: 0,
                 numeroVenta: 0,
                 noConcretado: false,
+                facturado: false,
                 sumaTotal: 0,
                 descuento: 0,
                 saldo: 0,
                 entregaEfectivo: 0,
-                productosXVenta : []
+                productosXVenta: []                
             };
+
+            var vm2 = [];
 
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
 
             CargarValoresInicialesEnVM(vm);
-
+            GetSaldoCliente();
+            
             //**EVENTOS START **//
 
             $("#cliente").validate({
@@ -255,22 +294,22 @@
 
             });
 
-            var counter = 0;
+            var counter = @counter; //Continuamos con la numeracion segun el contador de la tabla de productos
             $("#addrow").on("click", function () {
                 RecalcularTotal();
                 var validarCliente = $("#cliente").valid();
 
                 if (validarCliente) {
 
-                    var newRow = $("<tr>");
+                    var newRow = $("<tr class='productosnuevos'>");
                     var cols = "";
 
-                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this);" /><label id="stockdisponible' + counter + '" ></label></div></td>';
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this); CalcularValoresBlister(' + counter + ');" /><label id="stockdisponible' + counter + '" ></label></div></td>';
 
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
-                    GetTiposDeUnidadDynamic(counter);
+                    //GetTiposDeUnidadDynamic(counter);
 
                     cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control"  /></div></td>';
 
@@ -338,9 +377,6 @@
                 RecalcularTotal();
             });
 
-            $("#vendedor").on('change', function () {
-                vm.vendedorID = this.value;
-            })
 
             $("#tipoDescuento").on('change', function () {
 
@@ -428,8 +464,15 @@
 
             })
 
-            $("#entregaefectivo").on('change', function () {
-                vm.entregaEfectivo = this.value;
+            $("#facturado").on('change', function () {
+                if (this.checked) {
+                    vm.facturado = true;
+                }
+                else {
+                    vm.facturado = false;
+                }
+
+
             })
 
             $(document).on('blur', "input.js-descprod", function () {
@@ -512,21 +555,26 @@
                     if (validarProducto && validarCantidad && validartipodeUnidad) {
 
                         //Modal para aceptacion de venta
-                        bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
+                        bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
 
                             if (result) {
 
-                                CargarProductosAlVM(vm);
+                                CargarProductosAlVM(vm, vm2);
+
+                                var model = {
+                                    "ventaMayorista": vm,
+                                    "productosXVenta": vm2
+                                };
 
 
                                 $.ajax({
                                     url: "/api/ventasmayorista",
-                                    method: "post",
-                                    data: vm
+                                    method: "put",
+                                    data: model 
                                 })
                                     .done(function () {
 
-                                        toastr.success("La venta se ha guardado correctamente.");
+                                        toastr.success("La venta se ha actualizado correctamente.");
 
                                         setTimeout(function () {
                                             window.location.href = "/VentaMayorista";
@@ -590,10 +638,12 @@
 
             var clienteID = $("#cliente").attr("data-cliente-id");
 
-            $.getJSON("GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
-                .error(function (xhr, textStatus, exceptionThrown) {
-                    bootbox.alert(xhr.responseText);
-                })
+            if (clienteID != "") {
+                $.getJSON("/VentaMayorista/GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
+                    .error(function (xhr, textStatus, exceptionThrown) {
+                        bootbox.alert(xhr.responseText);
+                    })
+            }
 
         }
 
@@ -680,7 +730,10 @@
                 sumaVentaTotal += parseFloat(this.value);
             });
 
-            sumaVentaTotal = + sumaVentaTotal + parseFloat(saldo);
+            if (parseFloat(saldo) >= 0)
+                sumaVentaTotal = parseFloat(sumaVentaTotal) + parseFloat(saldo);
+            else
+                sumaVentaTotal = parseFloat(sumaVentaTotal) - parseFloat(saldo);
 
             $("#totalventa").val(sumaVentaTotal);
         }
@@ -733,7 +786,7 @@
             vm.fecha = fecha;
         }
 
-        function CargarProductosAlVM(vm) {
+        function CargarProductosAlVM(vm, vm2) {
 
             //Cargamos la lista de productos
             $(".listaproductos tr").each(function (i, row) {
@@ -745,6 +798,7 @@
                     $descuento = $row.find('input[name*="descprod"]'),
                     $importe = $row.find('input[name*="importe"]'),
                     $totalimporte = $row.find('input[name*="totalimporte"]');
+                    $prodxventaid = $row.find('input[name*="prodxventaid"]');
 
                 var productoid = $producto.attr("data-producto-id");
                 var cantidad = $cantidad.val();
@@ -752,9 +806,12 @@
                 var descuento = $descuento.val();
                 var importe = $importe.val();
                 var totalimporte = $totalimporte.val();
+                var prodxventaid = $prodxventaid.val();
 
                 vm.productosXVenta.push(
                     {
+                        ID: prodxventaid,
+                        VentaID: @ViewBag.VentaMayoristaID,
                         ProductoID: productoid,
                         Cantidad: cantidad,
                         TipoDeUnidadID: tipodeunidad,
@@ -764,15 +821,158 @@
                     }
                 );
 
+                
+
             });
 
-            //Cargamos la suma total y el descuento total
+            //Productos Nuevos
+            $(".productosnuevos").each(function (i, row) {
+
+                var $row = $(row),
+                    $producto = $row.find('input[name*="producto"]'),
+                    $cantidad = $row.find('input[name*="cantidad"]'),
+                    $tipodeunidad = $row.find('select[name*="tiposdeunidad"]'),
+                    $descuento = $row.find('input[name*="descprod"]'),
+                    $importe = $row.find('input[name*="importe"]'),
+                    $totalimporte = $row.find('input[name*="totalimporte"]');
+                $prodxventaid = $row.find('input[name*="prodxventaid"]');
+
+                var productoid = $producto.attr("data-producto-id");
+                var cantidad = $cantidad.val();
+                var tipodeunidad = $tipodeunidad.val();
+                var descuento = $descuento.val();
+                var importe = $importe.val();
+                var totalimporte = $totalimporte.val();
+                var prodxventaid = $prodxventaid.val();
+
+                vm2.push(
+                    {
+                        ProductoID: productoid,
+                        Cantidad: cantidad,
+                        TipoDeUnidadID: tipodeunidad,
+                        VentaID: @ViewBag.VentaMayoristaID,
+                        Descuento: descuento,
+                        Importe: importe,
+                        Total: totalimporte
+                    }
+                );
+
+
+
+            });
+
+
+            
+
+            //Cargamos el resto de los datos
+            vm.ID = @ViewBag.VentaMayoristaID;
+            vm.clienteID = $("#cliente").attr("data-cliente-id");
+            vm.vendedorID = $("#vendedor").attr("data-vendedor-id");
+            vm.entregaEfectivo = $("#entregaefectivo").val();
             vm.descuento = $("#descuento").val();
             vm.saldo = $("#saldo").val();
-            vm.sumaTotal = $("#totalventa").val();
+            vm.sumaTotal = $("#totalventa").val();            
 
         }
 
+        function ValidarTipoDeProducto(counter) {
+
+            var productoID = $("#producto" + counter).attr("data-producto-id");
+
+            if (productoID > 0) {
+                $.getJSON("/VentaMayorista/ValidarTipoDeProductoAsync", { ProductoID : productoID, Counter: counter }, PopulateTipoDeUnidadSegunProducto)
+                    .error(function (xhr, textStatus, exceptionThrown) {
+                        bootbox.alert(xhr.responseText);
+                    })
+            }
+
+        }
+
+        PopulateTipoDeUnidadSegunProducto = function (data) {
+
+            if (data.EsBlister) {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
+                //$("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
+                $("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
+
+                //Paso siguiente, calculamos el stock disponible
+                var productoID = $("#producto" + data.Counter).attr("data-producto-id");
+                var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
+
+                $.getJSON("/VentaMayorista/CalcularStockBlisterAsync", { ProductoID: productoID, TipoUnidadID: tipoUnidadID, Counter: data.Counter }, UpdateStockBlister)
+                    .error(function (xhr, textStatus, exceptionThrown) {
+                        bootbox.alert(xhr.responseText);
+                    })
+
+
+
+            }
+            else {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+                GetTiposDeUnidadDynamic(data.Counter);
+
+                $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
+
+            }
+
+        }
+
+        UpdateStockBlister = function (data) {
+
+            if (data.Success) {
+
+                var cantidad = $("#cantidad" + data.Counter).val();
+                if (data.Stock - cantidad < 0) {
+                    $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
+                    $("#stockdisponible" + data.Counter).css("color", "red");
+                }
+                else {
+                    $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
+                    $("#stockdisponible" + data.Counter).css("color", "green");
+                }
+
+            }
+            else {
+                bootbox.alert(data.Error);
+            }
+
+        }
+
+        function CalcularValoresBlister(counter) {
+
+            var validarProducto = $("#producto" + counter).valid();
+            var validarCantidad = $("#cantidad" + counter).valid();
+
+            if (validarProducto && validarCantidad) {
+
+                var clienteID = $("#cliente").attr("data-cliente-id");
+                var productoID = $("#producto" + counter).attr("data-producto-id");
+                var cantidad = $("#cantidad" + counter).val();
+                var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
+
+                if (tipoUnidadID > 0) {
+                    $.getJSON("/VentaMayorista/CalcularValorBlisterAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
+                        .error(function (xhr, textStatus, exceptionThrown) {
+                            bootbox.alert(xhr.responseText);
+                        })
+                }
+
+            }
+
+
+        }
+
+        function CalcularValoresSegunTipoProducto(counter, esBlister) {
+
+            //Aplica solo para productos existentes del listado, para diferenciar cual es Blister y Cual no
+
+            if (esBlister.toLowerCase() == "True")
+                CalcularValoresBlister(counter);
+            else
+                CalcularStockYValorProducto(counter);
+        }
     </script>
 
 }

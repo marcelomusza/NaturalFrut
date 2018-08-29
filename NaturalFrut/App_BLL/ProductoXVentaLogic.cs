@@ -26,7 +26,11 @@ namespace NaturalFrut.App_BLL
             TipoDeUnidadRP = TipoDeUnidadRepository;
             VentaMayoristaRP = VentaMayoristaRepository;
         }
-        
+
+        public ProductoXVentaLogic(IRepository<ProductoXVenta> ProductoXVentaRepository)
+        {
+            ProductoXVentaRP = ProductoXVentaRepository;
+        }
 
         public List<ProductoXVenta> GetAllProductoXVenta()
         {

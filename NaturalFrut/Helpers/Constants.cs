@@ -11,7 +11,11 @@ namespace NaturalFrut.Helpers
         public const int PRECIO_X_KG = 1;
         public const int PRECIO_X_BULTO = 2;
         public const int PRECIO_X_UNIDAD = 3;
+
         public const int LISTAPRINCIPAL = 9;
+
+        public const int TIPODEUNIDAD_BLISTER = 4;
+
 
     }
 }

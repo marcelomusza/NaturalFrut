@@ -267,6 +267,7 @@
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
+    <Compile Include="DTOs\VentaUpdateDTO.cs" />
     <Compile Include="Migrations\201808070107363_model_listaprecio_decimals.cs" />
     <Compile Include="Migrations\201808070107363_model_listaprecio_decimals.Designer.cs">
       <DependentUpon>201808070107363_model_listaprecio_decimals.cs</DependentUpon>
@@ -279,11 +280,16 @@
     <Compile Include="Migrations\201808081502112_sePasaAString1.Designer.cs">
       <DependentUpon>201808081502112_sePasaAString1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808160019583_repararModel.cs" />
-    <Compile Include="Migrations\201808160019583_repararModel.Designer.cs">
-      <DependentUpon>201808160019583_repararModel.cs</DependentUpon>
+    <Compile Include="Migrations\201808170245043_Model_StockCantDouble.cs" />
+    <Compile Include="Migrations\201808170245043_Model_StockCantDouble.Designer.cs">
+      <DependentUpon>201808170245043_Model_StockCantDouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808290031381_Model_VentaMayorista_Facturado.cs" />
+    <Compile Include="Migrations\201808290031381_Model_VentaMayorista_Facturado.Designer.cs">
+      <DependentUpon>201808290031381_Model_VentaMayorista_Facturado.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
+    <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -723,6 +729,7 @@
     <Content Include="Views\UsersAdmin\Editar.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\VentaMayorista\NotaDePedidoForm.cshtml" />
+    <Content Include="Views\VentaMayorista\VentaMayoristaFormEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -779,8 +786,11 @@
     <EmbeddedResource Include="Migrations\201808081502112_sePasaAString1.resx">
       <DependentUpon>201808081502112_sePasaAString1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808160019583_repararModel.resx">
-      <DependentUpon>201808160019583_repararModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808170245043_Model_StockCantDouble.resx">
+      <DependentUpon>201808170245043_Model_StockCantDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808290031381_Model_VentaMayorista_Facturado.resx">
+      <DependentUpon>201808290031381_Model_VentaMayorista_Facturado.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

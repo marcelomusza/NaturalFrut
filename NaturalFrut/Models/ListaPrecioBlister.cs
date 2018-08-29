@@ -10,7 +10,7 @@ namespace NaturalFrut.Models
     [Table("ListaPreciosBlister")]
     public class ListaPrecioBlister : IEntity
     {
-
+        
         public int ID { get; set; }
 
         public int Gramos { get; set; }

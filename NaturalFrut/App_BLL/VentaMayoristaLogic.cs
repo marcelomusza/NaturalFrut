@@ -16,31 +16,48 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Vendedor> vendedorRP;
         private readonly IRepository<Lista> listaRP;
         private readonly IRepository<ListaPrecio> listaPreciosRP;
+        private readonly IRepository<ListaPrecioBlister> listaPreciosBlisterRP;
         private readonly IRepository<Producto> productoRP;
+        private readonly IRepository<ProductoXVenta> productoXVentaRP;
+        private readonly IRepository<Categoria> categoriaRP;
+        private readonly IRepository<Marca> marcaRP;
 
         public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
             IRepository<Cliente> ClienteRepository,
             IRepository<Vendedor> VendedorRepository,
             IRepository<Lista> ListaRepository,
             IRepository<ListaPrecio> ListaPrecioRepository,
-            IRepository<Producto> ProductoRepository)
+            IRepository<ListaPrecioBlister> ListaPrecioBlisterRepository,
+            IRepository<Producto> ProductoRepository,
+            IRepository<ProductoXVenta> ProductoXVentaRepository,
+            IRepository<Categoria> CategoriaRepository,
+            IRepository<Marca> MarcaRepository)
         {
             ventaMayoristaRP = VentaMayoristaRepository;
             clienteRP = ClienteRepository;
             vendedorRP = VendedorRepository;
             listaRP = ListaRepository;
             listaPreciosRP = ListaPrecioRepository;
+            listaPreciosBlisterRP = ListaPrecioBlisterRepository;
             productoRP = ProductoRepository;
+            productoXVentaRP = ProductoXVentaRepository;
         }
 
-        public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository)
+        public VentaMayoristaLogic(IRepository<VentaMayorista> VentaMayoristaRepository,
+            IRepository<ListaPrecioBlister> ListaPrecioBlisterRepository)
         {
             ventaMayoristaRP = VentaMayoristaRepository;
+            listaPreciosBlisterRP = ListaPrecioBlisterRepository;
         }
 
         public VentaMayoristaLogic(IRepository<Cliente> ClienteRepository)
         {
             clienteRP = ClienteRepository;
+        }
+
+        public VentaMayoristaLogic(IRepository<ListaPrecioBlister> ListaPrecioRepository)
+        {
+            listaPreciosBlisterRP = ListaPrecioRepository;
         }
 
         
@@ -62,12 +79,18 @@ namespace NaturalFrut.App_BLL
 
         public VentaMayorista GetVentaMayoristaById(int id)
         {
-            return ventaMayoristaRP
+            VentaMayorista vtaMayorista = ventaMayoristaRP
                 .GetAll()
                 .Include(c => c.Cliente)
                 .Include(v => v.Vendedor)
-                .Include(p => p.ProductosXVenta)
+                .Include(p => p.ProductosXVenta)                
+                .Include("ProductosXVenta.TipoDeUnidad")
+                .Include("ProductosXVenta.Producto")
+                .Include("ProductosXVenta.Producto.Marca")
+                .Include("ProductosXVenta.Producto.Categoria")
                 .Where(c => c.ID == id).SingleOrDefault();
+
+            return vtaMayorista;
         }
 
 
@@ -78,7 +101,7 @@ namespace NaturalFrut.App_BLL
         }
 
         public void AddVentaMayorista(VentaMayorista ventaMayorista)
-        {
+        {            
             ventaMayoristaRP.Add(ventaMayorista);
             ventaMayoristaRP.Save();
         }
@@ -134,5 +157,16 @@ namespace NaturalFrut.App_BLL
 
 
         }
+
+        public ListaPrecioBlister CalcularImporteBlisterSegunCliente(int productoID)
+        {
+           
+            var productoSegunLista = listaPreciosBlisterRP.GetAll()
+                .Where(p => p.ProductoID == productoID)
+                .SingleOrDefault();
+
+            return productoSegunLista;
+        }
+        
     }
 }

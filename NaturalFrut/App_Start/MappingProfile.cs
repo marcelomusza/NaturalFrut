@@ -48,6 +48,10 @@ namespace NaturalFrut.App_Start
 
             Mapper.CreateMap<ProductoXVenta, ProductoXVentaDTO>();
             Mapper.CreateMap<ProductoXVentaDTO, ProductoXVenta>();
+
+            Mapper.CreateMap<VentaUpdate, VentaUpdateDTO>();
+            Mapper.CreateMap<VentaUpdateDTO, VentaUpdate>();
+
         }
 
        

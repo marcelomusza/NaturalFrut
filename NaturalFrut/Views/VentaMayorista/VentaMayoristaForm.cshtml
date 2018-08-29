@@ -131,7 +131,7 @@
         <div class="col-sm-12">
 
             @Html.AntiForgeryToken()
-            <input type="hidden" id="CounterAnterior" />            
+            <input type="hidden" id="CounterAnterior" />
             <button type="submit" class="btn btn-primary">Finalizar Venta</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
@@ -258,7 +258,7 @@
 
                     cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this);" /><label id="stockdisponible' + counter + '" ></label></div></td>';
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this); CalcularValoresBlister(' + counter + ');" /><label id="stockdisponible' + counter + '" ></label></div></td>';
 
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
                     //GetTiposDeUnidadDynamic(counter);
@@ -667,7 +667,10 @@
                 sumaVentaTotal += parseFloat(this.value);
             });
 
-            sumaVentaTotal = + sumaVentaTotal + parseFloat(saldo);
+            if (parseFloat(saldo) >= 0)
+                sumaVentaTotal = parseFloat(sumaVentaTotal) + parseFloat(saldo);
+            else
+                sumaVentaTotal = parseFloat(sumaVentaTotal) - parseFloat(saldo);
 
             $("#totalventa").val(sumaVentaTotal);
         }
@@ -740,6 +743,7 @@
 
                 vm.productosXVenta.push(
                     {
+                        VentaID: 0,
                         ProductoID: productoid,
                         Cantidad: cantidad,
                         TipoDeUnidadID: tipodeunidad,
@@ -775,9 +779,20 @@
 
             if (data.EsBlister) {
                 $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("999").text("Blister..."));
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
                 //$("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
                 $("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
+
+                //Paso siguiente, calculamos el stock disponible
+                var productoID = $("#producto" + data.Counter).attr("data-producto-id");
+                var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
+
+                $.getJSON("CalcularStockBlisterAsync", { ProductoID: productoID, TipoUnidadID: tipoUnidadID, Counter: data.Counter }, UpdateStockBlister)
+                    .error(function (xhr, textStatus, exceptionThrown) {
+                        bootbox.alert(xhr.responseText);
+                    })
+                
+
 
             }
             else {
@@ -791,8 +806,50 @@
 
         }
 
+        UpdateStockBlister = function (data) {
+
+            if (data.Success) {
+
+                var cantidad = $("#cantidad" + data.Counter).val();
+                if (data.Stock - cantidad < 0) {
+                    $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
+                    $("#stockdisponible" + data.Counter).css("color", "red");
+                }
+                else {
+                    $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
+                    $("#stockdisponible" + data.Counter).css("color", "green");
+                }
+               
+            }
+            else {
+                bootbox.alert(data.Error);
+            }
+
+        }
+
+        function CalcularValoresBlister(counter) {
+            
+            var validarProducto = $("#producto" + counter).valid();
+            var validarCantidad = $("#cantidad" + counter).valid();
+
+            if (validarProducto && validarCantidad) {
+
+                var clienteID = $("#cliente").attr("data-cliente-id");
+                var productoID = $("#producto" + counter).attr("data-producto-id");
+                var cantidad = $("#cantidad" + counter).val();
+                var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
+
+                if (tipoUnidadID > 0) {
+                    $.getJSON("CalcularValorBlisterAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
+                        .error(function (xhr, textStatus, exceptionThrown) {
+                            bootbox.alert(xhr.responseText);
+                        })
+                }
+
+            }
 
 
+        }
 
 
     </script>
