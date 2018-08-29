@@ -21,6 +21,8 @@ namespace NaturalFrut.Models
 
         public bool NoConcretado { get; set; }
 
+        public bool Facturado { get; set; }
+
         public double EntregaEfectivo { get; set; }
 
         public double? Descuento { get; set; }

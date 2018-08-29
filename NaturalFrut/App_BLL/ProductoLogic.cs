@@ -30,6 +30,11 @@ namespace NaturalFrut.App_BLL
             listaPrecioRP = ListaPrecioRepository;
         }
 
+        public ProductoLogic(IRepository<Producto> ProductoRepository)
+        {
+            productoRP = ProductoRepository;
+        }
+
         public ProductoLogic(IRepository<Producto> ProductoRepository, 
             IRepository<Cliente> ClienteRepository,
             IRepository<ListaPrecio> ListaPrecioRepository)

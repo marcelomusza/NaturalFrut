@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class repararModel : IMigrationMetadata
+    public sealed partial class Model_StockCantDouble : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(repararModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Model_StockCantDouble));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808160019583_repararModel"; }
+            get { return "201808170245043_Model_StockCantDouble"; }
         }
         
         string IMigrationMetadata.Source

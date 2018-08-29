@@ -61,6 +61,7 @@ namespace NaturalFrut.Controllers
             //Cargamos datos a mandar a la view
             ViewBag.Fecha = DateTime.Now;
             ViewBag.Vendedores = ventaMayoristaBL.GetVendedorList();
+            ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
 
             if (ultimaVenta == null)
             {
@@ -82,12 +83,29 @@ namespace NaturalFrut.Controllers
         {
 
             var vtaMayorista = ventaMayoristaBL.GetVentaMayoristaById(Id);
+            //var productosXVentaMayorista = ventaMayoristaBL.GetProductosXVentaMayorista(Id);
 
-            //VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(vtaMayorista)
-            //{
-            //    Cliente = clienteBL.get
-            //    Producto = listaPreciosBL.GetProductoList()
-            //};
+            foreach (var producto in vtaMayorista.ProductosXVenta)
+            {
+
+                if(producto.Producto.Categoria != null)
+                {
+                    if (producto.Producto.EsBlister)
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - BLISTER - ";
+                    else
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ")";
+                }
+                else
+                {
+                    if (producto.Producto.EsBlister)
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ") - BLISTER - ";
+                    else
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ")";
+                }
+            }
+
+            ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
+            ViewBag.VentaMayoristaID = Id;
 
             if (vtaMayorista == null)
                 return HttpNotFound();
@@ -251,11 +269,6 @@ namespace NaturalFrut.Controllers
             }
 
 
-
-
-
-
-
         }
 
 
@@ -300,6 +313,62 @@ namespace NaturalFrut.Controllers
 
         }
 
+        public ActionResult CalcularStockBlisterAsync(int productoID, int tipoUnidadID, int counter)
+        {
+            try
+            {
+                Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+                return Json(new { Success = true, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            
+
+
+        }
+
+        public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
+        {
+
+            try
+            {
+                double importe;
+                double importeTotal;
+
+                Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+                if (productoSegunStock == null)
+                    throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+                ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+
+                if (productoBlisterSegunLista == null)
+                    throw new Exception("Error al cargar los precios de producto");
+                
+                importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
+
+                //Sumamos el importe total
+                importeTotal = importe * cantidad;
+
+                return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+
+
+
         [AllowAnonymous]
         public ActionResult GenerarNotaPedido(int Id)
         {
@@ -323,6 +392,7 @@ namespace NaturalFrut.Controllers
             return View("NotaDePedidoForm", viewModel);
         }
 
+
         [AllowAnonymous]
         public ActionResult PrintAll(int Id)
         {
@@ -342,8 +412,12 @@ namespace NaturalFrut.Controllers
 
             pdf.CrearPdf(Id);
 
+            var venta = ventaMayoristaBL.GetAllVentaMayorista();
 
-            return View("Index");
+            if(venta == null)
+                return HttpNotFound();
+
+            return View(venta);
 
 
 

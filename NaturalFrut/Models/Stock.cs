@@ -23,7 +23,7 @@ namespace NaturalFrut.Models
 
         [Required]
         [Display(Name = "Cantidad")]
-        public int Cantidad { get; set; }
+        public double Cantidad { get; set; }
 
         //[Required]
         //[Display(Name = "Cantidad x Bulto")]

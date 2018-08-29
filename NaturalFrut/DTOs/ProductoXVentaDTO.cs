@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaturalFrut.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace NaturalFrut.DTOs
 {
     public class ProductoXVentaDTO
     {
+
+        public int ID { get; set; }
 
         [Required]
         public int Cantidad { get; set; }
@@ -24,7 +27,17 @@ namespace NaturalFrut.DTOs
         public int TipoDeUnidadID { get; set; }
 
         [Required]
-        public int ProductoID { get; set; }      
+        public int ProductoID { get; set; }
+
+        [Required]
+        public int VentaID { get; set; }
+
+
+        public TipoDeUnidad TipoDeUnidad { get; set; }
+
+        public Producto Producto { get; set; }
+
+        public VentaMayorista Venta { get; set; }
 
 
     }
