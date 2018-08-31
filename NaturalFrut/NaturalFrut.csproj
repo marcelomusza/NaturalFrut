@@ -268,10 +268,6 @@
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
-    <Compile Include="Migrations\201808290100188_merge.cs" />
-    <Compile Include="Migrations\201808290100188_merge.Designer.cs">
-      <DependentUpon>201808290100188_merge.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
@@ -696,11 +692,6 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808290100188_merge.resx">
-      <DependentUpon>201808290100188_merge.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
