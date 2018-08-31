@@ -1,0 +1,115 @@
+﻿@model IEnumerable<NaturalFrut.Models.ProductoMix>
+@{
+    ViewBag.Title = "Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Productos Mix</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Agregar Productos", "NuevoProductoMix", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Productos en el sistema</h2>
+        }
+        else
+        {
+            <table id="productosmix" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+
+
+        }
+
+    </div>
+</div>
+
+@section scripts
+{
+    
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#productosmix").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/productosMix",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "ProdMix.Nombre"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-productosmix-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-productosmix-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#productosmix").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/productosmix/" + button.attr("data-productosmix-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Producto Mix eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#productosmix").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarProductoMix/" + button.attr("data-productosmix-id");
+
+            });
+
+        });
+
+    </script>
+    
+    
+}

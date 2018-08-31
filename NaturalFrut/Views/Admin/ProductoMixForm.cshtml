@@ -1,0 +1,300 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Cargar Productos Mix";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Carga de Productos Mix</h2>
+
+<form id="prodmixform">
+
+    <div class="row">
+        <div class="col-sm-12">           
+
+            <div class="form-group">
+                <label>Producto Mix</label>
+                <div class="tt-container">
+                    <input id="prodmix" name="prodmix" data-msg-required="Por favor ingresa un Producto" data-prodmix-id="" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Productos</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table-bordered table-hover table order-list">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="listaproductos"></tbody>
+                <tfoot>
+
+                    <tr>
+                        <td colspan="7" style="text-align: left;">
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
+                        </td>
+                    </tr>
+                    
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Guardar Productos</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Admin", "ProductosMix")';">Cancelar</button>
+
+        </div>
+    </div>
+
+    
+</form>
+
+
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/jqueryval")  
+
+    <script>
+
+        $(document).ready(function () {
+
+            //ViewModel para pasar al webAPI
+            var vm = {
+                ID: 0,
+                ProductoMix: []
+            };
+               
+            //**EVENTOS START **//           
+
+            var counter = 0;
+            $("#addrow").on("click", function () {
+               
+                var validarProducto = $("#prodmix").valid();
+
+                if (validarProducto) {
+
+                    var newRow = $("<tr>");
+                    var cols = "";
+
+                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
+
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '"  /></div></td>';
+                                       
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
+                    newRow.append(cols);
+                    $("table.order-list").append(newRow);
+
+                    typeahead_initialize(counter);
+
+                    counter++;
+                }
+
+            });
+
+            $("table.order-list").on("click", ".ibtnDel", function (event) {
+                $(this).closest("tr").remove();
+
+                var valor = parseInt(this.attributes.name.value);
+                valor += 1;
+
+                if (valor == counter) {
+                    counter -= 1;
+                } else {
+                    counter += 1;
+                }
+                typeahead_initialize(counter);
+
+            });
+            
+            //**EVENTOS END **//
+
+            // Autocomplete para prodmix
+            var prodsMix = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/productos?query=%QUERY',
+                    wildcard: '%QUERY',
+                    cache: false
+                }
+            });
+
+            $('#prodmix').typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'prodmix',
+                    display: 'Nombre',
+                    source: prodsMix
+                }).on("typeahead:select", function (e, prodmix) {
+
+                    $("#prodmix").attr("data-prodmix-id", prodmix.ID);
+                    vm.ID = prodmix.ID;
+
+                });
+
+
+            var validator = $("#prodmixform").validate({
+
+                submitHandler: function () {
+
+                    var validarProducto = $('input[name*="producto"]').valid();
+                    var validarCantidad = $('input[name*="cantidad"]').valid();                    
+
+                    if (validarProducto && validarCantidad) {
+
+                        //Modal para aceptacion de venta
+                        bootbox.confirm("Estas seguro que deseas finalizar la operación?", function (result) {
+
+                            if (result) {
+
+                                CargarProductosAlVM(vm);
+
+
+                                $.ajax({
+                                    url: "/api/productosMix",
+                                    method: "post",
+                                    data: vm
+                                })
+                                    .done(function () {
+
+                                        toastr.success("La operación se ha realizado correctamente.");
+
+                                        setTimeout(function () {
+                                            window.location.href = "/Admin/ProductosMix";
+                                        }, 4000);
+
+                                    })
+                                    .fail(function () {
+                                        toastr.error("Se ha producido un error al realizar la operación, revise los datos a ingresar...");
+                                    });
+
+                            }
+
+                        });
+
+                    }
+                   
+                    return false;
+                }
+            });
+
+        });
+
+    </script>
+
+    <!-- FUNCIONES -->
+    <script>
+
+        function typeahead_initialize(counter) {
+
+
+            //Inicializacion necesaria para typeahead dinamicos           
+            var productos = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/productos?query=%QUERY',
+                    wildcard: '%QUERY',
+                    cache: false
+                }
+            });
+
+            $('#producto' + counter).typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'producto',
+                    display: 'Nombre',
+                    source: productos
+                }).on("typeahead:select", function (e, producto) {
+
+                    $("#producto" + counter).attr("data-producto-id", producto.ID);
+
+                });
+
+        }
+
+        //function GetTiposDeUnidadDynamic(counter) {
+        
+        //    $.getJSON("GetTiposDeUnidadDynamicAsync", { Counter: counter }, PopulateTiposDeUnidadDynamic)
+        //        .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+        //}
+
+        //PopulateTiposDeUnidadDynamic = function (data) {
+
+        //    $.each(data.TiposDeUnidad, function () {
+        //        $("#tiposdeunidad" + data.Counter).append($("<option />").val(this.ID).text(this.Nombre));
+        //    });
+
+        //    //Si el Descuento Final esta activado, desactivarlo
+        //    var selDescFinal = $("#tipoDescuento").val();
+        //    if (selDescFinal != "") {
+        //        $("#descuento").attr("disabled", "disabled");
+        //        $("#descuento").val("");
+        //        $('#tipoDescuento option:first').prop('selected', true);
+        //    }
+
+
+        //}
+
+       
+        function CargarProductosAlVM(vm) {
+
+            //Cargamos la lista de productos
+
+            var prodMixID = $("#prodmix").attr("data-prodmix-id");
+            vm.ID = prodMixID;
+
+            $(".listaproductos tr").each(function (i, row) {
+                
+                var $row = $(row),
+                    $producto = $row.find('input[name*="producto"]'),
+                    $cantidad = $row.find('input[name*="cantidad"]')                    
+                
+                var productoid = $producto.attr("data-producto-id");
+                var cantidad = $cantidad.val();
+                
+
+                vm.ProductoMix.push(
+                    {
+                        ProdMixId: prodMixID,
+                        ProductoDelMixId: productoid,
+                        Cantidad: cantidad                        
+                    }
+                );
+
+            });
+
+            vm.ID = $("#prodmix").attr("data-prodmix-id");
+
+        }
+
+
+    </script>
+
+}

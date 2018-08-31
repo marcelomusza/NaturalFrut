@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class cambioTipo : IMigrationMetadata
+    public sealed partial class sync : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(cambioTipo));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(sync));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808231902217_cambioTipo"; }
+            get { return "201808290239465_sync"; }
         }
         
         string IMigrationMetadata.Source
