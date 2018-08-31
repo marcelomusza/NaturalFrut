@@ -3,7 +3,7 @@ namespace NaturalFrut.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class nuevosCamposCliente : DbMigration
+    public partial class merge : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@ namespace NaturalFrut.Migrations
             AddColumn("dbo.Clientes", "DireccionTransporte", c => c.String(nullable: false));
             AddColumn("dbo.Clientes", "TelefonoTransporte", c => c.Int(nullable: false));
             AddColumn("dbo.Clientes", "Dias", c => c.String(nullable: false));
-            AddColumn("dbo.Clientes", "Horarios", c => c.DateTime(nullable: false));
+            AddColumn("dbo.Clientes", "Horarios", c => c.String(nullable: false));
         }
         
         public override void Down()

@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class cambioAdecimal : IMigrationMetadata
+    public sealed partial class merge : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(cambioAdecimal));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(merge));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808011525123_cambioAdecimal"; }
+            get { return "201808290100188_merge"; }
         }
         
         string IMigrationMetadata.Source
