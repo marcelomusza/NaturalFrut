@@ -30,7 +30,11 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "El producto forma parte de la lista de Blister?")]
         [Required]
         public bool EsBlister { get; set; }
-        
+
+        [Display(Name = "El producto es Mix?")]
+        [Required]
+        public bool EsMix { get; set; }
+
 
 
         public ProductoViewModel()

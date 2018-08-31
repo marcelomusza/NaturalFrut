@@ -17,7 +17,7 @@ namespace NaturalFrut.Controllers
     [Authorize(Roles = RoleName.Administrator)]
     public class AdminController : Controller
     {
-        
+
         private readonly ClienteLogic clienteBL;
         private readonly ProveedorLogic proveedorBL;
         private readonly CommonLogic commonBL;
@@ -26,7 +26,7 @@ namespace NaturalFrut.Controllers
         private readonly ListaPreciosLogic listaPreciosBL;
 
         public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaPreciosLogic ListaPreciosLogic)
-        {            
+        {
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
             proveedorBL = ProveedorLogic;
@@ -44,8 +44,8 @@ namespace NaturalFrut.Controllers
         public ActionResult Clientes()
         {
 
-            var clientes = clienteBL.GetAllClientes();                       
-                        
+            var clientes = clienteBL.GetAllClientes();
+
             return View(clientes);
         }
 
@@ -129,7 +129,7 @@ namespace NaturalFrut.Controllers
 
         }
         #endregion
-        
+
         #region Acciones Condicion IVA
         public ActionResult CondicionIVA()
         {
@@ -315,7 +315,7 @@ namespace NaturalFrut.Controllers
             {
 
                 ProveedorViewModel viewModel = new ProveedorViewModel(proveedor);
-                
+
 
                 return View("ProveedorForm", viewModel);
             }
@@ -356,7 +356,7 @@ namespace NaturalFrut.Controllers
                 Categoria = categoria,
                 Marca = marca
             };
-            
+
             return View("ProductoForm", viewModel);
         }
 
@@ -421,6 +421,74 @@ namespace NaturalFrut.Controllers
 
         }
         #endregion
+
+
+        #region Acciones Producto Mix
+        public ActionResult ProductosMix()
+        {
+
+            var productosMix = productoBL.GetAllProductoMix();
+
+            return View(productosMix);
+        }
+
+        public ActionResult NuevoProductoMix()
+        {
+
+            ProductoMix productoMix = new ProductoMix();
+
+            return View("ProductoMixForm", productoMix);
+        }
+
+        public ActionResult EditarProductoMix(int Id)
+        {
+
+            var productoMix = productoBL.GetProductoMixById(Id);
+
+            if (productoMix == null)
+                return HttpNotFound();
+
+            return View("ProductoForm", productoMix);
+        }
+
+        public ActionResult BorrarProductoMix(int Id)
+        {
+            var productoMix = productoBL.GetProductoMixById(Id);
+
+            if (productoMix != null)
+                productoBL.RemoveProductoMix(productoMix);
+            else
+                return HttpNotFound();
+
+            return RedirectToAction("ProductosMix", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarProductoMix(ProductoMix productoMix)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("ProductoMixForm");
+            }
+
+            if (productoMix.ID == 0)
+            {
+                //Agregamos nuevo Proveedor
+                productoBL.AddProductoMix(productoMix);
+            }
+            else
+            {
+                //Edicion de Proveedor Existente
+                productoBL.UpdateProductoMix(productoMix);
+            }
+
+            return RedirectToAction("ProductosMix", "Admin");
+
+        } 
+        #endregion
+
 
         #region Acciones Vendedor
         public ActionResult vendedores()

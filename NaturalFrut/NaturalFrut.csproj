@@ -264,11 +264,28 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\ListaPreciosBlisterController.cs" />
+    <Compile Include="Controllers\Api\ProductosMixController.cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
+    <Compile Include="DTOs\ProductoMixCreateDTO.cs" />
+    <Compile Include="DTOs\ProductoMixDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
+    <Compile Include="Migrations\201808290239465_sync.cs" />
+    <Compile Include="Migrations\201808290239465_sync.Designer.cs">
+      <DependentUpon>201808290239465_sync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808292114378_Model_ProductoMix.cs" />
+    <Compile Include="Migrations\201808292114378_Model_ProductoMix.Designer.cs">
+      <DependentUpon>201808292114378_Model_ProductoMix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808292117315_Model_ProductoMixCantidad.cs" />
+    <Compile Include="Migrations\201808292117315_Model_ProductoMixCantidad.Designer.cs">
+      <DependentUpon>201808292117315_Model_ProductoMixCantidad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
+    <Compile Include="Models\ProductoMix.cs" />
+    <Compile Include="Models\ProductoMixCreate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -649,7 +666,7 @@
     <Content Include="Views\Admin\TipoClienteForm.cshtml" />
     <Content Include="Views\Admin\Proveedores.cshtml" />
     <Content Include="Views\Admin\ProveedorForm.cshtml" />
-    <Content Include="Views\Admin\Productos.cshtml" />
+    <Content Include="Views\Admin\ProductosMix.cshtml" />
     <Content Include="Views\Admin\ProductoForm.cshtml" />
     <Content Include="Views\Admin\VendedorForm.cshtml" />
     <Content Include="Views\Admin\Vendedores.cshtml" />
@@ -674,6 +691,8 @@
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\VentaMayorista\NotaDePedidoForm.cshtml" />
     <Content Include="Views\VentaMayorista\VentaMayoristaFormEdit.cshtml" />
+    <Content Include="Views\Admin\Productos.cshtml" />
+    <Content Include="Views\Admin\ProductoMixForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -692,6 +711,17 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808290239465_sync.resx">
+      <DependentUpon>201808290239465_sync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808292114378_Model_ProductoMix.resx">
+      <DependentUpon>201808292114378_Model_ProductoMix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808292117315_Model_ProductoMixCantidad.resx">
+      <DependentUpon>201808292117315_Model_ProductoMixCantidad.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
