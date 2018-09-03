@@ -197,7 +197,7 @@ namespace NaturalFrut.App_BLL
         public void RemoveClasificacion(Clasificacion clasificacion)
         {
             clasificacionRP.Delete(clasificacion);
-            categoriaRP.Save();
+            clasificacionRP.Save();
         }
 
         public void AddClasificacion(Clasificacion clasificacion)

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<NaturalFrut.Models.Clasificacion>
+@{
+    ViewBag.Title = "Clasificacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Clasificacion</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Agregar nuevo", "NuevaClasificacion", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún Datos en el sistema</h2>
+        }
+        else
+        {
+
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+                <tbody>
+                    @foreach (var clasificacion in Model)
+                    {
+                        <tr>
+                            <td>@clasificacion.Nombre</td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditarClasificacion", "Admin", new { id = clasificacion.ID }, null)
+                                &nbsp;
+                                @Html.ActionLink("Borrar", "BorrarClasificacion", "Admin", new { id = clasificacion.ID }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        }
+
+    </div>
+</div>
