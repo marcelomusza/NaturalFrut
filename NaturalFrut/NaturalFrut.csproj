@@ -267,26 +267,27 @@
     <Compile Include="Controllers\Api\ProductosMixController.cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
-    <Compile Include="DTOs\ClasificacionDTO.cs" />
     <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
     <Compile Include="DTOs\ProductoMixCreateDTO.cs" />
     <Compile Include="DTOs\ProductoMixDTO.cs" />
+    <Compile Include="DTOs\ProductosMixUpdateDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
-    <Compile Include="Migrations\201808311554264_nuevasMigraciones.cs" />
-    <Compile Include="Migrations\201808311554264_nuevasMigraciones.Designer.cs">
-      <DependentUpon>201808311554264_nuevasMigraciones.cs</DependentUpon>
+    <Compile Include="Migrations\201808290239465_sync.cs" />
+    <Compile Include="Migrations\201808290239465_sync.Designer.cs">
+      <DependentUpon>201808290239465_sync.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808311602152_seAgregaClasificacion.cs" />
-    <Compile Include="Migrations\201808311602152_seAgregaClasificacion.Designer.cs">
-      <DependentUpon>201808311602152_seAgregaClasificacion.cs</DependentUpon>
+    <Compile Include="Migrations\201808292114378_Model_ProductoMix.cs" />
+    <Compile Include="Migrations\201808292114378_Model_ProductoMix.Designer.cs">
+      <DependentUpon>201808292114378_Model_ProductoMix.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808311605211_seAgregaClasificacion1.cs" />
-    <Compile Include="Migrations\201808311605211_seAgregaClasificacion1.Designer.cs">
-      <DependentUpon>201808311605211_seAgregaClasificacion1.cs</DependentUpon>
+    <Compile Include="Migrations\201808292117315_Model_ProductoMixCantidad.cs" />
+    <Compile Include="Migrations\201808292117315_Model_ProductoMixCantidad.Designer.cs">
+      <DependentUpon>201808292117315_Model_ProductoMixCantidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Models\ProductoMix.cs" />
     <Compile Include="Models\ProductoMixCreate.cs" />
+    <Compile Include="Models\ProductosMixUpdate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -694,8 +695,8 @@
     <Content Include="Views\VentaMayorista\VentaMayoristaFormEdit.cshtml" />
     <Content Include="Views\Admin\Productos.cshtml" />
     <Content Include="Views\Admin\ProductoMixForm.cshtml" />
-    <Content Include="Views\Admin\ClasificacionForm.cshtml" />
-    <Content Include="Views\Admin\Clasificacion.cshtml" />
+    <Content Include="Views\Admin\ProductoMixFormEdit.cshtml" />
+    <Content Include="Views\Admin\ProductoMixFormView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -716,14 +717,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808311554264_nuevasMigraciones.resx">
-      <DependentUpon>201808311554264_nuevasMigraciones.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808290239465_sync.resx">
+      <DependentUpon>201808290239465_sync.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808311602152_seAgregaClasificacion.resx">
-      <DependentUpon>201808311602152_seAgregaClasificacion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808292114378_Model_ProductoMix.resx">
+      <DependentUpon>201808292114378_Model_ProductoMix.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808311605211_seAgregaClasificacion1.resx">
-      <DependentUpon>201808311605211_seAgregaClasificacion1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808292117315_Model_ProductoMixCantidad.resx">
+      <DependentUpon>201808292117315_Model_ProductoMixCantidad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

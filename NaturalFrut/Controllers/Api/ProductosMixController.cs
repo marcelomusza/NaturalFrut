@@ -19,36 +19,37 @@ namespace NaturalFrut.Controllers.Api
         
         private readonly ProductoLogic productoBL;
 
-        public ProductosMixController(IRepository<ProductoMix> ProductoMixRepo)
+        public ProductosMixController(IRepository<ProductoMix> ProductoMixRepo,
+            IRepository<Producto> ProductoRepo)
         {            
-            productoBL = new ProductoLogic(ProductoMixRepo);
+            productoBL = new ProductoLogic(ProductoMixRepo, ProductoRepo);
         }
 
 
 
         //GET /api/productosmix
-        public IEnumerable<ProductoMixDTO> GetProductosMix()
+        public IEnumerable<ProductoDTO> GetProductosMix()
         {
 
-            var productosMix = productoBL.GetAllProductoMix();
+            var productosMix = productoBL.GetAllProductosSegunFlagMix();
                        
-            return productosMix.Select(Mapper.Map<ProductoMix, ProductoMixDTO>);
+            return productosMix.Select(Mapper.Map<Producto, ProductoDTO>);
         }
 
         
 
-        //GET /api/productomix/1
-        public IHttpActionResult GetProductoMix(int id)
-        {
+        ////GET /api/productomix/1
+        //public IHttpActionResult GetProductoMix(int id)
+        //{
 
 
-            var productoMix = productoBL.GetProductoMixById(id);
+        //    var productoMix = productoBL.GetProductoMixById(id);
 
-            if (productoMix == null)
-                return NotFound();
+        //    if (productoMix == null)
+        //        return NotFound();
 
-            return Ok(Mapper.Map<ProductoMix, ProductoMixDTO>(productoMix));
-        }
+        //    return Ok(Mapper.Map<ProductoMix, ProductoMixDTO>(productoMix));
+        //}
 
         //POST /api/productosmix
         [HttpPost]
@@ -69,35 +70,54 @@ namespace NaturalFrut.Controllers.Api
 
         //PUT /api/productosMix/1
         [HttpPut]
-        public IHttpActionResult UpdateProductosMix(int id, ProductoMixDTO productoMixDTO)
+        public IHttpActionResult UpdateProductosMix(ProductosMixUpdateDTO productosDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var productoMixInDB = productoBL.GetProductoMixById(id);
+            //Actualizamos productos existentes
+            foreach (var prodDTO in productosDTO.ProductosAnteriores)
+            {
+                var productoMixInDB = productoBL.GetProductoDelMixById(prodDTO.ProdMixId, prodDTO.ProductoDelMixId);
 
-            if (productoMixInDB == null)
-                return NotFound();
+                if (productoMixInDB == null)
+                    return NotFound();
 
-            Mapper.Map(productoMixDTO, productoMixInDB);
+                productoMixInDB.Cantidad = prodDTO.Cantidad;
 
-            productoBL.UpdateProductoMix(productoMixInDB);
+                productoBL.UpdateProductoMix(productoMixInDB);
+
+            }
+
+            //Si hay productos nuevos, los agregamos
+            if(productosDTO.ProductosNuevos != null)
+            {
+
+                foreach (var prodDTO in productosDTO.ProductosNuevos)
+                {
+                    var productoMix = Mapper.Map<ProductoMixDTO, ProductoMix>(prodDTO);
+
+                    productoBL.AddProductoMix(productoMix);
+                }
+
+            }
+
 
             return Ok();
         }
 
         //DELETE /api/productosmix/1
-        [HttpDelete]
+        [HttpDelete]        
         public IHttpActionResult DeleteProductoMix(int id)
         {
 
-            var productoMixInDB = productoBL.GetProductoMixById(id);
+            var productoMixInDB = productoBL.GetProductoMixByIdReal(id);
 
             if (productoMixInDB == null)
                 return NotFound();
 
             productoBL.RemoveProductoMix(productoMixInDB);
-            
+
             return Ok();
 
         }

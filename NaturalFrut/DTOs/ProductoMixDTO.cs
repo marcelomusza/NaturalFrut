@@ -7,8 +7,7 @@ namespace NaturalFrut.DTOs
 {
     public class ProductoMixDTO
     {
-
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         public int ProdMixId { get; set; }
 

@@ -382,7 +382,29 @@ namespace NaturalFrut.Controllers
             var producto = productoBL.GetProductoById(Id);
 
             if (producto != null)
-                productoBL.RemoveProducto(producto);
+            {
+                if (producto.EsMix)
+                {
+
+                    var listaProductosDelMix = productoBL.GetListaProductosMixById(producto.ID);
+
+                    if(listaProductosDelMix != null)
+                    {
+                        foreach (var productoMix in listaProductosDelMix)
+                        {
+                            productoBL.RemoveProductoMix(productoMix);
+                        }
+                    }
+
+                    //Una vez borrados los productos relacionados del mix, borramos el producto principal
+                    productoBL.RemoveProducto(producto);
+
+                }
+                    
+                else
+                    productoBL.RemoveProducto(producto);
+            }
+                
             else
                 return HttpNotFound();
 
@@ -443,25 +465,52 @@ namespace NaturalFrut.Controllers
         public ActionResult EditarProductoMix(int Id)
         {
 
-            var productoMix = productoBL.GetProductoMixById(Id);
+            var prodMix = productoBL.GetProductoById(Id);
 
-            if (productoMix == null)
+            if (prodMix == null)
                 return HttpNotFound();
 
-            return View("ProductoForm", productoMix);
+            var productosMix = productoBL.GetListaProductosMixById(Id);
+
+            if (productosMix == null)
+                return HttpNotFound();
+
+            ViewBag.ProdMixID = prodMix.ID;
+            ViewBag.ProdMixNombre = prodMix.Nombre;
+
+            return View("ProductoMixFormEdit", productosMix);
         }
 
-        public ActionResult BorrarProductoMix(int Id)
+        public ActionResult VerProductoMix(int Id)
         {
-            var productoMix = productoBL.GetProductoMixById(Id);
 
-            if (productoMix != null)
-                productoBL.RemoveProductoMix(productoMix);
-            else
+            var prodMix = productoBL.GetProductoById(Id);
+
+            if (prodMix == null)
                 return HttpNotFound();
 
-            return RedirectToAction("ProductosMix", "Admin");
+            var productosMix = productoBL.GetListaProductosMixById(Id);
+
+            if (productosMix == null)
+                return HttpNotFound();
+
+            ViewBag.ProdMixID = prodMix.ID;
+            ViewBag.ProdMixNombre = prodMix.Nombre;
+
+            return View("ProductoMixFormView", productosMix);
         }
+
+        //public ActionResult BorrarProductoMix(int Id)
+        //{
+        //    var productoMix = productoBL.GetProductoMixById(Id);
+
+        //    if (productoMix != null)
+        //        productoBL.RemoveProductoMix(productoMix);
+        //    else
+        //        return HttpNotFound();
+
+        //    return RedirectToAction("ProductosMix", "Admin");
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

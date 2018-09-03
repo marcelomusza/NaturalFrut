@@ -18,13 +18,14 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ProductoLogic productoBL;
-        private readonly ClienteLogic clienteBL;
+        private readonly ClienteLogic clienteBL;        
 
         public ProductosController(IRepository<Producto> ProductoRepo,
             IRepository<Cliente> ClienteRepo,
-            IRepository<ListaPrecio> ListaPrecioRepo)
+            IRepository<ListaPrecio> ListaPrecioRepo,
+            IRepository<ProductoMix> ProductoMixRepo)
         {            
-            productoBL = new ProductoLogic(ProductoRepo, ClienteRepo, ListaPrecioRepo);
+            productoBL = new ProductoLogic(ProductoRepo, ClienteRepo, ListaPrecioRepo, ProductoMixRepo);
             clienteBL = new ClienteLogic(ClienteRepo);
         }
 
@@ -84,6 +85,17 @@ namespace NaturalFrut.Controllers.Api
 
 
             return productosConjunto.Select(Mapper.Map<Producto, ProductoDTO>);
+        }
+
+        [HttpGet]
+        [Route("api/productos/productossegunflagmix")]
+        public IEnumerable<ProductoDTO> ProductosSegunFlagMix()
+        {
+
+            var productos = productoBL.GetAllProductosSegunFlagMix();
+           
+
+            return productos.Select(Mapper.Map<Producto, ProductoDTO>);
         }
 
         [HttpGet]
@@ -177,13 +189,35 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult DeleteProducto(int id)
         {
 
-            var productoInDB = productoBL.GetProductoById(id);
+            var productoInDb = productoBL.GetProductoById(id);
 
-            if (productoInDB == null)
-                return NotFound();
+            if (productoInDb != null)
+            {
+                if (productoInDb.EsMix)
+                {
 
-            productoBL.RemoveProducto(productoInDB);
-            
+                    var listaProductosDelMix = productoBL.GetListaProductosMixById(productoInDb.ID);
+
+                    if (listaProductosDelMix != null)
+                    {
+                        foreach (var productoMix in listaProductosDelMix)
+                        {
+                            productoBL.RemoveProductoMix(productoMix);
+                        }
+                    }
+
+                    //Una vez borrados los productos relacionados del mix, borramos el producto principal
+                    productoBL.RemoveProducto(productoInDb);
+
+                }
+
+                else
+                    productoBL.RemoveProducto(productoInDb);
+            }
+
+            else
+                return BadRequest();
+
             return Ok();
 
         }
