@@ -38,18 +38,22 @@ namespace NaturalFrut.App_BLL
             productoRP = ProductoRepository;
         }
 
-        public ProductoLogic(IRepository<ProductoMix> ProductoMixRepository)
+        public ProductoLogic(IRepository<ProductoMix> ProductoMixRepository,
+            IRepository<Producto> ProductoRepository)
         {
             productoMixRP = ProductoMixRepository;
+            productoRP = ProductoRepository;
         }
 
         public ProductoLogic(IRepository<Producto> ProductoRepository,
             IRepository<Cliente> ClienteRepository,
-            IRepository<ListaPrecio> ListaPrecioRepository)
+            IRepository<ListaPrecio> ListaPrecioRepository,
+            IRepository<ProductoMix> ProductoMixRepository)
         {
             productoRP = ProductoRepository;
             clienteRP = ClienteRepository;
             listaPrecioRP = ListaPrecioRepository;
+            productoMixRP = ProductoMixRepository;
         }
 
         public List<Producto> GetAllProducto()
@@ -93,6 +97,14 @@ namespace NaturalFrut.App_BLL
             return categoriaRP.GetAll().ToList();
         }
 
+        public List<Producto> GetAllProductosSegunFlagMix()
+        {
+            return productoRP
+                .GetAll()
+                .Where(p => p.EsMix == true)
+                .ToList();
+        }
+
         public List<Marca> GetMarcaList()
         {
             return marcaRP.GetAll().ToList();
@@ -133,19 +145,23 @@ namespace NaturalFrut.App_BLL
 
         public List<ProductoMix> GetAllProductoMix()
         {
-            return productoMixRP.GetAll()
+
+            var productos = productoMixRP.GetAll()
                 .Include(c => c.ProductoDelMix)
                 .Include(c => c.ProdMix)
                 .ToList();
+
+            return productos;
         }
 
-        public ProductoMix GetProductoMixById(int id)
+        public ProductoMix GetProductoMixByIdReal(int id)
         {
             return productoMixRP
                 .GetAll()
                 .Include(c => c.ProductoDelMix)
                 .Include(c => c.ProdMix)
                 .Where(p => p.ID == id)
+                .Distinct()
                 .SingleOrDefault();
         }
 
@@ -167,6 +183,26 @@ namespace NaturalFrut.App_BLL
             productoMixRP.Save();
         }
 
+        public List<ProductoMix> GetListaProductosMixById(int prodMixId)
+        {
+            return productoMixRP
+                .GetAll()
+                .Include(c => c.ProductoDelMix)
+                .Include(c => c.ProdMix)
+                .Where(p => p.ProdMixId == prodMixId)
+                .ToList();
+        }
 
+        public ProductoMix GetProductoDelMixById(int prodMixId ,int prodDelMixId)
+        {
+            return productoMixRP
+                .GetAll()
+                .Include(c => c.ProductoDelMix)
+                .Include(c => c.ProdMix)
+                .Where(p => p.ProductoDelMixId == prodDelMixId)
+                .Where(p => p.ProdMixId == prodMixId)
+                .SingleOrDefault();
+        }
+                
     }
 }

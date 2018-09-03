@@ -1,0 +1,116 @@
+﻿@model IEnumerable<NaturalFrut.Models.ProductoMix>
+@{
+    ViewBag.Title = "Cargar Productos Mix";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Carga de Productos Mix</h2>
+
+<form id="prodmixform">
+
+    <div class="row">
+        <div class="col-sm-12">           
+
+            <div class="form-group">
+                <label>Producto Mix</label>
+                    <input id="prodmix" name="prodmix" data-prodmix-id="@ViewBag.ProdMixID" required type="text" value="@ViewBag.ProdMixNombre" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Productos</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table-bordered table-hover table order-list">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad (Kg.)</th>
+                    </tr>
+                </thead>
+                <tbody class="listaproductos">
+
+                    @{ int counter = 0;}
+                    @foreach (var producto in Model)
+                    {
+                                <tr class="productosanteriores">
+                                    <td><div class="form-group"><input id="@String.Format("producto{0}", counter)" name="producto" data-producto-id="@producto.ProductoDelMix.ID" type="text" data-js-counter="@counter" value="@producto.ProductoDelMix.Nombre" class="form-control" disabled /></div></td>
+                                    <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" type="text" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" disabled /></div></td>                                    
+                                </tr>
+                    counter++;
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.AntiForgeryToken()
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("ProductosMix", "Admin")';">Volver</button>
+
+        </div>
+    </div>
+
+    
+</form>
+
+
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/jqueryval")  
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            
+
+            //**EVENTOS START **//           
+
+            var counter = @counter; //Continuamos con la numeracion segun el contador de la tabla de productos
+            $("#addrow").on("click", function () {
+               
+                var validarProducto = $("#prodmix").valid();
+
+                if (validarProducto) {
+
+                    var newRow = $("<tr class='productosnuevos'>");
+                    var cols = "";
+
+                    cols += '<td><div class="tt-container productomix-producto"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
+
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '"  /></div></td>';
+                                       
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
+                    newRow.append(cols);
+                    $("table.order-list").append(newRow);
+
+                    typeahead_initialize(counter);
+
+                    counter++;
+                }
+
+            });
+            
+            //**EVENTOS END **//
+
+            
+        });
+
+    </script>
+
+}

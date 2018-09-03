@@ -63,39 +63,23 @@
                 },
                 columns: [
                     {
-                        data: "ProdMix.Nombre"
+                        data: "Nombre"
                     },
                     {
                         data: "ID",
                         render: function (data) {
-                            return "<button class='btn-link js-delete' data-productosmix-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
-                                "<button class='btn-link js-edit' data-productosmix-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                            return "<button class='btn-link js-view' data-productosmix-id=" + data + "><img title='Ver Productos Mix' src='/Content/Images/DetailsIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-productosmix-id=" + data + "><img title='Editar Productos Mix' src='/Content/Images/EditIcon.png'/></button>";
                         }
                     }
                 ]
             });
 
-            $("#productosmix").on("click", ".js-delete", function () {
+            $("#productosmix").on("click", ".js-view", function () {
 
                 var button = $(this);
 
-                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
-
-                    if (result) {
-                        $.ajax({
-                            url: "/api/productosmix/" + button.attr("data-productosmix-id"),
-                            method: "DELETE",
-                            success: function () {
-
-                                toastr.success("Producto Mix eliminado satisfactoriamente");
-
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
-                    }
-
-                });
-
+                location.href = "VerProductoMix/" + button.attr("data-productosmix-id");
 
             });
 

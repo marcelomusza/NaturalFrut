@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model IEnumerable<NaturalFrut.Models.ProductoMix>
 @{
     ViewBag.Title = "Cargar Productos Mix";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label>Producto Mix</label>
                 <div class="tt-container productomix-cliente">
-                    <input id="prodmix" name="prodmix" data-msg-required="Por favor ingresa un Producto" data-prodmix-id="" required type="text" value="" class="form-control" />
+                    <input id="prodmix" name="prodmix" data-msg-required="Por favor ingresa un Producto" data-prodmix-id="@ViewBag.ProdMixID" required type="text" value="@ViewBag.ProdMixNombre" class="form-control" disabled />
                 </div>
             </div>
         </div>
@@ -39,15 +39,29 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="listaproductos"></tbody>
-                <tfoot>
+                <tbody class="listaproductos">
 
+                    @{ int counter = 0;}
+                    @foreach (var producto in Model)
+                    {
+                                <tr class="productosanteriores">
+                                    <td><div class="tt-container productomix-producto"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoDelMix.ID" required type="text" data-js-counter="@counter" value="@producto.ProductoDelMix.Nombre"  class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="text" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" /></div></td>
+                                    <td>
+                                        <input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" data-productodelmix-id="@producto.ProductoDelMix.ID" data-idreal-id="@producto.ID" value="Borrar" />
+                                        @*<input type="hidden" name="prodxventaid" value="@producto.ID" />*@
+                                    </td>
+                                </tr>
+                    counter++;
+                    }
+
+                </tbody>
+                <tfoot>
                     <tr>
                         <td colspan="7" style="text-align: left;">
                             <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
                         </td>
-                    </tr>
-                    
+                    </tr>                    
                 </tfoot>
             </table>
 
@@ -77,27 +91,37 @@
 
         $(document).ready(function () {
 
+
+            //Inicializamos typeahead para los productos existentes
+            $("input[name='producto']").each(function () {
+
+                var input = $(this);
+                var cont = input.attr("data-js-counter");
+                typeahead_initialize(cont);
+
+            });
+
             //ViewModel para pasar al webAPI
-            var vm = {
-                ID: 0,
-                ProductoMix: []
-            };
-               
+            var vm = [];
+
+            var vm2 = [];
+
+
             //**EVENTOS START **//           
 
-            var counter = 0;
+            var counter = @counter; //Continuamos con la numeracion segun el contador de la tabla de productos
             $("#addrow").on("click", function () {
                
                 var validarProducto = $("#prodmix").valid();
 
                 if (validarProducto) {
 
-                    var newRow = $("<tr>");
+                    var newRow = $("<tr class='productosnuevos'>");
                     var cols = "";
 
-                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="tt-container productomix-producto"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="text" value="" class="form-control" data-js-counter="' + counter + '"  /></div></td>';
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '"  /></div></td>';
                                        
                     cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
                     newRow.append(cols);
@@ -111,17 +135,40 @@
             });
 
             $("table.order-list").on("click", ".ibtnDel", function (event) {
-                $(this).closest("tr").remove();
 
+
+                var button = $(this);                
+                var idReal = parseInt(button.attr("data-idreal-id"));
                 var valor = parseInt(this.attributes.name.value);
-                valor += 1;
 
-                if (valor == counter) {
-                    counter -= 1;
-                } else {
-                    counter += 1;
-                }
-                typeahead_initialize(counter);
+                bootbox.confirm("¿Estas seguro de querer borrar el producto?", function (result) {
+
+                    
+                    valor += 1;
+
+                    if (valor == counter) {
+                        counter -= 1;
+                    } else {
+                        counter += 1;
+                    }
+                    typeahead_initialize(counter);
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/productosmix/" + idReal,
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Producto Mix eliminado satisfactoriamente");
+                                
+                                button.closest("tr").remove();
+                            }
+                        });
+                    }
+
+                });
+
+                
 
             });
             
@@ -168,13 +215,17 @@
 
                             if (result) {
 
-                                CargarProductosAlVM(vm);
+                                CargarProductosAlVM(vm, vm2);
 
+                                var model = {
+                                    "ProductosAnteriores": vm,
+                                    "ProductosNuevos": vm2
+                                };
 
                                 $.ajax({
                                     url: "/api/productosMix",
-                                    method: "post",
-                                    data: vm
+                                    method: "put",
+                                    data: model
                                 })
                                     .done(function () {
 
@@ -262,14 +313,14 @@
         //}
 
        
-        function CargarProductosAlVM(vm) {
+        function CargarProductosAlVM(vm, vm2) {
 
             //Cargamos la lista de productos
 
             var prodMixID = $("#prodmix").attr("data-prodmix-id");
             vm.ID = prodMixID;
 
-            $(".listaproductos tr").each(function (i, row) {
+            $(".productosanteriores").each(function (i, row) {
                 
                 var $row = $(row),
                     $producto = $row.find('input[name*="producto"]'),
@@ -279,7 +330,7 @@
                 var cantidad = parseFloat($cantidad.val().replace(/,/, '.'));
                 
 
-                vm.ProductoMix.push(
+                vm.push(
                     {
                         ProdMixId: prodMixID,
                         ProductoDelMixId: productoid,
@@ -287,7 +338,32 @@
                     }
                 );
 
+
+
+
             });
+
+            //Productos Nuevos
+            $(".productosnuevos").each(function (i, row) {
+
+                var $row = $(row),
+                    $producto = $row.find('input[name*="producto"]'),
+                    $cantidad = $row.find('input[name*="cantidad"]')
+                    
+
+                var productoid = $producto.attr("data-producto-id");
+                var cantidad = parseFloat($cantidad.val().replace(/,/, '.'));
+
+                vm2.push(
+                    {
+                        ProdMixId: prodMixID,
+                        ProductoDelMixId: productoid,
+                        Cantidad: cantidad  
+                    }
+                );
+
+            });
+
 
             vm.ID = $("#prodmix").attr("data-prodmix-id");
 

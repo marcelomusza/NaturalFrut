@@ -270,6 +270,7 @@
     <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
     <Compile Include="DTOs\ProductoMixCreateDTO.cs" />
     <Compile Include="DTOs\ProductoMixDTO.cs" />
+    <Compile Include="DTOs\ProductosMixUpdateDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
     <Compile Include="Migrations\201808290239465_sync.cs" />
     <Compile Include="Migrations\201808290239465_sync.Designer.cs">
@@ -286,6 +287,7 @@
     <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Models\ProductoMix.cs" />
     <Compile Include="Models\ProductoMixCreate.cs" />
+    <Compile Include="Models\ProductosMixUpdate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -693,6 +695,8 @@
     <Content Include="Views\VentaMayorista\VentaMayoristaFormEdit.cshtml" />
     <Content Include="Views\Admin\Productos.cshtml" />
     <Content Include="Views\Admin\ProductoMixForm.cshtml" />
+    <Content Include="Views\Admin\ProductoMixFormEdit.cshtml" />
+    <Content Include="Views\Admin\ProductoMixFormView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
