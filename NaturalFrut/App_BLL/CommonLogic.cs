@@ -32,6 +32,13 @@ namespace NaturalFrut.App_BLL
             clasificacionRP = ClasificacionRepository;
         }
 
+        public CommonLogic(
+            IRepository<Clasificacion> ClasificacionRepository)
+        {
+            
+            clasificacionRP = ClasificacionRepository;
+        }
+
 
         #region Operaciones Condicion IVA
         public List<CondicionIVA> GetAllCondicionIVA()
@@ -197,7 +204,7 @@ namespace NaturalFrut.App_BLL
         public void RemoveClasificacion(Clasificacion clasificacion)
         {
             clasificacionRP.Delete(clasificacion);
-            categoriaRP.Save();
+            clasificacionRP.Save();
         }
 
         public void AddClasificacion(Clasificacion clasificacion)

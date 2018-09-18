@@ -1,17 +1,14 @@
-﻿using NaturalFrut.App_BLL.Interfaces;
+﻿using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace NaturalFrut.Models
+namespace NaturalFrut.DTOs
 {
-    [Table("Compra")]
-    public class Compra : IEntity
+    public class CompraDTO
     {
-
         public int ID { get; set; }
 
         public int NumeroCompra { get; set; }
@@ -60,7 +57,7 @@ namespace NaturalFrut.Models
 
 
 
-        public Clasificacion Clasificacion { get; set; }        
+        public Clasificacion Clasificacion { get; set; }
 
         public Proveedor Proveedor { get; set; }
 

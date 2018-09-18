@@ -1,0 +1,108 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.VentaMayoristaViewModel
+@{
+//  ViewBag.Title = "CargarVenta";
+// Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Nota de Pedido</h2>
+
+<form id="vtamayform">
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>N° Venta: @Model.NumeroVenta </label>
+            </div>
+
+            <div class="form-group">
+                <label>Cliente: @Model.ClienteObj.Nombre </label>
+            </div>
+
+            <div class="form-group">
+                <label>Dirección: @Model.ClienteObj.Direccion </label>
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono: @Model.ClienteObj.TelefonoCelular </label>
+            </div>
+
+            <div class="form-group">
+                <label>Vendedor: @Model.VendedorObj.Nombre </label>
+            </div>
+
+            <div class="form-group">
+                <label>Fecha: @Model.Fecha </label>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Productos</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table table-bordered table-striped page-breaker" style="page-break-inside: avoid;">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Descuento</th>
+                        <th>Importe</th>
+                        <th>Total Importe</th>
+                    </tr>
+                </thead>
+                <tbody class="listaproductos">
+                    @foreach (var item in ViewBag.ProductoXVenta)
+            {
+                        <tr>
+                            <td>@item.Producto.Nombre</td>
+                            <td>@item.Cantidad</td>
+                            <td>@item.TipoDeUnidad.Nombre</td>
+                            <td>@item.Descuento</td>
+                            <td>@item.Importe</td>
+                            <td>@item.Total</td>
+
+                        </tr>
+                    }
+
+                </tbody>
+                <tfoot style="page-break-after: always;">
+
+                    <tr>
+                        <td colspan="7" style="text-align: right;">
+                            &nbsp;
+                            <label>Suma de Venta:</label>
+                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value=@Model.Total disabled /><br />
+                            <br />
+                            <label>Total:</label>
+                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value=@Model.Total disabled /><br />
+                            <br />
+                            <label>Efectivo:</label>
+                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value=@Model.EntregaEfectivo disabled /><br />
+                            <br />
+                            <label>Saldo:</label>
+                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value="" disabled />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+
+</form>
+
+
+

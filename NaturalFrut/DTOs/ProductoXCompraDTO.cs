@@ -1,15 +1,13 @@
-﻿using NaturalFrut.App_BLL.Interfaces;
+﻿using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace NaturalFrut.Models
+namespace NaturalFrut.DTOs
 {
-    [Table("ProductosXCompra")]
-    public class ProductoXCompra : IEntity
+    public class ProductoXCompraDTO
     {
 
         public int ID { get; set; }
@@ -37,6 +35,8 @@ namespace NaturalFrut.Models
         [Required]
         public int TipoDeUnidadID { get; set; }
 
+        public TipoDeUnidad TipoDeUnidad { get; set; }
+
 
 
 
@@ -48,10 +48,11 @@ namespace NaturalFrut.Models
 
 
 
-        public TipoDeUnidad TipoDeUnidad { get; set; }
+
         public Producto Producto { get; set; }
 
         public Compra Compra { get; set; }
+
 
     }
 }
