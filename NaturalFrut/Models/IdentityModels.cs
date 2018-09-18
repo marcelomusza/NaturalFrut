@@ -49,6 +49,8 @@ namespace NaturalFrut.Models
         public DbSet<ListaPrecioBlister> ListaPreciosBlister { get; set; }
         public DbSet<ProductoMix> ProductoMix { get; set; }
         public DbSet<Clasificacion> Clasificacion { get; set; }
+        public DbSet<Compra> Compra { get; set; }
+        public DbSet<ProductoXCompra> ProductoXCompra { get; set; }
 
         ////CONTEXT MARCELO
         //public ApplicationDbContext()

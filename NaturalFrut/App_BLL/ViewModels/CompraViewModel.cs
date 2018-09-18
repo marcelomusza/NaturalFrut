@@ -16,6 +16,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public IEnumerable<Clasificacion> Clasificacion { get; set; }
 
+        public int NumeroCompra { get; set; }
+
         public int Factura { get; set; }
 
         public DateTime Fecha { get; set; }
@@ -28,19 +30,29 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double DescuentoPorc { get; set; }
 
+        public double ImporteIibbbsas { get; set; }
+
         public double Iibbbsas { get; set; }
 
         public double Descuento { get; set; }
 
+        public double ImporteIibbcaba { get; set; }
+
         public double Iibbcaba { get; set; }
 
         public double Subtotal { get; set; }
+
+        public double ImportePercIva { get; set; }
 
         public double PercIva { get; set; }
 
         public double ImporteNoGravado { get; set; }
 
         public double Total { get; set; }
+
+        public double TotalGastos { get; set; }
+
+        public string TipoFactura { get; set; }
 
 
 

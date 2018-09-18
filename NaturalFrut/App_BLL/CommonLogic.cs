@@ -32,6 +32,13 @@ namespace NaturalFrut.App_BLL
             clasificacionRP = ClasificacionRepository;
         }
 
+        public CommonLogic(
+            IRepository<Clasificacion> ClasificacionRepository)
+        {
+            
+            clasificacionRP = ClasificacionRepository;
+        }
+
 
         #region Operaciones Condicion IVA
         public List<CondicionIVA> GetAllCondicionIVA()

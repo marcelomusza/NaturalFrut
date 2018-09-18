@@ -73,6 +73,10 @@ input.error {
     width:51%;
 }
 
+.compra-proveedor > span {
+    width:51%;
+}
+
 .vtamay-totalventa {
     display: inline;
     width: 13%;

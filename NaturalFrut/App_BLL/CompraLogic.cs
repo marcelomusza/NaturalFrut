@@ -14,46 +14,65 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Compra> compraRP;
         private readonly IRepository<Proveedor> proveedorRP;
         private readonly IRepository<Clasificacion> clasificacionRP;
-     
+        private readonly IRepository<Producto> productoRP;
+        private readonly IRepository<ProductoXCompra> productoXCompraRP;
+        
 
         public CompraLogic(IRepository<Compra> CompraRepository,
             IRepository<Proveedor> ProveedorRepository,
-            IRepository<Clasificacion> ClasificacionRepository)
+            IRepository<Clasificacion> ClasificacionRepository,
+            IRepository<Producto> ProductoRepository,
+            IRepository<ProductoXCompra> ProductoXCompraRepository)
         {
             compraRP = CompraRepository;
             proveedorRP = ProveedorRepository;
             clasificacionRP = ClasificacionRepository;
-
+            productoRP = ProductoRepository;
+            productoXCompraRP = ProductoXCompraRepository;
         }
 
-        /*public CompraLogic(IRepository<C> ClienteRepository)
+        public CompraLogic(IRepository<Compra> CompraRepository)
         {
-            clienteRP = ClienteRepository;
-        }*/
+            compraRP = CompraRepository;
+           
+        }
 
-        public CompraLogic(IRepository<Compra> compraRepo)
+        public CompraLogic(IRepository<Proveedor> ProveedorRepository)
         {
-            this.compraRP = compraRepo;
+            proveedorRP = ProveedorRepository;
+        }        
+
+        public Compra GetNumeroDeCompra()
+        {
+            var ultimaCompra = compraRP.GetAll().OrderByDescending(p => p.ID).FirstOrDefault();
+
+            return ultimaCompra;
         }
 
         public List<Compra> GetAllCompra()
         {
             return compraRP.GetAll()
-                .Include(c => c.Proveedor)
-                .Include(v => v.Clasificacion)
+                .Include(p => p.Proveedor)
+                .Include(c => c.Clasificacion)
                 .ToList();
         }
 
         public Compra GetCompraById(int id)
         {
-            return compraRP
+            Compra compra = compraRP
                 .GetAll()
-                .Include(c => c.Proveedor)
-                .Include(v => v.Clasificacion)
+                .Include(p => p.Proveedor)
+                .Include(c => c.Clasificacion)
+                .Include(p => p.ProductosXCompra)                
+                .Include("ProductosXCompra.TipoDeUnidad")
+                .Include("ProductosXCompra.Producto")
+                .Include("ProductosXCompra.Producto.Marca")
+                .Include("ProductosXVenta.Producto.Categoria")
                 .Where(c => c.ID == id).SingleOrDefault();
+
+            return compra;
         }
 
-        
 
         public void RemoveCompra(Compra compra)
         {
@@ -62,10 +81,11 @@ namespace NaturalFrut.App_BLL
         }
 
         public void AddCompra(Compra compra)
-        {
+        {            
             compraRP.Add(compra);
             compraRP.Save();
         }
+
 
         public void UpdateCompra(Compra compra)
         {
@@ -82,6 +102,36 @@ namespace NaturalFrut.App_BLL
         {
             return clasificacionRP.GetAll().ToList();
         }
+
+        public List<Producto> GetProductoList()
+        {
+            return productoRP.GetAll().ToList();
+        }
+
+
+
+        public bool ValidateTipoDeProducto(int productoID)
+        {
+
+            Producto producto = productoRP.GetByID(productoID);
+
+            if (producto != null)
+                return producto.EsBlister;
+            else
+                throw new Exception("Error al Validar tipo de Producto");
+
+
+        }
+
+        //public ListaPrecioBlister CalcularImporteBlisterSegunCliente(int productoID)
+        //{
+
+        //    var productoSegunLista = listaPreciosBlisterRP.GetAll()
+        //        .Where(p => p.ProductoID == productoID)
+        //        .SingleOrDefault();
+
+        //    return productoSegunLista;
+        //}
 
     }
 }

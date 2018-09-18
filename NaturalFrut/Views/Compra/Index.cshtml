@@ -1,0 +1,144 @@
+﻿@model IEnumerable<NaturalFrut.Models.Compra>
+@{
+    ViewBag.Title = "Compra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Compras</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Ingresar Compra", "NuevaCompra", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han cargado aún compras en el sistema</h2>
+        }
+        else
+        {
+
+            <table id="compra" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Numero de Compra</th>
+                        <th>Clasificacion</th>
+                        <th>Total Gastos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#compra").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                "columnDefs": [
+                    { "width": "15%", "targets": 0 },
+                    { "width": "15%", "targets": 1 },
+                    { "width": "25%", "targets": 2 },
+                    { "width": "15%", "targets": 3 },
+                    { "width": "30%", "targets": 4 },
+                ],
+
+                ajax: {
+
+                    url: "/api/compra",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Fecha"
+                    },
+                    {
+                        data: "NumeroCompra"
+                    },
+                    {
+                        data: "Clasificacion.Nombre"
+                    },
+                    {
+                        data: "Total"
+                    },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-compra-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-compra-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" + 
+                                "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Orden de Compra' src='/Content/Images/NotaPedido.png'/></button>";
+                        }
+                    }
+                ]
+            });            
+
+            $("#compra").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/compra/" + button.attr("data-compra-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("La Compra se ah eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+
+            });
+
+            $("#compra").on("click", ".js-ordenCompra", function () {
+
+                var button = $(this);
+
+                location.href = "Compra/PrintAll/" + button.attr("data-compra-id");
+
+            });
+
+            $("#compra").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "Compra/EditarCompra/" + button.attr("data-compra-id");
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+
+}

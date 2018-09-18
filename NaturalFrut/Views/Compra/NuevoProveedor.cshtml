@@ -1,0 +1,156 @@
+﻿@model dynamic
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<form id="nuevoProveedor">
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <input id="Nombre" name="Nombre" data-rule-validNombre="true" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Contacto</label>
+                <input id="Contacto" name="Contacto" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input id="Email" name="Email" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Dirección</label>
+                <input id="Direccion" name="Direccion" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Localidad</label>
+                <input id="Localidad" name="Localidad" required type="text" value="" class="form-control" />
+            </div>
+
+        </div>
+
+        <!-- Agrupamos campos de la columna derecha -->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Telefono Oficina</label>
+                <input id="TelefonoOficina" name="TelefonoOficina" required type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Telefono Celular</label>
+                <input id="TelefonoCelular" name="TelefonoCelular" required type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Telefono Otros</label>
+                <input id="TelefonoOtros" name="TelefonoOtros" required type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>CUIT</label>
+                <input id="Cuit" name="Cuit" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>IIBB</label>
+                <input id="Iibb" name="Iibb" required type="text" value="" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("NuevaCompra", "Compra")';">Cancelar</button>
+
+        </div>
+    </div>
+</form>
+
+@Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {         
+
+            //loadValidators();
+
+            $.validator.messages.required = "El campo no puede estar vacío";
+
+            var validator = $("#nuevoProveedor").validate({
+
+                submitHandler: function () {
+
+                    var formData = $("#nuevoProveedor").serialize();
+
+                    $.ajax({
+                        url: "/api/proveedores",
+                        method: "post",
+                        data: formData
+                    })
+                        .done(function () {
+
+                            toastr.success("Proveedor creado satisfactoriamente");
+
+                            setTimeout(function () {
+
+                                $("#proveedorModal").modal("hide");
+                                window.location.href = "/Compra/NuevaCompra";
+
+                            }, 1500);                     
+
+
+                        })
+                        .fail(function () {
+
+                            toastr.error("Error. El Proveedor no ha sido creado");
+
+                            setTimeout(function () {
+
+                                $("#proveedorModal").modal("hide");
+                                window.location.href = "/Compra/NuevaCompra";
+
+                            }, 1500);
+
+                        });
+
+                    return false;
+                }
+            });
+
+        });
+
+
+        
+
+        //function loadValidators() {
+
+        //    $.validator.addMethod("validNombre", function (value, element) {
+
+        //        return $.trim($("#Nombre").val()) !== "";
+                
+        //    }, "Debes ingresar un Nombre"); 
+
+        //}
+
+
+    </script>
+
+
+
+
+
+

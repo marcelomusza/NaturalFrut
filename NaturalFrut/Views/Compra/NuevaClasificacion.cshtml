@@ -1,0 +1,93 @@
+﻿@model dynamic
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<form id="nuevaClasificacion">
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <input id="Nombre" name="Nombre" data-rule-validNombre="true" required type="text" value="" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("NuevaCompra", "Compra")';">Cancelar</button>
+
+        </div>
+    </div>
+</form>
+
+@Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            //loadValidators();
+
+            $.validator.messages.required = "El campo no puede estar vacío";
+
+            var validator = $("#nuevaClasificacion").validate({
+
+                submitHandler: function () {
+
+                    var formData = $("#nuevaClasificacion").serialize();
+
+                    $.ajax({
+                        url: "/api/Clasificacion",
+                        method: "post",
+                        data: formData
+                    })
+                        .done(function () {
+
+                            toastr.success("Clasificacion creada satisfactoriamente");
+
+                            setTimeout(function () {
+
+                                $("#clasificacionModal").modal("hide");
+                                window.location.href = "/Compra/NuevaCompra";
+
+                            }, 1500);                     
+
+
+                        })
+                        .fail(function () {
+
+                            toastr.error("Error. La Clasificacion no ha sido creado");
+
+                            setTimeout(function () {
+
+                                $("#clasificacionModal").modal("hide");
+                                window.location.href = "/Compra/NuevaCompra";
+
+                            }, 1500);
+
+                        });
+
+                    return false;
+                }
+            });
+
+        });
+
+
+    </script>
+
+
+
+
+
+
