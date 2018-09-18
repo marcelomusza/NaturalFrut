@@ -1,0 +1,168 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.VentaMinoristaViewModel
+@{
+    ViewBag.Title = "Cargar Venta Minorista - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Ingresar Venta</h2>
+
+@using (Html.BeginForm("GuardarVentaMinorista", "VentaMinorista"))
+{
+
+    <div class="row">
+        @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+    </div>
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.NumeroVenta)
+                @Html.TextBoxFor(c => c.NumeroVenta, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.NumeroVenta)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Fecha)
+                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.Fecha)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Local)
+                @Html.TextBoxFor(c => c.Local, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.Local)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Iva)
+                @Html.TextBoxFor(c => c.Iva, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.Iva)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.ImporteVentaTotal)
+                @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.ImporteInformeZ)
+                @Html.EditorFor(c => c.ImporteInformeZ, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.ImporteInformeZ)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.CantidadPersonas)
+                @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.CantidadPersonas)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Promedio)
+                @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.Promedio)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.ImporteIva)
+                @Html.EditorFor(c => c.ImporteIva, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.ImporteIva)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.PrimerNumeroTicket)
+                @Html.TextBoxFor(c => c.PrimerNumeroTicket, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.PrimerNumeroTicket)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.UltimoNumeroTicket)
+                @Html.TextBoxFor(c => c.UltimoNumeroTicket, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.UltimoNumeroTicket)
+            </div>
+        </div>
+
+
+        <!--Agrupamos campos de la columna derecha-->
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(c => c.NumFactura)
+                @Html.TextBoxFor(c => c.NumFactura, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.NumFactura)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.RazonSocial)
+                @Html.TextBoxFor(c => c.RazonSocial, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.RazonSocial)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TipoFactura)
+                @Html.TextBoxFor(c => c.TipoFactura, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.TipoFactura)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaVisa)
+                @Html.EditorFor(c => c.TarjetaVisa, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.TarjetaVisa)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaVisaDeb)
+                @Html.EditorFor(c => c.TarjetaVisaDeb, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.TarjetaVisaDeb)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaMaster)
+                @Html.EditorFor(c => c.TarjetaMaster, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.TarjetaMaster)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaMaestro)
+                @Html.EditorFor(c => c.TarjetaMaestro, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.TarjetaMaestro)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TarjetaCabal)
+                @Html.EditorFor(c => c.TarjetaCabal, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.TarjetaCabal)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TotalTarjetas)
+                @Html.EditorFor(c => c.TotalTarjetas, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.TotalTarjetas)
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            
+            <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("Index", "VentaMinorista")';">Cancelar</button>
+
+        </div>
+    </div>
+
+
+}
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

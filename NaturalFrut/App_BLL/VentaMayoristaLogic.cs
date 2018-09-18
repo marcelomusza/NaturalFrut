@@ -145,13 +145,16 @@ namespace NaturalFrut.App_BLL
 
         }
 
-        public bool ValidateTipoDeProducto(int productoID)
+        public Producto ValidateTipoDeProducto(int productoID)
         {
 
             Producto producto = productoRP.GetByID(productoID);
 
             if (producto != null)
-                return producto.EsBlister;
+            {
+                return producto;
+            }
+                
             else
                 throw new Exception("Error al Validar tipo de Producto");
 

@@ -128,8 +128,8 @@
                             <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
                             <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="number" value="@producto.Importe" class="form-control" disabled /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="number" data-js-counter="@counter" value="@producto.Total" class="totalimporte form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="number" value="@producto.Importe.ToString().Replace(',','.')" class="form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="number" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="totalimporte form-control" disabled /></div></td>
                             <td><input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
                             <input type="hidden" name="prodxventaid" value="@producto.ID"/>
                             </td>
@@ -429,6 +429,7 @@
                     });
 
                     var descuento = parseFloat($("#descuento").val());
+                    
 
                     if (seleccion == 1 && sumaParcialSinDesc != 0)
                         nuevoTotal = sumaParcialSinDesc - descuento;
@@ -438,6 +439,8 @@
                     nuevoTotal = nuevoTotal + sumaParcialConDesc;
 
                     //sumamos el saldo sin modificar al total con descuento aplicado
+                    if (saldo < 0)
+                        saldo = saldo * (-1);
                     nuevoTotal = nuevoTotal + parseFloat(saldo);
 
                     $("#totalventa").val(nuevoTotal);
@@ -892,29 +895,21 @@
 
             if (data.EsBlister) {
                 $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
-                //$("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
-                $("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
-
-                //Paso siguiente, calculamos el stock disponible
-                var productoID = $("#producto" + data.Counter).attr("data-producto-id");
-                var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
-
-                $.getJSON("/VentaMayorista/CalcularStockBlisterAsync", { ProductoID: productoID, TipoUnidadID: tipoUnidadID, Counter: data.Counter }, UpdateStockBlister)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
-
-
-
+                                
+            }
+            else if(data.EsMix) {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadMix").text("Kg."));
+               
             }
             else {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
                 GetTiposDeUnidadDynamic(data.Counter);
-
-                $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
-
+                
             }
 
         }

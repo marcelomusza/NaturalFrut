@@ -22,9 +22,9 @@ namespace NaturalFrut
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            ModelBinders.Binders[typeof(float)] = new SingleModelBinder();
-            ModelBinders.Binders[typeof(double)] = new DoubleModelBinder();
-            ModelBinders.Binders[typeof(decimal)] = new DecimalModelBinder();
+            //ModelBinders.Binders[typeof(float)] = new SingleModelBinder();
+            //ModelBinders.Binders[typeof(double)] = new DoubleModelBinder();
+            //ModelBinders.Binders[typeof(decimal)] = new DecimalModelBinder();
 
         }
     }

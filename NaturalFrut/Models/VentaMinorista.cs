@@ -13,6 +13,8 @@ namespace NaturalFrut.Models
     {
 
         public int ID { get; set; }
+        
+        public int NumeroVenta { get; set; }
 
         [Required]
         public string Local { get; set; }
@@ -21,7 +23,7 @@ namespace NaturalFrut.Models
         public DateTime Fecha { get; set; }
 
         [Required]
-        public double ImporteVentaTotal { get; set; }
+        public decimal ImporteVentaTotal { get; set; }
 
         [Required]
         public double ImporteInformeZ { get; set; }

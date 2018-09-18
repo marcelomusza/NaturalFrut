@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<NaturalFrut.Models.VentaMinorista>
 @{
-    ViewBag.Title = "VentaMinorista";
+    ViewBag.Title = "Ventas Minoristas - NaturalFrut";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,6 +15,14 @@
 </div>
 
 <div class="row">
+    <div class="col-sm-12 text-right">
+        <p>
+            @Html.ActionLink("Generar Reporte", "NuevoReporteVentaMinorista", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-sm-12">
 
         @if (!Model.Any())
@@ -24,10 +32,11 @@
         else
         {
 
-            <table id="ventasminoristas" class="table table-bordered table-hover">
+            <table id="ventasminorista" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Fecha</th>
+                        <th>NumeroVenta</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -47,7 +56,7 @@
 
         $(document).ready(function () {
 
-            var table = $("#ventasminoristas").DataTable({
+            var table = $("#ventasminorista").DataTable({
 
                 "language": {
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
@@ -55,7 +64,7 @@
 
                 ajax: {
 
-                    url: "/api/ventasminoristas",
+                    url: "/api/ventasminorista",
                     dataSrc: ""
                 },
                 columns: [
@@ -63,44 +72,55 @@
                         data: "Fecha"
                     },
                     {
+                        data: "NumeroVenta"
+                    },
+                    {
                         data: "ID",
                         render: function (data) {
-                            return "<button class='btn-link js-delete' data-ventaminorista-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
-                                "<button class='btn-link js-edit' data-ventaminorista-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                            return "<button class='btn-link js-view' data-ventaminorista-id=" + data + "><img title='Ver Venta Minorista' src='/Content/Images/DetailsIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-ventaminorista-id=" + data + "><img title='Editar Venta Minorista' src='/Content/Images/EditIcon.png'/></button>";
                         }
                     }
                 ]
             });
 
-            $("#ventasminoristas").on("click", ".js-delete", function () {
+            //$("#ventasminoristas").on("click", ".js-delete", function () {
+
+            //    var button = $(this);
+
+            //    bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+            //        if (result) {
+            //            $.ajax({
+            //                url: "/api/ventasminorista/" + button.attr("data-ventaminorista-id"),
+            //                method: "DELETE",
+            //                success: function () {
+
+            //                    toastr.success("Cliente eliminado satisfactoriamente");
+
+            //                    table.row(button.parents("tr")).remove().draw();
+            //                }
+            //            });
+            //        }
+
+            //    });
+
+
+            //});
+
+            $("#ventasminorista").on("click", ".js-edit", function () {
 
                 var button = $(this);
 
-                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
-
-                    if (result) {
-                        $.ajax({
-                            url: "/api/ventasminoristas/" + button.attr("data-ventaminorista-id"),
-                            method: "DELETE",
-                            success: function () {
-
-                                toastr.success("Cliente eliminado satisfactoriamente");
-
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
-                    }
-
-                });
-
+                location.href = "VentaMinorista/EditarVentaMinorista/" + button.attr("data-ventaminorista-id");
 
             });
 
-            $("#ventasminoristas").on("click", ".js-edit", function () {
+            $("#ventasminorista").on("click", ".js-view", function () {
 
                 var button = $(this);
 
-                location.href = "EditarVentaMinorista/" + button.attr("data-ventaminorista-id");
+                location.href = "VentaMinorista/VerVentaMinorista/" + button.attr("data-ventaminorista-id");
 
             });
 

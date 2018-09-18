@@ -779,29 +779,36 @@
 
             if (data.EsBlister) {
                 $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
-                //$("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
-                $("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
+
+                //Calculamos Valores
+                //CalcularValoresBlister(data.Counter);
+                //$("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
 
                 //Paso siguiente, calculamos el stock disponible
-                var productoID = $("#producto" + data.Counter).attr("data-producto-id");
-                var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
+                //var productoID = $("#producto" + data.Counter).attr("data-producto-id");
+                //var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
 
-                $.getJSON("CalcularStockBlisterAsync", { ProductoID: productoID, TipoUnidadID: tipoUnidadID, Counter: data.Counter }, UpdateStockBlister)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
+                //$.getJSON("CalcularStockBlisterAsync", { ProductoID: productoID, TipoUnidadID: tipoUnidadID, Counter: data.Counter }, UpdateStockBlister)
+                //    .error(function (xhr, textStatus, exceptionThrown) {
+                //        bootbox.alert(xhr.responseText);
+                //    })
                 
 
 
+            }
+            else if(data.EsMix) {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadMix").text("Kg."));
+               
             }
             else {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
                 GetTiposDeUnidadDynamic(data.Counter);
                 
-                $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
-               
             }
 
         }

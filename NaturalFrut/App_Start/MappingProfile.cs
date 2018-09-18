@@ -55,6 +55,8 @@ namespace NaturalFrut.App_Start
             Mapper.CreateMap<ProductoMix, ProductoMixDTO>();
             Mapper.CreateMap<ProductoMixDTO, ProductoMix>();
 
+            Mapper.CreateMap<VentaMinorista, VentaMinoristaDTO>();
+            Mapper.CreateMap<VentaMinoristaDTO, VentaMinorista>();
         }
 
        

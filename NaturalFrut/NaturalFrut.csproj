@@ -49,6 +49,9 @@
     <Reference Include="AutoMapper, Version=4.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.4.1.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="FastMember, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.3.0\lib\net45\FastMember.dll</HintPath>
+    </Reference>
     <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
     </Reference>
@@ -72,6 +75,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
       <Private>True</Private>
@@ -82,6 +88,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -160,9 +167,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -265,29 +269,31 @@
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\ListaPreciosBlisterController.cs" />
     <Compile Include="Controllers\Api\ProductosMixController.cs" />
+    <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
+    <Compile Include="Migrations\201809142312243_model_ventaminorista_decimal.cs" />
+    <Compile Include="Migrations\201809142312243_model_ventaminorista_decimal.Designer.cs">
+      <DependentUpon>201809142312243_model_ventaminorista_decimal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GenerarTxt.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="DTOs\ListaPrecioBlisterDTO.cs" />
     <Compile Include="DTOs\ProductoMixCreateDTO.cs" />
     <Compile Include="DTOs\ProductoMixDTO.cs" />
     <Compile Include="DTOs\ProductosMixUpdateDTO.cs" />
+    <Compile Include="DTOs\VentaMinoristaDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
-    <Compile Include="Migrations\201808290239465_sync.cs" />
-    <Compile Include="Migrations\201808290239465_sync.Designer.cs">
-      <DependentUpon>201808290239465_sync.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808292114378_Model_ProductoMix.cs" />
-    <Compile Include="Migrations\201808292114378_Model_ProductoMix.Designer.cs">
-      <DependentUpon>201808292114378_Model_ProductoMix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808292117315_Model_ProductoMixCantidad.cs" />
-    <Compile Include="Migrations\201808292117315_Model_ProductoMixCantidad.Designer.cs">
-      <DependentUpon>201808292117315_Model_ProductoMixCantidad.cs</DependentUpon>
+    <Compile Include="Migrations\201809070057464_Model_VentaMinorista_NumeroVenta.cs" />
+    <Compile Include="Migrations\201809070057464_Model_VentaMinorista_NumeroVenta.Designer.cs">
+      <DependentUpon>201809070057464_Model_VentaMinorista_NumeroVenta.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Models\ProductoMix.cs" />
     <Compile Include="Models\ProductoMixCreate.cs" />
     <Compile Include="Models\ProductosMixUpdate.cs" />
+    <Compile Include="Models\VentaMinoristaReporte.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -346,8 +352,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tababular\Hints.cs" />
+    <Compile Include="Tababular\Internals\Breaker.cs" />
+    <Compile Include="Tababular\Internals\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Tababular\Internals\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Tababular\Internals\Extractors\DictionaryTableExtractor.cs" />
+    <Compile Include="Tababular\Internals\Extractors\JsonTableExtractor.cs" />
+    <Compile Include="Tababular\Internals\Extractors\ObjectTableExtractor.cs" />
+    <Compile Include="Tababular\Internals\ITableExtractor.cs" />
+    <Compile Include="Tababular\Internals\Shims.cs" />
+    <Compile Include="Tababular\Internals\TableModel\Cell.cs" />
+    <Compile Include="Tababular\Internals\TableModel\Column.cs" />
+    <Compile Include="Tababular\Internals\TableModel\Row.cs" />
+    <Compile Include="Tababular\Internals\TableModel\Table.cs" />
+    <Compile Include="Tababular\Properties\AssemblyInfo.cs" />
+    <Compile Include="Tababular\TableFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
@@ -522,6 +545,8 @@
     <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -532,6 +557,9 @@
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -617,6 +645,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\naturalfrut.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\toastr.js" />
@@ -625,6 +659,7 @@
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Scripts\typeahead.jquery.js" />
     <Content Include="Scripts\typeahead.jquery.min.js" />
+    <Content Include="Tababular\Tababular.csproj" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -697,18 +732,11 @@
     <Content Include="Views\Admin\ProductoMixForm.cshtml" />
     <Content Include="Views\Admin\ProductoMixFormEdit.cshtml" />
     <Content Include="Views\Admin\ProductoMixFormView.cshtml" />
+    <Content Include="Views\VentaMinorista\VentaMinoristaFormView.cshtml" />
+    <Content Include="Views\VentaMinorista\ReporteVentaMinoristaForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -717,14 +745,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808290239465_sync.resx">
-      <DependentUpon>201808290239465_sync.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809070057464_Model_VentaMinorista_NumeroVenta.resx">
+      <DependentUpon>201809070057464_Model_VentaMinorista_NumeroVenta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808292114378_Model_ProductoMix.resx">
-      <DependentUpon>201808292114378_Model_ProductoMix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808292117315_Model_ProductoMixCantidad.resx">
-      <DependentUpon>201808292117315_Model_ProductoMixCantidad.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809142312243_model_ventaminorista_decimal.resx">
+      <DependentUpon>201809142312243_model_ventaminorista_decimal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -22,15 +22,28 @@ namespace NaturalFrut.App_BLL
 
         public List<VentaMinorista> GetAllVentaMinorista()
         {
-            return ventaMinoristaRP.GetAll().ToList();
+            return ventaMinoristaRP
+                .GetAll()
+                .ToList();
         }
 
         public VentaMinorista GetVentaMinoristaById(int id)
         {
             return ventaMinoristaRP
                 .GetAll()                
-                .Where(c => c.ID == id).SingleOrDefault();
+                .Where(c => c.ID == id)
+                .SingleOrDefault();
         }
+
+        public VentaMinorista GetVentaMinoristaByNumeroVenta(int numVenta)
+        {
+            return ventaMinoristaRP
+                .GetAll()
+                .Where(c => c.NumeroVenta == numVenta)
+                .SingleOrDefault();
+        }
+
+
 
         public void RemoveVentaMinorista(VentaMinorista ventaMinorista)
         {
@@ -50,5 +63,26 @@ namespace NaturalFrut.App_BLL
             ventaMinoristaRP.Save();
         }
 
+        public VentaMinorista GetNumeroDeVenta()
+        {
+            var ultimaVenta = ventaMinoristaRP
+                .GetAll()
+                .OrderByDescending(p => p.ID)
+                .FirstOrDefault();
+
+            return ultimaVenta;
+        }
+
+        public List<VentaMinorista> GetAllVentaMinoristaSegunFechas(DateTime fechaDesde, DateTime fechaHasta)
+        {
+
+            var reporteVentasSegunFecha = ventaMinoristaRP
+                .GetAll()
+                .Where(f => f.Fecha >= fechaDesde && f.Fecha <= fechaHasta)
+                .ToList();
+
+
+            return reporteVentasSegunFecha;
+        }
     }
 }

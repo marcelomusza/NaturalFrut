@@ -22,7 +22,7 @@ namespace NaturalFrut.Controllers.Api
         private readonly ClienteLogic clienteBL;
         private readonly VendedorLogic vendedorBL;
         private readonly ProductoLogic productoBL;
-        private readonly ProductoXVentaLogic productoXVentaBL;
+        private readonly ProductoXVentaLogic productoXVentaBL;        
 
         public VentasMayoristaController(IRepository<VentaMayorista> VentaMayoristaRepo,
             IRepository<Stock> StockRepo,
@@ -30,10 +30,11 @@ namespace NaturalFrut.Controllers.Api
             IRepository<Vendedor> VendedorRepo,
             IRepository<Producto> ProductoRepo,
             IRepository<ListaPrecioBlister> ListaPrecioBlisterRepo,
-            IRepository<ProductoXVenta> ProductoXVentaRepo)
+            IRepository<ProductoXVenta> ProductoXVentaRepo,
+            IRepository<ProductoMix> ProductoMixRepo)
         {
             ventaMayoristaBL = new VentaMayoristaLogic(VentaMayoristaRepo, ListaPrecioBlisterRepo);
-            stockBL = new StockLogic(StockRepo);
+            stockBL = new StockLogic(StockRepo, ProductoMixRepo);
             clienteBL = new ClienteLogic(ClienteRepo);
             vendedorBL = new VendedorLogic(VendedorRepo);
             productoBL = new ProductoLogic(ProductoRepo);
@@ -56,7 +57,7 @@ namespace NaturalFrut.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var cliente = clienteBL.GetClienteById(ventaMayoristaDTO.ClienteID);
+            Cliente cliente = clienteBL.GetClienteById(ventaMayoristaDTO.ClienteID);
 
             if (cliente == null)
                 return BadRequest();
@@ -66,7 +67,7 @@ namespace NaturalFrut.Controllers.Api
             ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
-            cliente.Saldo = ventaMayoristaDTO.SumaTotal - ventaMayoristaDTO.EntregaEfectivo;
+            cliente.Saldo = ventaMayorista.SumaTotal - ventaMayorista.EntregaEfectivo;
             clienteBL.UpdateCliente(cliente);           
 
             if (ventaMayorista.NoConcretado)
@@ -78,21 +79,51 @@ namespace NaturalFrut.Controllers.Api
                 //Una vez cargada la venta, actualizamos Stock
                 foreach (var item in ventaMayorista.ProductosXVenta)
                 {
-                    Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+                    
+                    Producto producto = productoBL.GetProductoById(item.ProductoID);
 
                     //Actualizamos dependiendo si es un producto Blister o Comun
                     if(item.TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
                     {
+                        Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+
                         ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(item.ProductoID);
 
                         double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(item.Cantidad)) / 1000; //Convierto a KG
                         stock.Cantidad = stock.Cantidad - cantidadEnKG;
 
+                        stockBL.UpdateStock(stock);
+
+                    }
+                    if(producto.EsMix)
+                    {
+                        //Producto Mix - Actualizar Stock para sus productos asociados
+                        var productosMixStock = stockBL.GetListaProductosMixById(producto.ID);
+
+                        if (productosMixStock == null)
+                            return BadRequest();
+
+                        foreach (var prod in productosMixStock)
+                        {
+                            Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), item.TipoDeUnidadID);
+
+                            if (stockProdMix == null)
+                                return BadRequest();
+
+                            double cantidadEnKG = Convert.ToDouble(prod.Cantidad) * Convert.ToDouble(item.Cantidad);
+                            stockProdMix.Cantidad = stockProdMix.Cantidad - cantidadEnKG;
+
+                            stockBL.UpdateStock(stockProdMix);
+                        }
                     }
                     else
-                        stock.Cantidad = stock.Cantidad - item.Cantidad;
+                    {
+                        Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
 
-                    stockBL.UpdateStock(stock);
+                        stock.Cantidad = stock.Cantidad - item.Cantidad;
+                        stockBL.UpdateStock(stock);
+                    }                       
+                    
                 }
             }
                         
@@ -162,77 +193,100 @@ namespace NaturalFrut.Controllers.Api
 
                 for (int i = 0; i < ventaMayoristaInDB.ProductosXVenta.Count; i++)
                 {
-                    Stock stock = stockBL.ValidarStockProducto(ventaMayoristaInDB.ProductosXVenta[i].ProductoID, ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID);
 
-                    var diferencia = cantProds[i] - ventaMayoristaInDB.ProductosXVenta[i].Cantidad;
-                    if (diferencia < 0)
-                        diferencia = diferencia * (-1);
-
-                    if (cantProds[i] < ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
+                    //Verificamos si se trata de un producto MIX o no
+                    if (ventaMayoristaInDB.ProductosXVenta[i].Producto.EsMix)
                     {
-                        //Cantidad de productos actual es superior a la venta original, restar stock
-                        //Actualizamos dependiendo si es un producto Blister o Comun                       
+                        //Producto Mix
+                        var productosMixStock = stockBL.GetListaProductosMixById(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
 
-                        if (ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
+                        if (productosMixStock == null)
+                            return BadRequest();
+
+                        foreach (var prod in productosMixStock)
                         {
-                            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
-                            
-                            double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(diferencia) / 1000); //Convierto a KG
-                            stock.Cantidad = stock.Cantidad - cantidadEnKG;
+                            Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID);
 
+                            if (stockProdMix == null)
+                                return BadRequest();
+
+                            //Realizo operacion inversa para convertir valor neto en parcial para cada producto
+                            var diferencia = cantProds[i] - ventaMayoristaInDB.ProductosXVenta[i].Cantidad;
+                            if (diferencia < 0)
+                                diferencia = diferencia * (-1);
+
+                            var diferenciaMix = prod.Cantidad * diferencia;
+
+
+                            if (cantProds[i] < ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
+                            {
+                                //Cantidad de productos actual es superior a la venta original, restar stock
+                                stockProdMix.Cantidad = stockProdMix.Cantidad - diferenciaMix;
+
+                                stockBL.UpdateStock(stockProdMix);
+
+                            }
+                            if (cantProds[i] > ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
+                            {
+                                //Devolver stock                       
+                                stockProdMix.Cantidad = stockProdMix.Cantidad + diferenciaMix;
+
+                                stockBL.UpdateStock(stockProdMix);
+                            }
                         }
-                        else
-                            stock.Cantidad = stock.Cantidad - diferencia;
 
-                        stockBL.UpdateStock(stock);
 
                     }
-                    if (cantProds[i] > ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
+                    else
                     {
-                        //Devolver stock                       
-                        //Actualizamos dependiendo si es un producto Blister o Comun
-                        if (ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
-                        {
-                            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
+                        //Producto Comun
+                        Stock stock = stockBL.ValidarStockProducto(ventaMayoristaInDB.ProductosXVenta[i].ProductoID, ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID);
 
-                            double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(diferencia)) / 1000; //Convierto a KG
-                            stock.Cantidad = stock.Cantidad + cantidadEnKG;
+                        var diferencia = cantProds[i] - ventaMayoristaInDB.ProductosXVenta[i].Cantidad;
+                        if (diferencia < 0)
+                            diferencia = diferencia * (-1);
+
+                        if (cantProds[i] < ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
+                        {
+                            //Cantidad de productos actual es superior a la venta original, restar stock
+                            //Actualizamos dependiendo si es un producto Blister o Comun                       
+
+                            if (ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
+                            {
+                                ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
+
+                                double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(diferencia) / 1000); //Convierto a KG
+                                stock.Cantidad = stock.Cantidad - cantidadEnKG;
+
+                            }
+                            else
+                                stock.Cantidad = stock.Cantidad - diferencia;
+
+                            stockBL.UpdateStock(stock);
 
                         }
-                        else
-                            stock.Cantidad = stock.Cantidad + diferencia;
+                        if (cantProds[i] > ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
+                        {
+                            //Devolver stock                       
+                            //Actualizamos dependiendo si es un producto Blister o Comun
+                            if (ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
+                            {
+                                ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
 
-                        stockBL.UpdateStock(stock);
+                                double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(diferencia)) / 1000; //Convierto a KG
+                                stock.Cantidad = stock.Cantidad + cantidadEnKG;
+
+                            }
+                            else
+                                stock.Cantidad = stock.Cantidad + diferencia;
+
+                            stockBL.UpdateStock(stock);
+                        }
                     }
-
-
+                                        
                     
                 }
-                //foreach (var item in ventaMayoristaInDB.ProductosXVenta)
-                //{
-
-                //    Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
-
-                //    if (stock.Cantidad != item.Cantidad)
-                //    {
-
-                //        //Actualizamos dependiendo si es un producto Blister o Comun
-                //        if (item.TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
-                //        {
-                //            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(item.ProductoID);
-
-                //            double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(item.Cantidad)) / 1000; //Convierto a KG
-                //            stock.Cantidad = stock.Cantidad - cantidadEnKG;
-
-                //        }
-                //        else
-                //            stock.Cantidad = stock.Cantidad - item.Cantidad;
-
-                //        stockBL.UpdateStock(stock);
-                //    }
-                    
-                    
-                //}
+               
             }
 
 
@@ -264,23 +318,48 @@ namespace NaturalFrut.Controllers.Api
                     //Una vez cargada la venta, actualizamos Stock
                     foreach (var item in ventaUpdateDTO.ProductosXVenta)
                     {
+                                                
+                        Producto producto = productoBL.GetProductoById(item.ProductoID);
 
-                        Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
-
-                        if (stock.Cantidad != item.Cantidad)
+                        //Actualizamos dependiendo si es un producto Blister o Comun
+                        if (item.TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
                         {
-                            //Actualizamos dependiendo si es un producto Blister o Comun
-                            if (item.TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
+                            Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+
+                            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(item.ProductoID);
+
+                            double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(item.Cantidad)) / 1000; //Convierto a KG
+                            stock.Cantidad = stock.Cantidad - cantidadEnKG;
+
+                            stockBL.UpdateStock(stock);
+
+                        }
+                        if (producto.EsMix)
+                        {
+                            //Producto Mix - Actualizar Stock para sus productos asociados
+                            var productosMixStock = stockBL.GetListaProductosMixById(producto.ID);
+
+                            if (productosMixStock == null)
+                                return BadRequest();
+
+                            foreach (var prod in productosMixStock)
                             {
-                                ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(item.ProductoID);
+                                Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), item.TipoDeUnidadID);
 
-                                double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(item.Cantidad)) / 1000; //Convierto a KG
-                                stock.Cantidad = stock.Cantidad - cantidadEnKG;
+                                if (stockProdMix == null)
+                                    return BadRequest();
 
+                                double cantidadEnKG = Convert.ToDouble(prod.Cantidad) * Convert.ToDouble(item.Cantidad);
+                                stockProdMix.Cantidad = stockProdMix.Cantidad - cantidadEnKG;
+
+                                stockBL.UpdateStock(stockProdMix);
                             }
-                            else
-                                stock.Cantidad = stock.Cantidad - item.Cantidad;
+                        }
+                        else
+                        {
+                            Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
 
+                            stock.Cantidad = stock.Cantidad - item.Cantidad;
                             stockBL.UpdateStock(stock);
                         }
 

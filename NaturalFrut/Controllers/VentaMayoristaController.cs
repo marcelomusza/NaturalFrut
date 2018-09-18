@@ -20,18 +20,21 @@ namespace NaturalFrut.Controllers
         private readonly CommonLogic commonBL;
         private readonly StockLogic stockBL;
         private readonly ProductoXVentaLogic productoxVentaBL;
+        private readonly ProductoLogic productoBL;
 
         public VentaMayoristaController(VentaMayoristaLogic VentaMayoristaLogic, 
             ClienteLogic ClienteLogic,
             CommonLogic CommonLogic,
             StockLogic StockLogic,
-            ProductoXVentaLogic ProductoXVentaLogic)
+            ProductoXVentaLogic ProductoXVentaLogic,
+            ProductoLogic ProductoLogic)
         {
             ventaMayoristaBL = VentaMayoristaLogic;
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
             stockBL = StockLogic;
             productoxVentaBL = ProductoXVentaLogic;
+            productoBL = ProductoLogic;
         }
 
         // GET: Venta
@@ -62,6 +65,7 @@ namespace NaturalFrut.Controllers
             ViewBag.Fecha = DateTime.Now;
             ViewBag.Vendedores = ventaMayoristaBL.GetVendedorList();
             ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
+            ViewBag.TipoDeUnidadMix = Constants.TIPODEUNIDAD_MIX;
 
             if (ultimaVenta == null)
             {
@@ -92,6 +96,8 @@ namespace NaturalFrut.Controllers
                 {
                     if (producto.Producto.EsBlister)
                         producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - BLISTER - ";
+                    else if(producto.Producto.EsMix)
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - MIX - ";
                     else
                         producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ")";
                 }
@@ -99,12 +105,15 @@ namespace NaturalFrut.Controllers
                 {
                     if (producto.Producto.EsBlister)
                         producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ") - BLISTER - ";
+                    else if (producto.Producto.EsMix)
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - MIX - ";
                     else
-                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ")";
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ")";
                 }
             }
 
             ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
+            ViewBag.TipoDeUnidadMix = Constants.TIPODEUNIDAD_MIX;
             ViewBag.VentaMayoristaID = Id;
 
             if (vtaMayorista == null)
@@ -190,18 +199,61 @@ namespace NaturalFrut.Controllers
             {
                 double importe;
                 double importeTotal;
+                double stockDisponible = 0;
+                Producto prod = productoBL.GetProductoById(productoID);
 
-                Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+                if (prod == null)
+                    throw new Exception("El Producto no fue encontrado en el sistema.");
 
-                if (productoSegunStock == null)
-                    throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
 
+                //Consultamos Stock segun tipo de producto
+                Stock productoSegunStock = new Stock();                
+                if (prod.EsMix)
+                {
+                    //Calculamos el Stock en base a la cantidad 
+                    var productosMixStock = stockBL.GetListaProductosMixById(productoID);
+                    List<double> prodsDisponible = new List<double>();
+                    int contador = 0;
+
+                    foreach (var prodMix in productosMixStock)
+                    {
+                        productoSegunStock = stockBL.ValidarStockProducto(prodMix.ProductoDelMixId.GetValueOrDefault(), tipoUnidadID);
+
+                        for (double i = prodMix.Cantidad; i < productoSegunStock.Cantidad; i += prodMix.Cantidad)
+                        {
+                            if (productoSegunStock.Cantidad >= prodMix.Cantidad)
+                                contador++;
+                        }
+
+                        prodsDisponible.Add(contador);
+                        contador = 0;
+
+                    }
+
+                    stockDisponible = prodsDisponible.Min();
+
+                }
+                else
+                {
+                    //Stock para el resto de los productos
+                    productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+                    if (productoSegunStock == null)
+                        throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+
+                    stockDisponible = productoSegunStock.Cantidad;
+                }
+
+
+                //Calculamos los Precios
                 ListaPrecio productoSegunLista = ventaMayoristaBL.CalcularImporteSegunCliente(clienteID, productoID, cantidad);
 
                 switch (tipoUnidadID)
                 {
                     case Constants.PRECIO_X_KG:
 
+                        //Este caso aplica tanto para Productos comunes como para Productos MIX
                         if (Convert.ToDouble(productoSegunLista.PrecioXKG) > 0)
                         {
                             //Casos en la lista de precios donde hay precio x kg y precio por bulto en base a cantidad
@@ -246,6 +298,24 @@ namespace NaturalFrut.Controllers
 
                         }
 
+                        break;
+
+                    case Constants.PRECIO_X_BLISTER:
+
+                        Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+                        if (productoBlisterSegunStock == null)
+                            throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+                        ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+
+                        if (productoBlisterSegunLista == null)
+                            throw new Exception("Error al cargar los precios de producto");
+
+                        importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
+
+                        //Sumamos el importe total
+                        importeTotal = importe * cantidad;
 
                         break;
 
@@ -259,9 +329,11 @@ namespace NaturalFrut.Controllers
                 importeTotal = importe * cantidad;
 
 
-                return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = stockDisponible }, JsonRequestBehavior.AllowGet);
 
+                
 
+                
             }
             catch (Exception ex)
             {
@@ -283,9 +355,17 @@ namespace NaturalFrut.Controllers
         public ActionResult ValidarTipoDeProductoAsync(int productoID, int counter)
         {
 
-            bool esBlister = ventaMayoristaBL.ValidateTipoDeProducto(productoID);
+            bool esBlister = false;
+            bool esMix = false;
+            Producto producto = ventaMayoristaBL.ValidateTipoDeProducto(productoID);
 
-            return Json(new { EsBlister = esBlister, Counter = counter }, JsonRequestBehavior.AllowGet);
+            if (producto.EsBlister)
+                esBlister = true;
+            else if (producto.EsMix)
+                esMix = true;
+                
+
+            return Json(new { EsBlister = esBlister, EsMix = esMix, Counter = counter }, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -332,40 +412,40 @@ namespace NaturalFrut.Controllers
 
         }
 
-        public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
-        {
+        //public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
+        //{
 
-            try
-            {
-                double importe;
-                double importeTotal;
+        //    try
+        //    {
+        //        double importe;
+        //        double importeTotal;
 
-                Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+        //        Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
 
-                if (productoSegunStock == null)
-                    throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+        //        if (productoSegunStock == null)
+        //            throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
 
-                ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+        //        ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
 
-                if (productoBlisterSegunLista == null)
-                    throw new Exception("Error al cargar los precios de producto");
+        //        if (productoBlisterSegunLista == null)
+        //            throw new Exception("Error al cargar los precios de producto");
                 
-                importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
+        //        importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
 
-                //Sumamos el importe total
-                importeTotal = importe * cantidad;
+        //        //Sumamos el importe total
+        //        importeTotal = importe * cantidad;
 
-                return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
-
-
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
+        //        return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
 
 
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+
+
+        //}
 
 
 

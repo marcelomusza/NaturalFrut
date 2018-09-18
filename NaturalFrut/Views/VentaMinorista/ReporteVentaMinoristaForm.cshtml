@@ -1,0 +1,165 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Generar Reporte Venta Minorista - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Generar Reporte</h2>
+<h4>Ingrese el rango de fechas y luego haga click en Buscar</h4>
+
+
+
+
+<div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                <label>Fecha Desde</label>                
+                <div class='input-group date' >
+                    <input required id="fechadesde" type="text" class="form-control" />                    
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Fecha Hasta</label>
+                <div class='input-group date' >
+                    <input required id="fechahasta" type="text" class="form-control" />                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @Html.AntiForgeryToken()
+        <button id="btnBuscar" type="button" class="btn btn-primary">Buscar</button>
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("Index", "VentaMinorista")';">Cancelar</button>
+
+    </div>
+</div>
+    
+
+<div class="row">
+    <br /><br />
+</div>
+
+<div class="row rte-hidden">
+    <div class="col-sm-12">
+
+        <table id="reportesporfecha" class="table table-bordered table-hover" >
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Numero Venta</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="row rte-hidden">
+    <div class="col-sm-12">       
+        <button id="btnGenerarReporte" type="button" class="btn btn-primary" >Generar Reporte</button>    
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $('#fechadesde').datetimepicker();
+            $('#fechahasta').datetimepicker();       
+
+            var vm = [];
+
+            $("#btnBuscar").on('click', function () {
+
+                var fechaDesde = $("#fechadesde").val();
+                var fechaHasta = $("#fechahasta").val();
+
+                if (fechaDesde != "" && fechaHasta != "") {
+
+                    $.getJSON("GetReporteVentasMinoristasAsync", { FechaDesde: fechaDesde, FechaHasta: fechaHasta }, PopulateReportesPorFecha)
+                        .error(function (xhr, textStatus, exceptionThrown) {
+                            bootbox.alert(xhr.responseText);
+                        })
+
+                }
+
+            })
+
+            PopulateReportesPorFecha = function (data) {
+
+                if (data.Success) {
+
+                    vm.ReporteVentas = data.ReporteVentas;
+
+                    var table = $("#reportesporfecha").DataTable({
+
+                        "language": {
+                            "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                        },
+
+                        data: data.ReporteVentas,
+                        columns: [
+                            {
+                                "data": "Fecha",
+                                "type": "date",
+                                "render": function (value) {
+                                    if (value === null) return "";
+                                    return moment(value).format('DD/MM/YYYY h:mm A');
+                                }
+                            },
+                            {
+                                data: "NumeroVenta"
+                            },
+                        ]
+                    });
+
+                    $(".row").removeClass("rte-hidden");
+
+                }
+                else {
+                    bootbox.alert("Error al generar la búsqueda de ventas")
+                }
+
+
+            }
+
+            $("#btnGenerarReporte").on('click', function () {
+
+                var numVentas = "";
+
+                $.each(vm.ReporteVentas, function (key, value) {
+
+                    numVentas += value.NumeroVenta + ",";
+
+                    // and the rest of your code
+                });
+
+                location.href = "GenerarReporteTxt?ventas=" + numVentas;
+                
+            })
+
+
+        });
+
+    </script>
+
+}

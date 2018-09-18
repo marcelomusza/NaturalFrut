@@ -1,6 +1,6 @@
 ﻿@model NaturalFrut.App_BLL.ViewModels.VentaMinoristaViewModel
 @{
-    ViewBag.Title = "CargarVenta";
+    ViewBag.Title = "Cargar Venta Minorista - NaturalFrut";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,9 +21,9 @@
         <div class="col-sm-6">
 
             <div class="form-group">
-                <label>N° Venta</label>
-                @Html.TextBoxFor(c => c.ID, new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(c => c.ID)
+                @Html.LabelFor(c => c.NumeroVenta)
+                @Html.TextBoxFor(c => c.NumeroVenta, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(c => c.NumeroVenta)
             </div>
 
             <div class="form-group">
@@ -33,20 +33,26 @@
             </div>
 
             <div class="form-group">
-                <label>IVA</label>
+                @Html.LabelFor(c => c.Local)
+                @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Local)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Iva)
                 @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Iva)
             </div>
 
             <div class="form-group">
-                <label>Importe Venta Total</label>
-                @Html.TextBoxFor(c => c.ImporteVentaTotal, new { @class = "form-control" })
+                @Html.LabelFor(c => c.ImporteVentaTotal)
+                @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);"} })
                 @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
             </div>
 
             <div class="form-group">
-                <label>Importe Informe Z</label>
-                @Html.TextBoxFor(c => c.ImporteInformeZ, new { @class = "form-control" })
+                @Html.LabelFor(c => c.ImporteInformeZ)
+                @Html.EditorFor(c => c.ImporteInformeZ, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.ImporteInformeZ)
             </div>
 
@@ -58,13 +64,13 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Promedio)
-                @Html.TextBoxFor(c => c.Promedio, new { @class = "form-control" })
+                @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.Promedio)
             </div>
 
             <div class="form-group">
-                <label>Importe IVA Z</label>
-                @Html.TextBoxFor(c => c.ImporteIva, new { @class = "form-control" })
+                @Html.LabelFor(c => c.ImporteIva)
+                @Html.EditorFor(c => c.ImporteIva, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.ImporteIva)
             </div>
 
@@ -79,7 +85,7 @@
                 @Html.TextBoxFor(c => c.UltimoNumeroTicket, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.UltimoNumeroTicket)
             </div>
-       </div>
+        </div>
 
 
         <!--Agrupamos campos de la columna derecha-->
@@ -104,37 +110,37 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaVisa)
-                @Html.TextBoxFor(c => c.TarjetaVisa, new { @class = "form-control" })
+                @Html.EditorFor(c => c.TarjetaVisa, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaVisa)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaVisaDeb)
-                @Html.TextBoxFor(c => c.TarjetaVisaDeb, new { @class = "form-control" })
+                @Html.EditorFor(c => c.TarjetaVisaDeb, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaVisaDeb)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaMaster)
-                @Html.TextBoxFor(c => c.TarjetaMaster, new { @class = "form-control" })
+                @Html.EditorFor(c => c.TarjetaMaster, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaMaster)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaMaestro)
-                @Html.TextBoxFor(c => c.TarjetaMaestro, new { @class = "form-control" })
+                @Html.EditorFor(c => c.TarjetaMaestro, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaMaestro)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaCabal)
-                @Html.TextBoxFor(c => c.TarjetaCabal, new { @class = "form-control" })
+                @Html.EditorFor(c => c.TarjetaCabal, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaCabal)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TotalTarjetas)
-                @Html.TextBoxFor(c => c.TotalTarjetas, new { @class = "form-control" })
+                @Html.EditorFor(c => c.TotalTarjetas, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TotalTarjetas)
             </div>
 
@@ -148,8 +154,8 @@
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(c => c.ID)
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+            <button type="submit" id ="vtaminsubmit"class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "VentaMinorista")';">Cancelar</button>
 
         </div>
     </div>
@@ -157,128 +163,78 @@
 
 }
 
-
-
-
-
-
 @section scripts
 {
-    <script>
 
-        var NuevoClienteModal = function (clienteID) {
-
-            var url = "/VentaMayorista/NuevoCliente?ID=" + clienteID;
-
-            $("#clienteModalBody").load(url, function () {
-                $("#clienteModal").modal("show");
-
-            })
-
-        }
-
-        var NuevoVendedorModal = function (vendedorID) {
-
-            var url = "/VentaMayorista/NuevoVendedor?ID=" + vendedorID;
-
-            $("#vendedorModalBody").load(url, function () {
-                $("#vendedorModal").modal("show");
-
-            })
-
-        }
-
-    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
 
     <script>
 
         $(document).ready(function () {
 
-
-            var vm = {};
-
-            var clientes = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                prefetch: {
-                    url: '/api/clientes?query=%QUERY',
-                    wildcard: '%QUERY',
-                    cache: false
-                }
-            });
-
-            $('#cliente').typeahead({
-                minLength: 3,
-                highlight: true,
-                hint: true,
-                limit: Infinity
-            }, {
-                    name: 'cliente',
-                    display: 'Nombre',
-                    source: clientes
-                }).on("typeahead:select", function (e, cliente) {
-                    vm.clienteId = cliente.id;
-                });
+            $("#vtaminsubmit").click(function () {
 
 
-            var table = $("#clientes").DataTable({
 
-                "language": {
-                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                },
+                var importeVentaTotal = $("#ImporteVentaTotal").val();
+                importeVentaTotal = FormatearValorMonetario(importeVentaTotal);
+                $("#ImporteVentaTotal").val(importeVentaTotal);
 
-                ajax: {
+                var importeInformeZ = $("#ImporteInformeZ").val();
+                importeInformeZ = FormatearValorMonetario(importeInformeZ);
+                $("#ImporteInformeZ").val(importeInformeZ);
 
-                    url: "/api/clientes",
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "Nombre"
-                    },
-                    {
-                        data: "ID",
-                        render: function (data) {
-                            return "<button class='btn-link js-delete' data-customer-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
-                                "<button class='btn-link js-edit' data-customer-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
-                        }
-                    }
-                ]
-            });
+                var promedio = $("#Promedio").val();
+                promedio = FormatearValorMonetario(promedio);
+                $("#Promedio").val(promedio);
 
-            $("#clientes").on("click", ".js-delete", function () {
+                var importeIva = $("#ImporteIva").val();
+                importeIva = FormatearValorMonetario(importeIva);
+                $("#ImporteIva").val(importeIva);
 
-                var button = $(this);
+                var tarjetaVisa = $("#TarjetaVisa").val();
+                tarjetaVisa = FormatearValorMonetario(tarjetaVisa);
+                $("#TarjetaVisa").val(tarjetaVisa);
 
-                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+                var tarjetaVisaDeb = $("#TarjetaVisaDeb").val();
+                tarjetaVisaDeb = FormatearValorMonetario(tarjetaVisaDeb);
+                $("#TarjetaVisaDeb").val(tarjetaVisaDeb);
 
-                    if (result) {
-                        $.ajax({
-                            url: "/api/clientes/" + button.attr("data-customer-id"),
-                            method: "DELETE",
-                            success: function () {
+                var tarjetaMaster = $("#TarjetaMaster").val();
+                tarjetaMaster = FormatearValorMonetario(tarjetaMaster);
+                $("#TarjetaMaster").val(tarjetaMaster);
 
-                                toastr.success("Cliente eliminado satisfactoriamente");
+                var tarjetaMaestro = $("#TarjetaMaestro").val();
+                tarjetaMaestro = FormatearValorMonetario(tarjetaMaestro);
+                $("#TarjetaMaestro").val(tarjetaMaestro);
 
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
-                    }
+                var tarjetaCabal = $("#TarjetaCabal").val();
+                tarjetaCabal = FormatearValorMonetario(tarjetaCabal);
+                $("#TarjetaCabal").val(tarjetaCabal);
 
-                });
-
-
-            });
-
-            $("#clientes").on("click", ".js-edit", function () {
-
-                var button = $(this);
-
-                location.href = "EditarCliente/" + button.attr("data-customer-id");
+                var totalTarjetas = $("#TotalTarjetas").val();
+                totalTarjetas = FormatearValorMonetario(totalTarjetas);
+                $("#TotalTarjetas").val(totalTarjetas);
+                
 
             });
 
         });
+
+        function ValidarPunto(textbox) {
+
+            var word = ["."];
+
+            for (i = 0; i < word.length; i++) {
+                if (textbox.value.indexOf(word[i]) >= 0) {
+                    $("[data-valmsg-for=" + textbox.id).text("Para valores decimales por favor usar la coma.").css("color", "red");
+                }
+                else {
+                    $("[data-valmsg-for=" + textbox.id).text("");
+                }
+            }
+
+        }
 
     </script>
 

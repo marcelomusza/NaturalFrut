@@ -68,6 +68,8 @@ input.error {
     align-items: center;
 }
 
+/* ESTILOS HOME ADMIN END*/
+
 /*Fix de ancho para textbox de typeahead*/
 .vtamay-cliente > span {
     width:51%;
@@ -107,6 +109,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
-/* ESTILOS HOME ADMIN END*/
+.rte-hidden {
+    display: none;
+}
+
 
 /* NaturalFrut Custom CSS END*/

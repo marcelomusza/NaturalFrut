@@ -61,11 +61,23 @@ namespace NaturalFrut.Controllers.Api
 
             foreach (var prod in productos)
             {
-                if (prod.Marca != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+                if(prod.EsMix)
+                {
+                    if (prod.Marca != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX -";
 
-                if (prod.Categoria != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+                    if (prod.Categoria != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX -";
+                }
+                else
+                {
+                    if (prod.Marca != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+
+                    if (prod.Categoria != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+                }
+               
 
                 productosConjunto.Add(prod);
             }
@@ -111,11 +123,22 @@ namespace NaturalFrut.Controllers.Api
             foreach (var prod in productos)
             {
                 if (prod.Marca != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+                {
+                    if (prod.EsMix)
+                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX - ";
+                    else
+                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+                }
+                    
 
                 if (prod.Categoria != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
-
+                {
+                    if (prod.EsMix)
+                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX - ";
+                    else
+                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+                }
+                   
                 productosConjunto.Add(prod);
             }
 

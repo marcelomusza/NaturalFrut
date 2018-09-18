@@ -71,6 +71,9 @@ namespace NaturalFrut.Controllers
 
             var cliente = clienteBL.GetClienteById(Id);
 
+            if (cliente == null)
+                return HttpNotFound();
+
             ClienteViewModel viewModel = new ClienteViewModel(cliente)
             {
                 CondicionIVA = clienteBL.GetCondicionIvaList(),
@@ -78,8 +81,7 @@ namespace NaturalFrut.Controllers
                 Lista = clienteBL.GetListaList()
             };
 
-            if (cliente == null)
-                return HttpNotFound();
+            
 
             return View("ClienteForm", viewModel);
         }

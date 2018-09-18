@@ -9,19 +9,40 @@ namespace Naturalfrut.Helpers
     {
         protected abstract Func<string, IFormatProvider, T> ConvertFunc { get; }
 
-        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        //public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        //{
+        //    var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+        //    if (valueProviderResult == null) return base.BindModel(controllerContext, bindingContext);
+        //    try
+        //    {
+        //        return ConvertFunc.Invoke(valueProviderResult.AttemptedValue, CultureInfo.CurrentUICulture);
+        //    }
+        //    catch (FormatException)
+        //    {
+        //        // If format error then fallback to InvariantCulture instead of current UI culture
+        //        return ConvertFunc.Invoke(valueProviderResult.AttemptedValue, CultureInfo.InvariantCulture);
+        //    }
+        //}
+
+        public override object BindModel(ControllerContext controllerContext,
+        ModelBindingContext bindingContext)
         {
-            var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            if (valueProviderResult == null) return base.BindModel(controllerContext, bindingContext);
+            ValueProviderResult valueResult = bindingContext.ValueProvider
+                .GetValue(bindingContext.ModelName);
+            ModelState modelState = new ModelState { Value = valueResult };
+            object actualValue = null;
             try
             {
-                return ConvertFunc.Invoke(valueProviderResult.AttemptedValue, CultureInfo.CurrentUICulture);
+                actualValue = Convert.ToDecimal(valueResult.AttemptedValue,
+                    CultureInfo.CurrentCulture);
             }
-            catch (FormatException)
+            catch (FormatException e)
             {
-                // If format error then fallback to InvariantCulture instead of current UI culture
-                return ConvertFunc.Invoke(valueProviderResult.AttemptedValue, CultureInfo.InvariantCulture);
+                modelState.Errors.Add(e);
             }
+
+            bindingContext.ModelState.Add(bindingContext.ModelName, modelState);
+            return actualValue;
         }
     }
 
