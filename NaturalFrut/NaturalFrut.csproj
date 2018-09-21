@@ -236,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_BLL\CompraLogic.cs" />
+    <Compile Include="App_BLL\ProductoXCompraLogic.cs" />
     <Compile Include="App_BLL\ProductoXVentaLogic.cs" />
     <Compile Include="App_BLL\StockLogic.cs" />
     <Compile Include="App_BLL\VentaMinoristaLogic.cs" />
@@ -266,14 +267,19 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\ClasificacionController.cs" />
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\ListaPreciosBlisterController.cs" />
     <Compile Include="Controllers\Api\ProductosMixController.cs" />
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
-    <Compile Include="Migrations\201809142312243_model_ventaminorista_decimal.cs" />
-    <Compile Include="Migrations\201809142312243_model_ventaminorista_decimal.Designer.cs">
-      <DependentUpon>201809142312243_model_ventaminorista_decimal.cs</DependentUpon>
+    <Compile Include="Controllers\CompraController.cs" />
+    <Compile Include="DTOs\ClasificacionDTO.cs" />
+    <Compile Include="DTOs\CompraDTO.cs" />
+    <Compile Include="DTOs\ProductoXCompraDTO.cs" />
+    <Compile Include="Migrations\201809192002364_nuevas.cs" />
+    <Compile Include="Migrations\201809192002364_nuevas.Designer.cs">
+      <DependentUpon>201809192002364_nuevas.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -285,10 +291,6 @@
     <Compile Include="DTOs\ProductosMixUpdateDTO.cs" />
     <Compile Include="DTOs\VentaMinoristaDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
-    <Compile Include="Migrations\201809070057464_Model_VentaMinorista_NumeroVenta.cs" />
-    <Compile Include="Migrations\201809070057464_Model_VentaMinorista_NumeroVenta.Designer.cs">
-      <DependentUpon>201809070057464_Model_VentaMinorista_NumeroVenta.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\ListaPrecioBlister.cs" />
     <Compile Include="Models\ProductoMix.cs" />
     <Compile Include="Models\ProductoMixCreate.cs" />
@@ -734,9 +736,20 @@
     <Content Include="Views\Admin\ProductoMixFormView.cshtml" />
     <Content Include="Views\VentaMinorista\VentaMinoristaFormView.cshtml" />
     <Content Include="Views\VentaMinorista\ReporteVentaMinoristaForm.cshtml" />
+    <Content Include="Views\Compra\CompraForm.cshtml" />
+    <Content Include="Views\Compra\CompraFormEdit.cshtml" />
+    <Content Include="Views\Compra\Index.cshtml" />
+    <Content Include="Views\Compra\NotaDePedidoForm.cshtml" />
+    <Content Include="Views\Compra\NuevaClasificacion.cshtml" />
+    <Content Include="Views\Compra\NuevoProveedor.cshtml" />
+    <Content Include="Views\Admin\Clasificacion.cshtml" />
+    <Content Include="Views\Admin\ClasificacionForm.cshtml" />
+    <Content Include="Views\Admin\ListaPreciosBlister.cshtml" />
+    <Content Include="Views\Admin\ListaPreciosBlisterForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DTOs\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -745,11 +758,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809070057464_Model_VentaMinorista_NumeroVenta.resx">
-      <DependentUpon>201809070057464_Model_VentaMinorista_NumeroVenta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809142312243_model_ventaminorista_decimal.resx">
-      <DependentUpon>201809142312243_model_ventaminorista_decimal.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809192002364_nuevas.resx">
+      <DependentUpon>201809192002364_nuevas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
