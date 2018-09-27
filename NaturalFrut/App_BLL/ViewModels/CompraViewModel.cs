@@ -54,6 +54,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public string TipoFactura { get; set; }
 
+        public bool NoConcretado { get; set; }
+
 
 
         public CompraViewModel()

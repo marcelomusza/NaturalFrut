@@ -271,6 +271,7 @@
     <Compile Include="Controllers\Api\ListaPreciosController.cs" />
     <Compile Include="Controllers\Api\ListaPreciosBlisterController.cs" />
     <Compile Include="Controllers\Api\ProductosMixController.cs" />
+    <Compile Include="Controllers\Api\CompraController.cs" />
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
@@ -280,6 +281,10 @@
     <Compile Include="Migrations\201809192002364_nuevas.cs" />
     <Compile Include="Migrations\201809192002364_nuevas.Designer.cs">
       <DependentUpon>201809192002364_nuevas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809242046411_SeagregaCampoNuevo.cs" />
+    <Compile Include="Migrations\201809242046411_SeagregaCampoNuevo.Designer.cs">
+      <DependentUpon>201809242046411_SeagregaCampoNuevo.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -746,6 +751,7 @@
     <Content Include="Views\Admin\ClasificacionForm.cshtml" />
     <Content Include="Views\Admin\ListaPreciosBlister.cshtml" />
     <Content Include="Views\Admin\ListaPreciosBlisterForm.cshtml" />
+    <Content Include="Views\Compra\NuevoProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -760,6 +766,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809192002364_nuevas.resx">
       <DependentUpon>201809192002364_nuevas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809242046411_SeagregaCampoNuevo.resx">
+      <DependentUpon>201809242046411_SeagregaCampoNuevo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

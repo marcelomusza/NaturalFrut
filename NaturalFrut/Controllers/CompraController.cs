@@ -17,6 +17,7 @@ namespace NaturalFrut.Controllers
     {
         private readonly CompraLogic compraBL;
         private readonly ProveedorLogic proveedorBL;
+        private readonly ProductoLogic productoBL;
         private readonly CommonLogic commonBL;
         private readonly StockLogic stockBL;
         private readonly ProductoXCompraLogic productoxCompraBL;
@@ -25,10 +26,12 @@ namespace NaturalFrut.Controllers
             ProveedorLogic ProveedorLogic,
             CommonLogic CommonLogic,
             StockLogic StockLogic,
+            ProductoLogic ProductoLogic,
             ProductoXCompraLogic ProductoXCompraLogic)
         {
             compraBL = CompraLogic;
             proveedorBL = ProveedorLogic;
+            productoBL = ProductoLogic;
             commonBL = CommonLogic;
             stockBL = StockLogic;
             productoxCompraBL = ProductoXCompraLogic;
@@ -111,38 +114,7 @@ namespace NaturalFrut.Controllers
         //            return HttpNotFound();
 
         //        return View("VentaMayoristaFormEdit", vtaMayorista);
-        //    }
-
-        //    //[HttpPost]
-        //    //[ValidateAntiForgeryToken]
-        //    //public ActionResult GuardarVentaMayorista(VentaMayorista ventaMayorista)
-        //    //{
-
-        //    //    if (!ModelState.IsValid)
-        //    //    {
-
-        //    //        VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(ventaMayorista)
-        //    //        {
-
-        //    //        };
-
-        //    //        return View("VentaMayoristaForm", viewModel);
-        //    //    }
-
-        //    //    if (ventaMayorista.ID == 0)
-        //    //    {
-        //    //        //Agregamos nueva Venta Mayorista
-        //    //        ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        //Edicion de Venta Mayorista existente
-        //    //        ventaMayoristaBL.UpdateVentaMayorista(ventaMayorista);
-        //    //    }
-
-        //    //    return RedirectToAction("Clientes", "Admin");
-
-        //    //}
+        //    }       
 
 
         public ActionResult NuevoProveedor()
@@ -163,15 +135,23 @@ namespace NaturalFrut.Controllers
             return PartialView(model);
         }
 
-        //    public ActionResult GetCondicionIVAAsync()
-        //    {
-        //        return Json(clienteBL.GetCondicionIvaList(), JsonRequestBehavior.AllowGet);
-        //    }
+        public ActionResult NuevoProducto()
+        {
+            Producto model = new Producto();
 
-        //    public ActionResult GetTipoClienteAsync()
-        //    {
-        //       return Json(clienteBL.GetTipoClienteList(), JsonRequestBehavior.AllowGet);
-        //    }
+
+            return PartialView(model);
+        }
+
+        public ActionResult GetMarcaAsync()
+        {
+            return Json(productoBL.GetMarcaList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCategoriaAsync()
+        {
+            return Json(productoBL.GetCategoriaList(), JsonRequestBehavior.AllowGet);
+        }
 
         //    public ActionResult GetListaAsociadaAsync()
         //    {

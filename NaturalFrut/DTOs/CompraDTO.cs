@@ -15,7 +15,7 @@ namespace NaturalFrut.DTOs
 
         public int Factura { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public string Fecha { get; set; }
 
         public double Iva { get; set; }
 
@@ -55,12 +55,14 @@ namespace NaturalFrut.DTOs
         [Required]
         public int ClasificacionID { get; set; }
 
+        public bool NoConcretado { get; set; }
+
 
 
         public Clasificacion Clasificacion { get; set; }
 
         public Proveedor Proveedor { get; set; }
 
-        public IList<ProductoXCompra> ProductosXCompra { get; set; }
+        public IList<ProductoXCompraDTO> ProductosXCompra { get; set; }
     }
 }

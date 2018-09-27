@@ -52,6 +52,8 @@ namespace NaturalFrut.Models
 
         public string TipoFactura { get; set; }
 
+        public bool NoConcretado { get; set; }
+
         [Required]
         public int ProveedorID { get; set; }
 
