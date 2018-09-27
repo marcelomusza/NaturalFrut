@@ -27,7 +27,7 @@ namespace NaturalFrut.Models
 
         public double? Descuento { get; set; }
 
-        public double Saldo { get; set; }
+        public double? Saldo { get; set; }
 
         [Required]
         public int ClienteID { get; set; }

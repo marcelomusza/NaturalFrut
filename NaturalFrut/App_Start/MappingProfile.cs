@@ -64,6 +64,9 @@ namespace NaturalFrut.App_Start
             Mapper.CreateMap<Clasificacion, ClasificacionDTO>();
             Mapper.CreateMap<ClasificacionDTO, Clasificacion>();
 
+            Mapper.CreateMap<VentaMinorista, VentaMinoristaDTO>();
+            Mapper.CreateMap<VentaMinoristaDTO, VentaMinorista>();
+
 
 
         }

@@ -3,16 +3,16 @@ namespace NaturalFrut.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Model_VentaMinorista_NumeroVenta : DbMigration
+    public partial class model_vtamayor : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.VentasMinoristas", "NumeroVenta", c => c.Int(nullable: false));
+            AlterColumn("dbo.VentasMayoristas", "Saldo", c => c.Double());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.VentasMinoristas", "NumeroVenta");
+            AlterColumn("dbo.VentasMayoristas", "Saldo", c => c.Double(nullable: false));
         }
     }
 }

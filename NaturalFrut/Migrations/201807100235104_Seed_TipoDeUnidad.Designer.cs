@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class model_ventaminorista_decimal : IMigrationMetadata
+    public sealed partial class Seed_TipoDeUnidad : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(model_ventaminorista_decimal));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Seed_TipoDeUnidad));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809142312243_model_ventaminorista_decimal"; }
+            get { return "201807100235104_Seed_TipoDeUnidad"; }
         }
         
         string IMigrationMetadata.Source

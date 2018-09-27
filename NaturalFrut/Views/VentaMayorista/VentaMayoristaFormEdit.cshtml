@@ -70,12 +70,12 @@
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaefectivo" name="entregaefectivo" required type="number" value="@Model.EntregaEfectivo" class="form-control" />
+                <input id="entregaefectivo" name="entregaefectivo" required type="text" value="@Model.EntregaEfectivo" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label>Saldo</label>
-                <input id="saldo" name="saldo" type="number" value="@Model.Cliente.Saldo" class="form-control" disabled />
+                <input id="saldo" name="saldo" type="text" value="@Model.Cliente.Saldo" class="form-control" disabled />
             </div>
 
             <div class="checkbox">
@@ -153,10 +153,10 @@
                                 <option value="1">$</option>
                                 <option value="2">%</option>
                             </select>
-                            <input type="number" class="form-control vtamay-descuento" id="descuento" value="" disabled />
+                            <input type="text" class="form-control vtamay-descuento" id="descuento" value="" onkeyup="ValidarPunto(this);" disabled />
                             <br /><br />
                             <label>Total Venta:</label>
-                            <input type="number" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
+                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
                         </td>
                     </tr>
                 </tfoot>
@@ -281,7 +281,7 @@
 
             CargarValoresInicialesEnVM(vm);
             GetSaldoCliente();
-            
+            FormatearEntregaEfectivo();
             //**EVENTOS START **//
 
             $("#cliente").validate({
@@ -311,7 +311,7 @@
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
                     //GetTiposDeUnidadDynamic(counter);
 
-                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control"  /></div></td>';
+                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="form-control" disabled /></div></td>';
 
@@ -408,28 +408,27 @@
                 //Seleccion = 2 ---> %
                 var seleccion = $("#tipoDescuento").val();
 
-                if (seleccion == 1 || seleccion == 2) {
+                if ((seleccion == 1 || seleccion == 2) && $("#descuento").val() != "") {
 
                     var sumaVentaTotal = 0;
                     var nuevoTotal = 0;
-                    var saldo = $("#saldo").val();
+                    var saldo = DeFormatearValor($("#saldo").val());
 
                     $(".totalimporte").each(function () {
 
                         var descuento = $(this).closest('tr').find('td .js-descprod').val();
 
                         if (descuento != "") {
-                            sumaParcialConDesc += parseFloat(this.value);
+                            sumaParcialConDesc += parseFloat(DeFormatearValor(this.value));
                         }
                         else {
-                            sumaParcialSinDesc += parseFloat(this.value);
+                            sumaParcialSinDesc += parseFloat(DeFormatearValor(this.value));
                         }
 
                         //sumaVentaTotal += parseFloat(this.value);
                     });
 
-                    var descuento = parseFloat($("#descuento").val());
-                    
+                    var descuento = parseFloat(DeFormatearValor($("#descuento").val()));
 
                     if (seleccion == 1 && sumaParcialSinDesc != 0)
                         nuevoTotal = sumaParcialSinDesc - descuento;
@@ -439,9 +438,9 @@
                     nuevoTotal = nuevoTotal + sumaParcialConDesc;
 
                     //sumamos el saldo sin modificar al total con descuento aplicado
-                    if (saldo < 0)
-                        saldo = saldo * (-1);
                     nuevoTotal = nuevoTotal + parseFloat(saldo);
+
+                    nuevoTotal = FormatearValor(nuevoTotal);
 
                     $("#totalventa").val(nuevoTotal);
 
@@ -449,8 +448,11 @@
 
                 }
                 else {
-                    $("#descuento").attr("disabled", "disabled");
-                    $("#descuento").val("");
+
+                    if ($("#descuento").val() != "") {
+                        $("#descuento").attr("disabled", "disabled");
+                        $("#descuento").val("");
+                    }
 
                 }
 
@@ -604,7 +606,7 @@
 
     <!-- FUNCIONES -->
     <script>
-
+       
         function typeahead_initialize(counter) {
 
 
@@ -656,6 +658,8 @@
                 $("#saldo").val(data.Saldo);
 
             RecalcularTotal();
+
+            $("#saldo").val(FormatearValor($("#saldo").val()));
 
         }
 
@@ -726,7 +730,7 @@
             var saldo = 0;
 
             if ($("#saldo").val() != "")
-                saldo = $("#saldo").val();
+                saldo = DeFormatearValor($("#saldo").val());
 
 
             $(".totalimporte").each(function () {
@@ -738,7 +742,7 @@
             else
                 sumaVentaTotal = parseFloat(sumaVentaTotal) - parseFloat(saldo);
 
-            $("#totalventa").val(sumaVentaTotal);
+            $("#totalventa").val(FormatearValor(sumaVentaTotal));
         }
 
         function GetTiposDeUnidadDynamic(counter) {
@@ -871,10 +875,10 @@
             vm.ID = @ViewBag.VentaMayoristaID;
             vm.clienteID = $("#cliente").attr("data-cliente-id");
             vm.vendedorID = $("#vendedor").attr("data-vendedor-id");
-            vm.entregaEfectivo = $("#entregaefectivo").val();
-            vm.descuento = $("#descuento").val();
-            vm.saldo = $("#saldo").val();
-            vm.sumaTotal = $("#totalventa").val();            
+            vm.entregaEfectivo = DeFormatearValor($("#entregaefectivo").val());
+            vm.descuento = DeFormatearValor($("#descuento").val());
+            vm.saldo = DeFormatearValor($("#saldo").val());
+            vm.sumaTotal = DeFormatearValor($("#totalventa").val());     
 
         }
 
@@ -968,6 +972,49 @@
             else
                 CalcularStockYValorProducto(counter);
         }
+
+        function FormatearValor(valor) {
+
+            var formatter = new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                //minimumFractionDigits: 2,
+                // the default value for minimumFractionDigits depends on the currency
+                // and is usually already 2
+            });
+
+            valor = formatter.format(valor);
+
+            return valor;
+
+        }
+
+        function DeFormatearValor(valor) {
+
+            if (valor.indexOf("$") != -1 || $("#descuento").val() != "") {
+                valor = valor.replace("$", "").trim();
+                valor = ValorANumero(valor);
+            }
+
+            return valor;
+        }
+
+        function ValidarPunto(textbox) {
+
+            var word = ["."];
+
+            for (i = 0; i < word.length; i++) {
+                if (textbox.value.indexOf(word[i]) >= 0) {
+                    $("#" + textbox.id).val($("#" + textbox.id).val().replace(".", ","));
+                }                
+            }
+
+        }
+
+        function FormatearEntregaEfectivo() {
+            $("#entregaefectivo").val(FormatearValor($("#entregaefectivo").val()) );
+        }
+
     </script>
 
 }

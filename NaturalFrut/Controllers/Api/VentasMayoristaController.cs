@@ -67,7 +67,7 @@ namespace NaturalFrut.Controllers.Api
             ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
-            cliente.Saldo = ventaMayorista.SumaTotal - ventaMayorista.EntregaEfectivo;
+            cliente.Saldo = cliente.Saldo + ventaMayorista.SumaTotal - ventaMayorista.EntregaEfectivo;
             clienteBL.UpdateCliente(cliente);           
 
             if (ventaMayorista.NoConcretado)
@@ -180,7 +180,7 @@ namespace NaturalFrut.Controllers.Api
             ventaMayoristaBL.UpdateVentaMayorista(ventaMayoristaInDB);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
-            cliente.Saldo = ventaMayoristaInDB.SumaTotal - ventaMayoristaInDB.EntregaEfectivo;
+            cliente.Saldo = cliente.Saldo + ventaMayoristaInDB.SumaTotal - ventaMayoristaInDB.EntregaEfectivo;
             clienteBL.UpdateCliente(cliente);
 
             if (ventaMayoristaInDB.NoConcretado)

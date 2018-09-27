@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class seAgregaClasificacion : IMigrationMetadata
+    public sealed partial class merge_repair : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(seAgregaClasificacion));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(merge_repair));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808311602152_seAgregaClasificacion"; }
+            get { return "201809180044234_merge_repair"; }
         }
         
         string IMigrationMetadata.Source
