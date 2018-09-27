@@ -67,7 +67,7 @@
 
             <div class="form-group">
                 <label>Descuento</label>
-                <input id="descuento" name="descuento" required type="number" value="" class="form-control" disabled />
+                <input id="descuentoC" name="descuentoC" required type="number" value="" class="form-control" disabled />
             </div>
 
             <div class="form-group">
@@ -78,6 +78,14 @@
             <div class="form-group">
                 <label>Importe no Gravado</label>
                 <input id="impnogravado" name="impnogravado" required type="number" value="" class="form-control"  />
+            </div>
+
+            <div class="form-group">
+                <div style="display:flex;">
+
+                    <button type="button" class="btn btn-success"  href="#" onclick="NuevoProductoModal(0)">Nuevo Producto</button>
+                </div>
+                <label class="error field-validation-valid" for="clasificacion" data-valmsg-replace="true"></label>
             </div>
 
         
@@ -137,12 +145,12 @@
             </div>
             
 
-            <!--div class="checkbox">
+            <div class="checkbox">
 
                 <input id="noconcretado" name="noconcretado" type="checkbox" value=""  />
                 <label><strong>No Concretado</strong></label>
 
-            </!--div-->
+            </div>
 
            
 
@@ -241,6 +249,19 @@
     </div>
 </div>
 
+<div class="modal fade" id="productoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Nuevo producto</h3>
+            </div>
+            <div class="modal-body" id="productoModalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -274,6 +295,17 @@
 
         }
 
+        var NuevoProductoModal = function () {
+
+            var url = "/Compra/NuevoProducto?ID=" + 0;
+
+            $("#productoModalBody").load(url, function () {
+                $("#productoModal").modal("show");
+
+            })
+
+        }
+
     </script>
 
     <script>
@@ -294,14 +326,15 @@
                 descuento: 0,
                 importeIibbBsas: 0,
                 iibbBsas: 0,
-                importeCaba: 0,
+                importeIibbCaba: 0,
                 iibbCaba: 0,
                 subtotal: 0,
                 importePercIva: 0,
                 percIva: 0,
-                importeNoGravado:0,
+                importeNoGravado: 0,
                 total: 0,
                 totalGastos: 0,
+                noConcretado: false,
                 tipoFactura:"",
                 productosXCompra : []
             };
@@ -334,22 +367,22 @@
 
                     cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" ></label></div></td>';
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="js-cantidad form-control" data-js-counter="' + counter + '" ></label></div></td>';
 
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control"  ><option value="-1" ></option></select></div></td>';
                 //GetTiposDeUnidadDynamic(counter);
 
-                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="js-importe form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" data-js-counter="' + counter + '" value="" class="js-importe form-control" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control"  /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" required type="number" value="" class="form-control" disabled /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="number" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="number" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="number" value="" class="form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="number" data-js-counter="' + counter + '" value="" class="js-iva form-control" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="preciouni' + counter + '" name="preciouni" required type="number" value="" class="form-control" disabled /></div></td>';
 
@@ -412,7 +445,7 @@
 
                 typeahead_initialize(counter);
 
-                RecalcularTotal();
+                RecalcularTotalGastos();
             });
 
             $("#clasificacion").on('change', function () {
@@ -438,10 +471,10 @@
                     var importeConDesc = sumatotal - ((sumatotal * descuentoporc) / 100);
                     var desc = ((sumatotal * descuentoporc) / 100);
                     $("#subtotal").val(importeConDesc);
-                    $("#descuento").val(desc);
+                    $("#descuentoC").val(desc);
 
                 } else {
-                    $("#descuento").val("");
+                    $("#descuentoC").val("");
                     $("#subtotal").val(sumatotal);
                 }
                 RecalcularTotal();
@@ -460,7 +493,7 @@
                     var importeConDesc = sumatotal - ((sumatotal * descuentoporc) / 100);
                     var desc = ((sumatotal * descuentoporc) / 100);
                     $("#subtotal").val(importeConDesc);
-                    $("#descuento").val(desc);            
+                    $("#descuentoC").val(desc);            
 
                 } else {
                     $("#subtotal").val(sumatotal);
@@ -546,67 +579,74 @@
 
             $(document).on('blur', "input.js-importe", function () {
 
-
-
                 var input = $(this);
                 var importe = input[0].value;
-
                 var counter = input.attr("data-js-counter");
-                //var cantidad = $("#cantidad" + counter).val();
-                //var importe = $("#importe" + counter).val();
+                var descuento = $("#descprod" + counter).val();
 
-                if (importe != "") {
-
-                    // var importeTotal = cantidad * importe;
-
-               
-                    $("#preciouni" + counter).val(importe);
-
-
-
-                    //RecalcularTotal();
-
+                if (descuento != "") {
+                    var importeConDesc = importe - ((importe * descuento) / 100);
+                    $("#importecondesc" + counter).val(importeConDesc);
                 }
                 else {
-
-                    $("#preciouni" + counter).val("");
-                
+                    $("#importecondesc" + counter).val("");
                 }
+
+
+                RecalcularPrecioUyTotal(counter);
+                RecalcularTotalGastos();
 
 
             });
 
-            $(document).on('blur', "input.js-descprod", function () {
-
-               
+            $(document).on('blur', "input.js-descprod", function () {               
 
                 var input = $(this);
                 var descuento = input[0].value;
-
                 var counter = input.attr("data-js-counter");
-                //var cantidad = $("#cantidad" + counter).val();
                 var importe = $("#importe" + counter).val();
 
                 if (descuento != "") {
-
-                   // var importeTotal = cantidad * importe;
-
                     var importeConDesc = importe - ((importe * descuento) / 100);
                     $("#importecondesc" + counter).val(importeConDesc);
-                    $("#preciouni" + counter).val(importeConDesc);
-
-                    
-
-                    //RecalcularTotal();
-
                 }
                 else {
-
-                    $("#importecondesc" + counter).val("");
-                    $("#preciouni" + counter).val(importe);
+                    $("#importecondesc" + counter).val("");                   
                 }
 
+                RecalcularPrecioUyTotal(counter);
+                RecalcularTotalGastos();
 
+
+            });
+
+
+            $(document).on('blur', "input.js-iibbbsas", function () {
+                var input = $(this);
+                var counter = input.attr("data-js-counter");
+                RecalcularPrecioUyTotal(counter);
+                RecalcularTotalGastos();
+            });
+
+            $(document).on('blur', "input.js-iibbcaba", function () {
+                var input = $(this);
+                var counter = input.attr("data-js-counter");
+                RecalcularPrecioUyTotal(counter);
+                RecalcularTotalGastos();
+            });
+
+            $(document).on('blur', "input.js-iva ", function () {
+                var input = $(this);
+                var counter = input.attr("data-js-counter");
+                RecalcularPrecioUyTotal(counter);
+                RecalcularTotalGastos();
+            });
+
+            $(document).on('blur', "input.js-cantidad ", function () {
+                var input = $(this);
+                var counter = input.attr("data-js-counter");
+                RecalcularPrecioUyTotal(counter);
+                RecalcularTotalGastos();
             });
 
 
@@ -641,7 +681,7 @@
                 });
 
 
-            var validator = $("#vtamayform").validate({
+            var validator = $("#compraform").validate({
 
                 submitHandler: function () {
 
@@ -660,7 +700,7 @@
 
 
                                 $.ajax({
-                                    url: "/api/ventasmayorista",
+                                    url: "/api/compra",
                                     method: "post",
                                     data: vm
                                 })
@@ -669,7 +709,7 @@
                                         toastr.success("La venta se ha guardado correctamente.");
 
                                         setTimeout(function () {
-                                            window.location.href = "/VentaMayorista";
+                                            window.location.href = "/Compra";
                                         }, 4000);
 
                                     })
@@ -749,60 +789,7 @@
 
         }
 
-        function CalcularStockYValorProducto(counter) {
-
-            var validarProducto = $("#producto" + counter).valid();
-            var validarCantidad = $("#cantidad" + counter).valid();
-
-            if (validarProducto && validarCantidad) {
-
-                var clienteID = $("#cliente").attr("data-cliente-id");
-                var productoID = $("#producto" + counter).attr("data-producto-id");
-                var cantidad = $("#cantidad" + counter).val();
-                var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
-
-                if (tipoUnidadID > 0) {
-                    $.getJSON("CalcularStockYValorProductoAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
-                        .error(function (xhr, textStatus, exceptionThrown) {
-                            bootbox.alert(xhr.responseText);
-                        })
-                }
-
-            }
-        }
-
-        ActualizarValores = function (data) {
-
-
-            if (data.Success) {
-
-                var importe = data.Importe;
-                var importeTotal = data.ImporteTotal;
-                //var sumaVentaTotal = 0;
-
-                var cantidad = $("#cantidad" + data.Counter).val();
-                if (data.Stock - cantidad < 0) {
-                    $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
-                    $("#stockdisponible" + data.Counter).css("color", "red");
-                }
-                else {
-                    $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
-                    $("#stockdisponible" + data.Counter).css("color", "green");
-                }
-
-                $("#importe" + data.Counter).val(importe);
-                $("#totalimporte" + data.Counter).val(importeTotal);
-                
-                RecalcularTotal();
-
-            }
-            else {
-                bootbox.alert(data.Error);
-            }
-
-            
-
-        }
+   
                 
         function RecalcularTotal() {
 
@@ -839,40 +826,57 @@
             $("#total").val(total);
         }
 
-        function RecalcularTotalGastos() {
+       
 
-            var total = 0;
-            var totalGastos = 0;
+        function RecalcularPrecioUyTotal(counter) {
+
+            var impuestos = 0;
             var precioUnitario = 0;
+            var total = 0;
+            var importe = $("#importe" + counter).val();
+            var cantidad = $("#cantidad" + counter).val();
+            var importeConDesc = $("#importecondesc" + counter).val();
+            var iibbbsas = $("#iibbbsas" + counter).val();
+            var iibbcaba = $("#iibbcaba" + counter).val();
+            var iva = $("#iva" + counter).val();
 
-            subtotal = $("#subtotal").val();
+            if(iibbbsas != ""){
+                impuestos += parseFloat(iibbbsas);
+            }
 
-            var importeiva = $("#importeiva").val();
+            if( iibbcaba != ""){
+                impuestos += parseFloat(iibbcaba);
+            }
 
-            if (importeiva != "")
-                impuesto += parseFloat(importeiva);
+            if(iva != ""){
+                impuestos += parseFloat(iva);
+            }
 
-            var importeiibbbsas = $("#importeiibbbsas").val();
+            if (importeConDesc != "") {
 
-            if (importeiibbbsas != "")
-                impuesto += parseFloat(importeiibbbsas);
+                precioUnitario = parseFloat(importeConDesc) + impuestos;
+                total = precioUnitario * parseFloat(cantidad);
 
-            var importeiibbcaba = $("#importeiibbcaba").val();
+            } else {
+                precioUnitario = parseFloat(importe) + impuestos;
+                total = precioUnitario * parseFloat(cantidad);
+            }
 
-            if (importeiibbcaba != "")
-                impuesto += parseFloat(importeiibbcaba);
+            $("#preciouni" + counter).val(precioUnitario);
+            $("#total" + counter).val(total);
 
-            var importeperciva = $("#importepercepiva").val();
+        }
 
-            if (importeperciva != "")
-                impuesto += parseFloat(importeperciva);
+        function RecalcularTotalGastos() {            
 
+                var sumaGastoTotal = 0;
 
-            total = parseFloat(subtotal) + parseFloat(impuesto);
+                $(".total").each(function () {
+                    sumaGastoTotal += parseFloat(this.value);
+                });         
 
+                $("#totalgastos").val(sumaGastoTotal);
 
-
-            $("#total").val(total);
         }
 
         function GetTiposDeUnidadDynamic(counter) {
@@ -899,29 +903,34 @@
 
         }
 
-        function ResetearValores(txtbox) {
-
-            var input = $(txtbox);
-            var counter = input.attr("data-js-counter");
-
-            $("#tiposdeunidad" + counter).prop('selectedIndex', 0);
-            $("#descprod" + counter).val("");
-            $("#importe" + counter).val("");
-            $("#totalimporte" + counter).val("");
-
-
-        }
 
         function CargarValoresInicialesEnVM(vm) {
 
-            var numeroventa = $("#numeroventa").val();
+            var numeroCompra = $("#numerocompra").val();
             var fecha = $("#fecha").val();
 
-            vm.numeroVenta = numeroventa;
+            vm.numeroCompra = numeroCompra;
             vm.fecha = fecha;
         }
 
         function CargarProductosAlVM(vm) {
+
+            vm.factura = $("#factura").val();
+            vm.tipoFactura = $("#tipofactura").val();
+            vm.sumaTotal = $("#sumatotal").val();
+            vm.descuentoPorc = $("#descuentoporc").val();
+            vm.descuento = $("#descuentoC").val();
+            vm.subtotal = $("#subtotal").val();
+            vm.importeNoGravado = $("#impnogravado").val();
+            vm.iva = $("#iva").val();
+            vm.importeIva = $("#importeiva").val();
+            vm.iibbBsas = $("#iibbbsas").val();
+            vm.importeIibbBsas = $("#importeiibbbsas").val();
+            vm.iibbCaba = $("#iibbcaba").val();
+            vm.importeIibbCaba = $("#importeiibbcaba").val();
+            vm.percIva = $("#percepiva").val();
+            vm.importePercIva = $("#importepercepiva").val();
+            vm.total = $("#total").val();
 
             //Cargamos la lista de productos
             $(".listaproductos tr").each(function (i, row) {
@@ -930,35 +939,53 @@
                     $producto = $row.find('input[name*="producto"]'),
                     $cantidad = $row.find('input[name*="cantidad"]'),
                     $tipodeunidad = $row.find('select[name*="tiposdeunidad"]'),
-                    $descuento = $row.find('input[name*="descprod"]'),
                     $importe = $row.find('input[name*="importe"]'),
-                    $totalimporte = $row.find('input[name*="totalimporte"]');
+                    $descuento = $row.find('input[name*="descprod"]'),
+                    $importecondesc = $row.find('input[name*="importecondesc"]'),
+                    $iibbbsas = $row.find('input[name*="iibbbsas"]'),
+                    $iibbcaba = $row.find('input[name*="iibbcaba"]'),
+                    $iva = $row.find('input[name*="iva"]'),
+                    $preciouni = $row.find('input[name*="preciouni"]'),
+                    $total = $row.find('input[name*="total"]')
+
+                   
+                   
 
                 var productoid = $producto.attr("data-producto-id");
                 var cantidad = $cantidad.val();
+                var importe = $importe.val();
                 var tipodeunidad = $tipodeunidad.val();
                 var descuento = $descuento.val();
-                var importe = $importe.val();
-                var totalimporte = $totalimporte.val();
+                var importecondesc = $importecondesc.val();
+                var iibbbsas = $iibbbsas.val();
+                var iibbcaba = $iibbcaba.val();
+                var iva = $iva.val();
+                var preciouni = $preciouni.val();
+                var total = $total.val();
 
-                vm.productosXVenta.push(
+                vm.productosXCompra.push(
                     {
-                        VentaID: 0,
+                        CompraID: 0,
                         ProductoID: productoid,
                         Cantidad: cantidad,
+                        Importe: importe,
                         TipoDeUnidadID: tipodeunidad,
                         Descuento: descuento,
-                        Importe: importe,
-                        Total: totalimporte
+                        ImporteDescuento: importecondesc,
+                        Iibbbsas: iibbbsas,
+                        Iibbcaba: iibbcaba,
+                        Iva: iva,
+                        PrecioUnitario: preciouni,
+                        Total: total
                     }
                 );
 
             });
 
             //Cargamos la suma total y el descuento total
-            vm.descuento = $("#descuento").val();
-            vm.saldo = $("#saldo").val();
-            vm.sumaTotal = $("#totalventa").val();
+           // vm.descuento = $("#descuento").val();
+           // vm.saldo = $("#saldo").val();
+            vm.totalGastos = $("#totalgastos").val();
 
         }
 
@@ -987,13 +1014,6 @@
                 var productoID = $("#producto" + data.Counter).attr("data-producto-id");
                 var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
 
-                $.getJSON("CalcularStockBlisterAsync", { ProductoID: productoID, TipoUnidadID: tipoUnidadID, Counter: data.Counter }, UpdateStockBlister)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
-                
-
-
             }
             else {
                 $("#tiposdeunidad" + data.Counter).empty();
@@ -1005,52 +1025,6 @@
             }
 
         }
-
-        //UpdateStockBlister = function (data) {
-
-        //    if (data.Success) {
-
-        //        var cantidad = $("#cantidad" + data.Counter).val();
-        //        if (data.Stock - cantidad < 0) {
-        //            $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
-        //            $("#stockdisponible" + data.Counter).css("color", "red");
-        //        }
-        //        else {
-        //            $("#stockdisponible" + data.Counter).text("Stock Disponible: " + data.Stock);
-        //            $("#stockdisponible" + data.Counter).css("color", "green");
-        //        }
-               
-        //    }
-        //    else {
-        //        bootbox.alert(data.Error);
-        //    }
-
-        //}
-
-        //function CalcularValoresBlister(counter) {
-            
-        //    var validarProducto = $("#producto" + counter).valid();
-        //    var validarCantidad = $("#cantidad" + counter).valid();
-
-        //    if (validarProducto && validarCantidad) {
-
-        //        var clienteID = $("#cliente").attr("data-cliente-id");
-        //        var productoID = $("#producto" + counter).attr("data-producto-id");
-        //        var cantidad = $("#cantidad" + counter).val();
-        //        var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
-
-        //        if (tipoUnidadID > 0) {
-        //            $.getJSON("CalcularValorBlisterAsync", { ClienteID: clienteID, ProductoID: productoID, Cantidad: cantidad, TipoUnidadID: tipoUnidadID, Counter: counter }, ActualizarValores)
-        //                .error(function (xhr, textStatus, exceptionThrown) {
-        //                    bootbox.alert(xhr.responseText);
-        //                })
-        //        }
-
-        //    }
-
-
-        //}
-
 
     </script>
 

@@ -1,0 +1,199 @@
+﻿@model dynamic
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<form id="nuevoProducto">
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        @*<div class="col-sm-6">
+
+         
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.CategoriaId)
+                @Html.DropDownListFor(c => c.CategoriaId, new SelectList(Model.Categoria, "Id", "Nombre"), "Seleccione la Categoría", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.CategoriaId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.MarcaId)
+                @Html.DropDownListFor(c => c.MarcaId, new SelectList(Model.Marca, "Id", "Nombre"), "Seleccione la Marca", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.MarcaId)
+            </div>
+
+            <div class="form-group">
+                @Html.CheckBoxFor(c => c.EsBlister)
+                @Html.LabelFor(c => c.EsBlister)
+                @Html.ValidationMessageFor(c => c.EsBlister)
+            </div>
+
+            <div class="form-group">
+                @Html.CheckBoxFor(c => c.EsMix)
+                @Html.LabelFor(c => c.EsMix)
+                @Html.ValidationMessageFor(c => c.EsMix)
+            </div>
+
+        </div>*@
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <input id="Nombre" name="Nombre" data-rule-validNombre="true" required type="text" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Categoria</label>
+                <select id="CategoriaId" name="CategoriaId" class="form-control" required></select>
+            </div>
+
+            <div class="form-group">
+                <label>Marca</label>
+                <select id="MarcaId" name="MarcaId" class="form-control" required></select>
+            </div>
+
+            <div class="form-group">
+                <input data-val="true" data-val-required="El campo El producto forma parte de la lista de Blister? es obligatorio." id="EsBlister" name="EsBlister" type="checkbox" value="true"><input name="EsBlister" type="hidden" value="false">
+                <label for="EsBlister">El producto forma parte de la lista de Blister?</label>
+                <span class="field-validation-valid" data-valmsg-for="EsBlister" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group">
+                <input data-val="true" data-val-required="El campo El producto es Mix? es obligatorio." id="EsMix" name="EsMix" type="checkbox" value="true"><input name="EsMix" type="hidden" value="false">
+                <label for="EsMix">El producto es Mix?</label>
+                <span class="field-validation-valid" data-valmsg-for="EsMix" data-valmsg-replace="true"></span>
+            </div>
+
+
+        </div>
+        </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("NuevaCompra", "Compra")';">Cancelar</button>
+
+        </div>
+    </div>
+</form>
+
+@Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            $.getJSON("GetMarcaAsync", {}, populateMarca)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+            $.getJSON("GetCategoriaAsync", {}, populateCategoria)
+                .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            //loadValidators();
+
+            $("#MarcaId").change(function () {
+
+
+                $("#CategoriaId").attr("disabled", "disabled"); 
+
+                //MODO EDICION
+                if ($("#MarcaId").val() == "") {
+                    $("#MarcaId").attr("disabled", "disabled");
+                    $("#CategoriaId").removeAttr("disabled");
+                }
+
+                if ($("#CategoriaId").val() != null)
+                    $("#CategoriaId option:eq(0)").prop("selected", true);                
+
+            });
+
+            $("#CategoriaId").change(function () {
+
+                $("#MarcaId").attr("disabled", "disabled");
+
+                //MODO EDICION
+                if ($("#CategoriaId").val() == "") {
+                    $("#CategoriaId").attr("disabled", "disabled"); 
+                    $("#MarcaId").removeAttr("disabled");
+                }
+                    
+
+                if ($("#MarcaId").val() != null)
+                    $("#MarcaId option:eq(0)").prop("selected", true);
+
+            });
+
+            $.validator.messages.required = "El campo no puede estar vacío";
+
+            var validator = $("#nuevoProducto").validate({
+
+                submitHandler: function () {
+
+                    var formData = $("#nuevoProducto").serialize();
+
+                    $.ajax({
+                        url: "/api/Productos",
+                        method: "post",
+                        data: formData
+                    })
+                        .done(function () {
+
+                            toastr.success("Producto creado satisfactoriamente");
+
+                            setTimeout(function () {
+
+                                $("#productoModal").modal("hide");
+                                window.location.href = "/Compra/NuevaCompra";
+
+                            }, 1500);                     
+
+
+                        })
+                        .fail(function () {
+
+                            toastr.error("Error. La Clasificacion no ha sido creado");
+
+                            setTimeout(function () {
+
+                                $("#productoModal").modal("hide");
+                                window.location.href = "/Compra/NuevaCompra";
+
+                            }, 1500);
+
+                        });
+
+                    return false;
+                }
+            });
+
+        });
+
+        function populateMarca(data) {
+
+            $.each(data, function () {
+                $("#MarcaId").append($("<option     />").val(this.ID).text(this.Nombre));
+            });
+
+        }
+
+        function populateCategoria(data) {
+
+            $.each(data, function () {
+                $("#CategoriaId").append($("<option     />").val(this.ID).text(this.Nombre));
+            });
+
+        }
+
+
+    </script>
+
+
+
+
+
+
