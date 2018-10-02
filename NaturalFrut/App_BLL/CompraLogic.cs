@@ -67,7 +67,7 @@ namespace NaturalFrut.App_BLL
                 .Include("ProductosXCompra.TipoDeUnidad")
                 .Include("ProductosXCompra.Producto")
                 .Include("ProductosXCompra.Producto.Marca")
-                .Include("ProductosXVenta.Producto.Categoria")
+                .Include("ProductosXCompra.Producto.Categoria")
                 .Where(c => c.ID == id).SingleOrDefault();
 
             return compra;

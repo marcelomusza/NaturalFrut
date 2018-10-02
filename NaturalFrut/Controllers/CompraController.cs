@@ -82,39 +82,39 @@ namespace NaturalFrut.Controllers
             return View("CompraForm");
         }
 
-        //    public ActionResult EditarVentaMayorista(int Id)
-        //    {
+        public ActionResult EditarCompra(int Id)
+        {
 
-        //        var vtaMayorista = ventaMayoristaBL.GetVentaMayoristaById(Id);
-        //        //var productosXVentaMayorista = ventaMayoristaBL.GetProductosXVentaMayorista(Id);
+            var compra = compraBL.GetCompraById(Id);
+            //var productosXVentaMayorista = ventaMayoristaBL.GetProductosXVentaMayorista(Id);
 
-        //        foreach (var producto in vtaMayorista.ProductosXVenta)
-        //        {
+            foreach (var producto in compra.ProductosXCompra)
+            {
 
-        //            if(producto.Producto.Categoria != null)
-        //            {
-        //                if (producto.Producto.EsBlister)
-        //                    producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - BLISTER - ";
-        //                else
-        //                    producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ")";
-        //            }
-        //            else
-        //            {
-        //                if (producto.Producto.EsBlister)
-        //                    producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ") - BLISTER - ";
-        //                else
-        //                    producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ")";
-        //            }
-        //        }
+                if (producto.Producto.Categoria != null)
+                {
+                    if (producto.Producto.EsBlister)
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - BLISTER - ";
+                    else
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ")";
+                }
+                else
+                {
+                    if (producto.Producto.EsBlister)
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ") - BLISTER - ";
+                    else
+                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ")";
+                }
+            }
 
-        //        ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
-        //        ViewBag.VentaMayoristaID = Id;
+            ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
+            ViewBag.CompraID = Id;
 
-        //        if (vtaMayorista == null)
-        //            return HttpNotFound();
+            if (compra == null)
+                return HttpNotFound();
 
-        //        return View("VentaMayoristaFormEdit", vtaMayorista);
-        //    }       
+            return View("CompraFormEdit", compra);
+        }
 
 
         public ActionResult NuevoProveedor()
@@ -256,7 +256,7 @@ namespace NaturalFrut.Controllers
         }
 
         public ActionResult ValidarTipoDeProductoAsync(int productoID, int counter)
-        {
+    {
 
             bool esBlister = compraBL.ValidateTipoDeProducto(productoID);
 

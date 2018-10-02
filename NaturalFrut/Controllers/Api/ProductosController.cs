@@ -119,20 +119,30 @@ namespace NaturalFrut.Controllers.Api
 
                 productosConjunto.Add(prod);
             }
+                       
+            return productosConjunto.Select(Mapper.Map<Producto, ProductoDTO>);
+        }
 
-            /*foreach (var prodBlister in productosBlister)
+        [HttpGet]
+        [Route("compra/editarcompra/api/productos/productos")]
+        public IEnumerable<ProductoDTO> EditarProductos()
+        {
+
+            var productos = productoBL.GetAllProducto();
+            var productosBlister = productoBL.GetAllProductosBlister();
+
+            List<Producto> productosConjunto = new List<Producto>();
+
+            foreach (var prod in productos)
             {
+                if (prod.Marca != null)
+                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
 
-                if (prodBlister.Marca != null)
-                    prodBlister.Nombre = prodBlister.Nombre + " (" + prodBlister.Marca.Nombre + ") - BLISTER -";
+                if (prod.Categoria != null)
+                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
 
-                if (prodBlister.Categoria != null)
-                    prodBlister.Nombre = prodBlister.Nombre + " (" + prodBlister.Categoria.Nombre + ") - BLISTER -";
-
-                productosConjunto.Add(prodBlister);
-            }*/
-
-
+                productosConjunto.Add(prod);
+            }
 
             return productosConjunto.Select(Mapper.Map<Producto, ProductoDTO>);
         }
