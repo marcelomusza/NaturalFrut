@@ -425,7 +425,11 @@
             })
 
             $("#entregaefectivo").on('change', function () {
-                vm.entregaEfectivo = this.value;
+
+                var valor = this.value;
+                valor = DeFormatearEntregaEfectivo(valor);                
+                $("#entregaefectivo").val(FormatearValor(valor)); 
+
             })
 
             $(document).on('blur', "input.js-descprod", function () {
@@ -766,7 +770,8 @@
 
             });
 
-            //Cargamos la suma total y el descuento total
+            //Cargamos el resto de valores a deformatear
+            vm.entregaEfectivo = DeFormatearValor($("#entregaefectivo").val());
             vm.descuento = DeFormatearValor($("#descuento").val());
             vm.saldo = DeFormatearValor($("#saldo").val());
             vm.sumaTotal = DeFormatearValor($("#totalventa").val());
@@ -887,11 +892,21 @@
         }
 
         function DeFormatearValor(valor) {
-
+            
             if (valor.indexOf("$") != -1 || $("#descuento").val() != "") {
                 valor = valor.replace("$", "").trim();
                 valor = ValorANumero(valor);
-            }            
+            }          
+
+            return valor;
+        }
+
+        function DeFormatearEntregaEfectivo(valor) {
+
+            if (valor != "") {
+                valor = valor.replace("$", "").trim();
+                valor = ValorANumero(valor);
+            }
 
             return valor;
         }

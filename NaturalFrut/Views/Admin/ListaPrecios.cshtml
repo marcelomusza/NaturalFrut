@@ -69,13 +69,19 @@
                         data: "Producto.Nombre"
                     },
                     {
-                        data: "PrecioXKG"
+                        data: "PrecioXKG",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
                     },
                     {
-                        data: "PrecioXBultoCerrado"
+                        data: "PrecioXBultoCerrado",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
                     },
                     {
-                        data: "PrecioXUnidad"
+                        data: "PrecioXUnidad",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
                     },
                     {
                         data: "KGBultoCerrado"

@@ -278,13 +278,9 @@
     <Compile Include="DTOs\ClasificacionDTO.cs" />
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
-    <Compile Include="Migrations\201809192002364_nuevas.cs" />
-    <Compile Include="Migrations\201809192002364_nuevas.Designer.cs">
-      <DependentUpon>201809192002364_nuevas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809242046411_SeagregaCampoNuevo.cs" />
-    <Compile Include="Migrations\201809242046411_SeagregaCampoNuevo.Designer.cs">
-      <DependentUpon>201809242046411_SeagregaCampoNuevo.cs</DependentUpon>
+    <Compile Include="Migrations\201809270315407_CambiosYesi.cs" />
+    <Compile Include="Migrations\201809270315407_CambiosYesi.Designer.cs">
+      <DependentUpon>201809270315407_CambiosYesi.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -764,11 +760,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809192002364_nuevas.resx">
-      <DependentUpon>201809192002364_nuevas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809242046411_SeagregaCampoNuevo.resx">
-      <DependentUpon>201809242046411_SeagregaCampoNuevo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809270315407_CambiosYesi.resx">
+      <DependentUpon>201809270315407_CambiosYesi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
