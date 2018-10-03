@@ -278,9 +278,9 @@
     <Compile Include="DTOs\ClasificacionDTO.cs" />
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
-    <Compile Include="Migrations\201809270315407_CambiosYesi.cs" />
-    <Compile Include="Migrations\201809270315407_CambiosYesi.Designer.cs">
-      <DependentUpon>201809270315407_CambiosYesi.cs</DependentUpon>
+    <Compile Include="Migrations\201809271813401_nuevas.cs" />
+    <Compile Include="Migrations\201809271813401_nuevas.Designer.cs">
+      <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -760,8 +760,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809270315407_CambiosYesi.resx">
-      <DependentUpon>201809270315407_CambiosYesi.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809271813401_nuevas.resx">
+      <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
