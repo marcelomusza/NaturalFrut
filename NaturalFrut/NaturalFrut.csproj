@@ -278,6 +278,7 @@
     <Compile Include="DTOs\ClasificacionDTO.cs" />
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
+    <Compile Include="DTOs\CompraUpdateDTO.cs" />
     <Compile Include="Migrations\201809271813401_nuevas.cs" />
     <Compile Include="Migrations\201809271813401_nuevas.Designer.cs">
       <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
@@ -297,6 +298,7 @@
     <Compile Include="Models\ProductoMixCreate.cs" />
     <Compile Include="Models\ProductosMixUpdate.cs" />
     <Compile Include="Models\VentaMinoristaReporte.cs" />
+    <Compile Include="Models\CompraUpdate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
