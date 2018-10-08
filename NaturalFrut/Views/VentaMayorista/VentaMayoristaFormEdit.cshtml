@@ -80,19 +80,35 @@
 
             <div class="checkbox">
 
-                <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
+                @{
+                    if (Model.NoConcretado)
+                    {
+                        <input id="noconcretado" name="noconcretado" type="checkbox" value="" checked />
+                    }
+                    else
+                    {
+                        <input id="noconcretado" name="noconcretado" type="checkbox" value=""  />
+                    }
+                }
                 <label><strong>No Concretado</strong></label>
 
             </div>
 
             <div class="checkbox">
 
-                <input id="facturado" name="facturado" type="checkbox" value="" />
+                @{
+                    if (Model.Facturado)
+                    {
+                            <input id="facturado" name="facturado" type="checkbox" value="" checked/>
+                    }
+                    else
+                    {
+                            <input id="facturado" name="facturado" type="checkbox" value="" />
+                    }
+                }
                 <label><strong>Venta Facturada?</strong></label>
 
             </div>
-
-
 
         </div>
 
@@ -999,6 +1015,16 @@
             return valor;
         }
 
+        function DeFormatearEntregaEfectivo(valor) {
+
+            if (valor != "") {
+                valor = valor.replace("$", "").trim();
+                valor = ValorANumero(valor);
+            }
+
+            return valor;
+        }
+
         function ValidarPunto(textbox) {
 
             var word = ["."];
@@ -1012,7 +1038,10 @@
         }
 
         function FormatearEntregaEfectivo() {
-            $("#entregaefectivo").val(FormatearValor($("#entregaefectivo").val()) );
+
+            var valor = $("#entregaefectivo").val();
+            valor = DeFormatearEntregaEfectivo(valor);
+            $("#entregaefectivo").val(FormatearValor(valor));
         }
 
     </script>
