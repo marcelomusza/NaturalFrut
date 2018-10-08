@@ -282,6 +282,14 @@
     <Compile Include="Migrations\201809271813401_nuevas.Designer.cs">
       <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810052124393_model_vtamayoristanuevosaldo.cs" />
+    <Compile Include="Migrations\201810052124393_model_vtamayoristanuevosaldo.Designer.cs">
+      <DependentUpon>201810052124393_model_vtamayoristanuevosaldo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.cs" />
+    <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.Designer.cs">
+      <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -748,6 +756,8 @@
     <Content Include="Views\Admin\ListaPreciosBlister.cshtml" />
     <Content Include="Views\Admin\ListaPreciosBlisterForm.cshtml" />
     <Content Include="Views\Compra\NuevoProducto.cshtml" />
+    <Content Include="Views\VentaMayorista\IndexReporte.cshtml" />
+    <Content Include="Views\VentaMayorista\Reportes\ReporteVentaDiaria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -762,6 +772,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809271813401_nuevas.resx">
       <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810052124393_model_vtamayoristanuevosaldo.resx">
+      <DependentUpon>201810052124393_model_vtamayoristanuevosaldo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.resx">
+      <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

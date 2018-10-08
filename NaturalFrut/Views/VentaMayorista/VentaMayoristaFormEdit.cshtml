@@ -70,7 +70,7 @@
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaefectivo" name="entregaefectivo" required type="text" value="@Model.EntregaEfectivo" onkeyup="ValidarPunto(this);" class="form-control" />
+                <input id="entregaefectivo" name="entregaefectivo" required type="text" value="0" onkeyup="ValidarPunto(this);" onblur="CalcularSaldoFinal();" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -78,17 +78,22 @@
                 <input id="saldo" name="saldo" type="text" value="@Model.Cliente.Saldo" class="form-control" disabled />
             </div>
 
+            <div class="form-group">
+                <label>Nuevo Saldo</label>
+                <input id="nuevosaldo" name="nuevosaldo" type="text" value="" class="form-control js-formatvalue" disabled />
+            </div>
+
             <div class="checkbox">
 
                 @{
-                    if (Model.NoConcretado)
-                    {
-                        <input id="noconcretado" name="noconcretado" type="checkbox" value="" checked />
-                    }
-                    else
-                    {
-                        <input id="noconcretado" name="noconcretado" type="checkbox" value=""  />
-                    }
+            if (Model.NoConcretado)
+            {
+                <input id="noconcretado" name="noconcretado" type="checkbox" value="" checked />
+    }
+    else
+    {
+        <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
+}
                 }
                 <label><strong>No Concretado</strong></label>
 
@@ -97,14 +102,14 @@
             <div class="checkbox">
 
                 @{
-                    if (Model.Facturado)
-                    {
-                            <input id="facturado" name="facturado" type="checkbox" value="" checked/>
-                    }
-                    else
-                    {
-                            <input id="facturado" name="facturado" type="checkbox" value="" />
-                    }
+            if (Model.Facturado)
+            {
+                <input id="facturado" name="facturado" type="checkbox" value="" checked />
+    }
+    else
+    {
+        <input id="facturado" name="facturado" type="checkbox" value="" />
+}
                 }
                 <label><strong>Venta Facturada?</strong></label>
 
@@ -129,7 +134,7 @@
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Unidad</th>
-                        <th>Descuento</th>
+                        <th>Descuento (%)</th>
                         <th>Importe</th>
                         <th>Total Importe</th>
                         <th>Acciones</th>
@@ -140,12 +145,12 @@
                     @foreach (var producto in Model.ProductosXVenta)
                     {
                         <tr>
-                            <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
+                            <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" disabled /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
-                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="number" value="@producto.Importe.ToString().Replace(',','.')" class="form-control" disabled /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="number" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="totalimporte form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" disabled/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="text" value="@producto.Importe.ToString().Replace(',','.')" class="importe form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="text" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="totalimporte js-prodexistente form-control" disabled /></div></td>
                             <td><input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
                             <input type="hidden" name="prodxventaid" value="@producto.ID"/>
                             </td>
@@ -156,8 +161,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="7" style="text-align: left;">
+                        <td colspan="5" style="text-align: left;">
                             <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
+                        </td>
+                        <td colspan="2" style="text-align: right;">
+                            <input type="button" class="btn btn-lg btn-primary btn-block" id="calculartotal" value="Calcular Total" />
                         </td>
                     </tr>
                     <tr>
@@ -165,14 +173,15 @@
                             &nbsp;
                             <label>Descuento:</label>
                             <select id="tipoDescuento" name="tipoDescuento" class="form-control vtamay-tipodescuento">
-                                <option value="" selected="selected">...</option>
+                                <option value="0" selected="selected">...</option>
                                 <option value="1">$</option>
                                 <option value="2">%</option>
                             </select>
-                            <input type="text" class="form-control vtamay-descuento" id="descuento" value="" onkeyup="ValidarPunto(this);" disabled />
+                            <input type="text" class="form-control vtamay-descuento" id="descuento" value="@Model.Descuento" onkeyup="ValidarPunto(this);" />
                             <br /><br />
                             <label>Total Venta:</label>
-                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
+                            <input type="text" class="form-control vtamay-totalventa" id="totalventa" value="" disabled />
+                            
                         </td>
                     </tr>
                 </tfoot>
@@ -185,6 +194,9 @@
         <div class="col-sm-12">
 
             @Html.AntiForgeryToken()
+            <input type="hidden" id="totalventaanterior" value="@Model.SumaTotal" />
+            <input type="hidden" id="tipodescuentoanterior" value="@Model.TipoDescuentoTotal" />
+            <input type="hidden" id="descuentoanterior" value="@Model.Descuento" />
             <button type="submit" class="btn btn-primary">Actualizar Venta</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
@@ -194,72 +206,11 @@
 
 </form>
 
-@*<div class="modal fade" id="clienteModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Nuevo Cliente</h3>
-                </div>
-                <div class="modal-body" id="clienteModalBody">
-
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="modal fade" id="vendedorModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Nuevo Vendedor</h3>
-                </div>
-                <div class="modal-body" id="vendedorModalBody">
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-
-
 
 @section scripts
 {
 
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <!--TAG SCRIPT PARA MODAL-->
-    @*<script>
-
-            var NuevoClienteModal = function (clienteID) {
-
-                var url = "/VentaMayorista/NuevoCliente?ID=" + clienteID;
-
-                $("#clienteModalBody").load(url, function () {
-                    $("#clienteModal").modal("show");
-
-                })
-
-            }
-
-            var NuevoVendedorModal = function (vendedorID) {
-
-                var url = "/VentaMayorista/NuevoVendedor?ID=" + vendedorID;
-
-                $("#vendedorModalBody").load(url, function () {
-                    $("#vendedorModal").modal("show");
-
-                })
-
-            }
-
-        </script>*@
+    @Scripts.Render("~/bundles/jqueryval")    
 
     <script>
 
@@ -284,8 +235,10 @@
                 noConcretado: false,
                 facturado: false,
                 sumaTotal: 0,
+                tipoDescuentoTotal: 0,
                 descuento: 0,
                 saldo: 0,
+                nuevoSaldo: 0,
                 entregaEfectivo: 0,
                 productosXVenta: []                
             };
@@ -295,9 +248,14 @@
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
 
-            CargarValoresInicialesEnVM(vm);
+            CargarValoresInicialesEnVM(vm);            
             GetSaldoCliente();
-            FormatearEntregaEfectivo();
+            FormatearEntregaEfectivo();   
+            FormatearImportesExistentes();
+            CargarTipoDescuento();
+            CargarSumaTotal();
+
+
             //**EVENTOS START **//
 
             $("#cliente").validate({
@@ -312,7 +270,10 @@
 
             var counter = @counter; //Continuamos con la numeracion segun el contador de la tabla de productos
             $("#addrow").on("click", function () {
-                RecalcularTotal();
+                //RecalcularTotal();
+                ResetearDescuentoTotal();
+                ResetearTotal();         
+                
                 var validarCliente = $("#cliente").valid();
 
                 if (validarCliente) {
@@ -329,9 +290,9 @@
 
                     cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="number" value="" class="form-control" disabled /></div></td>';
+                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control" disabled /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="number" data-js-counter="' + counter + '" value=""  class="totalimporte form-control"  disabled /></div></td>';
+                    cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="text" data-js-counter="' + counter + '" value=""  class="totalimporte form-control js-sumaparaentregaefvo"  disabled /></div></td>';
 
                     cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
                     newRow.append(cols);
@@ -390,7 +351,10 @@
 
                 typeahead_initialize(counter);
 
-                RecalcularTotal();
+                //RecalcularTotal();
+                ResetearDescuentoTotal();
+                ResetearTotal();
+                //CalcularSaldoFinal();
             });
 
 
@@ -409,70 +373,19 @@
                 else {
                     $("#descuento").attr("disabled", "disabled");
                     $("#descuento").val("");
+
+                    RecalcularTotal();
+                    CalcularDescuentoTotal();
+                    CalcularSaldoFinal();
                 }
-
-                RecalcularTotal();
-
+                              
             })
 
-            $("#descuento").on('blur', function () {
+            //$("#descuento").on('blur', function () {
 
-                var sumaParcialConDesc = 0;
-                var sumaParcialSinDesc = 0;
+            //    CalcularDescuentoTotal();
 
-                //Seleccion = 1 ---> $
-                //Seleccion = 2 ---> %
-                var seleccion = $("#tipoDescuento").val();
-
-                if ((seleccion == 1 || seleccion == 2) && $("#descuento").val() != "") {
-
-                    var sumaVentaTotal = 0;
-                    var nuevoTotal = 0;
-                    var saldo = DeFormatearValor($("#saldo").val());
-
-                    $(".totalimporte").each(function () {
-
-                        var descuento = $(this).closest('tr').find('td .js-descprod').val();
-
-                        if (descuento != "") {
-                            sumaParcialConDesc += parseFloat(DeFormatearValor(this.value));
-                        }
-                        else {
-                            sumaParcialSinDesc += parseFloat(DeFormatearValor(this.value));
-                        }
-
-                        //sumaVentaTotal += parseFloat(this.value);
-                    });
-
-                    var descuento = parseFloat(DeFormatearValor($("#descuento").val()));
-
-                    if (seleccion == 1 && sumaParcialSinDesc != 0)
-                        nuevoTotal = sumaParcialSinDesc - descuento;
-                    else
-                        nuevoTotal = sumaParcialSinDesc - ((sumaParcialSinDesc * descuento) / 100);
-
-                    nuevoTotal = nuevoTotal + sumaParcialConDesc;
-
-                    //sumamos el saldo sin modificar al total con descuento aplicado
-                    nuevoTotal = nuevoTotal + parseFloat(saldo);
-
-                    nuevoTotal = FormatearValor(nuevoTotal);
-
-                    $("#totalventa").val(nuevoTotal);
-
-
-
-                }
-                else {
-
-                    if ($("#descuento").val() != "") {
-                        $("#descuento").attr("disabled", "disabled");
-                        $("#descuento").val("");
-                    }
-
-                }
-
-            })
+            //})
 
             $("#noconcretado").on('change', function () {
                 if (this.checked) {
@@ -496,6 +409,15 @@
 
             })
 
+            $("#entregaefectivo").on('change', function () {
+
+                var valor = this.value;
+                valor = DeFormatearEntregaEfectivo(valor);
+                $("#entregaefectivo").val(FormatearValor(valor));
+
+            })
+
+            //DESCUENTO POR PRODUCTO
             $(document).on('blur', "input.js-descprod", function () {
 
                 //Si el Descuento Final esta activado, desactivarlo
@@ -515,12 +437,13 @@
 
                 if (descuento != "") {
 
-                    var importeTotal = cantidad * importe;
+                    var importeTotal = cantidad * DeFormatearValor(importe);
 
                     var importeConDesc = importeTotal - ((importeTotal * descuento) / 100);
-                    $("#totalimporte" + counter).val(importeConDesc);
+                    $("#totalimporte" + counter).val(FormatearValor(importeConDesc));
 
-                    RecalcularTotal();
+                    //RecalcularTotal();
+                    //CalcularSaldoFinal();
 
                 }
                 else {
@@ -528,12 +451,21 @@
                     var importeTotal = cantidad * importe;
                     $("#totalimporte" + counter).val(importeTotal);
 
-                    RecalcularTotal();
+                    //RecalcularTotal();
+                    //CalcularSaldoFinal();
                 }
 
 
             });
 
+            $("#calculartotal").on('click', function () {
+
+                //Una vez cargados todos los productos, calculamos total
+                RecalcularTotal();
+                CalcularDescuentoTotal();
+                CalcularSaldoFinal();
+
+            })
 
             //**EVENTOS END **//
 
@@ -670,12 +602,17 @@
 
         ActualizarSaldoCliente = function (data) {
 
-            if (data.Saldo != 0)
+            if (data.Saldo != 0) {
                 $("#saldo").val(data.Saldo);
+                $("#nuevosaldo").val(data.Saldo);
+            }          
 
-            RecalcularTotal();
+            //RecalcularTotal();
+            //CalcularSaldoFinal();
+            //CalcularDescuentoTotal();
 
             $("#saldo").val(FormatearValor($("#saldo").val()));
+            $("#nuevosaldo").val(FormatearValor($("#nuevosaldo").val()));
 
         }
 
@@ -726,10 +663,11 @@
                     $("#stockdisponible" + data.Counter).css("color", "green");
                 }
 
-                $("#importe" + data.Counter).val(importe);
-                $("#totalimporte" + data.Counter).val(importeTotal);
+                $("#importe" + data.Counter).val(FormatearValor(importe));
+                $("#totalimporte" + data.Counter).val(FormatearValor(importeTotal));
 
-                RecalcularTotal();
+                //RecalcularTotal();
+                //CalcularSaldoFinal();
 
             }
             else {
@@ -740,33 +678,34 @@
 
         }
 
+        function ResetearDescuentoTotal() {
+
+            //Si se agrega o remueve un row, resetear el descuento total
+            $("#tipoDescuento").prop("selectedIndex", 0).change();
+            $("#descuento").attr("disabled", "disabled");
+            $("#descuento").val("");
+
+            //CalcularSaldoFinal();
+
+        }
+                
         function RecalcularTotal() {
 
             var sumaVentaTotal = 0;
-            var saldo = 0;
-
-            if ($("#saldo").val() != "")
-                saldo = DeFormatearValor($("#saldo").val());
-
 
             $(".totalimporte").each(function () {
-                sumaVentaTotal += parseFloat(this.value);
+                sumaVentaTotal += parseFloat(DeFormatearValor(this.value));
             });
 
-            if (parseFloat(saldo) >= 0)
-                sumaVentaTotal = parseFloat(sumaVentaTotal) + parseFloat(saldo);
-            else
-                sumaVentaTotal = parseFloat(sumaVentaTotal) - parseFloat(saldo);
-
             $("#totalventa").val(FormatearValor(sumaVentaTotal));
+
+
         }
 
         function GetTiposDeUnidadDynamic(counter) {
 
             $.getJSON("/VentaMayorista/GetTiposDeUnidadDynamicAsync", { Counter: counter }, PopulateTiposDeUnidadDynamic)
                 .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
-            //$.getJSON("/api/ventasmayorista/GetTiposDeUnidadDynamic", { Counter: counter }, PopulateTiposDeUnidadDynamic)
-            //    .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
         }
 
@@ -892,8 +831,10 @@
             vm.clienteID = $("#cliente").attr("data-cliente-id");
             vm.vendedorID = $("#vendedor").attr("data-vendedor-id");
             vm.entregaEfectivo = DeFormatearValor($("#entregaefectivo").val());
+            vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
             vm.saldo = DeFormatearValor($("#saldo").val());
+            vm.nuevoSaldo = DeFormatearValor($("#nuevoSaldo").val());
             vm.sumaTotal = DeFormatearValor($("#totalventa").val());     
 
         }
@@ -1025,6 +966,16 @@
             return valor;
         }
 
+        function DeFormatearSaldo(valor) {
+
+            if (valor != "") {
+                valor = valor.replace("$", "").trim();
+                valor = ValorANumero(valor);
+            }
+
+            return valor;
+        }
+
         function ValidarPunto(textbox) {
 
             var word = ["."];
@@ -1042,6 +993,115 @@
             var valor = $("#entregaefectivo").val();
             valor = DeFormatearEntregaEfectivo(valor);
             $("#entregaefectivo").val(FormatearValor(valor));
+        }
+
+        function CalcularSaldoFinal() {
+
+            var totalVentaAnterior = DeFormatearEntregaEfectivo($("#totalventaanterior").val());
+            var entregaEfvo = DeFormatearEntregaEfectivo($("#entregaefectivo").val());
+            var sumaTotal = DeFormatearEntregaEfectivo($("#totalventa").val());
+            var saldo = DeFormatearEntregaEfectivo($("#saldo").val());
+            //var totalVentaMasSaldo = DeFormatearEntregaEfectivo($("#totalventamassaldo").val());
+
+            $("#nuevosaldo").val(FormatearValor(parseFloat(sumaTotal) - parseFloat(totalVentaAnterior) + parseFloat(saldo) - parseFloat(entregaEfvo)));
+
+        }
+
+        function ResetearSaldo() {
+           
+            var saldo = DeFormatearEntregaEfectivo($("#saldo").val());
+            $("#nuevosaldo").val(FormatearValor(parseFloat(saldo)));
+
+        }
+
+        function ResetearTotal() {
+
+            var saldo = $("#saldo").val();
+
+            $("#totalventa").val(FormatearValor(0));
+            $("#nuevosaldo").val(saldo);
+        }
+
+        function CalcularDescuentoTotal() {
+
+            var sumaParcialConDesc = 0;
+            var sumaParcialSinDesc = 0;
+
+            //Seleccion = 1 ---> $
+            //Seleccion = 2 ---> %
+            var seleccion = $("#tipoDescuento").val();
+
+            if ((seleccion == 1 || seleccion == 2) && $("#descuento").val() != "") {
+
+                var sumaVentaTotal = 0;
+                var nuevoTotal = 0;
+                var saldo = DeFormatearValor($("#saldo").val());
+
+                $(".totalimporte").each(function () {
+
+                    var descuento = $(this).closest('tr').find('td .js-descprod').val();
+
+                    if (descuento != "") {
+                        sumaParcialConDesc += parseFloat(DeFormatearValor(this.value));
+                    }
+                    else {
+                        sumaParcialSinDesc += parseFloat(DeFormatearValor(this.value));
+                    }
+
+                    //sumaVentaTotal += parseFloat(this.value);
+                });
+
+                var descuento = parseFloat(DeFormatearValor($("#descuento").val()));
+
+                if (seleccion == 1 && sumaParcialSinDesc != 0)
+                    nuevoTotal = sumaParcialSinDesc - descuento;
+                else
+                    nuevoTotal = sumaParcialSinDesc - ((sumaParcialSinDesc * descuento) / 100);
+
+                nuevoTotal = nuevoTotal + sumaParcialConDesc;
+
+                var nuevoTotalsinSaldo = FormatearValor(nuevoTotal);
+                $("#totalventa").val(nuevoTotalsinSaldo);
+
+                //CalcularSaldoFinal();
+            }
+            else {
+
+                if ($("#descuento").val() != "") {
+                    $("#descuento").attr("disabled", "disabled");
+                    $("#descuento").val("");
+                }
+
+            }
+
+        }
+
+        function CargarTipoDescuento() {
+
+            var tipoDescAnterior = $("#tipodescuentoanterior").val();
+            $("#tipoDescuento").prop("selectedIndex", parseInt(tipoDescAnterior)).change();
+            
+        }
+
+        function CargarSumaTotal() {
+
+            var totalAnterior = $("#totalventaanterior").val();
+            $("#totalventa").val(FormatearValor(totalAnterior));
+        }
+
+        function FormatearImportesExistentes() {
+
+            //Formateamos los valores de los productos existentes de la venta
+            $(".totalimporte").each(function () {
+
+                $(this).val(FormatearValor(this.value));
+            });
+
+            $(".importe").each(function () {
+
+                $(this).val(FormatearValor(this.value));
+            });
+
         }
 
     </script>

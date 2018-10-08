@@ -46,7 +46,19 @@ namespace NaturalFrut.Controllers
             return View(venta);
         }
 
-        
+        public ActionResult IndexReporte()
+        {
+
+            return View();
+        }
+
+        public ActionResult ReporteVentaDiaria()
+        {
+            var ventasDiarias = ventaMayoristaBL.GetAllVentaMayorista();
+
+            return View("Reportes\\ReporteVentaDiaria", ventasDiarias);
+
+        }
 
         //public ActionResult VentaMayorista()
         //{

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "IndexReporte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reportes/Consultas - Venta Mayorista</h2>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <p>
+            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("ReporteVentaDiaria", "VentaMayorista")';">Venta Diaria</button>
+            <button type="button" class="btn btn-primary btn-lg">Venta Mensual</button>
+            <button type="button" class="btn btn-primary btn-lg">Saldos</button>
+            <button type="button" class="btn btn-primary btn-lg">Stock</button>
+        </p>
+
+    </div>
+</div>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    Ventas por Clientes
+                </div>
+                <div class="tt-container">
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    Consulta Saldo Cliente
+                </div>
+                <div class="tt-container">
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    Producto Vendido
+                </div>
+                <div class="tt-container">
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    Stock
+                </div>
+                <div class="tt-container">
+                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+    </div>
+</div>

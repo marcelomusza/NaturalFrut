@@ -1,0 +1,123 @@
+﻿@model IEnumerable<NaturalFrut.Models.VentaMayorista>
+@{
+    ViewBag.Title = "ReporteVentaDiaria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reporte de Venta Diaria</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No se han registrado ventas en el día de hoy</h2>
+        }
+        else
+        {
+
+            <table id="ventasmayorista" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Numero de Venta</th>
+                        <th>Cliente</th>
+                        <th>No Concretado</th>
+                        <th>Facturado</th>
+                        <th>Importe Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var venta in Model)
+                    {
+                        <tr>
+                            <td>@venta.Fecha</td>
+                            <td>@venta.NumeroVenta</td>
+                            <td>@venta.Cliente.Nombre</td>
+                            <td>@(venta.NoConcretado ? "Si" : "No")</td>
+                            <td>@(venta.Facturado ? "Si" : "No")</td>
+                            <td class="js-sumatotal">@venta.SumaTotal</td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td colspan="7" style="text-align: right;">
+                            &nbsp;
+                            <label>Total Venta del día:</label>
+                            <input type="text" class="form-control vtamay-totalventa js-formatvalue" id="totalventas"  disabled />
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            FormatearValoresTabla();
+
+            CalcularTotalVentasDelDia();      
+
+        });
+
+        function FormatearValoresTabla() {
+
+            $(".js-sumatotal").each(function () {
+                var temp = DeFormatearValor(this.innerText);
+
+                $(this).val(FormatearValor(temp));
+            });
+
+        }
+
+        function CalcularTotalVentasDelDia() {
+
+            var sumaVentasTotal = 0;
+
+            $(".js-sumatotal").each(function () {                
+                sumaVentasTotal += parseFloat(this.value);
+            });
+
+            $("#totalventas").val(FormatearValor(sumaVentasTotal));
+
+        }
+
+        function FormatearValor(valor) {
+
+            var formatter = new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                //minimumFractionDigits: 2,
+                // the default value for minimumFractionDigits depends on the currency
+                // and is usually already 2
+            });
+
+            valor = formatter.format(valor);
+
+            return valor;
+
+        }
+
+        function DeFormatearValor(valor) {
+
+            if (valor.indexOf("$") != -1 || $("#descuento").val() != "") {
+                valor = valor.replace("$", "").trim();
+                valor = ValorANumero(valor);
+            }
+
+            return valor;
+        }
+
+
+    </script>
+
+}

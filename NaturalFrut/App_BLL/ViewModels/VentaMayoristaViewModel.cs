@@ -25,7 +25,11 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double Total { get; set; }
 
+        public double SumaTotalMasSaldo { get; set; }
+
         public double Saldo { get; set; }
+
+        public double NuevoSaldo { get; set; }
 
         public int NumeroVenta { get; set; }
 

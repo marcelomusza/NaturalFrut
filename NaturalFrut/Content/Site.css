@@ -117,5 +117,13 @@ input[type=number]::-webkit-outer-spin-button {
     display: none;
 }
 
+.input-group-addon {
+    min-width: 200px;
+    text-align: left;
+}
+
+.boton-reporte {
+    width:80px;
+}
 
 /* NaturalFrut Custom CSS END*/

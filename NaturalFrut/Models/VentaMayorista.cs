@@ -25,9 +25,13 @@ namespace NaturalFrut.Models
 
         public double EntregaEfectivo { get; set; }
 
+        public int? TipoDescuentoTotal { get; set; }
+
         public double? Descuento { get; set; }
 
         public double? Saldo { get; set; }
+
+        public double? NuevoSaldo { get; set; }
 
         [Required]
         public int ClienteID { get; set; }
@@ -38,7 +42,6 @@ namespace NaturalFrut.Models
         public int NumeroVenta { get; set; }
 
         public double SumaTotal { get; set; }
-
 
 
         public Cliente Cliente { get; set; }        
