@@ -67,6 +67,9 @@ namespace NaturalFrut.App_Start
             Mapper.CreateMap<VentaMinorista, VentaMinoristaDTO>();
             Mapper.CreateMap<VentaMinoristaDTO, VentaMinorista>();
 
+            Mapper.CreateMap<CompraUpdate, CompraUpdateDTO>();
+            Mapper.CreateMap<CompraUpdateDTO, CompraUpdate>();
+
 
 
         }

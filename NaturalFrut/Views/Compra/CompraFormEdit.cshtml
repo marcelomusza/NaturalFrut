@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 <label>Clasificación</label>
-                <input id="clasificacion" name="clasificacion" type="text" value="@Model.Clasificacion.Nombre" data-vendedor-id="@Model.ClasificacionID" class="form-control" disabled />
+                <input id="clasificacion" name="clasificacion" type="text" value="@Model.Clasificacion.Nombre" data-clasificacion-id="@Model.ClasificacionID" class="form-control" disabled />
             </div>
 
             <div class="form-group">
@@ -161,7 +161,7 @@
                     <tr>
                         <th>Descripción</th>
                         <th>Cantidad</th>
-                        <th>Unidad</th>
+                        <th style="width:100px;">Unidad</th>
                         <th>Importe</th>
                         <th>Descuento</th>
                         <th>Importe c/desc.</th>
@@ -180,7 +180,7 @@
                         <tr>
                             <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" /></div></td>
                             <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="js-cantidad form-control" data-js-counter="@counter" /></div></td>
-                            <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
+                            <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID" selected>@producto.TipoDeUnidad.Nombre</option></select></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" type="number" data-js-counter="@counter" value="@producto.Importe" class="js-importe form-control" /></div></td>         
                             <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
                             <td><div class="form-group"><input id="@String.Format("importecondesc{0}", counter)" name="importecondesc" type="number" data-js-counter="@counter" value="@producto.ImporteDescuento.ToString().Replace(',','.')" class="form-control"  disabled/></div></td>
@@ -188,7 +188,7 @@
                             <td><div class="form-group"><input id="@String.Format("iibbcaba{0}", counter)" name="iibbcaba" type="number" data-js-counter="@counter" value="@producto.Iibbcaba" class="js-iibbcaba form-control" /></div></td>
                             <td><div class="form-group"><input id="@String.Format("iva{0}", counter)" name="iva" type="number" data-js-counter="@counter" value="@producto.Iva" class="js-iva form-control" /></div></td>
                             <td><div class="form-group"><input id="@String.Format("preciouni{0}", counter)" name="preciouni" type="number" data-js-counter="@counter" value="@producto.PrecioUnitario.ToString().Replace(',','.')" class="form-control"  disabled/></div></td>
-                            <td><div class="form-group"><input id="@String.Format("total{0}", counter)" name="total" type="number" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="form-control" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("total{0}", counter)" name="total" type="number" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="total form-control" disabled /></div></td>
 
                             <td>
                                 <input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
@@ -222,7 +222,7 @@
         <div class="col-sm-12">
 
             @Html.AntiForgeryToken()
-            <input type="hidden" id="CounterAnterior" />
+            @*<input type="hidden" id="CounterAnterior" />*@
             <button type="submit" class="btn btn-primary">Actualizar Compra</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
@@ -311,6 +311,7 @@
 
             var vm2 = [];
             CargarValoresInicialesEnVM(vm);
+            RecalcularTotalGastos();
 
 
             //**EVENTOS START **//
@@ -682,15 +683,15 @@
                                 CargarProductosAlVM(vm, vm2);
 
                                 var model = {
-                                    "compra": vm,
-                                    "productosXCompra": vm2
+                                    "Compra": vm,
+                                    "ProductosXCompra": vm2
                                 };
 
 
                                 $.ajax({
                                     url: "/api/compra",
-                                    method: "post",
-                                    data: vm
+                                    method: "put",
+                                    data: model
                                 })
                                     .done(function () {
 
@@ -918,7 +919,8 @@
                     $iibbcaba = $row.find('input[name*="iibbcaba"]'),
                     $iva = $row.find('input[name*="iva"]'),
                     $preciouni = $row.find('input[name*="preciouni"]'),
-                    $total = $row.find('input[name*="total"]')
+                    $total = $row.find('input[name*="total"]'),
+                    $prodxcompraid = $row.find('input[name*="prodxcompraid"]');
 
 
 
@@ -934,10 +936,12 @@
                 var iva = $iva.val();
                 var preciouni = $preciouni.val();
                 var total = $total.val();
+                var prodxcompraid = $prodxcompraid.val();
 
                 vm.productosXCompra.push(
                     {
-                        CompraID: 0,
+                        ID: prodxcompraid,
+                        CompraID: @ViewBag.CompraID,
                         ProductoID: productoid,
                         Cantidad: cantidad,
                         Importe: importe,
@@ -992,7 +996,7 @@
 
                 vm2.push(
                     {
-                        CompraID: 0,
+                        CompraID: @ViewBag.CompraID,
                         ProductoID: productoid,
                         Cantidad: cantidad,
                         Importe: importe,
@@ -1051,7 +1055,7 @@
 
         PopulateTipoDeUnidadSegunProducto = function (data) {
 
-            if (data.EsBlister) {
+            @*if (data.EsBlister) {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
                 $("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
@@ -1069,18 +1073,33 @@
 
                 $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
 
+            }*@
+
+            if (data.EsBlister) {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
+
+            }
+            else {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+                GetTiposDeUnidadDynamic(data.Counter);
+
             }
 
-            function ValidarPunto(textbox) {
 
-                var word = ["."];
 
-                for (i = 0; i < word.length; i++) {
-                    if (textbox.value.indexOf(word[i]) >= 0) {
-                        $("#" + textbox.id).val($("#" + textbox.id).val().replace(".", ","));
-                    }                
+        }
+
+        function ValidarPunto(textbox) {
+
+            var word = ["."];
+
+            for (i = 0; i < word.length; i++) {
+                if (textbox.value.indexOf(word[i]) >= 0) {
+                    $("#" + textbox.id).val($("#" + textbox.id).val().replace(".", ","));
                 }
-
             }
 
         }
