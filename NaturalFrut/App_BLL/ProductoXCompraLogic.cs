@@ -52,7 +52,7 @@ namespace NaturalFrut.App_BLL
         }
 
 
-        public void RemoveProductoXVenta(ProductoXCompra ProductoXCompra)
+        public void RemoveProductoXCompra(ProductoXCompra ProductoXCompra)
         {
             ProductoXCompraRP.Delete(ProductoXCompra);
             ProductoXCompraRP.Save();
@@ -73,7 +73,7 @@ namespace NaturalFrut.App_BLL
 
 
 
-        public List<ProductoXCompra> GetProductoXCompraByIdVenta(int compraID)
+        public List<ProductoXCompra> GetProductoXCompraByIdCompra(int compraID)
         {
             return ProductoXCompraRP
                .GetAll()

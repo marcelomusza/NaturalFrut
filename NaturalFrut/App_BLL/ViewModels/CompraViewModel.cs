@@ -9,6 +9,7 @@ namespace NaturalFrut.App_BLL.ViewModels
 {
     public class CompraViewModel
     {
+        private Compra compra;
 
         public int? ID { get; set; }
 
@@ -56,6 +57,10 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public bool NoConcretado { get; set; }
 
+        public Proveedor ProveedorObj { get; set; }
+
+        public IEnumerable<ProductoXCompra> ProductoXCompra { get; set; }
+
 
 
         public CompraViewModel()
@@ -64,6 +69,17 @@ namespace NaturalFrut.App_BLL.ViewModels
         }
 
 
+        public CompraViewModel(Compra compra)
+        {
+            NumeroCompra = compra.NumeroCompra;
+            Fecha = compra.Fecha;
+            ProveedorObj = compra.Proveedor;
+           
+            Total = compra.TotalGastos;
+            //EntregaEfectivo = ventaMayorista.EntregaEfectivo;
+
+            this.compra = compra;
+        }
 
     }
 }

@@ -344,59 +344,49 @@ namespace NaturalFrut.Controllers
 
 
 
-        //    [AllowAnonymous]
-        //    public ActionResult GenerarNotaPedido(int Id)
+        //[AllowAnonymous]
+        //public ActionResult GenerarNotaPedido(int Id)
+        //{
+
+        //    var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+
+        //    VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
         //    {
+        //        Clientes = clienteBL.GetClienteById(venta.ClienteID),
+        //        ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
 
-        //        var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
-
-        //        VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
-        //        {
-        //           // Clientes = clienteBL.GetClienteById(venta.ClienteID),
-        //            //ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
-
-        //        };
+        //    };
 
 
 
-        //        ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
+        //    ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
 
 
 
 
-        //        return View("NotaDePedidoForm", viewModel);
-        //    }
+        //    return View("NotaDePedidoForm", viewModel);
+        //}
 
 
-        //    [AllowAnonymous]
-        //    public ActionResult PrintAll(int Id)
-        //    {
-        //        // var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
-        //        //var q = new ActionAsPdf("GenerarNotaPedido", new { Id = Id }) { FileName = "ExamReport.pdf",
-        //        //    PageSize = Size.A4,
-        //        //    CustomSwitches = "--disable-smart-shrinking",
-        //        //    PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
-        //        //    /* CustomSwitches =
-        //        //         "--header-center \"Name: " + venta.Cliente.Nombre + "  DOS: " +
-        //        //         DateTime.Now.Date.ToString("MM/dd/yyyy") + "  Page: [page]/[toPage]\"" +
-        //        //         " --header-line --footer-font-size \"9\" "*/
+        [AllowAnonymous]
+        public ActionResult PrintAll(int Id)
+        {
 
-        //        //};
 
-        //        GenerarPdf pdf = new GenerarPdf(ventaMayoristaBL, productoxVentaBL);
+            GenerarPdfCompra pdf = new GenerarPdfCompra(compraBL, productoxCompraBL);
 
-        //        pdf.CrearPdf(Id);
+            pdf.CrearPdf(Id);
 
-        //        var venta = ventaMayoristaBL.GetAllVentaMayorista();
+            var compra = compraBL.GetAllCompra();
 
-        //        if(venta == null)
-        //            return HttpNotFound();
+            if (compra == null)
+                return HttpNotFound();
 
-        //        return View(venta);
+            return View(compra);
 
 
 
-        //    }
+        }
 
     }
 }
