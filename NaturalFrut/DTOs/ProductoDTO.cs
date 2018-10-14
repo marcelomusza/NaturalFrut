@@ -31,5 +31,9 @@ namespace NaturalFrut.DTOs
         [Required]
         public int MarcaId { get; set; }
 
+        public bool EsBlister { get; set; }
+
+        public bool EsMix { get; set; }
+
     }
 }

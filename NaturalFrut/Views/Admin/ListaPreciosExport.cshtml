@@ -1,0 +1,157 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.ListaPreciosExportViewModel
+@{
+    ViewBag.Title = "ListaPreciosExport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Precios</h2>
+
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+
+
+        <button type="submit" class="btn btn-primary" onclick="location.href='@Url.Action("DescargarListaPreciosPDF", "Admin", new {ListaID = Model.ListaId})';">Descargar Lista (PDF)</button>
+        <button type="submit" class="btn btn-success" onclick="location.href='@Url.Action("MailListaPreciosForm", "Admin", new {ListaID = Model.ListaId})';">Enviar Lista por Mail</button>
+        <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Admin")';">Volver</button>
+
+    </div>
+</div>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+       
+    <table class="table table-bordered">
+
+        <tr>
+            <td colspan="4" class="text-center">
+
+                <span style="font-weight:bold; font-size:20px;"><span style="text-decoration:underline">Teléfono de Línea:</span> 4709-6832</span><br />
+                <span style="font-weight:bold; font-size:20px;">15-2415-0520 Sebastian</span><br />
+                <span style="font-weight:bold; font-size:20px;">15-5429-6101 Guillermo</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-right">
+                <span><b>Lista Actualizada al: @DateTime.Now.ToShortDateString()</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-center">
+                <span><b>Compra Mínima $2000</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-center">
+                <span><b>Estos Precios pueden estar sujetos a modificación sin previo aviso</b></span>
+            </td>
+        </tr>
+
+
+        @foreach (var catego in Model.Categorias)
+        {
+            <tr class="success text-center" style="font-weight:bold; height:50px;">
+                <td style="width:70%; vertical-align:middle">@catego.Nombre</td>
+                <td style="width:10%; vertical-align:middle">Precio por Kilo</td>
+                <td style="width:10%; vertical-align:middle">Precio x kg Bulto Cerrado</td>
+                <td style="width:10%; vertical-align:middle">Kgs Bulto Cerrado</td>
+            </tr>
+
+            foreach (var prod in Model.ListaPrecios)
+            {
+                if (prod.Producto.CategoriaId == catego.ID)
+                {
+                    <tr>
+                        <td>@prod.Producto.Nombre</td>
+                        <td class="js-formatvalue">@prod.PrecioXKG</td>
+                        <td class="js-formatvalue">@prod.PrecioXBultoCerrado</td>
+                        <td >@prod.KGBultoCerrado Kg.</td>
+                    </tr>
+                }
+
+            }
+
+        }
+
+        @foreach (var marca in Model.Marcas)
+    {
+        <tr class="success text-center" style="font-weight:bold; height:50px;">
+            <td style="width:70%; vertical-align:middle">@marca.Nombre</td>
+            <td style="width:10%; vertical-align:middle">Precio por Kilo</td>
+            <td style="width:10%; vertical-align:middle">Precio x kg Bulto Cerrado</td>
+            <td style="width:10%; vertical-align:middle">Kgs Bulto Cerrado</td>
+        </tr>
+
+    foreach (var prod in Model.ListaPrecios)
+    {
+        if (prod.Producto.MarcaId == marca.ID)
+        {
+            <tr>
+                <td>@prod.Producto.Nombre</td>
+                <td class="js-formatvalue">@prod.PrecioXKG</td>
+                <td class="js-formatvalue">@prod.PrecioXBultoCerrado</td>
+                <td>@prod.KGBultoCerrado Kg.</td>
+            </tr>
+    }
+
+}
+
+}
+
+
+    </table>
+
+</div>
+
+@section scripts {
+
+    <script>
+
+        $(document).ready(function () {
+                       
+            FormatearValores();
+
+        });
+
+
+        function FormatearValores() {
+
+            $(".js-formatvalue").each(function () {
+
+                var importe = FormatearValor(ValorANumero(this.innerText));
+                $(this).text(importe);
+
+            });
+
+        }
+
+
+        function FormatearValor(valor) {
+
+            var formatter = new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                //minimumFractionDigits: 2,
+                // the default value for minimumFractionDigits depends on the currency
+                // and is usually already 2
+            });
+
+            valor = formatter.format(valor);
+
+            return valor;
+
+        }
+
+
+    </script>
+
+
+
+}

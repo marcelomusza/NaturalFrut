@@ -1,0 +1,139 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.ListaPreciosBlisterExportViewModel
+@{
+    ViewBag.Title = "Lista Precios Blister Export";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Precios Blister</h2>
+
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+
+
+        <button type="submit" class="btn btn-primary" onclick="location.href='@Url.Action("DescargarListaPreciosBlisterPDF", "Admin")';">Descargar Lista (PDF)</button>
+        <button type="submit" class="btn btn-success" onclick="location.href='@Url.Action("MailListaPreciosBlisterForm", "Admin")';">Enviar Lista por Mail</button>
+        <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Admin")';">Volver</button>
+
+    </div>
+</div>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+       
+    <table class="table table-bordered">
+
+
+        @foreach (var catego in Model.Categorias)
+        {
+            <tr class="success text-center" style="font-weight:bold; height:50px;">
+                <td style="width:70%; vertical-align:middle">@catego.Nombre</td>
+                <td style="width:10%; vertical-align:middle">Gramos</td>
+                <td style="width:10%; vertical-align:middle">Precio</td>
+            </tr>
+
+            foreach (var prod in Model.ListaPreciosBlister)
+            {
+                if (prod.Producto.CategoriaId == catego.ID)
+                {
+                    <tr>
+                        <td>@prod.Producto.Nombre</td>
+                        <td>@prod.Gramos</td>
+                        <td class="js-formatvalue">@prod.Precio</td>
+                    </tr>
+                }
+
+            }
+
+        }
+
+        @foreach (var marca in Model.Marcas)
+        {
+            <tr class="success text-center" style="font-weight:bold; height:50px;">
+                <td style="width:70%; vertical-align:middle">@marca.Nombre</td>
+                <td style="width:10%; vertical-align:middle">Gramos</td>
+                <td style="width:10%; vertical-align:middle">Precio</td>
+            </tr>
+
+            foreach (var prod in Model.ListaPreciosBlister)
+            {
+                if (prod.Producto.MarcaId == marca.ID)
+                {
+                    <tr>
+                        <td>@prod.Producto.Nombre</td>
+                        <td>@prod.Gramos</td>
+                        <td class="js-formatvalue">@prod.Precio</td>
+                    </tr>
+                }
+
+            }
+
+        }
+
+
+        <tr>
+            <td colspan="4" class="text-center">
+
+                <span style="font-weight:bold; font-size:16px;">Haga su pedido a los siguientes números:</span><br />
+                <span font-size:16px;">4709-6832</span><br />
+                <span font-size:16px;">15-2415-0520 <b>Sebastian</b></span><br />
+                <span font-size:16px;">15-5429-6101 <b>Guillermo</b></span>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+@section scripts {
+
+    <script>
+
+        $(document).ready(function () {
+                       
+            FormatearValores();
+
+        });
+
+
+        function FormatearValores() {
+
+            $(".js-formatvalue").each(function () {
+
+                var importe = FormatearValor(ValorANumero(this.innerText));
+                $(this).text(importe);
+
+            });
+
+        }
+
+
+        function FormatearValor(valor) {
+
+            var formatter = new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                //minimumFractionDigits: 2,
+                // the default value for minimumFractionDigits depends on the currency
+                // and is usually already 2
+            });
+
+            valor = formatter.format(valor);
+
+            return valor;
+
+        }
+
+
+    </script>
+
+
+
+}

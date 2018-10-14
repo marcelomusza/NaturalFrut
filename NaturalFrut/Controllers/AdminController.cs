@@ -11,6 +11,11 @@ using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.App_BLL.ViewModels;
 using NaturalFrut.Helpers;
+using Rotativa;
+using Rotativa.Options;
+using System.Net.Mail;
+using System.IO;
+using System.Net;
 
 namespace NaturalFrut.Controllers
 {
@@ -958,6 +963,9 @@ namespace NaturalFrut.Controllers
             return RedirectToAction("ListaPrecios", "Admin");
 
         }
+
+        
+
         #endregion
 
 
@@ -1112,6 +1120,389 @@ namespace NaturalFrut.Controllers
 
         }
         #endregion
+
+        #region Acciones Descarga/Exportar Lista de Precios
+
+        public ActionResult ExportarListaPrecios()
+        {
+
+            var listaPrecios = listaPreciosBL.GetAllLista();
+
+            ViewBag.ListaPrecios = listaPrecios;
+
+            return View("ListaPreciosExportIndex", new Lista());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GenerarListaPreciosExport(Lista lista)
+        {
+
+            //Traemos la lista de precios seleccionada
+            var lis = listaPreciosBL.GetListaById(lista.ID);
+            var listaDePrecios = listaPreciosBL.GetListaPrecioExportByListaId(lista.ID);
+            //var categorias = commonBL.GetAllCategorias();
+            //var marcas = commonBL.GetAllMarcas();
+
+            List<Marca> marca = new List<Marca>();
+            List<Categoria> categoria = new List<Categoria>();
+
+            //Filtramos en base a las marcas y categorias que contengan productos Blister
+            foreach (var item in listaDePrecios)
+            {
+                if (item.Producto.Categoria != null)
+                {
+                    var categoExistente = categoria.Find(c => c.Nombre == item.Producto.Categoria.Nombre);
+                    if (categoExistente == null)
+                        categoria.Add(item.Producto.Categoria);
+                }
+                    
+                else if (item.Producto.Marca != null)
+                {
+                    var marcaExistente = marca.Find(c => c.Nombre == item.Producto.Marca.Nombre);
+                    if (marcaExistente == null)
+                        marca.Add(item.Producto.Marca);
+                }
+                   
+            }
+
+            ListaPreciosExportViewModel viewModel = new ListaPreciosExportViewModel()
+            {
+                ListaPrecios = listaDePrecios,
+                Categorias = categoria,
+                Marcas = marca,
+                ListaId = lista.ID,
+                Nombre = lis.Nombre
+            };
+
+            return View("ListaPreciosExport", viewModel);
+
+        }
+
+        public ActionResult DescargarListaPreciosPDF(int listaid)
+        {
+
+            //Traemos la lista de precios seleccionada
+            var lis = listaPreciosBL.GetListaById(listaid);
+            var listaDePrecios = listaPreciosBL.GetListaPrecioExportByListaId(listaid);
+            //var categorias = commonBL.GetAllCategorias();
+            //var marcas = commonBL.GetAllMarcas();
+
+            List<Marca> marca = new List<Marca>();
+            List<Categoria> categoria = new List<Categoria>();
+
+            //Filtramos en base a las marcas y categorias que contengan productos Blister
+            foreach (var item in listaDePrecios)
+            {
+                if (item.Producto.Categoria != null)
+                {
+                    var categoExistente = categoria.Find(c => c.Nombre == item.Producto.Categoria.Nombre);
+                    if (categoExistente == null)
+                        categoria.Add(item.Producto.Categoria);
+                }
+
+                else if (item.Producto.Marca != null)
+                {
+                    var marcaExistente = marca.Find(c => c.Nombre == item.Producto.Marca.Nombre);
+                    if (marcaExistente == null)
+                        marca.Add(item.Producto.Marca);
+                }
+            }
+
+            ListaPreciosExportViewModel viewModel = new ListaPreciosExportViewModel()
+            {
+                ListaPrecios = listaDePrecios,
+                Categorias = categoria,
+                Marcas = marca,
+                ListaId = listaid,
+                Nombre = lis.Nombre
+            };
+
+            var pdf = new ViewAsPdf("Export\\ListaPreciosPDF", viewModel)
+            {                
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = new Margins(15, 15, 15, 15),
+            };
+
+            return pdf;
+        }
+
+        public ActionResult MailListaPreciosForm(int listaid)
+        {
+
+            ViewBag.ListaID = listaid;
+            ViewBag.Message = "nuevomail";
+
+            return View("Mail\\EnviarMailListaPreciosForm");
+
+        }
+
+        public ActionResult EnviarMailListaPrecios(MailModel datosMail, int listaid)
+        {
+
+            MailModel datos = datosMail;
+            string nombreArchivo = "ListaPrecios_" + DateTime.Now.ToString("ddMMyyyy");
+            string from = "marcelomusza@gmail.com";
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ListaID = listaid;
+                return View("Mail\\EnviarMailListaPreciosForm", datos);
+            }
+            
+            using (MailMessage mail = new MailMessage(from, datosMail.To))
+            {
+
+                mail.Subject = datosMail.Subject;
+                mail.Body = datosMail.Body;         
+
+                //Cargamos el adjunto en memoria
+                MemoryStream stream = new MemoryStream(ListaPreciosPDFMail(listaid, nombreArchivo));
+                Attachment att = new Attachment(stream, nombreArchivo + ".pdf", "application/pdf");
+                mail.Attachments.Add(att);
+
+                mail.IsBodyHtml = false;
+
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = "smtp.gmail.com";
+                smtp.UseDefaultCredentials = false;
+
+                NetworkCredential networkCredential = new NetworkCredential(from, "MaRce1000%!");
+                smtp.EnableSsl = true;
+                smtp.Credentials = networkCredential;
+                smtp.Port = 25;
+
+                smtp.Send(mail);
+
+                ViewBag.Message = "Enviado";
+                ViewBag.ListaID = listaid;
+
+                return View("Mail\\EnviarMailListaPreciosForm", datos);
+
+            }
+            
+        }
+
+        public Byte[] ListaPreciosPDFMail(int listaid, string filename)
+        {
+            //Traemos la lista de precios seleccionada
+            var lis = listaPreciosBL.GetListaById(listaid);
+            var listaDePrecios = listaPreciosBL.GetListaPrecioByListaId(listaid);
+            var categorias = commonBL.GetAllCategorias();
+            var marcas = commonBL.GetAllMarcas();
+
+            ListaPreciosExportViewModel viewModel = new ListaPreciosExportViewModel()
+            {
+                ListaPrecios = listaDePrecios,
+                Categorias = categorias,
+                Marcas = marcas,
+                ListaId = listaid,
+                Nombre = lis.Nombre
+            };
+
+            var pdf = new ViewAsPdf("Export\\ListaPreciosPDF", viewModel) 
+            {
+                FileName = filename,
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = new Margins(15, 15, 15, 15),
+            };
+
+            Byte[] PdfData = pdf.BuildFile(ControllerContext);
+            return PdfData;
+        }
+
+        #endregion
+
+        public ActionResult ExportarListaPreciosBlister()
+        {
+
+            var listaDePreciosBlister = listaPreciosBL.GetAllExportListaPrecioBlister();
+            //var categorias = commonBL.GetAllCategorias();
+            //var marcas = commonBL.GetAllMarcas();
+
+            List<Marca> marca = new List<Marca>();
+            List<Categoria> categoria = new List<Categoria>();
+
+            //Filtramos en base a las marcas y categorias que contengan productos Blister
+            foreach (var item in listaDePreciosBlister)
+            {
+                if (item.Producto.Categoria != null)
+                {
+                    var categoExistente = categoria.Find(c => c.Nombre == item.Producto.Categoria.Nombre);
+                    if (categoExistente == null)
+                        categoria.Add(item.Producto.Categoria);
+                }
+
+                else if (item.Producto.Marca != null)
+                {
+                    var marcaExistente = marca.Find(c => c.Nombre == item.Producto.Marca.Nombre);
+                    if (marcaExistente == null)
+                        marca.Add(item.Producto.Marca);
+                }
+            }
+            
+            
+
+            ListaPreciosBlisterExportViewModel viewModel = new ListaPreciosBlisterExportViewModel()
+            {
+                ListaPreciosBlister = listaDePreciosBlister,
+                Categorias = categoria,
+                Marcas = marca,
+            };
+
+            return View("ListaPreciosBlisterExport", viewModel);
+
+        }
+
+        public ActionResult DescargarListaPreciosBlisterPDF()
+        {
+
+            var listaDePreciosBlister = listaPreciosBL.GetAllExportListaPrecioBlister();
+            //var categorias = commonBL.GetAllCategorias();
+            //var marcas = commonBL.GetAllMarcas();
+
+            List<Marca> marca = new List<Marca>();
+            List<Categoria> categoria = new List<Categoria>();
+
+            //Filtramos en base a las marcas y categorias que contengan productos Blister
+            foreach (var item in listaDePreciosBlister)
+            {
+                if (item.Producto.Categoria != null)
+                {
+                    var categoExistente = categoria.Find(c => c.Nombre == item.Producto.Categoria.Nombre);
+                    if (categoExistente == null)
+                        categoria.Add(item.Producto.Categoria);
+                }
+
+                else if (item.Producto.Marca != null)
+                {
+                    var marcaExistente = marca.Find(c => c.Nombre == item.Producto.Marca.Nombre);
+                    if (marcaExistente == null)
+                        marca.Add(item.Producto.Marca);
+                }
+            }
+
+            ListaPreciosBlisterExportViewModel viewModel = new ListaPreciosBlisterExportViewModel()
+            {
+                ListaPreciosBlister = listaDePreciosBlister,
+                Categorias = categoria,
+                Marcas = marca,
+            };
+
+            var pdf = new ViewAsPdf("Export\\ListaPreciosBlisterPDF", viewModel)
+            {
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = new Margins(15, 15, 15, 15),
+            };
+
+            return pdf;
+        }
+
+        public ActionResult MailListaPreciosBlisterForm()
+        {
+
+            ViewBag.Message = "nuevomail";
+
+            return View("Mail\\EnviarMailListaPreciosBlisterForm");
+
+        }
+
+        public ActionResult EnviarMailListaPreciosBlister(MailModel datosMail)
+        {
+
+            MailModel datos = datosMail;
+            string nombreArchivo = "ListaPreciosBlister_" + DateTime.Now.ToString("ddMMyyyy");
+            string from = "marcelomusza@gmail.com";
+
+            if (!ModelState.IsValid)
+            {
+                return View("Mail\\EnviarMailListaPreciosForm", datos);
+            }
+
+            using (MailMessage mail = new MailMessage(from, datosMail.To))
+            {
+
+                mail.Subject = datosMail.Subject;
+                mail.Body = datosMail.Body;
+
+                //Cargamos el adjunto en memoria
+                MemoryStream stream = new MemoryStream(ListaPreciosBlisterPDFMail(nombreArchivo));
+                Attachment att = new Attachment(stream, nombreArchivo + ".pdf", "application/pdf");
+                mail.Attachments.Add(att);
+
+                mail.IsBodyHtml = false;
+
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = "smtp.gmail.com";
+                smtp.UseDefaultCredentials = false;
+
+                NetworkCredential networkCredential = new NetworkCredential(from, "MaRce1000%!");
+                smtp.EnableSsl = true;
+                smtp.Credentials = networkCredential;
+                smtp.Port = 25;
+
+                smtp.Send(mail);
+
+                ViewBag.Message = "Enviado";
+
+                return View("Mail\\EnviarMailListaPreciosBlisterForm", datos);
+
+            }
+
+        }
+
+        public Byte[] ListaPreciosBlisterPDFMail(string filename)
+        {
+            var listaDePreciosBlister = listaPreciosBL.GetAllExportListaPrecioBlister();
+            //var categorias = commonBL.GetAllCategorias();
+            //var marcas = commonBL.GetAllMarcas();
+
+            List<Marca> marca = new List<Marca>();
+            List<Categoria> categoria = new List<Categoria>();
+
+            //Filtramos en base a las marcas y categorias que contengan productos Blister
+            foreach (var item in listaDePreciosBlister)
+            {
+                if (item.Producto.Categoria != null)
+                {
+                    var categoExistente = categoria.Find(c => c.Nombre == item.Producto.Categoria.Nombre);
+                    if (categoExistente == null)
+                        categoria.Add(item.Producto.Categoria);
+                }
+
+                else if (item.Producto.Marca != null)
+                {
+                    var marcaExistente = marca.Find(c => c.Nombre == item.Producto.Marca.Nombre);
+                    if (marcaExistente == null)
+                        marca.Add(item.Producto.Marca);
+                }
+            }
+
+
+
+            ListaPreciosBlisterExportViewModel viewModel = new ListaPreciosBlisterExportViewModel()
+            {
+                ListaPreciosBlister = listaDePreciosBlister,
+                Categorias = categoria,
+                Marcas = marca,
+            };
+
+            var pdf = new ViewAsPdf("Export\\ListaPreciosBlisterPDF", viewModel)
+            {
+                FileName = filename,
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = new Margins(15, 15, 15, 15),
+            };
+
+            Byte[] PdfData = pdf.BuildFile(ControllerContext);
+            return PdfData;
+        }
 
     }
 }

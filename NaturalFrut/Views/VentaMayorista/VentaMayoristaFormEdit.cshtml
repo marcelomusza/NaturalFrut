@@ -212,14 +212,14 @@
 
     @Scripts.Render("~/bundles/jqueryval")    
 
-    <script>
+<script>
 
         $(document).ready(function () {
 
             //Inicializamos typeahead para los productos existentes
             $("input[name='producto']").each(function () {
 
-                var input = $(this);               
+                var input = $(this);
                 var cont = input.attr("data-js-counter");
                 typeahead_initialize(cont);
 
@@ -240,7 +240,7 @@
                 saldo: 0,
                 nuevoSaldo: 0,
                 entregaEfectivo: 0,
-                productosXVenta: []                
+                productosXVenta: []
             };
 
             var vm2 = [];
@@ -248,9 +248,9 @@
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
 
-            CargarValoresInicialesEnVM(vm);            
+            CargarValoresInicialesEnVM(vm);
             GetSaldoCliente();
-            FormatearEntregaEfectivo();   
+            FormatearEntregaEfectivo();
             FormatearImportesExistentes();
             CargarTipoDescuento();
             CargarSumaTotal();
@@ -272,8 +272,8 @@
             $("#addrow").on("click", function () {
                 //RecalcularTotal();
                 ResetearDescuentoTotal();
-                ResetearTotal();         
-                
+                ResetearTotal();
+
                 var validarCliente = $("#cliente").valid();
 
                 if (validarCliente) {
@@ -337,24 +337,84 @@
             });
 
             $("table.order-list").on("click", ".ibtnDel", function (event) {
-                $(this).closest("tr").remove();
 
+                var button = $(this);
+                var productoID = $("#producto" + parseInt(button.context.id)).attr("data-producto-id");
+                var ventaID = @ViewBag.VentaMayoristaID;
                 var valor = parseInt(this.attributes.name.value);
-                valor += 1;
 
-                if (valor == counter) {
-                    counter -= 1;
-                } else {
-                    counter += 1;
-                }
+                var model = {
+                    "productoID": productoID,
+                    "ventaID": ventaID
+                };
+
+                bootbox.confirm("¿Estas seguro de querer borrar el producto?", function (result) {
 
 
-                typeahead_initialize(counter);
+                    if (result) {
 
-                //RecalcularTotal();
-                ResetearDescuentoTotal();
-                ResetearTotal();
-                //CalcularSaldoFinal();
+                        if (productoID != "") {
+
+                            //Borramos la fila con datos
+                            $.ajax({
+                                url: "/api/ventasmayorista/",
+                                method: "DELETE",
+                                data: model,
+                                success: function () {
+
+                                    toastr.success("Producto eliminado satisfactoriamente de la venta");
+
+                                    button.closest("tr").remove();
+
+                                    valor += 1;
+
+                                    if (valor == counter) {
+                                        counter -= 1;
+                                    } else {
+                                        counter += 1;
+                                    }
+
+                                    typeahead_initialize(counter);
+
+                                    //RecalcularTotal();
+                                    ResetearDescuentoTotal();
+                                    ResetearTotal();
+                                    //CalcularSaldoFinal();
+
+                                    location.reload();
+                                },
+                                error: function () {
+                                    toastr.error("Error al borrar el producto, consulte con el administrator");
+                                }
+                            });
+                        }
+                        else {
+                            //Borramos la fila vacia
+                            button.closest("tr").remove();
+
+                            valor += 1;
+
+                            if (valor == counter) {
+                                counter -= 1;
+                            } else {
+                                counter += 1;
+                            }
+
+                            typeahead_initialize(counter);
+
+                            //RecalcularTotal();
+                            ResetearDescuentoTotal();
+                            ResetearTotal();
+                                    //CalcularSaldoFinal();
+                        }
+
+
+                        
+                    }
+
+
+                });
+
             });
 
 
@@ -378,7 +438,7 @@
                     CalcularDescuentoTotal();
                     CalcularSaldoFinal();
                 }
-                              
+
             })
 
             //$("#descuento").on('blur', function () {
@@ -421,12 +481,12 @@
             $(document).on('blur', "input.js-descprod", function () {
 
                 //Si el Descuento Final esta activado, desactivarlo
-                var selDescFinal = $("#tipoDescuento").val();
-                if (selDescFinal != "") {
-                    $("#descuento").attr("disabled", "disabled");
-                    $("#descuento").val("");
-                    $('#tipoDescuento option:first').prop('selected', true);
-                }
+                //var selDescFinal = $("#tipoDescuento").val();
+                //if (selDescFinal != "") {
+                //    $("#descuento").attr("disabled", "disabled");
+                //    $("#descuento").val("");
+                //    $('#tipoDescuento option:first').prop('selected', true);
+                //}
 
                 var input = $(this);
                 var descuento = input[0].value;
@@ -448,8 +508,8 @@
                 }
                 else {
 
-                    var importeTotal = cantidad * importe;
-                    $("#totalimporte" + counter).val(importeTotal);
+                    var importeTotal = cantidad * DeFormatearValor(importe);
+                    $("#totalimporte" + counter).val(FormatearValor(importeTotal));
 
                     //RecalcularTotal();
                     //CalcularSaldoFinal();
@@ -523,7 +583,7 @@
                                 $.ajax({
                                     url: "/api/ventasmayorista",
                                     method: "put",
-                                    data: model 
+                                    data: model
                                 })
                                     .done(function () {
 
@@ -550,7 +610,7 @@
 
         });
 
-    </script>
+</script>
 
     <!-- FUNCIONES -->
     <script>
@@ -681,9 +741,9 @@
         function ResetearDescuentoTotal() {
 
             //Si se agrega o remueve un row, resetear el descuento total
-            $("#tipoDescuento").prop("selectedIndex", 0).change();
-            $("#descuento").attr("disabled", "disabled");
-            $("#descuento").val("");
+            //$("#tipoDescuento").prop("selectedIndex", 0).change();
+            //$("#descuento").attr("disabled", "disabled");
+            //$("#descuento").val("");
 
             //CalcularSaldoFinal();
 
@@ -716,12 +776,12 @@
             });
 
             //Si el Descuento Final esta activado, desactivarlo
-            var selDescFinal = $("#tipoDescuento").val();
-            if (selDescFinal != "") {
-                $("#descuento").attr("disabled", "disabled");
-                $("#descuento").val("");
-                $('#tipoDescuento option:first').prop('selected', true);
-            }
+            //var selDescFinal = $("#tipoDescuento").val();
+            //if (selDescFinal != "") {
+            //    $("#descuento").attr("disabled", "disabled");
+            //    $("#descuento").val("");
+            //    $('#tipoDescuento option:first').prop('selected', true);
+            //}
 
 
         }
@@ -766,8 +826,8 @@
                 var cantidad = $cantidad.val();
                 var tipodeunidad = $tipodeunidad.val();
                 var descuento = $descuento.val();
-                var importe = $importe.val();
-                var totalimporte = $totalimporte.val();
+                var importe = DeFormatearValor($importe.val());
+                var totalimporte = DeFormatearValor($totalimporte.val());
                 var prodxventaid = $prodxventaid.val();
 
                 vm.productosXVenta.push(
@@ -803,8 +863,8 @@
                 var cantidad = $cantidad.val();
                 var tipodeunidad = $tipodeunidad.val();
                 var descuento = $descuento.val();
-                var importe = $importe.val();
-                var totalimporte = $totalimporte.val();
+                var importe = DeFormatearValor($importe.val());
+                var totalimporte = DeFormatearValor($totalimporte.val());
                 var prodxventaid = $prodxventaid.val();
 
                 vm2.push(
@@ -834,7 +894,7 @@
             vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
             vm.saldo = DeFormatearValor($("#saldo").val());
-            vm.nuevoSaldo = DeFormatearValor($("#nuevoSaldo").val());
+            vm.nuevoSaldo = DeFormatearValor($("#nuevosaldo").val());
             vm.sumaTotal = DeFormatearValor($("#totalventa").val());     
 
         }
@@ -1085,7 +1145,7 @@
 
         function CargarSumaTotal() {
 
-            var totalAnterior = $("#totalventaanterior").val();
+            var totalAnterior = ValorANumero($("#totalventaanterior").val());
             $("#totalventa").val(FormatearValor(totalAnterior));
         }
 

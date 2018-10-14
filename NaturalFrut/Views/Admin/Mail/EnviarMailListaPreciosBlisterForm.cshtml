@@ -1,0 +1,88 @@
+﻿@model NaturalFrut.Models.MailModel
+@{
+    ViewBag.Title = "Enviar Mail - Lista de Precios Blister - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Enviar Mail - Lista de Precios</h2>
+
+<h4>Llene el formulario con los datos necesarios, el adjunto ya se encuentra preparado para ser enviado.</h4>
+<br />
+
+@using (Html.BeginForm("EnviarMailListaPreciosBlister", "Admin"))
+{
+    
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.To)
+                @Html.TextBoxFor(c => c.To, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.To)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Subject)
+                @Html.TextBoxFor(c => c.Subject, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Subject)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Body)
+                @Html.TextBoxFor(c => c.Body, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Body)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Enviar Mail</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Admin")';">Cancelar</button>
+
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            if ('@ViewBag.Message' != 'nuevomail') {
+
+                if ('@ViewBag.Message' == 'Enviado') {
+
+                    toastr.success("El mail se ha enviado satisfactoriamente.");
+
+                    setTimeout(function () {
+                        window.location.href = "/Admin/Index";
+                    }, 4000);
+
+                }           
+                else {
+                    toastr.error("Se ha producido un error al enviar el Mail, intente nuevamente.");
+                }
+
+            }
+            
+
+        });
+
+    </script>
+
+}

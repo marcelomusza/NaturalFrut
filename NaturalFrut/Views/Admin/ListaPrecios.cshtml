@@ -15,6 +15,14 @@
 </div>
 
 <div class="row">
+    <div class="col-sm-12 text-right">
+        <p>
+            @Html.ActionLink("Exportar Lista de Precios", "ExportarListaPrecios", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-sm-12">
 
         @if (!Model.Any())

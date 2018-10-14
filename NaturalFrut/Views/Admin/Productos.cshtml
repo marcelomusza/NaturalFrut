@@ -28,7 +28,9 @@
             <table id="productos" class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th>Descripción</th>
+                        <th>Nombre</th>
+                        <th>Es Blister</th>
+                        <th>Es Mix</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -64,6 +66,28 @@
                 columns: [
                     {
                         data: "Nombre"
+                    },
+                    {
+                        data: "EsBlister",
+                        mRender: function (data, type, row) {
+
+                            if (data == true)
+                                return 'Si';
+                            else
+                                return 'No';
+
+                        }
+                    },
+                    {
+                        data: "EsMix",
+                        mRender: function (data, type, row) {
+
+                            if (data == true)
+                                return 'Si';
+                            else
+                                return 'No';
+
+                        }
                     },
                     {
                         data: "ID",

@@ -793,8 +793,8 @@
                 var cantidad = $cantidad.val();
                 var tipodeunidad = $tipodeunidad.val();
                 var descuento = $descuento.val();
-                var importe = $importe.val();
-                var totalimporte = $totalimporte.val();
+                var importe = DeFormatearValor($importe.val());
+                var totalimporte = DeFormatearValor($totalimporte.val());
 
                 vm.productosXVenta.push(
                     {

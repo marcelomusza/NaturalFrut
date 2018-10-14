@@ -250,6 +250,8 @@
     <Compile Include="App_BLL\ProductoLogic.cs" />
     <Compile Include="App_BLL\ProveedorLogic.cs" />
     <Compile Include="App_BLL\ViewModels\ListaPreciosBlisterViewModel.cs" />
+    <Compile Include="App_BLL\ViewModels\ListaPreciosBlisterExportViewModel .cs" />
+    <Compile Include="App_BLL\ViewModels\ListaPreciosExportViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ListaPreciosViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProductoViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
+    <Compile Include="DTOs\BorrarProdVtaMayDTO.cs" />
     <Compile Include="DTOs\ClasificacionDTO.cs" />
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
@@ -291,6 +294,7 @@
     <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.Designer.cs">
       <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -302,6 +306,7 @@
     <Compile Include="DTOs\VentaMinoristaDTO.cs" />
     <Compile Include="DTOs\VentaUpdateDTO.cs" />
     <Compile Include="Models\ListaPrecioBlister.cs" />
+    <Compile Include="Models\MailModel.cs" />
     <Compile Include="Models\ProductoMix.cs" />
     <Compile Include="Models\ProductoMixCreate.cs" />
     <Compile Include="Models\ProductosMixUpdate.cs" />
@@ -554,6 +559,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootbox.js" />
@@ -760,6 +769,13 @@
     <Content Include="Views\Compra\NuevoProducto.cshtml" />
     <Content Include="Views\VentaMayorista\IndexReporte.cshtml" />
     <Content Include="Views\VentaMayorista\Reportes\ReporteVentaDiaria.cshtml" />
+    <Content Include="Views\Admin\ListaPreciosExportIndex.cshtml" />
+    <Content Include="Views\Admin\ListaPreciosExport.cshtml" />
+    <Content Include="Views\Admin\Export\ListaPreciosPDF.cshtml" />
+    <Content Include="Views\Admin\Mail\EnviarMailListaPreciosForm.cshtml" />
+    <Content Include="Views\Admin\ListaPreciosBlisterExport.cshtml" />
+    <Content Include="Views\Admin\Export\ListaPreciosBlisterPDF.cshtml" />
+    <Content Include="Views\Admin\Mail\EnviarMailListaPreciosBlisterForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

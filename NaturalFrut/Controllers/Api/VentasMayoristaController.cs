@@ -165,7 +165,8 @@ namespace NaturalFrut.Controllers.Api
             ventaMayoristaInDB.Impreso = ventaUpdateDTO.VentaMayorista.Impreso;
             ventaMayoristaInDB.NoConcretado = ventaUpdateDTO.VentaMayorista.NoConcretado;
             ventaMayoristaInDB.Facturado = ventaUpdateDTO.VentaMayorista.Facturado;
-            ventaMayoristaInDB.Saldo = ventaUpdateDTO.VentaMayorista.Saldo;
+            ventaMayoristaInDB.Saldo = ventaUpdateDTO.VentaMayorista.NuevoSaldo;
+            ventaMayoristaInDB.NuevoSaldo = ventaUpdateDTO.VentaMayorista.NuevoSaldo;
             ventaMayoristaInDB.SumaTotal = ventaUpdateDTO.VentaMayorista.SumaTotal;
 
             //Update para los campos de sus ProductosXVenta asociados
@@ -432,7 +433,29 @@ namespace NaturalFrut.Controllers.Api
             return Ok();
         }
 
+        //DELETE /api/ventasMayorista/1
+        [HttpDelete]
+        public IHttpActionResult DeleteProductoVentaMayorista(BorrarProdVtaMayDTO prodVenta)
+        {
 
+            var productoInDB = productoXVentaBL.GetProductoXVentaIndividualById(prodVenta);
+            var importeTotalProducto = productoInDB.Total;
+
+            if (productoInDB == null)
+                return NotFound();
+
+            productoXVentaBL.RemoveProductoXVenta(productoInDB);
+
+            //Actualizamos el total de la venta
+            var ventaMayoristaInDB = ventaMayoristaBL.GetVentaMayoristaById(prodVenta.VentaID);
+
+            ventaMayoristaInDB.SumaTotal = ventaMayoristaInDB.SumaTotal - importeTotalProducto;
+
+            ventaMayoristaBL.UpdateVentaMayorista(ventaMayoristaInDB);
+
+            return Ok();
+
+        }
 
     }
 }

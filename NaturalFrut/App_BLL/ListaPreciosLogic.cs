@@ -131,6 +131,24 @@ namespace NaturalFrut.App_BLL
 
         }
 
+        public List<ListaPrecio> GetListaPrecioByListaId(int id)
+        {
+            return listaPrecioRP.GetAll()
+                .Include(c => c.Lista)
+                .Include(c => c.Producto)                
+                .Where(c => c.ListaID == id).ToList();
+        }
+
+        public List<ListaPrecio> GetListaPrecioExportByListaId(int id)
+        {
+            return listaPrecioRP.GetAll()
+                .Include(c => c.Lista)
+                .Include(c => c.Producto)
+                .Include("Producto.Categoria")
+                .Include("Producto.Marca")
+                .Where(c => c.ListaID == id).ToList();
+        }
+
 
         public List<ListaPrecio> GetListaPrecioByIdProducto(int id , int idVenta)
         {
@@ -230,6 +248,16 @@ namespace NaturalFrut.App_BLL
 
         }
 
+        public List<ListaPrecioBlister> GetAllExportListaPrecioBlister()
+        {
+            return listaPrecioBlisterRP.GetAll()
+                .Include(p => p.Producto)
+                .Include("Producto.Categoria")
+                .Include("Producto.Marca")
+                .ToList();
+
+        }
+
         public ListaPrecioBlister GetListaPrecioBlisterById(int id)
         {
             return listaPrecioBlisterRP.GetAll()
@@ -257,8 +285,10 @@ namespace NaturalFrut.App_BLL
             listaPrecioBlisterRP.Delete(listaPrecioBlister);
             listaPrecioBlisterRP.Save();
         }
+
+        
         #endregion
 
 
-        }
+    }
 }

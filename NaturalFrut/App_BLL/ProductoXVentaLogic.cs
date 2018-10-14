@@ -82,6 +82,15 @@ namespace NaturalFrut.App_BLL
                .Where(v => v.VentaID == ventaID)
                .ToList();
         }
-    
+
+        public ProductoXVenta GetProductoXVentaIndividualById(BorrarProdVtaMayDTO prodVenta)
+        {
+            return ProductoXVentaRP
+               .GetAll()
+               .Include(p => p.Producto)
+               .Include(t => t.TipoDeUnidad)
+               .Include(v => v.Venta)
+               .Where(c => c.VentaID == prodVenta.VentaID && c.ProductoID == prodVenta.ProductoID).SingleOrDefault();
+        }
     }
 }

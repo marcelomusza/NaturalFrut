@@ -1,0 +1,86 @@
+﻿@model NaturalFrut.App_BLL.ViewModels.ListaPreciosBlisterExportViewModel
+@{
+    /**/
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - NaturalFrut Dietética</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+    <div class="row" style="margin:5px;">
+
+        <table class="table table-bordered">
+
+
+            @foreach (var catego in Model.Categorias)
+    {
+        <tr class="success text-center" style="font-weight:bold; height:50px;">
+            <td style="width:70%; vertical-align:middle">@catego.Nombre</td>
+            <td style="width:10%; vertical-align:middle">Gramos</td>
+            <td style="width:10%; vertical-align:middle">Precio</td>
+        </tr>
+
+foreach (var prod in Model.ListaPreciosBlister)
+{
+    if (prod.Producto.CategoriaId == catego.ID)
+    {
+        <tr>
+            <td>@prod.Producto.Nombre</td>
+            <td>@prod.Gramos</td>
+            <td>$ @prod.Precio</td>
+        </tr>
+}
+
+}
+
+}
+
+            @foreach (var marca in Model.Marcas)
+    {
+        <tr class="success text-center" style="font-weight:bold; height:50px;">
+            <td style="width:70%; vertical-align:middle">@marca.Nombre</td>
+            <td style="width:10%; vertical-align:middle">Gramos</td>
+            <td style="width:10%; vertical-align:middle">Precio</td>
+        </tr>
+
+foreach (var prod in Model.ListaPreciosBlister)
+{
+    if (prod.Producto.MarcaId == marca.ID)
+    {
+        <tr>
+            <td>@prod.Producto.Nombre</td>
+            <td>@prod.Gramos</td>
+            <td>$ @prod.Precio</td>
+        </tr>
+}
+
+}
+
+}
+
+
+            <tr>
+                <td colspan="4" class="text-center">
+
+                    <span style="font-weight:bold; font-size:16px;">Haga su pedido a los siguientes números:</span><br />
+                    <span font-size:16px;">4709-6832</span><br />
+                    <span font-size:16px;">15-2415-0520 <b>Sebastian</b></span><br />
+                    <span font-size:16px;">15-5429-6101 <b>Guillermo</b></span>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</html>

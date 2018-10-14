@@ -1,0 +1,52 @@
+﻿@model NaturalFrut.Models.Lista
+@{
+    ViewBag.Title = "ListaPreciosExport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Precios - Exportar</h2>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<br />
+<br />
+
+@using (Html.BeginForm("GenerarListaPreciosExport", "Admin"))
+{
+
+    <div class="row">
+        @Html.ValidationSummary(true, "Por favor revise los siguientes errores:")
+    </div>
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-12">
+
+            
+
+            <div class="form-group">
+                <label>Seleccione una Lista de Precios</label>
+                @Html.DropDownListFor(x => x.ID, new SelectList(ViewBag.ListaPrecios, "ID", "Nombre"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.ID)
+            </div>            
+
+        </div>
+
+    </div>
+
+    <br/><br/>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Generar Lista</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Admin")';">Cancelar</button>
+
+        </div>
+    </div>
+
+}
