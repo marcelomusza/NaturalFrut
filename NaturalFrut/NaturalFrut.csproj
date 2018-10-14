@@ -282,10 +282,6 @@
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
     <Compile Include="DTOs\CompraUpdateDTO.cs" />
-    <Compile Include="Migrations\201809271813401_nuevas.cs" />
-    <Compile Include="Migrations\201809271813401_nuevas.Designer.cs">
-      <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201810052124393_model_vtamayoristanuevosaldo.cs" />
     <Compile Include="Migrations\201810052124393_model_vtamayoristanuevosaldo.Designer.cs">
       <DependentUpon>201810052124393_model_vtamayoristanuevosaldo.cs</DependentUpon>
@@ -313,6 +309,9 @@
     <Compile Include="Models\VentaMinoristaReporte.cs" />
     <Compile Include="Models\CompraUpdate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
+    <Compile Include="Pdf\GenerarPdfCompra.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Pdf\GenerarPdf.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -788,9 +787,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809271813401_nuevas.resx">
-      <DependentUpon>201809271813401_nuevas.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810052124393_model_vtamayoristanuevosaldo.resx">
       <DependentUpon>201810052124393_model_vtamayoristanuevosaldo.cs</DependentUpon>
     </EmbeddedResource>
