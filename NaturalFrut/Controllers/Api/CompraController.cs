@@ -114,8 +114,8 @@ namespace NaturalFrut.Controllers.Api
         [HttpPut]
         public IHttpActionResult UpdateCompra(CompraUpdateDTO compraUpdateDTO)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            //if (!ModelState.IsValid)
+            //    return BadRequest();
 
             //var proveedor = proveedorBL.GetProveedorById(compraUpdateDTO.Compra.ProveedorID);
 
@@ -371,7 +371,30 @@ namespace NaturalFrut.Controllers.Api
             return Ok();
         }
 
+        //DELETE /api/compra/1
+        [HttpDelete]
+        public IHttpActionResult DeleteProductoCompra(BorrarProdCompraDTO prodCompra)
+        {
+                        
+            var productoInDB = productoXCompraBL.GetProductoXCompraIndividualById(prodCompra);            
 
+            if (productoInDB == null)
+                return NotFound();
+
+            var importeTotalProducto = productoInDB.Total;
+
+            productoXCompraBL.RemoveProductoXCompra(productoInDB);
+
+            //Actualizamos el total de la venta
+            var compraInDB = compraBL.GetCompraById(prodCompra.CompraID);
+
+            compraInDB.TotalGastos = compraInDB.TotalGastos - importeTotalProducto;
+
+            compraBL.UpdateCompra(compraInDB);
+
+            return Ok();
+
+        }
 
     }
 }

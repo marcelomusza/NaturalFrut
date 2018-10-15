@@ -277,6 +277,7 @@
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
+    <Compile Include="DTOs\BorrarProdCompraDTO.cs" />
     <Compile Include="DTOs\BorrarProdVtaMayDTO.cs" />
     <Compile Include="DTOs\ClasificacionDTO.cs" />
     <Compile Include="DTOs\CompraDTO.cs" />
@@ -290,6 +291,7 @@
     <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.Designer.cs">
       <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>

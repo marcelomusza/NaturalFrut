@@ -80,7 +80,9 @@
                         data: "Clasificacion.Nombre"
                     },
                     {
-                        data: "Total"
+                        data: "Total",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
                     },
                     {
                         data: "ID",

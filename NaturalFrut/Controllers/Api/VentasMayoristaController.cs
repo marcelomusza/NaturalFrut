@@ -438,11 +438,12 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult DeleteProductoVentaMayorista(BorrarProdVtaMayDTO prodVenta)
         {
 
-            var productoInDB = productoXVentaBL.GetProductoXVentaIndividualById(prodVenta);
-            var importeTotalProducto = productoInDB.Total;
+            var productoInDB = productoXVentaBL.GetProductoXVentaIndividualById(prodVenta);            
 
             if (productoInDB == null)
                 return NotFound();
+
+            var importeTotalProducto = productoInDB.Total;
 
             productoXVentaBL.RemoveProductoXVenta(productoInDB);
 
