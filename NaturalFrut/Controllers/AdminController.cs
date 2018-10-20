@@ -29,8 +29,9 @@ namespace NaturalFrut.Controllers
         private readonly ProductoLogic productoBL;
         private readonly VendedorLogic vendedorBL;
         private readonly ListaPreciosLogic listaPreciosBL;
+        private readonly StockLogic stockBL;
 
-        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaPreciosLogic ListaPreciosLogic)
+        public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaPreciosLogic ListaPreciosLogic, StockLogic StockLogic)
         {
             clienteBL = ClienteLogic;
             commonBL = CommonLogic;
@@ -38,6 +39,7 @@ namespace NaturalFrut.Controllers
             productoBL = ProductoLogic;
             vendedorBL = VendedorLogic;
             listaPreciosBL = ListaPreciosLogic;
+            stockBL = StockLogic;
         }
 
         public ActionResult Index()
@@ -1503,6 +1505,106 @@ namespace NaturalFrut.Controllers
             Byte[] PdfData = pdf.BuildFile(ControllerContext);
             return PdfData;
         }
+
+
+        #region Acciones Stock
+        public ActionResult Stock()
+        {
+
+            var stock = stockBL.GetAllStock();
+
+            return View(stock);
+        }
+
+        public ActionResult AltaStock()
+        {
+
+            ViewBag.TipoUnidad = stockBL.GetTipoDeUnidadList();
+
+            
+            return View("StockForm");
+        }
+
+        //public ActionResult EditarCliente(int Id)
+        //{
+
+        //    var cliente = clienteBL.GetClienteById(Id);
+
+        //    if (cliente == null)
+        //        return HttpNotFound();
+
+        //    ClienteViewModel viewModel = new ClienteViewModel(cliente)
+        //    {
+        //        CondicionIVA = clienteBL.GetCondicionIvaList(),
+        //        TipoCliente = clienteBL.GetTipoClienteList(),
+        //        Lista = clienteBL.GetListaList()
+        //    };
+
+
+
+        //    return View("ClienteForm", viewModel);
+        //}
+
+        //public ActionResult BorrarCliente(int Id)
+        //{
+        //    var cliente = clienteBL.GetClienteById(Id);
+
+        //    if (cliente != null)
+        //        clienteBL.RemoveCliente(cliente);
+        //    else
+        //        return HttpNotFound();
+
+        //    return RedirectToAction("Clientes", "Admin");
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult GuardarStock(Stock stock)
+        //{
+
+        //    if (!ModelState.IsValid)
+        //    {
+
+        //        StockViewModel viewModel = new StockViewModel
+        //        {
+        //            TipoDeUnidad = stockBL.GetTipoDeUnidadList()
+
+        //        };
+
+        //        return View("StockForm", viewModel);
+        //    }
+
+        //    Producto producto = productoBL.GetProductoById(stock.ProductoID);
+
+
+        //    Stock stockIngresado = stockBL.ValidarStockProducto(stock.ProductoID, stock.TipoDeUnidadID);
+
+        //    if (stockIngresado != null)
+        //    {
+        //        stockIngresado.Cantidad = stockIngresado.Cantidad + stock.Cantidad;
+        //        stockBL.UpdateStock(stockIngresado);
+
+        //    }
+        //    else
+        //    {
+        //        Stock stockNuevo = new Stock();
+
+        //        stockNuevo.ProductoID = stock.ProductoID;
+        //        stockNuevo.TipoDeUnidadID = stock.TipoDeUnidadID;
+        //        stock.Cantidad = stock.Cantidad;
+
+        //        stockBL.AddStock(stockNuevo);
+
+
+        //    }
+
+
+            
+
+        //    return RedirectToAction("Stock", "Admin");
+
+        //}
+        #endregion
 
     }
 }

@@ -73,7 +73,7 @@ namespace NaturalFrut.Controllers.Api
             /* cliente.Saldo = ventaMayorista.SumaTotal - ventaMayorista.EntregaEfectivo;
              clienteBL.UpdateCliente(cliente);  */
 
-            if (!compra.NoConcretado)
+            if (compra.NoConcretado)
             {
 
                 //Una vez cargada la venta, actualizamos Stock
@@ -139,6 +139,7 @@ namespace NaturalFrut.Controllers.Api
 
             //Update para los campos de VentaMayorista
             compraInDB.Factura = compraUpdateDTO.Compra.Factura;
+            compraInDB.NoConcretado = compraUpdateDTO.Compra.NoConcretado;
             compraInDB.TipoFactura = compraUpdateDTO.Compra.TipoFactura;
             compraInDB.SumaTotal = compraUpdateDTO.Compra.SumaTotal;
             compraInDB.DescuentoPorc = compraUpdateDTO.Compra.DescuentoPorc;
@@ -154,6 +155,7 @@ namespace NaturalFrut.Controllers.Api
             compraInDB.PercIva = compraUpdateDTO.Compra.PercIva;
             compraInDB.ImportePercIva = compraUpdateDTO.Compra.ImportePercIva;
             compraInDB.Total = compraUpdateDTO.Compra.Total;
+            compraInDB.TotalGastos = compraUpdateDTO.Compra.TotalGastos;
 
             //Update para los campos de sus ProductosXVenta asociados
             for (int i = 0; i < compraInDB.ProductosXCompra.Count; i++)
@@ -175,113 +177,6 @@ namespace NaturalFrut.Controllers.Api
             //cliente.Saldo = ventaMayoristaInDB.SumaTotal - ventaMayoristaInDB.EntregaEfectivo;
             //clienteBL.UpdateCliente(cliente);
 
-            //if (ventaMayoristaInDB.NoConcretado)
-            //{
-            //    //Logica para Ventas No Concretadas -- Devolución de Stock
-            //}
-            //else
-            //{
-            //    //Una vez actualizada la venta, actualizamos Stock
-
-            //    for (int i = 0; i < ventaMayoristaInDB.ProductosXVenta.Count; i++)
-            //    {
-
-            //        //Verificamos si se trata de un producto MIX o no
-            //        if (ventaMayoristaInDB.ProductosXVenta[i].Producto.EsMix)
-            //        {
-            //            //Producto Mix
-            //            var productosMixStock = stockBL.GetListaProductosMixById(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
-
-            //            if (productosMixStock == null)
-            //                return BadRequest();
-
-            //            foreach (var prod in productosMixStock)
-            //            {
-            //                Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID);
-
-            //                if (stockProdMix == null)
-            //                    return BadRequest();
-
-            //                //Realizo operacion inversa para convertir valor neto en parcial para cada producto
-            //                var diferencia = cantProds[i] - ventaMayoristaInDB.ProductosXVenta[i].Cantidad;
-            //                if (diferencia < 0)
-            //                    diferencia = diferencia * (-1);
-
-            //                var diferenciaMix = prod.Cantidad * diferencia;
-
-
-            //                if (cantProds[i] < ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
-            //                {
-            //                    //Cantidad de productos actual es superior a la venta original, restar stock
-            //                    stockProdMix.Cantidad = stockProdMix.Cantidad - diferenciaMix;
-
-            //                    stockBL.UpdateStock(stockProdMix);
-
-            //                }
-            //                if (cantProds[i] > ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
-            //                {
-            //                    //Devolver stock                       
-            //                    stockProdMix.Cantidad = stockProdMix.Cantidad + diferenciaMix;
-
-            //                    stockBL.UpdateStock(stockProdMix);
-            //                }
-            //            }
-
-
-            //        }
-            //        else
-            //        {
-            //            //Producto Comun
-            //            Stock stock = stockBL.ValidarStockProducto(ventaMayoristaInDB.ProductosXVenta[i].ProductoID, ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID);
-
-            //            var diferencia = cantProds[i] - ventaMayoristaInDB.ProductosXVenta[i].Cantidad;
-            //            if (diferencia < 0)
-            //                diferencia = diferencia * (-1);
-
-            //            if (cantProds[i] < ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
-            //            {
-            //                //Cantidad de productos actual es superior a la venta original, restar stock
-            //                //Actualizamos dependiendo si es un producto Blister o Comun                       
-
-            //                if (ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
-            //                {
-            //                    ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
-
-            //                    double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(diferencia) / 1000); //Convierto a KG
-            //                    stock.Cantidad = stock.Cantidad - cantidadEnKG;
-
-            //                }
-            //                else
-            //                    stock.Cantidad = stock.Cantidad - diferencia;
-
-            //                stockBL.UpdateStock(stock);
-
-            //            }
-            //            if (cantProds[i] > ventaMayoristaInDB.ProductosXVenta[i].Cantidad)
-            //            {
-            //                //Devolver stock                       
-            //                //Actualizamos dependiendo si es un producto Blister o Comun
-            //                if (ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
-            //                {
-            //                    ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
-
-            //                    double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(diferencia)) / 1000; //Convierto a KG
-            //                    stock.Cantidad = stock.Cantidad + cantidadEnKG;
-
-            //                }
-            //                else
-            //                    stock.Cantidad = stock.Cantidad + diferencia;
-
-            //                stockBL.UpdateStock(stock);
-            //            }
-            //        }
-
-
-             //   }
-
-            //}
-
-
             //Paso siguiente - Agregamos productos nuevos a la venta, si los hay
             if (compraUpdateDTO.ProductosXCompra != null)
             {
@@ -298,75 +193,76 @@ namespace NaturalFrut.Controllers.Api
                         Iibbbsas = prod.Iibbbsas,
                         Iibbcaba = prod.Iibbcaba,
                         Iva = prod.Iva,
-                        PrecioUnitario = prod.PrecioUnitario,                       
-                        Total = prod.Total,                       
+                        PrecioUnitario = prod.PrecioUnitario,
+                        Total = prod.Total,
                         CompraID = prod.CompraID
                     };
 
                     productoXCompraBL.AddProductoXCompra(nuevoProd);
                 }
-
-                //if (ventaMayoristaInDB.NoConcretado)
-                //{
-                //    //Logica para Ventas No Concretadas -- Devolución de Stock
-                //}
-                //else
-                //{
-                //    //Una vez cargada la venta, actualizamos Stock
-                //    foreach (var item in ventaUpdateDTO.ProductosXVenta)
-                //    {
-
-                //        Producto producto = productoBL.GetProductoById(item.ProductoID);
-
-                //        //Actualizamos dependiendo si es un producto Blister o Comun
-                //        if (item.TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
-                //        {
-                //            Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
-
-                //            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(item.ProductoID);
-
-                //            double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunLista.Gramos) * Convert.ToDouble(item.Cantidad)) / 1000; //Convierto a KG
-                //            stock.Cantidad = stock.Cantidad - cantidadEnKG;
-
-                //            stockBL.UpdateStock(stock);
-
-                //        }
-                //        if (producto.EsMix)
-                //        {
-                //            //Producto Mix - Actualizar Stock para sus productos asociados
-                //            var productosMixStock = stockBL.GetListaProductosMixById(producto.ID);
-
-                //            if (productosMixStock == null)
-                //                return BadRequest();
-
-                //            foreach (var prod in productosMixStock)
-                //            {
-                //                Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), item.TipoDeUnidadID);
-
-                //                if (stockProdMix == null)
-                //                    return BadRequest();
-
-                //                double cantidadEnKG = Convert.ToDouble(prod.Cantidad) * Convert.ToDouble(item.Cantidad);
-                //                stockProdMix.Cantidad = stockProdMix.Cantidad - cantidadEnKG;
-
-                //                stockBL.UpdateStock(stockProdMix);
-                //            }
-                //        }
-                //        else
-                //        {
-                //            Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
-
-                //            stock.Cantidad = stock.Cantidad - item.Cantidad;
-                //            stockBL.UpdateStock(stock);
-                //        }
-
-
-                //    }
-                //}
             }
 
+            if (compraInDB.NoConcretado)
+            {
+                //Actualizacion de stock para productos existenetes
+                foreach (var item in compraInDB.ProductosXCompra)
+                {
+
+                    Producto producto = productoBL.GetProductoById(item.ProductoID);
 
 
+                    Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+
+                    if (stock != null)
+                    {
+                        stock.Cantidad = stock.Cantidad + item.Cantidad;
+                        stockBL.UpdateStock(stock);
+
+                    }
+                    else
+                    {
+                        Stock stockNuevo = new Stock();
+
+                        stockNuevo.ProductoID = item.ProductoID;
+                        stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
+                        stock.Cantidad = item.Cantidad;
+
+                        stockBL.AddStock(stockNuevo);
+
+                    }
+
+                }
+
+                if (compraUpdateDTO.ProductosXCompra != null)
+                { 
+                    //Actualizacion de stock para productos nuevos
+                    foreach (var item in compraUpdateDTO.ProductosXCompra)
+                    {
+
+                        Producto producto = productoBL.GetProductoById(item.ProductoID);
+                        Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+
+                        if (stock != null)
+                        {
+                            stock.Cantidad = stock.Cantidad + item.Cantidad;
+                            stockBL.UpdateStock(stock);
+
+                        }
+                        else
+                        {
+                            Stock stockNuevo = new Stock();
+
+                            stockNuevo.ProductoID = item.ProductoID;
+                            stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
+                            stock.Cantidad = item.Cantidad;
+
+                            stockBL.AddStock(stockNuevo);
+
+                        }
+
+                    }
+                }
+            }            
 
             return Ok();
         }

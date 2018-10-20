@@ -100,6 +100,7 @@ namespace NaturalFrut.Controllers.Api
         }
 
         [HttpGet]
+        [Route("admin/api/productos/productos")]
         [Route("compra/api/productos/productos")]
         public IEnumerable<ProductoDTO> Productos()
         {

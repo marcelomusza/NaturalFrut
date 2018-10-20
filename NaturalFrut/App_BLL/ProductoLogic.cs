@@ -17,11 +17,13 @@ namespace NaturalFrut.App_BLL
         private readonly IRepository<Cliente> clienteRP;
         private readonly IRepository<ListaPrecio> listaPrecioRP;
         private readonly IRepository<ProductoMix> productoMixRP;
+        private readonly IRepository<Stock> stockRP;
 
         public ProductoLogic(IRepository<Producto> ProductoRepository,
             IRepository<Categoria> CategoriaRepository,
             IRepository<Marca> MarcaRepository,
             IRepository<Cliente> ClienteRepository,
+            IRepository<Stock> stockRepository,
             IRepository<ListaPrecio> ListaPrecioRepository,
             IRepository<ProductoMix> ProductoMixRepository)
         {
@@ -31,6 +33,7 @@ namespace NaturalFrut.App_BLL
             clienteRP = ClienteRepository;
             listaPrecioRP = ListaPrecioRepository;
             productoMixRP = ProductoMixRepository;
+            stockRP = stockRepository;
         }
 
         public ProductoLogic(IRepository<Producto> ProductoRepository)
@@ -43,6 +46,11 @@ namespace NaturalFrut.App_BLL
         {
             productoMixRP = ProductoMixRepository;
             productoRP = ProductoRepository;
+        }
+
+        public ProductoLogic(IRepository<Stock> StockRepository)
+        {
+            stockRP = StockRepository;
         }
 
         public ProductoLogic(IRepository<Producto> ProductoRepository,
