@@ -1,0 +1,125 @@
+﻿@model IEnumerable<NaturalFrut.Models.Stock>
+@{
+    ViewBag.Title = "Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Control de Stock</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Stock", "AltaStock", null, new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @if (!Model.Any())
+        {
+            <h2>No hay prouctos cargados en Stock </h2>
+        }
+        else
+        {
+
+            <table id="stock" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Productos</th>
+                        <th>Tipo de Unidad</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#stock").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                ajax: {
+
+                    url: "/api/stock",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Producto.Nombre", 
+                        
+                    },
+                    {
+                        data: "TipoDeUnidad.Nombre",
+                    },
+                    {
+                        data: "Cantidad",
+                    },
+                    
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-customer-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#clientes").on("click", ".js-delete", function () {
+
+                var button = $(this);
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/clientes/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                toastr.success("Cliente eliminado satisfactoriamente");
+
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+               
+            });
+
+            $("#clientes").on("click", ".js-edit", function () {
+
+                var button = $(this);
+
+                location.href = "EditarCliente/" + button.attr("data-customer-id");
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+
+}

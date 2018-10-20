@@ -99,7 +99,10 @@ namespace NaturalFrut.App_BLL
                .SingleOrDefault();
         }
 
-       
+        public List<TipoDeUnidad> GetTipoDeUnidadList()
+        {
+            return TipoDeUnidadRP.GetAll().ToList();
+        }
 
         public List<ProductoMix> GetListaProductosMixById(int prodMixId)
         {

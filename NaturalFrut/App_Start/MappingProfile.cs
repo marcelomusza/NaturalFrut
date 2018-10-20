@@ -71,6 +71,11 @@ namespace NaturalFrut.App_Start
             Mapper.CreateMap<CompraUpdateDTO, CompraUpdate>();
 
 
+            Mapper.CreateMap<Stock, StockDTO>();
+            Mapper.CreateMap<StockDTO, Stock>();
+
+
+
 
         }
 

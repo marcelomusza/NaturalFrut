@@ -51,7 +51,7 @@
 
             <div class="form-group">
                 <label>Descuento %</label>
-                <input id="descuentoporc" name="descuentoporc" required type="number" value="@Model.DescuentoPorc" class="form-control" />
+                <input id="descuentoporc" name="descuentoporc" required type="text" value="@Model.DescuentoPorc" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -90,7 +90,7 @@
 
             <div class="form-group">
                 <label>IVA</label>
-                <input id="iva" name="iva" type="number" value="@Model.Iva" class="form-control" />
+                <input id="iva" name="iva" type="number" value="@Model.Iva" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -100,7 +100,7 @@
 
             <div class="form-group">
                 <label>IIBB BsAs</label>
-                <input id="iibbbsas" name="iibbbsas" type="number" value="@Model.Iibbbsas" class="form-control" />
+                <input id="iibbbsas" name="iibbbsas" type="text" value="@Model.Iibbbsas" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -110,7 +110,7 @@
 
             <div class="form-group">
                 <label>IIBB Caba</label>
-                <input id="iibbcaba" name="iibbcaba" type="number" value="@Model.Iibbcaba" class="form-control" />
+                <input id="iibbcaba" name="iibbcaba" type="text" value="@Model.Iibbcaba" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -120,7 +120,7 @@
 
             <div class="form-group">
                 <label>Percep. IVA</label>
-                <input id="percepiva" name="percepiva" type="number" value="@Model.PercIva" class="form-control" />
+                <input id="percepiva" name="percepiva" type="text" value="@Model.PercIva" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -137,7 +137,7 @@
             <div class="checkbox">
 
                 <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
-                <label><strong>No Concretado</strong></label>
+                <label><strong>Concretado</strong></label>
 
             </div>
 
@@ -182,13 +182,13 @@
                             <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="js-cantidad form-control" data-js-counter="@counter" /></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID" selected>@producto.TipoDeUnidad.Nombre</option></select></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" type="text" data-js-counter="@counter" value="@producto.Importe" class="js-importe form-control js-formatvalue" onkeyup="ValidarPunto(this);" /></div></td>         
-                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("importecondesc{0}", counter)" name="importecondesc" type="text" data-js-counter="@counter" value="@producto.ImporteDescuento.ToString().Replace(',','.')" class="form-control js-formatvalue"  disabled/></div></td>
-                            <td><div class="form-group"><input id="@String.Format("iibbbsas{0}", counter)" name="iibbbsas" type="number" data-js-counter="@counter" value="@producto.Iibbbsas" class="js-iibbbsas form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("iibbcaba{0}", counter)" name="iibbcaba" type="number" data-js-counter="@counter" value="@producto.Iibbcaba" class="js-iibbcaba form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("iva{0}", counter)" name="iva" type="number" data-js-counter="@counter" value="@producto.Iva" class="js-iva form-control" /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("preciouni{0}", counter)" name="preciouni" type="text" data-js-counter="@counter" value="@producto.PrecioUnitario.ToString().Replace(',','.')" class="form-control js-formatvalue"  disabled/></div></td>
-                            <td><div class="form-group"><input id="@String.Format("total{0}", counter)" name="total" type="text" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="total form-control js-formatvalue" disabled /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="text" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" onkeyup="ValidarPunto(this);"/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("importecondesc{0}", counter)" name="importecondesc" type="text" data-js-counter="@counter" value="@producto.ImporteDescuento" class="form-control js-formatvalue"  disabled onkeyup="ValidarPunto(this);"/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("iibbbsas{0}", counter)" name="iibbbsas" type="text" data-js-counter="@counter" value="@producto.Iibbbsas" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);"/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("iibbcaba{0}", counter)" name="iibbcaba" type="text" data-js-counter="@counter" value="@producto.Iibbcaba" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);" /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("iva{0}", counter)" name="iva" type="text" data-js-counter="@counter" value="@producto.Iva" class="js-iva form-control" onkeyup="ValidarPunto(this);"/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("preciouni{0}", counter)" name="preciouni" type="text" data-js-counter="@counter" value="@producto.PrecioUnitario" class="form-control js-formatvalue"  disabled/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("total{0}", counter)" name="total" type="text" data-js-counter="@counter" value="@producto.Total" class="total form-control js-formatvalue" disabled /></div></td>
 
                             <td>
                                 <input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
@@ -348,15 +348,15 @@
 
                 cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" data-js-counter="' + counter + '" value="" class="js-importe form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control"  /></div></td>';
+                cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);"  /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" required type="text" value="" class="form-control" disabled /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="number" data-js-counter="' + counter + '" value="" class="js-iva form-control" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="text" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="preciouni' + counter + '" name="preciouni" required type="text" value="" class="form-control" disabled /></div></td>';
 
@@ -495,7 +495,7 @@
 
             $("#descuentoporc").on('blur', function (){
 
-                var descuentoporc = $("#descuentoporc").val();
+                var descuentoporc = ValorANumero($("#descuentoporc").val());
 
                 var sumatotal = DeFormatearValor($("#sumatotal").val());
 
@@ -528,7 +528,7 @@
 
             $("#sumatotal").on('blur', function () {
 
-                var descuentoporc = $("#descuentoporc").val();
+                var descuentoporc =  DeFormatearValor($("#descuentoporc").val());
 
                 var sumatotal = DeFormatearValor($("#sumatotal").val());
 
@@ -556,7 +556,7 @@
             });
             $("#iva").on('blur', function () {
 
-                var iva = $("#iva").val();
+                var iva =  ValorANumero($("#iva").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (iva != "") {
@@ -575,7 +575,7 @@
 
             $("#iibbbsas").on('blur', function () {
 
-                var iibbbsas = $("#iibbbsas").val();
+                var iibbbsas =  DeFormatearValor($("#iibbbsas").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (iibbbsas != "") {
@@ -594,7 +594,7 @@
 
             $("#iibbcaba").on('blur', function () {
 
-                var iibbcaba = $("#iibbcaba").val();
+                var iibbcaba =  DeFormatearValor($("#iibbcaba").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (iibbcaba != "") {
@@ -613,7 +613,7 @@
 
             $("#percepiva").on('blur', function () {
 
-                var percepiva = $("#percepiva").val();
+                var percepiva =  DeFormatearValor($("#percepiva").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (percepiva != "") {
@@ -655,7 +655,7 @@
             $(document).on('blur', "input.js-descprod", function () {
 
                 var input = $(this);
-                var descuento = input[0].value;
+                var descuento = ValorANumero(input[0].value);
                 var counter = input.attr("data-js-counter");
                 var importe = DeFormatearValor($("#importe" + counter).val());
 
@@ -738,11 +738,11 @@
 
                 submitHandler: function () {
 
-                    var validarProducto = $('input[name*="producto"]').valid();
-                    var validarCantidad = $('input[name*="cantidad"]').valid();
-                    var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
+                    //var validarProducto = $('input[name*="producto"]').valid();
+                    //var validarCantidad = $('input[name*="cantidad"]').valid();
+                    //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
 
-                    if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    //if (validarProducto && validarCantidad && validartipodeUnidad) {
 
                         //Modal para aceptacion de venta
                         bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
@@ -779,7 +779,7 @@
 
                         });
 
-                    }
+                    //}
 
                     return false;
                 }
@@ -1000,11 +1000,11 @@
                 var cantidad = $cantidad.val();
                 var importe = DeFormatearValor($importe.val());
                 var tipodeunidad = $tipodeunidad.val();
-                var descuento = $descuento.val();
+                var descuento = ValorANumero($descuento.val());
                 var importecondesc = DeFormatearValor($importecondesc.val());
-                var iibbbsas = $iibbbsas.val();
-                var iibbcaba = $iibbcaba.val();
-                var iva = $iva.val();
+                var iibbbsas = ValorANumero($iibbbsas.val());
+                var iibbcaba = ValorANumero($iibbcaba.val());
+                var iva = ValorANumero($iva.val());
                 var preciouni = DeFormatearValor($preciouni.val());
                 var total = DeFormatearValor($total.val());
                 var prodxcompraid = $prodxcompraid.val();
@@ -1057,11 +1057,11 @@
                 var cantidad = $cantidad.val();
                 var importe = DeFormatearValor($importe.val());
                 var tipodeunidad = $tipodeunidad.val();
-                var descuento = $descuento.val();
+                var descuento =  ValorANumero($descuento.val());
                 var importecondesc = DeFormatearValor($importecondesc.val());
-                var iibbbsas = $iibbbsas.val();
-                var iibbcaba = $iibbcaba.val();
-                var iva = $iva.val();
+                var iibbbsas =  ValorANumero($iibbbsas.val());
+                var iibbcaba =  ValorANumero($iibbcaba.val());
+                var iva =  ValorANumero($iva.val());
                 var preciouni = DeFormatearValor($preciouni.val());
                 var total = DeFormatearValor($total.val());
 
@@ -1092,21 +1092,19 @@
             vm.factura = $("#factura").val();
             vm.tipoFactura = $("#tipofactura").val();
             vm.sumaTotal = DeFormatearValor($("#sumatotal").val());
-            vm.descuentoPorc = $("#descuentoporc").val();
+            vm.descuentoPorc = ValorANumero($("#descuentoporc").val());
             vm.descuento = DeFormatearValor($("#descuentoC").val());
             vm.subtotal = DeFormatearValor($("#subtotal").val());
             vm.importeNoGravado = DeFormatearValor($("#impnogravado").val());
-            vm.iva = $("#iva").val();
+            vm.iva = ValorANumero($("#iva").val());
             vm.importeIva = DeFormatearValor($("#importeiva").val());
-            vm.iibbBsas = $("#iibbbsas").val();
+            vm.iibbBsas = ValorANumero($("#iibbbsas").val());
             vm.importeIibbBsas = DeFormatearValor($("#importeiibbbsas").val());
-            vm.iibbCaba = $("#iibbcaba").val();
+            vm.iibbCaba = ValorANumero($("#iibbcaba").val());
             vm.importeIibbCaba = DeFormatearValor($("#importeiibbcaba").val());
-            vm.percIva = $("#percepiva").val();
+            vm.percIva = ValorANumero($("#percepiva").val());
             vm.importePercIva = DeFormatearValor($("#importepercepiva").val());
             vm.total = DeFormatearValor($("#total").val());
-
-
             vm.totalGastos = DeFormatearValor($("#totalgastos").val());
 
         }
