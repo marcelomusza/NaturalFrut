@@ -1,0 +1,162 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Generar Reporte Venta Mayorista - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Reporte - Ventas por Cliente</h2>
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+            <table id="productosvendidos" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Numero de Venta</th>
+                        <th>Cliente</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                @*<tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align: right;">
+
+                            <label>Total Ventas:</label>
+                            <input type="text" class="form-control vtamay-totalventa js-formatvalue" id="totalventas" value="0" disabled />
+
+                        </td>
+                    </tr>
+                </tfoot>*@
+            </table>
+       
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("IndexReporte", "VentaMayorista")';">Volver</button>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <br /><br />
+</div>
+
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#productosvendidos").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                "order": [[1, "desc"]],
+
+                "columnDefs": [
+                    { "width": "15%", "targets": 0 },
+                    { "width": "25%", "targets": 1 },
+                    { "width": "15%", "targets": 2 },
+                    { "width": "15%", "targets": 3 },
+                    { "width": "15%", "targets": 4 },
+                    { "width": "15%", "targets": 5 },
+                ],
+
+                ajax: {
+
+                    url: "/api/ventasmayorista/reporteproductosvendidos/" + @ViewBag.ProductoID,
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        "data": "Venta.Fecha",
+                        "type": "date",
+                        "render": function (value) {
+                            if (value === null) return "";
+                            return moment(value).format('DD/MM/YYYY h:mm A');
+                        }
+                    },
+                    {
+                        data: "Producto.Nombre"
+                    },
+                    {                       
+                        data: "Venta.NumeroVenta"
+                    },
+                    {
+                        data: "Venta.Cliente.Nombre"
+                    },
+                    {
+                        data: "Cantidad",                        
+                    },
+                    {
+                        data: "Importe",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ "),
+                        'createdCell': function (td, cellData, rowData, row, col) {
+                            $(td).attr('class', 'js-sumaventa');
+                        }
+                    },
+                    
+                ],
+
+                //"initComplete": function (settings, json) {
+                //    var api = this.api();
+                //    CalcularTotalVentas();
+                //},
+
+            });       
+
+
+            //FormatearValoresTabla();
+        });
+
+        //function FormatearValoresTabla() {
+
+        //    $(".js-sumatotal").each(function () {
+        //        var temp = DeFormatearValor(this.innerText);
+
+        //        $(this).val(FormatearValor(temp));
+        //        $(this).text(FormatearValor(temp));
+        //    });
+
+        //}
+
+        //function CalcularTotalVentas() {
+
+        //    var sumaventas = 0;
+
+        //    $(".js-sumaventa").each(function () {
+
+        //        var parcial = DeFormatearValor($(this).text());
+
+        //        sumaventas += parcial;
+
+        //    });
+
+        //    $("#totalventas").val(FormatearValor(sumaventas));
+
+        //}
+
+
+    </script>
+
+}

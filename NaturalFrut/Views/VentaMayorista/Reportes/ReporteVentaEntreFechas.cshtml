@@ -1,0 +1,253 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Generar Reporte Venta Mayorista - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Reporte Diario / Mensual</h2>
+<h4>Ingrese el rango de fechas y luego haga click en Buscar</h4>
+
+
+
+
+<div class="row">
+
+    <!--Agrupamos campos de la columna izquierda-->
+    <div class="col-sm-12">
+
+        <div class="form-group">
+            <label>Fecha Desde</label>
+            <div class='input-group date'>
+                <input required id="fechadesde" type="text" class="form-control" />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Fecha Hasta</label>
+            <div class='input-group date'>
+                <input required id="fechahasta" type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        @Html.AntiForgeryToken()
+        <button id="btnBuscar" type="button" class="btn btn-primary">Buscar</button>
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("IndexReporte", "VentaMayorista")';">Cancelar</button>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <br /><br />
+</div>
+
+<div class="row rte-hidden">
+    <div class="col-sm-12">
+
+        <table id="reportesporfecha" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Numero de Venta</th>
+                    <th>Cliente</th>
+                    <th>No Concretado</th>
+                    <th>Facturado</th>
+                    <th>Importe Total</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" style="text-align: right;">                        
+
+                        <label>Total Ventas:</label>
+                        <input type="text" class="form-control vtamay-totalventa js-formatvalue" id="totalventa" value="0" disabled />
+
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+
+@*<div class="row rte-hidden">
+    <div class="col-sm-12">
+        <button id="btnGenerarReporte" type="button" class="btn btn-primary">Generar Reporte (PDF)</button>
+    </div>
+</div>*@
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $('#fechadesde').datetimepicker();
+            $('#fechahasta').datetimepicker();
+
+            var vm = [];
+
+            $("#btnBuscar").on('click', function () {
+
+                var fechaDesde = $("#fechadesde").val();
+                var fechaHasta = $("#fechahasta").val();
+
+                if (fechaDesde != "" && fechaHasta != "") {
+
+                    $.getJSON("GetReporteVentasMayoristaAsync", { FechaDesde: fechaDesde, FechaHasta: fechaHasta }, PopulateReportesPorFecha)
+                        .error(function (xhr, textStatus, exceptionThrown) {
+                            bootbox.alert(xhr.responseText);
+                        })
+
+                }
+
+            })
+
+            PopulateReportesPorFecha = function (data) {
+
+                if (data.Success) {
+
+                    vm.ReporteVentas = data.ReporteVentas;
+
+                    var table = $("#reportesporfecha").DataTable({
+
+                        "language": {
+                            "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                        },
+
+                        "order": [[1, "desc"]],
+
+                        "columnDefs": [
+                            { "width": "15%", "targets": 0 },
+                            { "width": "15%", "targets": 1 },
+                            { "width": "30%", "targets": 2 },
+                            { "width": "13%", "targets": 3 },
+                            { "width": "13%", "targets": 4 },
+                            { "width": "14%", "targets": 5 },                            
+                        ],
+
+                        data: data.ReporteVentas,
+                        columns: [
+                            {
+                                "data": "Fecha",
+                                "type": "date",
+                                "render": function (value) {
+                                    if (value === null) return "";
+                                    return moment(value).format('DD/MM/YYYY h:mm A');
+                                }
+                            },
+                            {
+                                data: "NumeroVenta"
+                            },
+                            {
+                                data: "Cliente.Nombre"
+                            },
+                            {
+                                data: "NoConcretado",
+                                mRender: function (data, type, row) {
+
+                                    if (data == true)
+                                        return 'Si';
+                                    else
+                                        return 'No';
+
+                                }
+                            },
+                            {
+                                data: "Facturado",
+                                mRender: function (data, type, row) {
+
+                                    if (data == true)
+                                        return 'Si';
+                                    else
+                                        return 'No';
+
+                                }
+                            },
+                            {
+                                data: "SumaTotal",
+                                type: "num-fmt",
+                                render: $.fn.dataTable.render.number('.', ',', 2, "$ "),
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    $(td).attr('class', 'js-sumaventa');
+                                }
+                            }                            
+                        ],
+
+                        "initComplete": function (settings, json) {
+                            var api = this.api();
+                            CalcularTotalVentas();
+                        },
+                    });
+
+                    $(".row").removeClass("rte-hidden");
+
+                    
+
+                }
+                else {
+                    bootbox.alert("Error al generar la búsqueda de ventas")
+                }
+
+                //CalcularTotalVentas();
+
+            }
+
+            
+
+            
+
+
+            //$("#btnGenerarReporte").on('click', function () {
+
+            //    var numVentas = "";
+
+            //    $.each(vm.ReporteVentas, function (key, value) {
+
+            //        numVentas += value.NumeroVenta + ",";
+
+            //        // and the rest of your code
+            //    });
+
+            //    location.href = "GenerarReporteTxt?ventas=" + numVentas;
+
+            //})
+
+
+        });
+
+        function CalcularTotalVentas() {
+
+            var sumaventas = 0;
+
+            $(".js-sumaventa").each(function () {
+
+                var parcial = DeFormatearValor($(this).text());
+                
+                sumaventas += parcial;
+
+            });
+
+            $("#totalventa").val(FormatearValor(sumaventas));
+
+        }
+
+
+    </script>
+
+}

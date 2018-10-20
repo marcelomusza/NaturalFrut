@@ -47,7 +47,7 @@ namespace NaturalFrut.Models
         public Cliente Cliente { get; set; }        
 
         public Vendedor Vendedor { get; set; }
-
+        
         public IList<ProductoXVenta> ProductosXVenta { get; set; }
     }
 }

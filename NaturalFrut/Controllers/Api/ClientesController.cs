@@ -99,5 +99,20 @@ namespace NaturalFrut.Controllers.Api
 
         }
 
+        //GET /api/clientes/1
+        [HttpGet]
+        [Route("api/clientes/reportesaldocliente/{clienteID}")]
+        public IHttpActionResult GetSaldoCliente(int clienteID)
+        {
+
+
+            var cliente = clienteBL.GetClienteById(clienteID);
+
+            if (cliente == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<Cliente, ClienteDTO>(cliente));
+        }
+
     }
 }

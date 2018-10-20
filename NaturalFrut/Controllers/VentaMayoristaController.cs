@@ -52,12 +52,31 @@ namespace NaturalFrut.Controllers
             return View();
         }
 
-        public ActionResult ReporteVentaDiaria()
+        //public ActionResult ReporteVentaDiaria()
+        //{
+        //    var ventasDiarias = ventaMayoristaBL.GetReporteVentaMayoristaDelDia();
+
+        //    return View("Reportes\\ReporteVentaDiaria", ventasDiarias);
+
+        //}
+
+        public ActionResult ReporteVentas()        {
+            
+            return View("Reportes\\ReporteVentaEntreFechas");
+        }
+                
+        public ActionResult ReporteVentasCliente(int clienteID)
         {
-            var ventasDiarias = ventaMayoristaBL.GetAllVentaMayorista();
+            ViewBag.ClienteID = clienteID;
 
-            return View("Reportes\\ReporteVentaDiaria", ventasDiarias);
+            return View("Reportes\\ReporteVentasPorCliente");
+        }
 
+        public ActionResult ReporteProductoVendido(int prodID)
+        {                        
+            ViewBag.ProductoID = prodID;
+
+            return View("Reportes\\ReporteProductosVendidos");
         }
 
         //public ActionResult VentaMayorista()
@@ -134,6 +153,7 @@ namespace NaturalFrut.Controllers
             return View("VentaMayoristaFormEdit", vtaMayorista);
         }
 
+       
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult GuardarVentaMayorista(VentaMayorista ventaMayorista)
@@ -441,7 +461,7 @@ namespace NaturalFrut.Controllers
 
         //        if (productoBlisterSegunLista == null)
         //            throw new Exception("Error al cargar los precios de producto");
-                
+
         //        importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
 
         //        //Sumamos el importe total
@@ -459,6 +479,28 @@ namespace NaturalFrut.Controllers
 
         //}
 
+        public ActionResult GetReporteVentasMayoristaAsync(DateTime fechaDesde, DateTime fechaHasta)
+        {
+
+            try
+            {
+
+                var reporteVentas = ventaMayoristaBL.GetAllVentaMayoristaSegunFechas(fechaDesde, fechaHasta);
+
+                if (reporteVentas == null)
+                    throw new Exception("No se encontraron Ventas según el rango de fecha seleccionada");
+
+
+                return Json(new { Success = true, ReporteVentas = reporteVentas }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
 
         [AllowAnonymous]

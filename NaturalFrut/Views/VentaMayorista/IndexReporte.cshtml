@@ -13,8 +13,7 @@
 <div class="row">
     <div class="col-sm-12 text-center">
         <p>
-            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("ReporteVentaDiaria", "VentaMayorista")';">Venta Diaria</button>
-            <button type="button" class="btn btn-primary btn-lg">Venta Mensual</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("ReporteVentas", "VentaMayorista")';">Ventas (Diario/Mensual)</button>
             <button type="button" class="btn btn-primary btn-lg">Saldos</button>
             <button type="button" class="btn btn-primary btn-lg">Stock</button>
         </p>
@@ -30,77 +29,232 @@
 <br />
 
 <div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon">
-                    Ventas por Clientes
-                </div>
-                <div class="tt-container">
-                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
-                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
-                </div>
+    <div class="col-sm-5">
 
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <label>Ventas por Clientes</label>
+                    <div class="tt-container">
+                        <input id="clienteventas" name="clienteventas" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                        <button id="btnclienteventas" class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon">
-                    Consulta Saldo Cliente
-                </div>
-                <div class="tt-container">
-                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
-                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
-                </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
 
+                    <label>Consulta de Saldo Cliente</label>
+                    <div class="tt-container">
+                        <input id="clientesaldo" name="clientesaldo" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                        <button id="btnclientesaldo" class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <label>Producto Vendido</label>
+                    <div class="tt-container">
+                        <input id="productovendido" name="productovendido" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
+                        <button id="btnprodvendido" class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                    </div>
+
+                </div>
             </div>
         </div>
+
     </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon">
-                    Producto Vendido
-                </div>
-                <div class="tt-container">
-                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
-                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
-                </div>
+    <div class="col-sm-7">
+        <div class="form-group text-center">
+            <div id="clientesaldocont">
+                <h3>Saldo del cliente: </h3><br />
+                <label class="input-lg" id="lblClienteSaldo"></label><br />
 
+                <input class="input-lg text-center" type="text" id="tboxSaldoCliente" disabled />
             </div>
+
         </div>
     </div>
+
 </div>
 
-@*<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon">
-                    Stock
-                </div>
-                <div class="tt-container">
-                    <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" class="form-control" />
-                    <button class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
-                </div>
 
-            </div>
+    
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
         </div>
     </div>
-</div>*@
 
-<br />
+    @section scripts
+{
 
-<div class="row">
-    <div class="col-sm-12">
-        <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
-    </div>
-</div>
+        <script>
+
+        $(document).ready(function () {
+
+            var vm = [];
+
+            $("#clientesaldocont").hide();
+
+
+            $("#btnclienteventas").on("click", function () {
+
+                $("#clientesaldocont").hide();
+
+                if (vm.ClienteVentasID != null) {
+                    var url = '@Url.Action("ReporteVentasCliente", "VentaMayorista")?clienteID=' + vm.ClienteVentasID;
+                    window.location = url;
+                }
+                else {
+                    toastr.error("Error al consultar saldo del cliente, cliente no encontrado.")
+                }
+               
+
+                
+
+            });
+
+            $("#btnclientesaldo").on("click", function () {
+
+                $.ajax({
+                    url: "/api/clientes/reportesaldocliente/" + vm.ClienteSaldoID,
+                    method: "GET",                    
+                    success: function (data) {
+
+                        $("#lblClienteSaldo").text(data.Nombre);
+                        $("#tboxSaldoCliente").val(FormatearValor(data.Saldo));
+
+                        $("#clientesaldocont").show(1000);
+
+
+                        
+                    },
+                    error: function () {
+                        toastr.error("Error al consultar saldo del cliente, cliente no encontrado.");
+                    }
+                });
+
+            });
+
+            $("#btnprodvendido").on("click", function () {
+
+                $("#clientesaldocont").hide();
+
+                if (vm.ProductoVendidoID != null) {
+                    var url = '@Url.Action("ReporteProductoVendido", "VentaMayorista")?prodID=' + vm.ProductoVendidoID;
+                    window.location = url;
+                }
+                else {
+                    toastr.error("Error al consultar saldo del cliente, cliente no encontrado.")
+                }
+               
+
+                
+
+            });
+
+            // Autocomplete para Cliente Ventas
+            var clienteventas = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/clientes?query=%QUERY',
+                    wildcard: '%QUERY',
+                    cache: false
+                }
+            });
+
+            $('#clienteventas').typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'clienteventas',
+                    display: 'Nombre',
+                    source: clienteventas
+                }).on("typeahead:select", function (e, cliente) {
+
+                    $("#clienteventas").attr("data-cliente-id", cliente.ID);
+                    vm.ClienteVentasID = cliente.ID;
+
+                });
+
+
+            // Autocomplete para Cliente Saldo
+            var clientesaldo = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/clientes?query=%QUERY',
+                    wildcard: '%QUERY',
+                    cache: false
+                }
+            });
+
+            $('#clientesaldo').typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'clientesaldo',
+                    display: 'Nombre',
+                    source: clientesaldo
+                }).on("typeahead:select", function (e, cliente) {
+
+                    $("#clientesaldo").attr("data-cliente-id", cliente.ID);
+                    vm.ClienteSaldoID = cliente.ID;
+
+                });
+
+            // Autocomplete para Producto Vendido
+            var productovendido = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/productos/productosxlistareporte',
+                    cache: false
+                }
+            });
+
+            $("#productovendido").typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'productovendido',
+                    display: 'Nombre',
+                    source: productovendido
+                }).on("typeahead:select", function (e, producto) {
+
+                    $("#productovendido").attr("data-producto-id", producto.ID);
+                    vm.ProductoVendidoID = producto.ID;
+
+                });
+
+        });
+
+
+
+
+        </script>
+
+    }

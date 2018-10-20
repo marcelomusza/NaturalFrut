@@ -46,6 +46,12 @@ namespace NaturalFrut.Controllers
             return View(compra);
         }
 
+        public ActionResult IndexReporte()
+        {
+
+            return View();
+        }
+
 
 
         public ActionResult Compra()
@@ -386,6 +392,20 @@ namespace NaturalFrut.Controllers
 
 
 
+        }
+
+        public ActionResult ReporteProductosProveedor(int proveedorID)
+        {
+
+            var proveedor = proveedorBL.GetProveedorById(proveedorID);
+
+            if (proveedor == null)
+                return HttpNotFound();
+
+            ViewBag.ProveedorNombre = proveedor.Nombre;
+            ViewBag.ProveedorID = proveedor.ID;
+
+            return View("Reportes\\ReporteProductosPorProveedor");
         }
 
     }

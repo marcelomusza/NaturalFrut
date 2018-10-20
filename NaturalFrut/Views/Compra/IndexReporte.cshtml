@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "IndexReporte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reportes/Consultas - Venta Mayorista</h2>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <p>
+            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("ReporteVentas", "VentaMayorista")';">Facturas entre Fechas</button>
+            @*<button type="button" class="btn btn-primary btn-lg">Saldos</button>*@
+            @*<button type="button" class="btn btn-primary btn-lg">Stock</button>*@
+        </p>
+
+    </div>
+</div>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-sm-5">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <label>Productos por Proveedor</label>
+                    <div class="tt-container">
+                        <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" required type="text" value="" class="form-control" />
+                        <button id="btnproveedor" class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @*<div class="col-sm-7">
+        <div class="form-group text-center">
+            <div id="clientesaldocont">
+                <h3>Saldo del cliente: </h3><br />
+                <label class="input-lg" id="lblClienteSaldo"></label><br />
+
+                <input class="input-lg text-center" type="text" id="tboxSaldoCliente" disabled />
+            </div>
+
+        </div>
+    </div>*@
+
+</div>
+
+
+    
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+        </div>
+    </div>
+
+    @section scripts
+{
+
+        <script>
+
+        $(document).ready(function () {
+
+            var vm = [];
+
+            //$("#clientesaldocont").hide();
+
+
+            $("#btnproveedor").on("click", function () {                
+
+                if (vm.ProveedorID != null) {
+                    var url = '@Url.Action("ReporteProductosProveedor", "Compra")?proveedorID=' + vm.ProveedorID;
+                    window.location = url;
+                }
+                else {
+                    toastr.error("Error al realizar la consulta, proveedor no encontrado.")
+                }
+               
+
+                
+
+            });           
+
+            
+
+            // Autocomplete para Cliente Ventas
+            var proveedor = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/proveedores?query=%QUERY',
+                    wildcard: '%QUERY',
+                    cache: false
+                }
+            });
+
+            $('#proveedor').typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'proveedor',
+                    display: 'Nombre',
+                    source: proveedor
+                }).on("typeahead:select", function (e, proveedor) {
+
+                    $("#proveedor").attr("data-proveedor-id", proveedor.ID);
+                    vm.ProveedorID = proveedor.ID;
+
+                });
+
+
+           
+
+        });
+
+
+
+
+        </script>
+
+    }

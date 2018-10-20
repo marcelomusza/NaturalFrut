@@ -58,6 +58,7 @@ namespace NaturalFrut.App_BLL
             ProductoXVentaRP.Save();
         }
 
+
         public void AddProductoXVenta(ProductoXVenta ProductoXVenta)
         {
             ProductoXVentaRP.Add(ProductoXVenta);
@@ -91,6 +92,18 @@ namespace NaturalFrut.App_BLL
                .Include(t => t.TipoDeUnidad)
                .Include(v => v.Venta)
                .Where(c => c.VentaID == prodVenta.VentaID && c.ProductoID == prodVenta.ProductoID).SingleOrDefault();
+        }
+
+        public List<ProductoXVenta> GetProductoXVentaByIdProducto(int id)
+        {
+            return ProductoXVentaRP
+              .GetAll()
+              .Include(p => p.Producto)
+              .Include(t => t.TipoDeUnidad)
+              .Include(v => v.Venta)
+              .Include("Venta.Cliente")
+              .Where(p => p.ProductoID == id)
+              .ToList();
         }
     }
 }

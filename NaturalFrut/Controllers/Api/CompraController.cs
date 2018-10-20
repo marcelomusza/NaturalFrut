@@ -396,5 +396,18 @@ namespace NaturalFrut.Controllers.Api
 
         }
 
+        [HttpGet]
+        [Route("api/compra/reporteprodporproveedor/{Id}")]
+        public IEnumerable<ProductoXCompraDTO> GetAllProductosPorProveedor(int Id)
+        {
+
+            var prodXProv = productoXCompraBL.GetProductoXCompraByIdProveedor(Id);
+
+            //List<ProductoVendido> prods = new List<ProductoVendido>();
+
+            return prodXProv.Select(Mapper.Map<ProductoXCompra, ProductoXCompraDTO>);
+
+        }
+
     }
 }

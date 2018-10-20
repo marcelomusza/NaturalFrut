@@ -74,7 +74,7 @@
             <div class="checkbox">
 
                 <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
-                <label><strong>No Concretado</strong></label>
+                <label><strong>Concretado</strong></label>
 
             </div>
 
@@ -144,7 +144,7 @@
             @Html.AntiForgeryToken()
             <input type="hidden" id="CounterAnterior" />
             <button type="submit" class="btn btn-primary">Finalizar Venta</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("", "VentaMayorista")';">Cancelar</button>
 
         </div>
     </div>
@@ -241,6 +241,7 @@
 
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
+            var totalCalculado = false;
 
             CargarValoresInicialesEnVM(vm);
 
@@ -281,7 +282,7 @@
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
                     //GetTiposDeUnidadDynamic(counter);
 
-                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup=ValidarPunto(this); /></div></td>';
+                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup=ValidarPunto(this); /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control js-formatvalue" disabled /></div></td>';
 
@@ -294,6 +295,8 @@
                     typeahead_initialize(counter);
 
                     counter++;
+
+                    totalCalculado = false;
 
                     $("#producto" + counter).validate({
                         rules: {
@@ -464,7 +467,7 @@
                 }
 
                 var input = $(this);
-                var descuento = input[0].value;
+                var descuento = ValorANumero(input[0].value);
 
                 var counter = input.attr("data-js-counter");
                 var cantidad = $("#cantidad" + counter).val();
@@ -483,8 +486,8 @@
                 }
                 else {
                    
-                    var importeTotal = cantidad * importe;
-                    $("#totalimporte" + counter).val(importeTotal);
+                    var importeTotal = cantidad * DeFormatearValor(importe);
+                    $("#totalimporte" + counter).val(FormatearValor(importeTotal));
 
                     //RecalcularTotal();
                     //CalcularSaldoFinal();
@@ -500,6 +503,8 @@
                 RecalcularTotal();
                 CalcularDescuentoTotal();
                 CalcularSaldoFinal();
+
+                totalCalculado = true;
 
             })
 
@@ -548,26 +553,41 @@
 
                             if (result) {
 
-                                CargarProductosAlVM(vm);
+                                if (totalCalculado) {
 
+                                    CargarProductosAlVM(vm);
 
-                                $.ajax({
-                                    url: "/api/ventasmayorista",
-                                    method: "post",
-                                    data: vm
-                                })
-                                    .done(function () {
-
-                                        toastr.success("La venta se ha guardado correctamente.");
-
-                                        setTimeout(function () {
-                                            window.location.href = "/VentaMayorista";
-                                        }, 4000);
-
+                                    $.ajax({
+                                        url: "/api/ventasmayorista",
+                                        method: "post",
+                                        data: vm
                                     })
-                                    .fail(function () {
-                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
-                                    });
+                                        .done(function () {
+
+                                            toastr.success("La venta se ha guardado correctamente.");
+
+                                            setTimeout(function () {
+                                                window.location.href = "/VentaMayorista";
+                                            }, 4000);
+
+                                        })
+                                        .fail(function () {
+                                            toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+
+                                            //Reseteamos los productos del viewmodel
+                                            vm.productosXVenta = [];      
+
+                                            totalCalculado = false;
+                                        });
+                                    
+                                }
+                                else {
+                                    toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");
+                                }
+
+
+
+                                
 
                             }
 
@@ -992,8 +1012,7 @@
             $("#totalventa").val(FormatearValor(0));
             $("#nuevosaldo").val(saldo);
         }
-       
-
+        
 
     </script>
 

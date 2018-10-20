@@ -31,14 +31,14 @@ namespace NaturalFrut.Models
         [Required]
         public int ProductoID { get; set; }
 
-        [Required]
-        public int VentaID { get; set; }
+        
+        public int? VentaID { get; set; }
 
 
         public TipoDeUnidad TipoDeUnidad { get; set; }
 
         public Producto Producto { get; set; }
-
+        
         public VentaMayorista Venta { get; set; }
 
     }

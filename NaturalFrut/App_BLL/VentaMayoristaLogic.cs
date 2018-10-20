@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+
 
 namespace NaturalFrut.App_BLL
 {
@@ -50,6 +52,7 @@ namespace NaturalFrut.App_BLL
             listaPreciosBlisterRP = ListaPrecioBlisterRepository;
         }
 
+        
         public VentaMayoristaLogic(IRepository<Cliente> ClienteRepository)
         {
             clienteRP = ClienteRepository;
@@ -74,6 +77,15 @@ namespace NaturalFrut.App_BLL
             return ventaMayoristaRP.GetAll()
                 .Include(c => c.Cliente)
                 .Include(v => v.Vendedor)
+                .ToList();
+        }
+
+        public List<VentaMayorista> GetAllVentaMayoristaPorCliente(int clienteID)
+        {
+            return ventaMayoristaRP.GetAll()
+                .Include(c => c.Cliente)
+                .Include(v => v.Vendedor)
+                .Where(c => c.ClienteID == clienteID)
                 .ToList();
         }
 
@@ -170,6 +182,21 @@ namespace NaturalFrut.App_BLL
 
             return productoSegunLista;
         }
-        
+
+        #region SECCION REPORTES
+        public List<VentaMayorista> GetAllVentaMayoristaSegunFechas(DateTime fechaDesde, DateTime fechaHasta)
+        {
+
+            var reporteVentasSegunFecha = ventaMayoristaRP
+                .GetAll()
+                .Include(c => c.Cliente)
+                .Where(f => f.Fecha >= fechaDesde && f.Fecha <= fechaHasta)
+                .ToList();
+
+
+            return reporteVentasSegunFecha;
+        }
+        #endregion
+
     }
 }

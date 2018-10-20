@@ -95,7 +95,7 @@
         <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
 }
                 }
-                <label><strong>No Concretado</strong></label>
+                <label><strong>Concretado</strong></label>
 
             </div>
 
@@ -144,11 +144,11 @@
                     @{ int counter = 0;}
                     @foreach (var producto in Model.ProductosXVenta)
                     {
-                        <tr>
+                        <tr class='productosexistentes'>
                             <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" disabled /></div></td>
                             <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" disabled /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
-                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="number" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" disabled/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="text" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" disabled/></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="text" value="@producto.Importe.ToString().Replace(',','.')" class="importe form-control" disabled /></div></td>
                             <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="text" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="totalimporte js-prodexistente form-control" disabled /></div></td>
                             <td><input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
@@ -197,8 +197,8 @@
             <input type="hidden" id="totalventaanterior" value="@Model.SumaTotal" />
             <input type="hidden" id="tipodescuentoanterior" value="@Model.TipoDescuentoTotal" />
             <input type="hidden" id="descuentoanterior" value="@Model.Descuento" />
-            <button type="submit" class="btn btn-primary">Actualizar Venta</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+            <button id="btnsubmit" type="submit" class="btn btn-primary">Actualizar Venta</button>
+            <button id="btncancelar" type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("", "VentaMayorista")';">Cancelar</button>
 
         </div>
     </div>
@@ -247,6 +247,9 @@
 
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
+            var totalCalculado = false;
+
+            ValidarVentaConcretada();
 
             CargarValoresInicialesEnVM(vm);
             GetSaldoCliente();
@@ -288,7 +291,7 @@
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
                     //GetTiposDeUnidadDynamic(counter);
 
-                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control" disabled /></div></td>';
 
@@ -299,6 +302,8 @@
                     $("table.order-list").append(newRow);
 
                     typeahead_initialize(counter);
+
+                    totalCalculado = false;
 
                     counter++;
 
@@ -489,7 +494,7 @@
                 //}
 
                 var input = $(this);
-                var descuento = input[0].value;
+                var descuento = ValorANumero(input[0].value);
 
                 var counter = input.attr("data-js-counter");
                 var cantidad = $("#cantidad" + counter).val();
@@ -524,6 +529,8 @@
                 RecalcularTotal();
                 CalcularDescuentoTotal();
                 CalcularSaldoFinal();
+
+                totalCalculado = true;
 
             })
 
@@ -570,34 +577,47 @@
                         //Modal para aceptacion de venta
                         bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
 
-                            if (result) {
+                            if (totalCalculado) {
 
-                                CargarProductosAlVM(vm, vm2);
+                                if (result) {
 
-                                var model = {
-                                    "ventaMayorista": vm,
-                                    "productosXVenta": vm2
-                                };
+                                    CargarProductosAlVM(vm, vm2);
+
+                                    var model = {
+                                        "ventaMayorista": vm,
+                                        "productosXVenta": vm2
+                                    };
 
 
-                                $.ajax({
-                                    url: "/api/ventasmayorista",
-                                    method: "put",
-                                    data: model
-                                })
-                                    .done(function () {
-
-                                        toastr.success("La venta se ha actualizado correctamente.");
-
-                                        setTimeout(function () {
-                                            window.location.href = "/VentaMayorista";
-                                        }, 4000);
-
+                                    $.ajax({
+                                        url: "/api/ventasmayorista",
+                                        method: "put",
+                                        data: model
                                     })
-                                    .fail(function () {
-                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
-                                    });
+                                        .done(function () {
 
+                                            toastr.success("La venta se ha actualizado correctamente.");
+
+                                            setTimeout(function () {
+                                                window.location.href = "/VentaMayorista";
+                                            }, 4000);
+
+                                        })
+                                        .fail(function () {
+                                            toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+
+                                            //Reseteamos los productos del viewmodel
+                                            vm.productosXVenta = [];
+                                            vm2 = [];
+
+                                            totalCalculado = false;
+                                        });
+
+                                }
+
+                            }
+                            else {
+                                toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");                                
                             }
 
                         });
@@ -811,7 +831,7 @@
         function CargarProductosAlVM(vm, vm2) {
 
             //Cargamos la lista de productos
-            $(".listaproductos tr").each(function (i, row) {
+            $(".productosexistentes").each(function (i, row) {
 
                 var $row = $(row),
                     $producto = $row.find('input[name*="producto"]'),
@@ -888,6 +908,7 @@
 
             //Cargamos el resto de los datos
             vm.ID = @ViewBag.VentaMayoristaID;
+            vm.noConcretado = $("#noconcretado").prop('checked'); 
             vm.clienteID = $("#cliente").attr("data-cliente-id");
             vm.vendedorID = $("#vendedor").attr("data-vendedor-id");
             vm.entregaEfectivo = DeFormatearValor($("#entregaefectivo").val());
@@ -1161,6 +1182,21 @@
 
                 $(this).val(FormatearValor(this.value));
             });
+
+        }
+
+        function ValidarVentaConcretada() {
+
+            if ($("#noconcretado").prop('checked')) {
+
+                //Venta Concretada, grisamos todos los campos del formulario
+                $("#vtamayform :input").prop("disabled", true);
+
+                $("#facturado").prop("disabled", false);
+                $("#btnsubmit").prop("disabled", false);
+                $("#btncancelar").prop("disabled", false);
+                
+            }
 
         }
 

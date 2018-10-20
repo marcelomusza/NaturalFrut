@@ -80,6 +80,8 @@
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
 
+                "order": [[1, "desc"]],
+
                 "columnDefs": [
                     { "width": "15%", "targets": 0 },
                     { "width": "15%", "targets": 1 },
@@ -110,7 +112,7 @@
                         mRender: function (data, type, row) {   
                             
                             if (data == true)
-                                return 'Yes';
+                                return 'Si';
                             else 
                                 return 'No';
                             
@@ -121,7 +123,7 @@
                         mRender: function (data, type, row) {
 
                             if (data == true)
-                                return 'Yes';
+                                return 'Si';
                             else
                                 return 'No';
 
@@ -135,7 +137,8 @@
                     {
                         data: "ID",
                         render: function (data) {
-                            return "<button class='btn-link js-edit' data-ventamayorista-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" + 
+                            return "<button class='btn-link js-delete' data-ventamayorista-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                "<button class='btn-link js-edit' data-ventamayorista-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" + 
                                 "<button class='btn-link js-notaPedido' data-ventamayorista-id=" + data + "><img title='Nota de Pedido' src='/Content/Images/NotaPedido.png'/></button>";
                         }
                     }
@@ -149,15 +152,20 @@
                 bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
 
                     if (result) {
+
                         $.ajax({
-                            url: "/api/ventasmayorista/" + button.attr("data-ventamayorista-id"),
+                            url: "api/ventasmayorista/deleteventamayorista/" + button.attr("data-ventamayorista-id"),
                             method: "DELETE",
                             success: function () {
 
-                                toastr.success("Cliente eliminado satisfactoriamente");
+                                toastr.success("Venta Mayorista eliminada satisfactoriamente");
 
                                 table.row(button.parents("tr")).remove().draw();
+                            },
+                            fail: function() {
+                                toastr.error("Se produjo un problema al intentar eliminar la venta");
                             }
+                            
                         });
                     }
 
