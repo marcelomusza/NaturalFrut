@@ -82,23 +82,14 @@
                 ]
             });
 
-            $("#clientes").on("click", ".js-delete", function () {
+            $("#stock").on("click", ".js-delete", function () {
 
                 var button = $(this);
 
                 bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
 
                     if (result) {
-                        $.ajax({
-                            url: "/api/clientes/" + button.attr("data-customer-id"),
-                            method: "DELETE",
-                            success: function () {
-
-                                toastr.success("Cliente eliminado satisfactoriamente");
-
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
+                        location.href = "BorrarStock/" + button.attr("data-customer-id");
                     }
 
                 });
@@ -106,11 +97,11 @@
                
             });
 
-            $("#clientes").on("click", ".js-edit", function () {
+            $("#stock").on("click", ".js-edit", function () {
 
                 var button = $(this);
 
-                location.href = "EditarCliente/" + button.attr("data-customer-id");
+                location.href = "EditarStock/" + button.attr("data-customer-id");
 
             });
 

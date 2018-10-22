@@ -257,6 +257,7 @@
     <Compile Include="App_BLL\ViewModels\ClienteViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\ProveedorViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\CompraViewModel.cs" />
+    <Compile Include="App_BLL\ViewModels\StockViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\VentaMinoristaViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\VentaMayoristaViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Controllers\Api\ListaPreciosBlisterController.cs" />
     <Compile Include="Controllers\Api\ProductosMixController.cs" />
     <Compile Include="Controllers\Api\CompraController.cs" />
+    <Compile Include="Controllers\Api\StockController .cs" />
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
@@ -283,21 +285,10 @@
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
     <Compile Include="DTOs\CompraUpdateDTO.cs" />
-    <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.cs" />
-    <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.Designer.cs">
-      <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160325525_vtamaycascade.cs" />
-    <Compile Include="Migrations\201810160325525_vtamaycascade.Designer.cs">
-      <DependentUpon>201810160325525_vtamaycascade.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160405175_hola.cs" />
-    <Compile Include="Migrations\201810160405175_hola.Designer.cs">
-      <DependentUpon>201810160405175_hola.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810162319233_hola1.cs" />
-    <Compile Include="Migrations\201810162319233_hola1.Designer.cs">
-      <DependentUpon>201810162319233_hola1.cs</DependentUpon>
+    <Compile Include="DTOs\StockDTO.cs" />
+    <Compile Include="Migrations\201810221531195_nuevaMigracion.cs" />
+    <Compile Include="Migrations\201810221531195_nuevaMigracion.Designer.cs">
+      <DependentUpon>201810221531195_nuevaMigracion.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
@@ -317,6 +308,7 @@
     <Compile Include="Models\ProductoMixCreate.cs" />
     <Compile Include="Models\ProductosMixUpdate.cs" />
     <Compile Include="Models\ProductoVendido.cs" />
+    <Compile Include="Models\StockUpdate.cs" />
     <Compile Include="Models\VentaMinoristaReporte.cs" />
     <Compile Include="Models\CompraUpdate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
@@ -790,6 +782,9 @@
     <Content Include="Views\VentaMayorista\Reportes\ReporteProductosVendidos.cshtml" />
     <Content Include="Views\Compra\IndexReporte.cshtml" />
     <Content Include="Views\Compra\Reportes\ReporteProductosPorProveedor.cshtml" />
+    <Content Include="Views\Admin\Stock.cshtml" />
+    <Content Include="Views\Admin\StockForm.cshtml" />
+    <Content Include="Views\Admin\StockFormEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -802,17 +797,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.resx">
-      <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160325525_vtamaycascade.resx">
-      <DependentUpon>201810160325525_vtamaycascade.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160405175_hola.resx">
-      <DependentUpon>201810160405175_hola.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810162319233_hola1.resx">
-      <DependentUpon>201810162319233_hola1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810221531195_nuevaMigracion.resx">
+      <DependentUpon>201810221531195_nuevaMigracion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

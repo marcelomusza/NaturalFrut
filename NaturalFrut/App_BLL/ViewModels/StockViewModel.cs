@@ -24,6 +24,9 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Cantidad")]
         public double Cantidad { get; set; }
 
+        public double NuevaCantidad { get; set; }
+
+        public Boolean isDelete { get; set; }
 
         public IEnumerable<Producto> Producto { get; set; }
 

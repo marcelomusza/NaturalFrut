@@ -1,0 +1,200 @@
+﻿@model NaturalFrut.Models.Stock
+@{
+    ViewBag.Title = "Editar Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Editar Stock</h2>
+
+<form id="stockform">
+
+    <div class="row">
+
+        <!--Agrupamos campos de la columna izquierda-->
+        <div class="col-sm-6">
+
+            <div class="form-group">
+                <label>Producto</label>
+                <div class="tt-container compra-proveedor">
+                    <input id="producto" name="producto"  data-producto-id="@Model.ProductoID" required type="text" value="@Model.Producto.Nombre" class="form-control" disabled/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Unidad</label>
+                <input id="tipoUnidad" name="tipoUnidad" type="text" value="@Model.TipoDeUnidad.Nombre" data-tipoUnidad-id="@Model.TipoDeUnidadID" class="form-control" disabled />
+            </div>
+
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input id="cantidad" name="cantidad" required type="text" value="@Model.Cantidad" class="form-control" disabled/>
+            </div>
+
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input id="cantidadNueva" name="cantidadNueva" type="text" value="" class="form-control js-formatvalue" />
+            </div>
+
+         </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @Html.AntiForgeryToken()
+            <button id="btnagregarstock" class="btn btn-outline-secondary btn-primary " type="button">Agregar Stock</button>
+            <button id="btnquitarstock" class="btn btn-outline-secondary btn-primary " type="button">Quitar Stock</button>
+            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Admin")';">Cancelar</button>
+
+        </div>
+    </div>
+
+
+</form>
+
+@section scripts {
+
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+            $(document).ready(function () {
+
+
+                var vm = {
+                    ID:0,
+                    ProductoID: 0,
+                    TipoDeUnidadID: 0,
+                    Cantidad: 0,
+                    NuevaCantidad: 0,
+                    IsDelete: false
+                };
+
+                CargarValoresInicialesEnVM(vm);
+
+
+                var productos = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    prefetch: {
+                        url: 'api/productos/Productos',
+                        cache: false
+                    }
+                });
+
+                $('#producto').typeahead({
+                    minLength: 1,
+                    highlight: true,
+                    hint: true,
+                    limit: Infinity
+                }, {
+                    name: 'producto',
+                    display: 'Nombre',
+                    source: productos
+                }).on("typeahead:select", function (e, producto) {
+
+                    $("#producto").attr("data-producto-id", producto.ID);
+                    vm.ProductoID = producto.ID;
+
+
+                });
+
+                $("#tipoUnidad").on('change', function () {
+                    vm.TipoDeUnidadID = this.value;
+                })
+
+
+                $("#btnagregarstock").on("click", function () {
+
+                    bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
+
+                        if (result) {
+
+                            vm.NuevaCantidad = $("#cantidadNueva").val();
+                            vm.IsDelete = false;
+
+                            $.ajax({
+                                url: "/api/stock",
+                                method: "put",
+                                data: vm
+                            })
+                            .done(function () {
+
+                                toastr.success("El stock se ha guardado correctamente.");
+
+                                setTimeout(function () {
+                                    window.location.href = "/Admin/Stock";
+                                }, 4000);
+
+                            })
+                            .fail(function () {
+                                toastr.error("Se ha producido un error al guardar el stock, revise los datos a ingresar...");
+                            });
+                        }
+                    });
+
+                    return false;
+
+                });
+
+
+                $("#btnquitarstock").on("click", function () {
+
+                    bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
+
+                        if (result) {
+
+                            vm.NuevaCantidad = $("#cantidadNueva").val();
+                            vm.IsDelete = true;
+
+                            $.ajax({
+                                url: "/api/stock",
+                                method: "put",
+                                data: vm
+                            })
+                            .done(function () {
+
+                                toastr.success("El stock se ha guardado correctamente.");
+
+                                setTimeout(function () {
+                                    window.location.href = "/Admin/Stock";
+                                }, 4000);
+
+                            })
+                            .fail(function () {
+                                toastr.error("Se ha producido un error al guardar el stock, revise los datos a ingresar...");
+                            });
+                        }
+                    });
+
+                    return false;
+
+                });
+
+
+
+
+            })
+    </script>
+    <script>
+
+        function CargarValoresInicialesEnVM(vm) {
+
+            //var productoID = $("#producto").val();
+
+           // var cantidad = $("#cantidad").val();
+            vm.ProductoID = $("#producto").attr("data-producto-id");
+            vm.TipoDeUnidadID = $("#tipoUnidad").attr("data-tipoUnidad-id");
+            vm.Cantidad = $("#cantidad").val();
+            vm.ID = @ViewBag.StockID;
+        }
+
+
+    </script>
+
+}
+

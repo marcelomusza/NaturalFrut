@@ -5,6 +5,7 @@ using System.Web;
 using AutoMapper;
 using NaturalFrut.DTOs;
 using NaturalFrut.Models;
+using NaturalFrut.App_BLL.ViewModels;
 
 namespace NaturalFrut.App_Start
 {
@@ -74,11 +75,15 @@ namespace NaturalFrut.App_Start
             Mapper.CreateMap<Stock, StockDTO>();
             Mapper.CreateMap<StockDTO, Stock>();
 
+            Mapper.CreateMap<StockUpdate, StockViewModel>();
+            Mapper.CreateMap<StockViewModel, StockUpdate>();
+
+
 
 
 
         }
 
-       
+
     }
 }
