@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using NaturalFrut.App_BLL.ViewModels;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -37,34 +38,6 @@ namespace NaturalFrut.Controllers.Api
             return stocks.Select(Mapper.Map<Stock, StockDTO>);
         }
 
-        ////GET /api/stock/1
-        //public IHttpActionResult GetStock(int id)
-        //{
-
-
-        //    var stock = stockBL.GetStockById(id);
-
-        //    if (stock == null)
-        //        return NotFound();
-
-        //    return Ok(Mapper.Map<Stock, StockDTO>(stock));
-        //}
-
-        //POST /api/clientes
-        //[HttpPost]
-        //public IHttpActionResult AltaStock(StockDTO stockDTO)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest();
-
-        //    var stock = Mapper.Map<StockDTO, Stock>(stockDTO);
-
-        //    stockBL.AddStock(stock);
-
-        //    stockDTO.ID = stock.ID;
-
-        //    return Created(new Uri(Request.RequestUri + "/" + stock.ID), stockDTO);
-        //}
 
         //POST /api/stock
         [HttpPost]
@@ -103,40 +76,36 @@ namespace NaturalFrut.Controllers.Api
             return Ok();
         }
 
-        ////PUT /api/clientes/1
-        //[HttpPut]
-        //public IHttpActionResult UpdateCliente(int id, ClienteDTO clienteDTO)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest();
+        //PUT /api/stock
+        [HttpPut]
+        public IHttpActionResult UpdateStock(StockViewModel stockUpdate)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-        //    var clienteInDB = clienteBL.GetClienteById(id);
+            Stock stockmodif = new Stock();
 
-        //    if (clienteInDB == null)
-        //        return NotFound();
+            stockmodif.ProductoID = stockUpdate.ProductoID;
+            stockmodif.TipoDeUnidadID = stockUpdate.TipoDeUnidadID;
+            stockmodif.ID = stockUpdate.ID;
 
-        //    Mapper.Map(clienteDTO, clienteInDB);
 
-        //    clienteBL.UpdateCliente(clienteInDB);
 
-        //    return Ok();
-        //}
+            if (!stockUpdate.isDelete)
+            {
+                stockmodif.Cantidad = stockUpdate.NuevaCantidad + stockUpdate.Cantidad;
+                stockBL.UpdateStock(stockmodif);
 
-        ////DELETE /api/clientes/1
-        //[HttpDelete]
-        //public IHttpActionResult DeleteCliente(int id)
-        //{
 
-        //    var clienteInDB = clienteBL.GetClienteById(id);
+            }else
+            {
+                stockmodif.Cantidad = stockUpdate.Cantidad - stockUpdate.NuevaCantidad ;
+                stockBL.UpdateStock(stockmodif);
+            }
 
-        //    if (clienteInDB == null)
-        //        return NotFound();
+            return Ok();
+        }
 
-        //    clienteBL.RemoveCliente(clienteInDB);
-
-        //    return Ok();
-
-        //}
-
+ 
     }
 }

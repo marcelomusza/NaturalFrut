@@ -1525,85 +1525,31 @@ namespace NaturalFrut.Controllers
             return View("StockForm");
         }
 
-        //public ActionResult EditarCliente(int Id)
-        //{
+        public ActionResult EditarStock(int Id)
+        {
 
-        //    var cliente = clienteBL.GetClienteById(Id);
+            var stock = stockBL.GetStockById(Id);
 
-        //    if (cliente == null)
-        //        return HttpNotFound();
+            if (stock == null)
+                return HttpNotFound();
 
-        //    ClienteViewModel viewModel = new ClienteViewModel(cliente)
-        //    {
-        //        CondicionIVA = clienteBL.GetCondicionIvaList(),
-        //        TipoCliente = clienteBL.GetTipoClienteList(),
-        //        Lista = clienteBL.GetListaList()
-        //    };
+            ViewBag.StockID = Id;
 
+            return View("StockFormEdit", stock);
+        }
 
+        public ActionResult BorrarStock(int Id)
+        {
+            var stock = stockBL.GetStockById(Id);
 
-        //    return View("ClienteForm", viewModel);
-        //}
+            if (stock != null)
+                stockBL.RemoveStock(stock);
+            else
+                return HttpNotFound();
 
-        //public ActionResult BorrarCliente(int Id)
-        //{
-        //    var cliente = clienteBL.GetClienteById(Id);
+            return RedirectToAction("Stock", "Admin");
+        }
 
-        //    if (cliente != null)
-        //        clienteBL.RemoveCliente(cliente);
-        //    else
-        //        return HttpNotFound();
-
-        //    return RedirectToAction("Clientes", "Admin");
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult GuardarStock(Stock stock)
-        //{
-
-        //    if (!ModelState.IsValid)
-        //    {
-
-        //        StockViewModel viewModel = new StockViewModel
-        //        {
-        //            TipoDeUnidad = stockBL.GetTipoDeUnidadList()
-
-        //        };
-
-        //        return View("StockForm", viewModel);
-        //    }
-
-        //    Producto producto = productoBL.GetProductoById(stock.ProductoID);
-
-
-        //    Stock stockIngresado = stockBL.ValidarStockProducto(stock.ProductoID, stock.TipoDeUnidadID);
-
-        //    if (stockIngresado != null)
-        //    {
-        //        stockIngresado.Cantidad = stockIngresado.Cantidad + stock.Cantidad;
-        //        stockBL.UpdateStock(stockIngresado);
-
-        //    }
-        //    else
-        //    {
-        //        Stock stockNuevo = new Stock();
-
-        //        stockNuevo.ProductoID = stock.ProductoID;
-        //        stockNuevo.TipoDeUnidadID = stock.TipoDeUnidadID;
-        //        stock.Cantidad = stock.Cantidad;
-
-        //        stockBL.AddStock(stockNuevo);
-
-
-        //    }
-
-
-            
-
-        //    return RedirectToAction("Stock", "Admin");
-
-        //}
         #endregion
 
     }
