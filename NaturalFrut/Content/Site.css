@@ -126,4 +126,16 @@ input[type=number]::-webkit-outer-spin-button {
     width:80px;
 }
 
+a.ImgEditar {
+    background: url(Images/EditIcon.png) no-repeat top left;
+    display: block;
+    text-indent: -9999px; /* hides the link text */
+}
+
+a.ImgBorrar {
+    background: url(Images/DeleteIcon.png) no-repeat top left;
+    display: block;
+    text-indent: -9999px; /* hides the link text */
+}
+
 /* NaturalFrut Custom CSS END*/

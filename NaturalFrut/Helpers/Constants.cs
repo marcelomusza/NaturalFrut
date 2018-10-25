@@ -13,7 +13,7 @@ namespace NaturalFrut.Helpers
         public const int PRECIO_X_UNIDAD = 3;
         public const int PRECIO_X_BLISTER = 4;
 
-        public const int LISTAPRINCIPAL = 9;
+        public const int LISTAPRINCIPAL = 1;
 
         public const int TIPODEUNIDAD_BLISTER = 4;
         public const int TIPODEUNIDAD_MIX = 1;

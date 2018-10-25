@@ -251,23 +251,43 @@ namespace NaturalFrut.Pdf
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Cliente: " + VentaMayorista.ClienteObj.Nombre, boldTableFont));
-                cell.Colspan = 6;
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Días: " + VentaMayorista.ClienteObj.Dias, boldTableFont));
+                cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Cliente: " + VentaMayorista.ClienteObj.Nombre, boldTableFont));
-                cell.Colspan = 6;
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Días: " + VentaMayorista.ClienteObj.Dias, boldTableFont));
+                cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Direccion: " + VentaMayorista.ClienteObj.Direccion, boldTableFont));
-                cell.Colspan = 6;
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+                
+                cell = new PdfPCell(new Phrase("Horarios: " + VentaMayorista.ClienteObj.Horarios, boldTableFont));
+                cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
 
                 cell = new PdfPCell(new Phrase("Direccion: " + VentaMayorista.ClienteObj.Direccion, boldTableFont));
-                cell.Colspan = 6;
+                cell.Colspan = 3;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Horarios: " + VentaMayorista.ClienteObj.Horarios, boldTableFont));
+                cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 

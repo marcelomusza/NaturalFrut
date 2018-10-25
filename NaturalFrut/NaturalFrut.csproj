@@ -274,6 +274,7 @@
     <Compile Include="Controllers\Api\ListaPreciosBlisterController.cs" />
     <Compile Include="Controllers\Api\ProductosMixController.cs" />
     <Compile Include="Controllers\Api\CompraController.cs" />
+    <Compile Include="Controllers\Api\StockController .cs" />
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="DTOs\CompraDTO.cs" />
     <Compile Include="DTOs\ProductoXCompraDTO.cs" />
     <Compile Include="DTOs\CompraUpdateDTO.cs" />
+    <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.cs" />
     <Compile Include="Migrations\201810060016427_model_vtamayorista_tipodescuento.Designer.cs">
       <DependentUpon>201810060016427_model_vtamayorista_tipodescuento.cs</DependentUpon>
@@ -790,6 +792,8 @@
     <Content Include="Views\VentaMayorista\Reportes\ReporteProductosVendidos.cshtml" />
     <Content Include="Views\Compra\IndexReporte.cshtml" />
     <Content Include="Views\Compra\Reportes\ReporteProductosPorProveedor.cshtml" />
+    <Content Include="Views\Admin\Stock.cshtml" />
+    <Content Include="Views\Admin\StockForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
