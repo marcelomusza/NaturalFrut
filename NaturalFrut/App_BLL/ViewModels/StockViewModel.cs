@@ -1,3 +1,5 @@
+﻿
+
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -42,8 +44,8 @@ namespace NaturalFrut.App_BLL.ViewModels
             ID = stock.ID;
             ProductoID = stock.ProductoID;
             TipoDeUnidadID = stock.TipoDeUnidadID;
-            Cantidad = stock.Cantidad;         
-            
+            Cantidad = stock.Cantidad;
+
         }
 
         public string Titulo

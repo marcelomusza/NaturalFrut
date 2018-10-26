@@ -64,7 +64,7 @@ namespace NaturalFrut.Controllers.Api
 
                 stockNuevo.ProductoID = stock.ProductoID;
                 stockNuevo.TipoDeUnidadID = stock.TipoDeUnidadID;
-                stock.Cantidad = stock.Cantidad;
+                stockNuevo.Cantidad = stock.Cantidad;
 
                 stockBL.AddStock(stockNuevo);
 
