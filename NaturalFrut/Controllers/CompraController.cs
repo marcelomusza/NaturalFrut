@@ -90,30 +90,7 @@ namespace NaturalFrut.Controllers
 
         public ActionResult EditarCompra(int Id)
         {
-
             var compra = compraBL.GetCompraById(Id);
-            //var productosXVentaMayorista = ventaMayoristaBL.GetProductosXVentaMayorista(Id);
-
-            foreach (var producto in compra.ProductosXCompra)
-            {
-
-                if (producto.Producto.Categoria != null)
-                {
-                    if (producto.Producto.EsBlister)
-                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ") - BLISTER - ";
-                    else
-                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Categoria.Nombre + ")";
-                }
-                else
-                {
-                    if (producto.Producto.EsBlister)
-                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ") - BLISTER - ";
-                    else
-                        producto.Producto.Nombre = producto.Producto.Nombre + " (" + producto.Producto.Marca.Nombre + ")";
-                }
-            }
-
-            ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
             ViewBag.CompraID = Id;
 
             if (compra == null)

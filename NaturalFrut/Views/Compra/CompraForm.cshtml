@@ -45,13 +45,24 @@
 
             <div class="form-group">
                 <label>Factura</label>
-                <input id="factura" name="factura" required type="text" value="" class="form-control"  />
+                <input id="factura" name="factura" required type="text" value="" class="form-control" />
             </div>
+
 
             <div class="form-group">
                 <label>Tipo Factura</label>
-                <input id="tipofactura" name="tipofactura" required type="text" value="" class="form-control" />
+                <select id="tipofactura" name="tipofactura" class="form-control" >
+                    <option value="">seleccione...</option>
+                    <option value="Nota de Credito">Nota de Credito</option>
+                    <option value="Nota de Debito">Nota de Debito</option>
+                    <option value="Factura">Factura</option>
+                </select>
             </div>
+
+            @*<div class="form-group">
+                <label>Tipo Factura</label>
+                <input id="tipofactura" name="tipofactura" required type="text" value="" class="form-control" />
+            </div>*@
             
             
 
@@ -62,12 +73,12 @@
 
             <div class="form-group">
                 <label>Descuento %</label>
-                <input id="descuentoporc" name="descuentoporc" required type="number" value="" class="form-control" />
+                <input id="descuentoporc" name="descuentoporc"  type="number" value="" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label>Descuento</label>
-                <input id="descuentoC" name="descuentoC" required type="text" value="" class="form-control js-formatvalue" disabled />
+                <input id="descuentoC" name="descuentoC"  type="text" value="" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="form-group">
@@ -297,7 +308,7 @@
 
         var NuevoProductoModal = function () {
 
-            var url = "/Compra/NuevoProducto?ID=" + 0;
+            var url = "/Compra/NuevoProducto?ID=0";
 
             $("#productoModalBody").load(url, function () {
                 $("#productoModal").modal("show");
@@ -312,8 +323,11 @@
 
         $(document).ready(function () {
 
+             $("#factura").mask("A999-99999999");
+            //$("#factura").inputmask({ "mask": "(999) 999-9999" });
+
             //ViewModel para pasar al webAPI
-            var vm = {                
+            var vm = {
                 fecha: "",
                 proveedorID: 0,
                 clasificacionID: 0,
@@ -344,9 +358,9 @@
 
             FormatearValoresIniciales();
 
-         
+
             //**EVENTOS START **//
-            
+
             //$("#proveedor").validate({
             //    rules: {
             //        proveedor: "required",
@@ -376,22 +390,22 @@
 
                 cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" data-js-counter="' + counter + '" value="" class="js-importe form-control " onkeyup="ValidarPunto(this);" /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control"  /></div></td>';
+                cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);"  /></div></td>';
 
                 cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" required type="text" value="" class="form-control" disabled /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" /></div></td>';
+                cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" /></div></td>';
+                cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);"/></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="number" data-js-counter="' + counter + '" value="" class="js-iva form-control" /></div></td>';
+                cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="number" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);"/></div></td>';
 
                 cols += '<td><div class="form-group"><input id="preciouni' + counter + '" name="preciouni" required type="text" value="" class="form-control" disabled /></div></td>';
 
                 cols += '<td><div class="form-group"><input id="total' + counter + '" name="total" required type="text" data-js-counter="' + counter + '" value=""  class="total form-control"  disabled /></div></td>';
 
                 cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
-                
+
                 newRow.append(cols);
                 $("table.order-list").append(newRow);
 
@@ -429,7 +443,7 @@
                         tiposdeunidad: "Por favor ingresa una Unidad",
                     },
 
-                });                    
+                });
 
                // }
 
@@ -451,7 +465,80 @@
                 typeahead_initialize(counter);
 
                 RecalcularTotalGastos();
-            });
+                });
+            //    var button = $(this);
+            //    var productoID = $("#producto" + parseInt(button.context.id)).attr("data-producto-id");
+            //    var totalProducto = DeFormatearValor($("#total" + parseInt(button.context.id)).val());
+               
+            //    var valor = parseInt(this.attributes.name.value);
+
+            //    var model = {
+            //        "productoID": productoID,
+            //        "totalProducto" : totalProducto,
+            //       // "compraID": compraID
+            //    };
+
+            //    bootbox.confirm("¿Estas seguro de querer borrar el producto?", function (result) {
+
+
+            //        if (result) {
+
+            //            if (productoID != "") {
+
+            //                //Borramos la fila con datos
+            //                $.ajax({
+            //                    url: "/api/compra/",
+            //                    method: "DELETE",
+            //                    data: model,
+            //                    success: function () {
+
+            //                        toastr.success("Producto eliminado satisfactoriamente de la venta");
+
+            //                        button.closest("tr").remove();
+
+            //                        valor += 1;
+
+            //                        if (valor == counter) {
+            //                            counter -= 1;
+            //                        } else {
+            //                            counter += 1;
+            //                        }
+
+
+            //                        typeahead_initialize(counter);
+
+            //                        RecalcularTotalGastos();
+
+            //                        location.reload();
+            //                    },
+            //                    error: function () {
+            //                        toastr.error("Error al borrar el producto, consulte con el administrator");
+            //                    }
+            //                });
+            //            }
+            //            else {
+            //                //Borramos la fila vacia
+            //                button.closest("tr").remove();
+
+            //                valor += 1;
+
+            //                if (valor == counter) {
+            //                    counter -= 1;
+            //                } else {
+            //                    counter += 1;
+            //                }
+
+            //                typeahead_initialize(counter);
+
+            //                RecalcularTotalGastos();
+
+            //            }
+
+            //        }
+
+            //    });
+
+            //});
 
             $("#clasificacion").on('change', function () {
                 vm.clasificacionID = this.value;
@@ -462,15 +549,15 @@
             //    vm.entregaEfectivo = this.value;
             //})
 
-            
+
             $("#descuentoporc").on('blur', function (){
-      
-                var descuentoporc = $("#descuentoporc").val();
-               
+
+                var descuentoporc = ValorANumero($("#descuentoporc").val());
+
                 var sumatotal = DeFormatearValor($("#sumatotal").val());
 
                 if (descuentoporc != "") {
-                    
+
                     //var descuento = cantidad * importe;
 
                     var importeConDesc = sumatotal - ((sumatotal * descuentoporc) / 100);
@@ -485,9 +572,20 @@
                 RecalcularTotal();
             });
 
+            $("#noconcretado").on('change', function () {
+                if (this.checked) {
+                    vm.noConcretado = true;
+                }
+                else {
+                    vm.noConcretado = false;
+                }
+
+
+            })
+
             $("#sumatotal").on('blur', function () {
 
-                var descuentoporc = $("#descuentoporc").val();
+                var descuentoporc = DeFormatearValor($("#descuentoporc").val());
 
                 var sumatotal = DeFormatearValor($("#sumatotal").val());
 
@@ -497,14 +595,56 @@
 
                     var importeConDesc = sumatotal - ((sumatotal * descuentoporc) / 100);
                     var desc = ((sumatotal * descuentoporc) / 100);
-                    $("#subtotal").val(importeConDesc);
-                    $("#descuentoC").val(desc);            
+                    $("#subtotal").val(FormatearValor(importeConDesc));
+                    $("#descuentoC").val(FormatearValor(desc));
 
                 } else {
                     $("#subtotal").val(FormatearValor(sumatotal));
                 }
 
-               $(this).val(FormatearValor(sumatotal));
+                $(this).val(FormatearValor(sumatotal));
+
+
+                //si son distinto de vacio los importes iva se recalcula
+                var iva =  ValorANumero($("#iva").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (iva != "") {
+
+                    var importeiva = ((subtotal * iva) / 100);
+                    $("#importeiva").val(FormatearValor(importeiva));
+
+                }
+                var iibbbsas =  DeFormatearValor($("#iibbbsas").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (iibbbsas != "") {
+
+                    var importeiibbbsas = ((subtotal * iibbbsas) / 100);
+                    $("#importeiibbbsas").val(FormatearValor(importeiibbbsas));
+
+                }
+				
+				
+                var iibbcaba =  DeFormatearValor($("#iibbcaba").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (iibbcaba != "") {
+
+                    var importeiibbcaba = ((subtotal * iibbcaba) / 100);
+                    $("#importeiibbcaba").val(FormatearValor(importeiibbcaba));
+
+                }
+				
+                var percepiva =  DeFormatearValor($("#percepiva").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (percepiva != "") {
+
+                    var importepercepiva = ((subtotal * percepiva) / 100);
+                    $("#importepercepiva").val(FormatearValor(importepercepiva));
+
+                }
 
                 RecalcularTotal();
             });
@@ -514,16 +654,19 @@
                 $(this).val(DeFormatearValor($(this).val()));
                 $(this).val(FormatearValor($(this).val()));
 
+                RecalcularTotal();
+
+
             });
 
             $("#iva").on('blur', function () {
 
-                var iva = $("#iva").val();
+                var iva = DeFormatearValor($("#iva").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (iva != "") {
 
-                    var importeiva = ((subtotal * iva) / 100);                   
+                    var importeiva = ((subtotal * iva) / 100);
                     $("#importeiva").val(FormatearValor(importeiva));
 
                 } else {
@@ -537,7 +680,7 @@
 
             $("#iibbbsas").on('blur', function () {
 
-                var iibbbsas = $("#iibbbsas").val();
+                var iibbbsas = DeFormatearValor($("#iibbbsas").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (iibbbsas != "") {
@@ -556,7 +699,7 @@
 
             $("#iibbcaba").on('blur', function () {
 
-                var iibbcaba = $("#iibbcaba").val();
+                var iibbcaba = DeFormatearValor($("#iibbcaba").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (iibbcaba != "") {
@@ -575,7 +718,7 @@
 
             $("#percepiva").on('blur', function () {
 
-                var percepiva = $("#percepiva").val();
+                var percepiva = DeFormatearValor($("#percepiva").val());
                 var subtotal = DeFormatearValor($("#subtotal").val());
 
                 if (percepiva != "") {
@@ -614,10 +757,10 @@
 
             });
 
-            $(document).on('blur', "input.js-descprod", function () {               
+            $(document).on('blur', "input.js-descprod", function () {
 
                 var input = $(this);
-                var descuento = input[0].value;
+                var descuento = ValorANumero(input[0].value);
                 var counter = input.attr("data-js-counter");
                 var importe = DeFormatearValor($("#importe" + counter).val());
 
@@ -626,7 +769,7 @@
                     $("#importecondesc" + counter).val(FormatearValor(importeConDesc));
                 }
                 else {
-                    $("#importecondesc" + counter).val("");                   
+                    $("#importecondesc" + counter).val("");
                 }
 
                 RecalcularPrecioUyTotal(counter);
@@ -665,7 +808,7 @@
             });
 
 
-            
+
             //**EVENTOS END **//
 
             // Autocomplete para Proveedores
@@ -700,11 +843,11 @@
 
                 submitHandler: function () {
 
-                    var validarProducto = $('input[name*="producto"]').valid();
-                    var validarCantidad = $('input[name*="cantidad"]').valid();
-                    var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
+                    //var validarProducto = $('input[name*="producto"]').valid();
+                    //var validarCantidad = $('input[name*="cantidad"]').valid();
+                    //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
 
-                    if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    //if (validarProducto && validarCantidad && validartipodeUnidad) {
 
                         //Modal para aceptacion de venta
                         bootbox.confirm("Estas seguro que deseas concretar la compra?", function (result) {
@@ -736,8 +879,8 @@
 
                         });
 
-                    }
-                   
+                    //}
+
                     return false;
                 }
             });
@@ -810,7 +953,7 @@
 
             var total = 0;
             var impuesto = 0;
-            
+
             subtotal = DeFormatearValor($("#subtotal").val());
 
             var importeiva = DeFormatearValor($("#importeiva").val());
@@ -833,10 +976,14 @@
             if (importeperciva != "")
                 impuesto += parseFloat(importeperciva);
 
+            var impnogravado = DeFormatearValor($("#impnogravado").val());
+
+            if (impnogravado != "")
+                impuesto += parseFloat(impnogravado);
 
             total = parseFloat(subtotal) + parseFloat(impuesto);
 
-            
+
 
             $("#total").val(FormatearValor(total));
         }
@@ -935,17 +1082,17 @@
             vm.factura = $("#factura").val();
             vm.tipoFactura = $("#tipofactura").val();
             vm.sumaTotal = DeFormatearValor($("#sumatotal").val());
-            vm.descuentoPorc = $("#descuentoporc").val();
+            vm.descuentoPorc = ValorANumero($("#descuentoporc").val());
             vm.descuento = DeFormatearValor($("#descuentoC").val());
             vm.subtotal = DeFormatearValor($("#subtotal").val());
             vm.importeNoGravado = DeFormatearValor($("#impnogravado").val());
-            vm.iva = $("#iva").val();
+            vm.iva = ValorANumero($("#iva").val());
             vm.importeIva = DeFormatearValor($("#importeiva").val());
-            vm.iibbBsas = $("#iibbbsas").val();
+            vm.iibbBsas = ValorANumero($("#iibbbsas").val());
             vm.importeIibbBsas = DeFormatearValor($("#importeiibbbsas").val());
-            vm.iibbCaba = $("#iibbcaba").val();
+            vm.iibbCaba = ValorANumero($("#iibbcaba").val());
             vm.importeIibbCaba = DeFormatearValor($("#importeiibbcaba").val());
-            vm.percIva = $("#percepiva").val();
+            vm.percIva = ValorANumero($("#percepiva").val());
             vm.importePercIva = DeFormatearValor($("#importepercepiva").val());
             vm.total = DeFormatearValor($("#total").val());
 
@@ -972,11 +1119,11 @@
                 var cantidad = $cantidad.val();
                 var importe = DeFormatearValor($importe.val());
                 var tipodeunidad = $tipodeunidad.val();
-                var descuento = $descuento.val();
+                var descuento = ValorANumero($descuento.val());
                 var importecondesc = DeFormatearValor($importecondesc.val());
-                var iibbbsas = $iibbbsas.val();
-                var iibbcaba = $iibbcaba.val();
-                var iva = $iva.val();
+                var iibbbsas = ValorANumero($iibbbsas.val());
+                var iibbcaba = ValorANumero($iibbcaba.val());
+                var iva = ValorANumero($iva.val());
                 var preciouni = DeFormatearValor($preciouni.val());
                 var total = DeFormatearValor($total.val());
 
@@ -1052,6 +1199,19 @@
             });
 
         }
+        function ValidarPunto(textbox) {
+
+            var word = ["."];
+
+            for (i = 0; i < word.length; i++) {
+                if (textbox.value.indexOf(word[i]) >= 0) {
+                    $("#" + textbox.id).val($("#" + textbox.id).val().replace(".", ","));
+                }
+            }
+
+	
+        }
+
 
         function FormatearValoresRow(counter) {
 

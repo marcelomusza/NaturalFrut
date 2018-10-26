@@ -13,7 +13,7 @@ namespace NaturalFrut.DTOs
 
         public int NumeroCompra { get; set; }
 
-        public int Factura { get; set; }
+        public string Factura { get; set; }
 
         public string Fecha { get; set; }
 

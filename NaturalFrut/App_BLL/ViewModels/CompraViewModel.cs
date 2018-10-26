@@ -19,7 +19,7 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public int NumeroCompra { get; set; }
 
-        public int Factura { get; set; }
+        public string Factura { get; set; }
 
         public DateTime Fecha { get; set; }
 

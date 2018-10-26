@@ -6,7 +6,6 @@
 <form id="nuevoProducto">
 
     <div class="row">
-
         <!--Agrupamos campos de la columna izquierda-->
         @*<div class="col-sm-6">
 
@@ -55,15 +54,13 @@
             </div>
 
             <div class="form-group">
-                <input data-val="true" data-val-required="El campo El producto forma parte de la lista de Blister? es obligatorio." id="EsBlister" name="EsBlister" type="checkbox" value="true"><input name="EsBlister" type="hidden" value="false">
+                <input id="EsBlister" name="EsBlister" type="checkbox" value="true">                
                 <label for="EsBlister">El producto forma parte de la lista de Blister?</label>
-                <span class="field-validation-valid" data-valmsg-for="EsBlister" data-valmsg-replace="true"></span>
             </div>
 
             <div class="form-group">
-                <input data-val="true" data-val-required="El campo El producto es Mix? es obligatorio." id="EsMix" name="EsMix" type="checkbox" value="true"><input name="EsMix" type="hidden" value="false">
+                <input id="EsMix" name="EsMix" type="checkbox" value="true">
                 <label for="EsMix">El producto es Mix?</label>
-                <span class="field-validation-valid" data-valmsg-for="EsMix" data-valmsg-replace="true"></span>
             </div>
 
 
@@ -137,7 +134,7 @@
                     var formData = $("#nuevoProducto").serialize();
 
                     $.ajax({
-                        url: "/api/Productos",
+                        url: "/api/productos/createProducto",
                         method: "post",
                         data: formData
                     })
