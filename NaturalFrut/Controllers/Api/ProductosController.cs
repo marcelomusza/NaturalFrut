@@ -53,7 +53,6 @@ namespace NaturalFrut.Controllers.Api
         [Route("ventamayorista/api/productos/productosxlista")]
         public IEnumerable<ProductoDTO> ProductosXLista(int clienteId)
         {
-
             var productos = productoBL.GetAllProductosSegunListaAsociada(clienteId);
             var productosBlister = productoBL.GetAllProductosBlister();
 
@@ -61,14 +60,22 @@ namespace NaturalFrut.Controllers.Api
 
             foreach (var prod in productos)
             {
-                if(prod.EsMix)
+                if (prod.EsMix && prod.EsBlister)
+                {
+                    if (prod.Marca != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX/BLISTER -";
+
+                    if (prod.Categoria != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX/BLISTER -";
+                }
+                else if (prod.EsMix)
                 {
                     if (prod.Marca != null)
                         prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX -";
 
                     if (prod.Categoria != null)
                         prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX -";
-                }
+                }                
                 else
                 {
                     if (prod.Marca != null)
@@ -77,13 +84,17 @@ namespace NaturalFrut.Controllers.Api
                     if (prod.Categoria != null)
                         prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
                 }
-               
 
                 productosConjunto.Add(prod);
             }
 
             foreach (var prodBlister in productosBlister)
             {
+
+                if(prodBlister.EsBlister == true && prodBlister.EsBlister == true)
+                {
+                    
+                }
 
                 if (prodBlister.Marca != null)
                     prodBlister.Nombre = prodBlister.Nombre + " (" + prodBlister.Marca.Nombre + ") - BLISTER -";
@@ -93,6 +104,47 @@ namespace NaturalFrut.Controllers.Api
 
                 productosConjunto.Add(prodBlister);
             }
+
+
+            //var productos = productoBL.GetAllProductosSegunListaAsociada(clienteId);
+            //var productosBlister = productoBL.GetAllProductosBlister();
+
+            //List<Producto> productosConjunto = new List<Producto>();
+
+            //foreach (var prod in productos)
+            //{
+            //    if(prod.EsMix)
+            //    {
+            //        if (prod.Marca != null)
+            //            prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX -";
+
+            //        if (prod.Categoria != null)
+            //            prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX -";
+            //    }
+            //    else
+            //    {
+            //        if (prod.Marca != null)
+            //            prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+
+            //        if (prod.Categoria != null)
+            //            prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+            //    }
+
+
+            //    productosConjunto.Add(prod);
+            //}
+
+            //foreach (var prodBlister in productosBlister)
+            //{
+
+            //    if (prodBlister.Marca != null)
+            //        prodBlister.Nombre = prodBlister.Nombre + " (" + prodBlister.Marca.Nombre + ") - BLISTER -";
+
+            //    if (prodBlister.Categoria != null)
+            //        prodBlister.Nombre = prodBlister.Nombre + " (" + prodBlister.Categoria.Nombre + ") - BLISTER -";
+
+            //    productosConjunto.Add(prodBlister);
+            //}
 
 
 

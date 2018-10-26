@@ -391,7 +391,12 @@ namespace NaturalFrut.Controllers
             bool esMix = false;
             Producto producto = ventaMayoristaBL.ValidateTipoDeProducto(productoID);
 
-            if (producto.EsBlister)
+            if (producto.EsBlister && producto.EsMix)
+            {
+                esBlister = true;
+                esMix = true;
+            }
+            else if (producto.EsBlister)
                 esBlister = true;
             else if (producto.EsMix)
                 esMix = true;

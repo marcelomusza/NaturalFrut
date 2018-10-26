@@ -95,7 +95,7 @@ namespace NaturalFrut.App_BLL
         public List<Producto> GetProductoList()
         {
              return productoRP.GetAll()
-                .Where(p => p.EsBlister != true)
+                .Where(p => p.EsBlister != true || (p.EsBlister == true && p.EsMix == true))
                 .ToList();
         }
 

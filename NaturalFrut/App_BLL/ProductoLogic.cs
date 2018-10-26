@@ -145,7 +145,7 @@ namespace NaturalFrut.App_BLL
             return productoRP.GetAll()
                 .Include(p => p.Categoria)
                 .Include(p => p.Marca)
-                .Where(p => p.EsBlister == true)
+                .Where(p => p.EsBlister == true && p.EsMix == false)
                 .ToList();
         }
 
