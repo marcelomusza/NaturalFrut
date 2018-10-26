@@ -19,6 +19,7 @@ namespace NaturalFrut
                         "~/Scripts/typeahead.bundle.js",
                         "~/Scripts/toastr.js",
                         "~/Scripts/moment.js",
+                        "~/Scripts/jquery.mask.min.js",
                         "~/Scripts/bootstrap-datetimepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

@@ -106,19 +106,21 @@ namespace NaturalFrut.Controllers.Api
         {
 
             var productos = productoBL.GetAllProducto();
-            var productosBlister = productoBL.GetAllProductosBlister();
+            //var productosBlister = productoBL.GetAllProductosBlister();
 
             List<Producto> productosConjunto = new List<Producto>();
 
             foreach (var prod in productos)
             {
-                if (prod.Marca != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
+                if(!prod.EsBlister && !prod.EsMix) { 
+                    if (prod.Marca != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
 
-                if (prod.Categoria != null)
-                    prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
+                    if (prod.Categoria != null)
+                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
 
-                productosConjunto.Add(prod);
+                    productosConjunto.Add(prod);
+                }
             }
                        
             return productosConjunto.Select(Mapper.Map<Producto, ProductoDTO>);
@@ -274,6 +276,7 @@ namespace NaturalFrut.Controllers.Api
 
         //POST /api/productos
         [HttpPost]
+        [Route("api/productos/createProducto")]
         public IHttpActionResult CreateProducto(ProductoDTO productoDTO)
         {
             if (!ModelState.IsValid)

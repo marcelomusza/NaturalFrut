@@ -73,7 +73,7 @@ namespace NaturalFrut.Controllers.Api
             /* cliente.Saldo = ventaMayorista.SumaTotal - ventaMayorista.EntregaEfectivo;
              clienteBL.UpdateCliente(cliente);  */
 
-            if (compra.NoConcretado)
+            if (compra.ProductosXCompra != null)
             {
 
                 //Una vez cargada la venta, actualizamos Stock
@@ -124,83 +124,84 @@ namespace NaturalFrut.Controllers.Api
 
             var compraInDB = compraBL.GetCompraById(compraUpdateDTO.Compra.ID);
 
-            List<float> cantProds = new List<float>();
+            //List<float> cantProds = new List<float>();
 
-            foreach (var prod in compraInDB.ProductosXCompra)
-            {
-                cantProds.Add(prod.Cantidad);
-            }
+            //foreach (var prod in compraInDB.ProductosXCompra)
+            //{
+            //    cantProds.Add(prod.Cantidad);
+            //}
 
+            Compra compraUpdate = new Compra();
 
             if (compraInDB == null)
                 return NotFound();
 
 
 
-            //Update para los campos de VentaMayorista
-            compraInDB.Factura = compraUpdateDTO.Compra.Factura;
-            compraInDB.NoConcretado = compraUpdateDTO.Compra.NoConcretado;
-            compraInDB.TipoFactura = compraUpdateDTO.Compra.TipoFactura;
-            compraInDB.SumaTotal = compraUpdateDTO.Compra.SumaTotal;
-            compraInDB.DescuentoPorc = compraUpdateDTO.Compra.DescuentoPorc;
-            compraInDB.Descuento = compraUpdateDTO.Compra.Descuento;
-            compraInDB.Subtotal = compraUpdateDTO.Compra.Subtotal;
-            compraInDB.ImporteNoGravado = compraUpdateDTO.Compra.ImporteNoGravado;
-            compraInDB.Iva = compraUpdateDTO.Compra.Iva;
-            compraInDB.ImporteIva = compraUpdateDTO.Compra.ImporteIva;
-            compraInDB.Iibbbsas = compraUpdateDTO.Compra.Iibbbsas;
-            compraInDB.ImporteIibbbsas = compraUpdateDTO.Compra.ImporteIibbbsas;
-            compraInDB.Iibbcaba = compraUpdateDTO.Compra.Iibbcaba;
-            compraInDB.ImporteIibbcaba = compraUpdateDTO.Compra.ImporteIibbcaba;
-            compraInDB.PercIva = compraUpdateDTO.Compra.PercIva;
-            compraInDB.ImportePercIva = compraUpdateDTO.Compra.ImportePercIva;
-            compraInDB.Total = compraUpdateDTO.Compra.Total;
-            compraInDB.TotalGastos = compraUpdateDTO.Compra.TotalGastos;
+            //Update para los campos de compra
+            compraUpdate.Factura = compraUpdateDTO.Compra.Factura;
+            compraUpdate.NoConcretado = compraUpdateDTO.Compra.NoConcretado;
+            compraUpdate.TipoFactura = compraUpdateDTO.Compra.TipoFactura;
+            compraUpdate.SumaTotal = compraUpdateDTO.Compra.SumaTotal;
+            compraUpdate.DescuentoPorc = compraUpdateDTO.Compra.DescuentoPorc;
+            compraUpdate.Descuento = compraUpdateDTO.Compra.Descuento;
+            compraUpdate.Subtotal = compraUpdateDTO.Compra.Subtotal;
+            compraUpdate.ImporteNoGravado = compraUpdateDTO.Compra.ImporteNoGravado;
+            compraUpdate.Iva = compraUpdateDTO.Compra.Iva;
+            compraUpdate.ImporteIva = compraUpdateDTO.Compra.ImporteIva;
+            compraUpdate.Iibbbsas = compraUpdateDTO.Compra.Iibbbsas;
+            compraUpdate.ImporteIibbbsas = compraUpdateDTO.Compra.ImporteIibbbsas;
+            compraUpdate.Iibbcaba = compraUpdateDTO.Compra.Iibbcaba;
+            compraUpdate.ImporteIibbcaba = compraUpdateDTO.Compra.ImporteIibbcaba;
+            compraUpdate.PercIva = compraUpdateDTO.Compra.PercIva;
+            compraUpdate.ImportePercIva = compraUpdateDTO.Compra.ImportePercIva;
+            compraUpdate.Total = compraUpdateDTO.Compra.Total;
+            compraUpdate.TotalGastos = compraUpdateDTO.Compra.TotalGastos;
 
             //Update para los campos de sus ProductosXVenta asociados
             for (int i = 0; i < compraInDB.ProductosXCompra.Count; i++)
             {
-                compraInDB.ProductosXCompra[i].Cantidad = compraUpdateDTO.Compra.ProductosXCompra[i].Cantidad;
-                compraInDB.ProductosXCompra[i].Importe = compraUpdateDTO.Compra.ProductosXCompra[i].Importe;
-                compraInDB.ProductosXCompra[i].Descuento = compraUpdateDTO.Compra.ProductosXCompra[i].Descuento;
-                compraInDB.ProductosXCompra[i].ImporteDescuento = compraUpdateDTO.Compra.ProductosXCompra[i].ImporteDescuento;
-                compraInDB.ProductosXCompra[i].Iibbbsas = compraUpdateDTO.Compra.ProductosXCompra[i].Iibbbsas;
-                compraInDB.ProductosXCompra[i].Iibbcaba = compraUpdateDTO.Compra.ProductosXCompra[i].Iibbcaba;
-                compraInDB.ProductosXCompra[i].Iva = compraUpdateDTO.Compra.ProductosXCompra[i].Iva;
-                compraInDB.ProductosXCompra[i].PrecioUnitario = compraUpdateDTO.Compra.ProductosXCompra[i].PrecioUnitario;
-                compraInDB.ProductosXCompra[i].Total = compraUpdateDTO.Compra.ProductosXCompra[i].Total;
+                compraUpdate.ProductosXCompra[i].Cantidad = compraUpdateDTO.Compra.ProductosXCompra[i].Cantidad;
+                compraUpdate.ProductosXCompra[i].Importe = compraUpdateDTO.Compra.ProductosXCompra[i].Importe;
+                compraUpdate.ProductosXCompra[i].Descuento = compraUpdateDTO.Compra.ProductosXCompra[i].Descuento;
+                compraUpdate.ProductosXCompra[i].ImporteDescuento = compraUpdateDTO.Compra.ProductosXCompra[i].ImporteDescuento;
+                compraUpdate.ProductosXCompra[i].Iibbbsas = compraUpdateDTO.Compra.ProductosXCompra[i].Iibbbsas;
+                compraUpdate.ProductosXCompra[i].Iibbcaba = compraUpdateDTO.Compra.ProductosXCompra[i].Iibbcaba;
+                compraUpdate.ProductosXCompra[i].Iva = compraUpdateDTO.Compra.ProductosXCompra[i].Iva;
+                compraUpdate.ProductosXCompra[i].PrecioUnitario = compraUpdateDTO.Compra.ProductosXCompra[i].PrecioUnitario;
+                compraUpdate.ProductosXCompra[i].Total = compraUpdateDTO.Compra.ProductosXCompra[i].Total;
             }
 
-            compraBL.UpdateCompra(compraInDB);
+            compraBL.UpdateCompra(compraUpdate);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
             //cliente.Saldo = ventaMayoristaInDB.SumaTotal - ventaMayoristaInDB.EntregaEfectivo;
             //clienteBL.UpdateCliente(cliente);
 
             //Paso siguiente - Agregamos productos nuevos a la venta, si los hay
-            if (compraUpdateDTO.ProductosXCompra != null)
-            {
-                foreach (var prod in compraUpdateDTO.ProductosXCompra)
-                {
-                    ProductoXCompra nuevoProd = new ProductoXCompra()
-                    {
-                        ProductoID = prod.ProductoID,
-                        Cantidad = prod.Cantidad,
-                        TipoDeUnidadID = prod.TipoDeUnidadID,
-                        Importe = prod.Importe,
-                        Descuento = prod.Descuento,
-                        ImporteDescuento = prod.ImporteDescuento,
-                        Iibbbsas = prod.Iibbbsas,
-                        Iibbcaba = prod.Iibbcaba,
-                        Iva = prod.Iva,
-                        PrecioUnitario = prod.PrecioUnitario,
-                        Total = prod.Total,
-                        CompraID = prod.CompraID
-                    };
+            //if (compraUpdateDTO.ProductosXCompra != null)
+            //{
+            //    foreach (var prod in compraUpdateDTO.ProductosXCompra)
+            //    {
+            //        ProductoXCompra nuevoProd = new ProductoXCompra()
+            //        {
+            //            ProductoID = prod.ProductoID,
+            //            Cantidad = prod.Cantidad,
+            //            TipoDeUnidadID = prod.TipoDeUnidadID,
+            //            Importe = prod.Importe,
+            //            Descuento = prod.Descuento,
+            //            ImporteDescuento = prod.ImporteDescuento,
+            //            Iibbbsas = prod.Iibbbsas,
+            //            Iibbcaba = prod.Iibbcaba,
+            //            Iva = prod.Iva,
+            //            PrecioUnitario = prod.PrecioUnitario,
+            //            Total = prod.Total,
+            //            CompraID = prod.CompraID
+            //        };
 
-                    productoXCompraBL.AddProductoXCompra(nuevoProd);
-                }
-            }
+            //        productoXCompraBL.AddProductoXCompra(nuevoProd);
+            //    }
+            //}
 
             if (compraInDB.NoConcretado)
             {
@@ -254,7 +255,7 @@ namespace NaturalFrut.Controllers.Api
 
                             stockNuevo.ProductoID = item.ProductoID;
                             stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
-                            stock.Cantidad = item.Cantidad;
+                            stockNuevo.Cantidad = item.Cantidad;
 
                             stockBL.AddStock(stockNuevo);
 
@@ -279,8 +280,20 @@ namespace NaturalFrut.Controllers.Api
 
             var importeTotalProducto = productoInDB.Total;
 
-            productoXCompraBL.RemoveProductoXCompra(productoInDB);
+            
 
+            //restamos stock
+
+            Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);
+            Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
+
+            if (stock != null)
+            {
+                stock.Cantidad = stock.Cantidad - prodCompra.Cantidad;
+                stockBL.UpdateStock(stock);
+
+            }
+            productoXCompraBL.RemoveProductoXCompra(productoInDB);
             //Actualizamos el total de la venta
             var compraInDB = compraBL.GetCompraById(prodCompra.CompraID);
 

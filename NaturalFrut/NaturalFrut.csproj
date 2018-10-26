@@ -290,6 +290,14 @@
     <Compile Include="Migrations\201810221531195_nuevaMigracion.Designer.cs">
       <DependentUpon>201810221531195_nuevaMigracion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810242012445_nullFactura.cs" />
+    <Compile Include="Migrations\201810242012445_nullFactura.Designer.cs">
+      <DependentUpon>201810242012445_nullFactura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810242126389_stringfactura.cs" />
+    <Compile Include="Migrations\201810242126389_stringfactura.Designer.cs">
+      <DependentUpon>201810242126389_stringfactura.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\GenerarTxt.cs">
@@ -664,6 +672,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -799,6 +809,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810221531195_nuevaMigracion.resx">
       <DependentUpon>201810221531195_nuevaMigracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810242012445_nullFactura.resx">
+      <DependentUpon>201810242012445_nullFactura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810242126389_stringfactura.resx">
+      <DependentUpon>201810242126389_stringfactura.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaturalFrut.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,26 +15,25 @@ namespace NaturalFrut.DTOs
         [Required]
         public string Nombre { get; set; }
 
-        [Required]
-        public string Descripcion { get; set; }
-
-        [Required]
-        public int Cantidad { get; set; }
-
         public CategoriaDTO Categoria { get; set; }
 
-        [Required]
-        public int CategoriaId { get; set; }
+    
+        public int? CategoriaId { get; set; }
 
 
-        public MarcaDTO Marca { get; set; }
+        public Marca Marca { get; set; }
 
-        [Required]
-        public int MarcaId { get; set; }
+      
+        public int? MarcaId { get; set; }
 
         public bool EsBlister { get; set; }
 
         public bool EsMix { get; set; }
 
+        public IList<ListaPrecio> ListaPrecios { get; set; }
+
+        public IList<ProductoXVenta> ProductosXVenta { get; set; }
+
+        public IList<Stock> Stock { get; set; }
     }
 }

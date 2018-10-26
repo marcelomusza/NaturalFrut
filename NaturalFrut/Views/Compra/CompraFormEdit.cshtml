@@ -34,12 +34,12 @@
 
             <div class="form-group">
                 <label>Factura</label>
-                <input id="factura" name="factura" required type="text" value="@Model.Factura" class="form-control" />
+                <input id="factura" name="factura" required type="text" value="@Model.Factura" class="form-control" disabled/>
             </div>
 
             <div class="form-group">
                 <label>Tipo Factura</label>
-                <input id="tipofactura" name="tipofactura" required type="text" value="@Model.TipoFactura" class="form-control" />
+                <input id="tipofactura" name="tipofactura" required type="text" value="@Model.TipoFactura" class="form-control" disabled/>
             </div>
 
 
@@ -51,12 +51,12 @@
 
             <div class="form-group">
                 <label>Descuento %</label>
-                <input id="descuentoporc" name="descuentoporc" required type="text" value="@Model.DescuentoPorc" onkeyup="ValidarPunto(this);" class="form-control" />
+                <input id="descuentoporc" name="descuentoporc"  type="text" value="@Model.DescuentoPorc" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label>Descuento</label>
-                <input id="descuentoC" name="descuentoC" required type="text" value="@Model.Descuento" onkeyup="ValidarPunto(this);" class="form-control js-formatvalue" disabled />
+                <input id="descuentoC" name="descuentoC"  type="text" value="@Model.Descuento" onkeyup="ValidarPunto(this);" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="form-group">
@@ -68,15 +68,6 @@
                 <label>Importe no Gravado</label>
                 <input id="impnogravado" name="impnogravado" required type="text" value="@Model.ImporteNoGravado" class="form-control js-formatvalue" onkeyup="ValidarPunto(this);" />
             </div>
-
-            <div class="form-group">
-                <div style="display:flex;">
-
-                    <button type="button" class="btn btn-success" href="#" onclick="NuevoProductoModal(0)">Nuevo Producto</button>
-                </div>
-                <label class="error field-validation-valid" for="clasificacion" data-valmsg-replace="true"></label>
-            </div>
-
 
         </div>
 
@@ -202,7 +193,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="12" style="text-align: left;">
-                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -234,18 +225,7 @@
 
 
 
-<div class="modal fade" id="productoModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Nuevo producto</h3>
-            </div>
-            <div class="modal-body" id="productoModalBody">
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 
@@ -255,21 +235,6 @@
 
     @Scripts.Render("~/bundles/jqueryval")
 
-    <!--TAG SCRIPT PARA MODAL-->
-    <script>      
-
-        var NuevoProductoModal = function () {
-
-            var url = "/Compra/NuevoProducto?ID=" + 0;
-
-            $("#productoModalBody").load(url, function () {
-                $("#productoModal").modal("show");
-
-            })
-
-        }
-
-    </script>
 
     <script>
 
@@ -411,20 +376,22 @@
                 var productoID = $("#producto" + parseInt(button.context.id)).attr("data-producto-id");
                 var totalProducto = DeFormatearValor($("#total" + parseInt(button.context.id)).val());
                 var compraID = @ViewBag.CompraID;
+                var cantidad = $("#cantidad" + parseInt(button.context.id)).val();
+                var tipoDeUnidadID = $("#tiposdeunidad" + parseInt(button.context.id)).val();
                 var valor = parseInt(this.attributes.name.value);
 
                 var model = {
                     "productoID": productoID,
                     "totalProducto" : totalProducto,
-                    "compraID": compraID
+                    "compraID": compraID,
+                    "cantidad":cantidad,
+                    "tipoDeUnidadID":tipoDeUnidadID
                 };
 
                 bootbox.confirm("¿Estas seguro de querer borrar el producto?", function (result) {
 
 
-                    if (result) {
-
-                        if (productoID != "") {
+                    if (result) {                       
 
                             //Borramos la fila con datos
                             $.ajax({
@@ -456,26 +423,9 @@
                                     toastr.error("Error al borrar el producto, consulte con el administrator");
                                 }
                             });
-                        }
-                        else {
-                            //Borramos la fila vacia
-                            button.closest("tr").remove();
-
-                            valor += 1;
-
-                            if (valor == counter) {
-                                counter -= 1;
-                            } else {
-                                counter += 1;
-                            }
-
-                            typeahead_initialize(counter);
 
                             RecalcularTotalGastos();
-                            
                         }
-
-                    }
 
                 });
                
@@ -544,7 +494,51 @@
                 } else {
                     $("#subtotal").val(FormatearValor(sumatotal));
                 }
-		        $(this).val(FormatearValor(sumatotal));
+                $(this).val(FormatearValor(sumatotal));
+
+                //calculo importes de iva si son distinto de vacio
+                var iva =  ValorANumero($("#iva").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (iva != "") {
+
+                    var importeiva = ((subtotal * iva) / 100);
+                    $("#importeiva").val(FormatearValor(importeiva));
+
+                }
+                var iibbbsas =  DeFormatearValor($("#iibbbsas").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (iibbbsas != "") {
+
+                    var importeiibbbsas = ((subtotal * iibbbsas) / 100);
+                    $("#importeiibbbsas").val(FormatearValor(importeiibbbsas));
+
+                }
+				
+				
+                var iibbcaba =  DeFormatearValor($("#iibbcaba").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (iibbcaba != "") {
+
+                    var importeiibbcaba = ((subtotal * iibbcaba) / 100);
+                    $("#importeiibbcaba").val(FormatearValor(importeiibbcaba));
+
+                }
+				
+                var percepiva =  DeFormatearValor($("#percepiva").val());
+                var subtotal = DeFormatearValor($("#subtotal").val());
+
+                if (percepiva != "") {
+
+                    var importepercepiva = ((subtotal * percepiva) / 100);
+                    $("#importepercepiva").val(FormatearValor(importepercepiva));
+
+                }
+
+
+
                 RecalcularTotal();
             });
 
@@ -553,6 +547,7 @@
                 $(this).val(DeFormatearValor($(this).val()));
                 $(this).val(FormatearValor($(this).val()));
 
+                RecalcularTotal();
             });
             $("#iva").on('blur', function () {
 
@@ -876,6 +871,11 @@
             if (importeperciva != "")
                 impuesto += parseFloat(importeperciva);
 
+            var impnogravado = DeFormatearValor($("#impnogravado").val());
+
+            if (impnogravado != "")
+                impuesto += parseFloat(impnogravado);
+
 
             total = parseFloat(subtotal) + parseFloat(impuesto);
 
@@ -1124,41 +1124,9 @@
 
         PopulateTipoDeUnidadSegunProducto = function (data) {
 
-            @*if (data.EsBlister) {
-                $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
-                $("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
-                $("#tiposdeunidad" + data.Counter).attr("disabled", "disabled");
-
-               // Paso siguiente, calculamos el stock disponible
-                var productoID = $("#producto" + data.Counter).attr("data-producto-id");
-                var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
-
-            }
-            else {
-                $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
-                GetTiposDeUnidadDynamic(data.Counter);
-
-                $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
-
-            }*@
-
-            if (data.EsBlister) {
-                $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
-
-            }
-            else {
-                $("#tiposdeunidad" + data.Counter).empty();
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
-                GetTiposDeUnidadDynamic(data.Counter);
-
-            }
-
-
-
+            $("#tiposdeunidad" + data.Counter).empty();
+            $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+            GetTiposDeUnidadDynamic(data.Counter);
         }
 
         function ValidarPunto(textbox) {
