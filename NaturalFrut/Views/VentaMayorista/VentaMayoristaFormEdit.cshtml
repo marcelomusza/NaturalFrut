@@ -146,9 +146,9 @@
                     {
                         <tr class='productosexistentes'>
                             <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" disabled /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" disabled /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
+                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
-                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="text" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" disabled/></div></td>
+                            <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="text" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="text" value="@producto.Importe.ToString().Replace(',','.')" class="importe form-control" disabled /></div></td>
                             <td><div class="form-group"><input id="@String.Format("totalimporte{0}", counter)" name="totalimporte" required type="text" data-js-counter="@counter" value="@producto.Total.ToString().Replace(',','.')" class="totalimporte js-prodexistente form-control" disabled /></div></td>
                             <td><input type="button" class="ibtnDel btn btn-md btn-danger " id="@counter" name="@counter" value="Borrar">
@@ -162,7 +162,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="5" style="text-align: left;">
-                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" disabled />
                         </td>
                         <td colspan="2" style="text-align: right;">
                             <input type="button" class="btn btn-lg btn-primary btn-block" id="calculartotal" value="Calcular Total" />
@@ -243,11 +243,11 @@
                 productosXVenta: []
             };
 
-            var vm2 = [];
+            //var vm2 = [];
 
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
-            var totalCalculado = false;
+            var totalCalculado = true;
 
             ValidarVentaConcretada();
 
@@ -272,74 +272,74 @@
             });
 
             var counter = @counter; //Continuamos con la numeracion segun el contador de la tabla de productos
-            $("#addrow").on("click", function () {
-                //RecalcularTotal();
-                ResetearDescuentoTotal();
-                ResetearTotal();
+            //$("#addrow").on("click", function () {
+            //    //RecalcularTotal();
+            //    ResetearDescuentoTotal();
+            //    ResetearTotal();
 
-                var validarCliente = $("#cliente").valid();
+            //    var validarCliente = $("#cliente").valid();
 
-                if (validarCliente) {
+            //    if (validarCliente) {
 
-                    var newRow = $("<tr class='productosnuevos'>");
-                    var cols = "";
+            //        var newRow = $("<tr class='productosnuevos'>");
+            //        var cols = "";
 
-                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
+            //        cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this); CalcularValoresBlister(' + counter + ');" /><label id="stockdisponible' + counter + '" ></label></div></td>';
+            //        cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this); CalcularValoresBlister(' + counter + ');" /><label id="stockdisponible' + counter + '" ></label></div></td>';
 
-                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
-                    //GetTiposDeUnidadDynamic(counter);
+            //        cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
+            //        //GetTiposDeUnidadDynamic(counter);
 
-                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+            //        cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control" disabled /></div></td>';
+            //        cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control" disabled /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="text" data-js-counter="' + counter + '" value=""  class="totalimporte form-control js-sumaparaentregaefvo"  disabled /></div></td>';
+            //        cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="text" data-js-counter="' + counter + '" value=""  class="totalimporte form-control js-sumaparaentregaefvo"  disabled /></div></td>';
 
-                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
-                    newRow.append(cols);
-                    $("table.order-list").append(newRow);
+            //        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
+            //        newRow.append(cols);
+            //        $("table.order-list").append(newRow);
 
-                    typeahead_initialize(counter);
+            //        typeahead_initialize(counter);
 
-                    totalCalculado = false;
+            //        totalCalculado = false;
 
-                    counter++;
+            //        counter++;
 
-                    $("#producto" + counter).validate({
-                        rules: {
-                            producto: "required",
-                        },
-                        messages: {
-                            producto: "Por favor ingresa un Producto",
-                        },
+            //        $("#producto" + counter).validate({
+            //            rules: {
+            //                producto: "required",
+            //            },
+            //            messages: {
+            //                producto: "Por favor ingresa un Producto",
+            //            },
 
-                    });
+            //        });
 
-                    $("#cantidad" + counter).validate({
-                        rules: {
-                            cantidad: "required",
-                        },
-                        messages: {
-                            cantidad: "Por favor ingresa una Cantidad",
-                        },
+            //        $("#cantidad" + counter).validate({
+            //            rules: {
+            //                cantidad: "required",
+            //            },
+            //            messages: {
+            //                cantidad: "Por favor ingresa una Cantidad",
+            //            },
 
-                    });
+            //        });
 
-                    $("#tiposdeunidad" + counter).validate({
-                        rules: {
-                            tiposdeunidad: "required",
-                        },
-                        messages: {
-                            tiposdeunidad: "Por favor ingresa una Unidad",
-                        },
+            //        $("#tiposdeunidad" + counter).validate({
+            //            rules: {
+            //                tiposdeunidad: "required",
+            //            },
+            //            messages: {
+            //                tiposdeunidad: "Por favor ingresa una Unidad",
+            //            },
 
-                    });
+            //        });
 
-                }
+            //    }
 
-            });
+            //});
 
             $("table.order-list").on("click", ".ibtnDel", function (event) {
 
@@ -381,11 +381,6 @@
 
                                     typeahead_initialize(counter);
 
-                                    //RecalcularTotal();
-                                    ResetearDescuentoTotal();
-                                    ResetearTotal();
-                                    //CalcularSaldoFinal();
-
                                     location.reload();
                                 },
                                 error: function () {
@@ -406,11 +401,9 @@
                             }
 
                             typeahead_initialize(counter);
-
-                            //RecalcularTotal();
-                            ResetearDescuentoTotal();
-                            ResetearTotal();
-                                    //CalcularSaldoFinal();
+                                                        
+                            CargarTipoDescuento();
+                            CargarSumaTotal();
                         }
 
 
@@ -444,13 +437,7 @@
                     CalcularSaldoFinal();
                 }
 
-            })
-
-            //$("#descuento").on('blur', function () {
-
-            //    CalcularDescuentoTotal();
-
-            //})
+            })           
 
             $("#noconcretado").on('change', function () {
                 if (this.checked) {
@@ -458,8 +445,23 @@
                 }
                 else {
                     vm.noConcretado = false;
-                }
 
+                    //Si el form estaba grisado, lo desgrisamos                   
+                    //$("#totalventa").prop("disabled", true);
+                    //$("#nuevosaldo").prop("disabled", true);
+                    //$("#addrow").prop("disabled", true);
+                    //$("#vendedor").prop("disabled", true);
+                    //$("#fecha").prop("disabled", true);
+                    //$("#numeroventa").prop("disabled", true);
+                    $('input[name*="cantidad"]').prop("disabled", false);
+                    $('input[name*="descprod"]').prop("disabled", false);
+                    $('input[class*="ibtnDel"]').prop("disabled", false);
+                    $("#entregaefectivo").prop("disabled", false);
+                    $("#tipoDescuento").prop("disabled", false);
+                    $("#descuento").prop("disabled", false);
+                    $("#calculartotal").prop("disabled", false);
+
+                }
 
             })
 
@@ -470,7 +472,6 @@
                 else {
                     vm.facturado = false;
                 }
-
 
             })
 
@@ -484,15 +485,7 @@
 
             //DESCUENTO POR PRODUCTO
             $(document).on('blur', "input.js-descprod", function () {
-
-                //Si el Descuento Final esta activado, desactivarlo
-                //var selDescFinal = $("#tipoDescuento").val();
-                //if (selDescFinal != "") {
-                //    $("#descuento").attr("disabled", "disabled");
-                //    $("#descuento").val("");
-                //    $('#tipoDescuento option:first').prop('selected', true);
-                //}
-
+                               
                 var input = $(this);
                 var descuento = ValorANumero(input[0].value);
 
@@ -507,17 +500,12 @@
                     var importeConDesc = importeTotal - ((importeTotal * descuento) / 100);
                     $("#totalimporte" + counter).val(FormatearValor(importeConDesc));
 
-                    //RecalcularTotal();
-                    //CalcularSaldoFinal();
-
                 }
                 else {
 
                     var importeTotal = cantidad * DeFormatearValor(importe);
                     $("#totalimporte" + counter).val(FormatearValor(importeTotal));
 
-                    //RecalcularTotal();
-                    //CalcularSaldoFinal();
                 }
 
 
@@ -568,61 +556,66 @@
 
                 submitHandler: function () {
 
-                    var validarProducto = $('input[name*="producto"]').valid();
-                    var validarCantidad = $('input[name*="cantidad"]').valid();
-                    var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
+                    //var validarProducto = $('input[name*="producto"]').valid();
+                    //var validarCantidad = $('input[name*="cantidad"]').valid();
+                    //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
 
-                    if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    //if (validarProducto && validarCantidad && validartipodeUnidad) {
 
-                        //Modal para aceptacion de venta
-                        bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
+                    //Modal para aceptacion de venta
+                    bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
 
-                            if (totalCalculado) {
+                        var validarProductos = $('input[name*="producto"]');
 
-                                if (result) {
+                        if (validarProductos.length == 0)
+                            $("#calculartotal").trigger("click");
 
-                                    CargarProductosAlVM(vm, vm2);
+                        if (totalCalculado) {
 
-                                    var model = {
-                                        "ventaMayorista": vm,
-                                        "productosXVenta": vm2
-                                    };
+                            if (result) {
+
+                                CargarProductosAlVM(vm);
+
+                                //var model = {
+                                //    "ventaMayorista": vm,
+                                //    "productosXVenta": vm2
+                                //};
 
 
-                                    $.ajax({
-                                        url: "/api/ventasmayorista",
-                                        method: "put",
-                                        data: model
+                                $.ajax({
+                                    url: "/api/ventasmayorista",
+                                    method: "put",
+                                    data: vm
+                                })
+                                    .done(function () {
+
+                                        toastr.success("La venta se ha actualizado correctamente.");
+
+                                        setTimeout(function () {
+                                            window.location.href = "/VentaMayorista";
+                                        }, 4000);
+
                                     })
-                                        .done(function () {
+                                    .fail(function () {
+                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
 
-                                            toastr.success("La venta se ha actualizado correctamente.");
+                                        //Reseteamos los productos del viewmodel
+                                        vm.productosXVenta = [];
+                                        //vm2 = [];
 
-                                            setTimeout(function () {
-                                                window.location.href = "/VentaMayorista";
-                                            }, 4000);
-
-                                        })
-                                        .fail(function () {
-                                            toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
-
-                                            //Reseteamos los productos del viewmodel
-                                            vm.productosXVenta = [];
-                                            vm2 = [];
-
-                                            totalCalculado = false;
-                                        });
-
-                                }
+                                        totalCalculado = false;
+                                    });
 
                             }
-                            else {
-                                toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");                                
-                            }
 
-                        });
+                        }
+                        else {
+                            toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");                                
+                        }
 
-                    }
+                    });
+
+                    //}
 
                     return false;
                 }
@@ -756,18 +749,7 @@
 
 
 
-        }
-
-        function ResetearDescuentoTotal() {
-
-            //Si se agrega o remueve un row, resetear el descuento total
-            //$("#tipoDescuento").prop("selectedIndex", 0).change();
-            //$("#descuento").attr("disabled", "disabled");
-            //$("#descuento").val("");
-
-            //CalcularSaldoFinal();
-
-        }
+        }        
                 
         function RecalcularTotal() {
 
@@ -795,15 +777,6 @@
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val(this.ID).text(this.Nombre));
             });
 
-            //Si el Descuento Final esta activado, desactivarlo
-            //var selDescFinal = $("#tipoDescuento").val();
-            //if (selDescFinal != "") {
-            //    $("#descuento").attr("disabled", "disabled");
-            //    $("#descuento").val("");
-            //    $('#tipoDescuento option:first').prop('selected', true);
-            //}
-
-
         }
 
         function ResetearValores(txtbox) {
@@ -828,7 +801,7 @@
             vm.fecha = fecha;
         }
 
-        function CargarProductosAlVM(vm, vm2) {
+        function CargarProductosAlVM(vm) {
 
             //Cargamos la lista de productos
             $(".productosexistentes").each(function (i, row) {
@@ -867,7 +840,7 @@
 
             });
 
-            //Productos Nuevos
+            @*//Productos Nuevos
             $(".productosnuevos").each(function (i, row) {
 
                 var $row = $(row),
@@ -901,10 +874,7 @@
 
 
 
-            });
-
-
-            
+            });*@
 
             //Cargamos el resto de los datos
             vm.ID = @ViewBag.VentaMayoristaID;
@@ -1187,14 +1157,19 @@
 
         function ValidarVentaConcretada() {
 
+            var userRole = '@(User.IsInRole("Administrator") ? "true" : "false")';
+
             if ($("#noconcretado").prop('checked')) {
 
-                //Venta Concretada, grisamos todos los campos del formulario
+                //Venta Concretada, grisamos todos los campos del formulario, excepto Concretado si el user es Admin
                 $("#vtamayform :input").prop("disabled", true);
 
                 $("#facturado").prop("disabled", false);
                 $("#btnsubmit").prop("disabled", false);
                 $("#btncancelar").prop("disabled", false);
+
+                if (userRole == "true")
+                    $("#noconcretado").prop("disabled", false);
                 
             }
 

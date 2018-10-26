@@ -35,9 +35,15 @@
                         <tr>
                             <td>@tipoDeUnidad.Nombre</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID }, null)
-                                &nbsp;
-                                @Html.ActionLink("Borrar", "BorrarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID }, null)
+                                <a href="@Url.Action("EditarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID })" id="btneditar"> 
+                                    <img src="@Url.Content("../Content/Images/EditIcon.png")" />
+                                </a>
+                                <a href="@Url.Action("BorrarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID })" id="btnborrar"  >
+                                    <img src="@Url.Content("../Content/Images/DeleteIcon.png")" />
+                                </a>
+                                @*@Html.ActionLink("Editar", "EditarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID }, new { @class = "ImgEditar" })*@
+                                @*@Html.ActionLink("Borrar", "BorrarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID }, new { @class = "ImgBorrar" })*@
+
                             </td>
                         </tr>
                     }
@@ -49,3 +55,37 @@
 
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {          
+
+            
+            $("a[id='btnborrar']").on('click', function (e) {
+
+                var url = $(this)[0].href;
+               
+                e.preventDefault();
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        window.location = url;
+                    }
+
+                });
+             
+            });
+            
+
+
+
+        });
+
+        
+        
+
+    </script>
+}

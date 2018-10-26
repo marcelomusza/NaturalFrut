@@ -89,9 +89,18 @@
                     {
                         data: "ID",
                         render: function (data) {
-                            return "<button class='btn-link js-delete' data-compra-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
-                                "<button class='btn-link js-edit' data-compra-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" + 
-                                "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Orden de Compra' src='/Content/Images/NotaPedido.png'/></button>";
+                            
+                            var userRole = '@(User.IsInRole("Administrator") ? "true" : "false")';
+
+                            if (userRole == "true") {
+                                return "<button class='btn-link js-delete' data-compra-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
+                                    "<button class='btn-link js-edit' data-compra-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" +
+                                    "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Orden de Compra' src='/Content/Images/NotaPedido.png'/></button>";
+                            }
+                            else {
+                                return "<button class='btn-link js-edit' data-compra-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" +
+                                    "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Orden de Compra' src='/Content/Images/NotaPedido.png'/></button>";
+                            }
                         }
                     }
                 ]

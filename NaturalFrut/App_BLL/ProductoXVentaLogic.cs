@@ -81,6 +81,7 @@ namespace NaturalFrut.App_BLL
                .Include(p => p.Producto)
                .Include(t => t.TipoDeUnidad)
                .Where(v => v.VentaID == ventaID)
+               .OrderBy(p => p.Producto.Nombre)
                .ToList();
         }
 

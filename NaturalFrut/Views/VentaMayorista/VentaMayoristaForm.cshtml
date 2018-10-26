@@ -351,6 +351,9 @@
                 ResetearDescuentoTotal();
                 ResetearTotal();
                 //CalcularSaldoFinal();
+
+                //Requerir que se calcule el total si no hacen click en el boton
+                totalCalculado = false;
             });
 
             $("#vendedor").on('change', function () {
@@ -508,6 +511,8 @@
 
             })
 
+            
+
             //**EVENTOS END **//
 
             // Autocomplete para Cliente
@@ -542,58 +547,64 @@
 
                 submitHandler: function () {
 
-                    var validarProducto = $('input[name*="producto"]').valid();
-                    var validarCantidad = $('input[name*="cantidad"]').valid();
-                    var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
+                    //var validarProducto = $('input[name*="producto"]').valid();
+                    //var validarCantidad = $('input[name*="cantidad"]').valid();
+                    //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
 
-                    if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    //if (validarProducto && validarCantidad && validartipodeUnidad) {
 
-                        //Modal para aceptacion de venta
-                        bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
+                    //Modal para aceptacion de venta
+                    bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
 
-                            if (result) {
+                        if (result) {
 
-                                if (totalCalculado) {
+                            var validarProductos = $('input[name*="producto"]');
 
-                                    CargarProductosAlVM(vm);
+                            if (validarProductos.length == 0)
+                                $("#calculartotal").trigger("click");
 
-                                    $.ajax({
-                                        url: "/api/ventasmayorista",
-                                        method: "post",
-                                        data: vm
+
+                            if (totalCalculado) {
+
+                                CargarProductosAlVM(vm);
+
+                                $.ajax({
+                                    url: "/api/ventasmayorista",
+                                    method: "post",
+                                    data: vm
+                                })
+                                    .done(function () {
+
+                                        toastr.success("La venta se ha guardado correctamente.");
+
+                                        setTimeout(function () {
+                                            window.location.href = "/VentaMayorista";
+                                        }, 4000);
+
                                     })
-                                        .done(function () {
+                                    .fail(function () {
+                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
 
-                                            toastr.success("La venta se ha guardado correctamente.");
+                                        //Reseteamos los productos del viewmodel
+                                        vm.productosXVenta = [];      
 
-                                            setTimeout(function () {
-                                                window.location.href = "/VentaMayorista";
-                                            }, 4000);
-
-                                        })
-                                        .fail(function () {
-                                            toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
-
-                                            //Reseteamos los productos del viewmodel
-                                            vm.productosXVenta = [];      
-
-                                            totalCalculado = false;
-                                        });
+                                        totalCalculado = false;
+                                    });
                                     
-                                }
-                                else {
-                                    toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");
-                                }
+                            }
+                            else {
+                                toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");
+                            }
 
 
 
                                 
 
-                            }
+                        }
 
-                        });
+                    });
 
-                    }
+                    //}
                    
                     return false;
                 }
@@ -1011,8 +1022,8 @@
 
             $("#totalventa").val(FormatearValor(0));
             $("#nuevosaldo").val(saldo);
-        }
-        
+        }}
+
 
     </script>
 
