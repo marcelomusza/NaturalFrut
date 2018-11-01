@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label>Proveedor</label>
                 <div class="tt-container compra-proveedor">
-                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" required type="text" value="" class="form-control" />
+                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" onblur="GetSaldoProveedor();" required type="text" value="" class="form-control" />
                     <a href="#" onclick="NuevoProveedorModal(0)"><img src="~/Content/Images/addSign.png"  title="Ingresar Nuevo Proveedor" /></a>
                 </div>
             </div>
@@ -98,6 +98,21 @@
                 </div>
                 <label class="error field-validation-valid" for="clasificacion" data-valmsg-replace="true"></label>
             </div>
+
+            <div class="form-group">
+                <label>Entrega Efectivo</label>
+                <input id="entregaEfectivo" required name="entregaEfectivo" type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Saldo Actual</label>
+                <input id="debe" name="debe" type="text" value="" class="form-control js-formatvalue" disabled />
+            </div>
+
+            @*<div class="form-group">
+                <label>Saldo a Favor</label>
+                <input id="saldoFavor" name="saldoFavor" type="text" value="" class="form-control js-formatvalue" disabled />
+            </div>*@
 
         
         </div>
@@ -349,7 +364,9 @@
                 total: 0,
                 totalGastos: 0,
                 noConcretado: false,
-                tipoFactura:"",
+                tipoFactura: "",
+                debe: 0,
+                SaldoAfavor:0,
                 productosXCompra : []
             };
 
@@ -390,15 +407,15 @@
 
                 cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" data-js-counter="' + counter + '" value="" class="js-importe form-control " onkeyup="ValidarPunto(this);" /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="number" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);"  /></div></td>';
+                cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);"  /></div></td>';
 
                 cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" required type="text" value="" class="form-control" disabled /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="number" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);"/></div></td>';
+                cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);"/></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="number" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);"/></div></td>';
+                cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="text" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);"/></div></td>';
 
                 cols += '<td><div class="form-group"><input id="preciouni' + counter + '" name="preciouni" required type="text" value="" class="form-control" disabled /></div></td>';
 
@@ -854,6 +871,8 @@
 
                             if (result) {
 
+                                calculoDebe();
+
                                 CargarProductosAlVM(vm);
 
 
@@ -864,7 +883,7 @@
                                 })
                                     .done(function () {
 
-                                        toastr.success("La venta se ha guardado correctamente.");
+                                        toastr.success("La compra se ha guardado correctamente.");
 
                                         setTimeout(function () {
                                             window.location.href = "/Compra";
@@ -872,7 +891,7 @@
 
                                     })
                                     .fail(function () {
-                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+                                        toastr.error("Se ha producido un error al guardar la compra, revise los datos a ingresar...");
                                     });
 
                             }
@@ -925,12 +944,12 @@
 
         }
 
-        function GetSaldoCliente() {
+        function GetSaldoProveedor() {
 
-            var clienteID = $("#cliente").attr("data-cliente-id");
+            var proveedorID = $("#proveedor").attr("data-proveedor-id");
 
-            if (clienteID != "") {
-                $.getJSON("GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
+            if (proveedorID != "") {
+                $.getJSON("GetSaldoProveedorAsync", { ProveedorID: proveedorID }, ActualizarSaldoProveedor)
                     .error(function (xhr, textStatus, exceptionThrown) {
                         bootbox.alert(xhr.responseText);
                     })
@@ -938,13 +957,18 @@
 
         }
 
-        ActualizarSaldoCliente = function (data) {
+        ActualizarSaldoProveedor = function (data) {
 
-            if (data.Saldo != 0)
-                $("#saldo").val(data.Saldo);
+            if (data.Saldo != 0) {
 
-            RecalcularTotal();
+                $("#debe").val(data.Saldo);
 
+                $("#debe").val(FormatearValor($("#debe").val()));
+
+
+
+            }
+          
         }
 
    
@@ -1095,6 +1119,7 @@
             vm.percIva = ValorANumero($("#percepiva").val());
             vm.importePercIva = DeFormatearValor($("#importepercepiva").val());
             vm.total = DeFormatearValor($("#total").val());
+            vm.debe = DeFormatearValor($("#debe").val());
 
             //Cargamos la lista de productos
             $(".listaproductos tr").each(function (i, row) {
@@ -1150,6 +1175,26 @@
            // vm.descuento = $("#descuento").val();
            // vm.saldo = $("#saldo").val();
             vm.totalGastos = DeFormatearValor($("#totalgastos").val());
+
+        }
+
+        function calculoDebe() {
+
+
+           var entregaEfectivo = $("#entregaEfectivo").val();
+           var debe = DeFormatearValor($("#debe").val());
+           var totalGasto = DeFormatearValor($("#totalgastos").val());
+
+           var nuevoDebe = debe + totalGasto - entregaEfectivo;
+
+           if (nuevoDebe < 0) {
+               $("#debe").val(FormatearValor(0));
+           } else {
+               $("#debe").val(FormatearValor(nuevoDebe));
+           }
+           
+
+           
 
         }
 

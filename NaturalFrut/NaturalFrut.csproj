@@ -290,6 +290,10 @@
     <Compile Include="Migrations\201810261925088_nuevosMigration.Designer.cs">
       <DependentUpon>201810261925088_nuevosMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810301559498_nuevoscamposProveedor.cs" />
+    <Compile Include="Migrations\201810301559498_nuevoscamposProveedor.Designer.cs">
+      <DependentUpon>201810301559498_nuevoscamposProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\GenerarTxt.cs">
@@ -801,6 +805,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810261925088_nuevosMigration.resx">
       <DependentUpon>201810261925088_nuevosMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301559498_nuevoscamposProveedor.resx">
+      <DependentUpon>201810301559498_nuevoscamposProveedor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

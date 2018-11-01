@@ -69,6 +69,30 @@
                 <input id="impnogravado" name="impnogravado" required type="text" value="@Model.ImporteNoGravado" class="form-control js-formatvalue" onkeyup="ValidarPunto(this);" />
             </div>
 
+            <div class="form-group">
+                <label>Entrega Efectivo</label>
+                <input id="entregaEfectivo" required name="entregaEfectivo" type="number" value="" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Saldo Actual</label>
+                <input id="nuevodebe" name="nuevodebe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
+            </div>
+
+            <div class="form-group">
+                <label>Saldo Anterior</label>
+                <input id="debe" name="debe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
+            </div>
+
+            
+
+            @*<div class="form-group">
+                <label>Saldo a Favor</label>
+                <input id="saldoAfavor" name="saldoAfavor" type="text" value="@Model.Proveedor.SaldoAfavor" class="form-control js-formatvalue" disabled />
+            </div>*@
+
+            <input type="hidden" name="gastoTotalInicial"  id="gastoTotalInicial" value=""/>
+
         </div>
 
         <!--Agrupamos campos de la columna derecha-->
@@ -200,7 +224,7 @@
                         <td colspan="12" style="text-align: right;">
                             &nbsp;
                             <label>Total Gastos:</label>
-                            <input type="text" class="form-control vtamay-totalventa" id="totalgastos" value="0" disabled />
+                            <input type="text" class="form-control vtamay-totalventa" id="totalgastos" name="totalgastos" value="0" disabled/>
                         </td>
                     </tr>
                 </tfoot>
@@ -271,15 +295,23 @@
                 totalGastos: 0,
                 noConcretado: false,
                 tipoFactura:"",
+                debe: 0,
+                SaldoAfavor:0,
                 productosXCompra : []
             };
 
             var vm2 = [];
+
+            
             CargarValoresInicialesEnVM(vm);
 	    
-	    FormatearValoresIniciales();
+	        FormatearValoresIniciales();
 	    
-            RecalcularTotalGastos();
+	        RecalcularTotalGastos();
+
+	        var gastoTotalInicial = DeFormatearValor($("#totalgastos").val());
+	        $("#gastoTotalInicial").val(gastoTotalInicial);
+
 
 
             //**EVENTOS START **//
@@ -436,13 +468,12 @@
             })
 
 
-            //$("#entregaefectivo").on('change', function () {
-            //    vm.entregaEfectivo = this.value;
-            //})
 
+            $("#totalgastos").on('change', function () {
+                recalculoDebe();
+            })
 
-
-
+            
             $("#descuentoporc").on('blur', function (){
 
                 var descuentoporc = ValorANumero($("#descuentoporc").val());
@@ -744,22 +775,18 @@
 
                             if (result) {
 
-                                CargarProductosAlVM(vm, vm2);
+                                calculoDebe();
 
-                                var model = {
-                                    "Compra": vm,
-                                    "ProductosXCompra": vm2
-                                };
-
+                                CargarProductosAlVM(vm);                                
 
                                 $.ajax({
                                     url: "/api/compra",
                                     method: "put",
-                                    data: model
+                                    data: vm
                                 })
                                     .done(function () {
 
-                                        toastr.success("La venta se ha guardado correctamente.");
+                                        toastr.success("La compra se ha actualizado correctamente.");
 
                                         setTimeout(function () {
                                             window.location.href = "/Compra";
@@ -767,7 +794,7 @@
 
                                     })
                                     .fail(function () {
-                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+                                        toastr.error("Se ha producido un error al guardar la compra, revise los datos a ingresar...");
                                     });
 
                             }
@@ -935,7 +962,11 @@
                     sumaGastoTotal += parseFloat(DeFormatearValor(this.value));
                 });
 
-                $("#totalgastos").val(FormatearValor(sumaGastoTotal));
+                $("#totalgastos").val(FormatearValor(sumaGastoTotal)).trigger( "change" );
+
+                
+
+               
 
         }
 
@@ -973,7 +1004,7 @@
             vm.fecha = fecha;
         }
 
-        function CargarProductosAlVM(vm, vm2) {
+        function CargarProductosAlVM(vm) {
 
 
             //Cargamos la lista de productos
@@ -1029,7 +1060,7 @@
 
             });
 
-            //Cargamos la suma total y el descuento total
+            @*//Cargamos la suma total y el descuento total
            // vm.descuento = $("#descuento").val();
             // vm.saldo = $("#saldo").val();
 
@@ -1083,7 +1114,7 @@
                 );
 
 
-            });
+            });*@
 
             //cargamos resto de los campos
             vm.ID = @ViewBag.CompraID;
@@ -1106,6 +1137,7 @@
             vm.importePercIva = DeFormatearValor($("#importepercepiva").val());
             vm.total = DeFormatearValor($("#total").val());
             vm.totalGastos = DeFormatearValor($("#totalgastos").val());
+            vm.debe = DeFormatearValor($("#debe").val());
 
         }
 
@@ -1141,8 +1173,128 @@
 
 	
         }
+
+        function calculoDebe() {
+
+            var entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
+            var debe = DeFormatearValor($("#nuevodebe").val());
+
+            debe = debe - entregaEfectivo;
+
+            if(debe < 0){
+                $("#debe").val(FormatearValor(0));
+            }else{
+                $("#debe").val(FormatearValor(debe));
+            }
+
+            
+
+           // var totalGasto = DeFormatearValor($("#totalgastos").val());
+
+           // debe = debe - entregaEfectivo;
+            //var gastoTotalInicial = DeFormatearValor($("#gastoTotalInicial").val());
+            
+            //if(gastoTotalInicial > totalGasto){
+
+            //    var nuevoDebe = gastoTotalInicial - totalGasto
+
+            //    debe = debe - nuevoDebe;
+
+            //    if(debe < 0){
+
+            //        debe = debe *(-1);
+            //        debe = entregaEfectivo + debe;
+
+            //        $("#saldoAfavor").val(FormatearValor(debe));
+
+
+            //        $("#debe").val(FormatearValor(0));
+                
+            //    }else
+            //    {
+            //        debe =  debe - entregaEfectivo;
+            //        $("#debe").val(FormatearValor(debe));
+            //        $("#saldoAfavor").val(FormatearValor(0));
+            //    }
+
+            //}
+
+            //if(gastoTotalInicial < totalGasto){
+
+            //    var nuevoDebe =  totalGasto - gastoTotalInicial ;
+
+            //    debe = debe + nuevoDebe;
+
+            //    debe =  debe - entregaEfectivo ;
+            //    $("#debe").val(FormatearValor(debe));
+            //    $("#saldoAfavor").val(FormatearValor(0));
+            
+            //}
+
+            //if(gastoTotalInicial == totalGasto){
+
+            //    debe = debe - entregaEfectivo ;
+            //    $("#debe").val(FormatearValor(debe));
+            //    $("#saldoAfavor").val(FormatearValor(0));
+            
+            //}
+
+        }
+
+        function recalculoDebe() {
+
+            
+            var debe = DeFormatearValor($("#debe").val());
+            var totalGasto = DeFormatearValor($("#totalgastos").val());
+
+            var gastoTotalInicial = DeFormatearValor($("#gastoTotalInicial").val());
+            
+            if(gastoTotalInicial > totalGasto){
+
+                var nuevoDebe = gastoTotalInicial - totalGasto
+
+                debe = debe - nuevoDebe;
+
+                if(debe < 0){
+
+                    debe = debe *(-1);
+                   // $("#saldoAfavor").val(FormatearValor(debe));
+                    $("#nuevodebe").val(FormatearValor(0));
+                
+                }else
+                {
+                   
+                    $("#nuevodebe").val(FormatearValor(debe));
+                   // $("#saldoAfavor").val(FormatearValor(0));
+                }
+
+            }
+
+            if(gastoTotalInicial < totalGasto){
+
+                var nuevoDebe =  totalGasto - gastoTotalInicial ;
+
+                debe = debe + nuevoDebe;
+
+     
+                $("#nuevodebe").val(FormatearValor(debe));
+                //$("#saldoAfavor").val(FormatearValor(0));
+            
+            }
+
+            if(gastoTotalInicial == totalGasto){
+
+                
+                $("#nuevodebe").val(FormatearValor(debe));
+                //$("#saldoAfavor").val(FormatearValor(0));
+            
+            }
+
+        }
 	
-	function FormatearValoresIniciales() {
+        function FormatearValoresIniciales() {
+
+            var totalGastoInicial = 
 
             $(".js-formatvalue").each(function () {
 

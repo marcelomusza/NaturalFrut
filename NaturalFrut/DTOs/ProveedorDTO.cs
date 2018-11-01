@@ -37,6 +37,10 @@ namespace NaturalFrut.DTOs
 
         [Required]
         public string Email { get; set; }
+        public double? Debe { get; set; }
+
+        public double? SaldoAfavor { get; set; }
+
 
     }
 }
