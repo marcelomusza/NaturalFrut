@@ -247,108 +247,108 @@ namespace NaturalFrut.Controllers
 
         }
 
-        //    public ActionResult GetSaldoClienteAsync(int clienteID)
-        //    {
+        public ActionResult GetSaldoProveedorAsync(int proveedorID)
+        {
 
-        //        try
-        //        {
+            try
+            {
 
-        //            Cliente cliente = clienteBL.GetClienteById(clienteID);                
+                Proveedor proveedor = proveedorBL.GetProveedorById(proveedorID);
 
-        //            if (cliente == null)
-        //                throw new Exception("Cliente invalido al cargar Saldo Deudor");
+                if (proveedor == null)
+                    throw new Exception("Proveedor invalido al cargar Saldo Deudor");
 
-        //            var saldo = cliente.Saldo;
+                var saldo = proveedor.Debe;
 
-        //            return Json(new { Saldo = saldo }, JsonRequestBehavior.AllowGet);
+                return Json(new { Saldo = saldo }, JsonRequestBehavior.AllowGet);
 
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-        //        }
-
-
-        //    }
-
-        //    public ActionResult CalcularStockBlisterAsync(int productoID, int tipoUnidadID, int counter)
-        //    {
-        //        try
-        //        {
-        //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
-
-        //            return Json(new { Success = true, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
 
 
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-        //        }
+          }
+
+            //    public ActionResult CalcularStockBlisterAsync(int productoID, int tipoUnidadID, int counter)
+            //    {
+            //        try
+            //        {
+            //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+            //            return Json(new { Success = true, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
 
 
-
-        //    }
-
-        //    public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
-        //    {
-
-        //        try
-        //        {
-        //            double importe;
-        //            double importeTotal;
-
-        //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
-
-        //            if (productoSegunStock == null)
-        //                throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
-
-        //            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
-
-        //            if (productoBlisterSegunLista == null)
-        //                throw new Exception("Error al cargar los precios de producto");
-
-        //            importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
-
-        //            //Sumamos el importe total
-        //            importeTotal = importe * cantidad;
-
-        //            return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
-
-
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-        //        }
-
-
-        //    }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            //        }
 
 
 
-        //[AllowAnonymous]
-        //public ActionResult GenerarNotaPedido(int Id)
-        //{
+            //    }
 
-        //    var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+            //    public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
+            //    {
 
-        //    VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
-        //    {
-        //        Clientes = clienteBL.GetClienteById(venta.ClienteID),
-        //        ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
+            //        try
+            //        {
+            //            double importe;
+            //            double importeTotal;
 
-        //    };
+            //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+            //            if (productoSegunStock == null)
+            //                throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+            //            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+
+            //            if (productoBlisterSegunLista == null)
+            //                throw new Exception("Error al cargar los precios de producto");
+
+            //            importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
+
+            //            //Sumamos el importe total
+            //            importeTotal = importe * cantidad;
+
+            //            return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+
+
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            //        }
+
+
+            //    }
 
 
 
-        //    ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
+            //[AllowAnonymous]
+            //public ActionResult GenerarNotaPedido(int Id)
+            //{
+
+            //    var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+
+            //    VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
+            //    {
+            //        Clientes = clienteBL.GetClienteById(venta.ClienteID),
+            //        ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
+
+            //    };
+
+
+
+            //    ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
 
 
 
 
-        //    return View("NotaDePedidoForm", viewModel);
-        //}
+            //    return View("NotaDePedidoForm", viewModel);
+            //}
 
 
         [AllowAnonymous]

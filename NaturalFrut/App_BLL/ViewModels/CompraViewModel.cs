@@ -59,6 +59,10 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public Proveedor ProveedorObj { get; set; }
 
+        public double Debe { get; set; }
+
+        public double SaldoAfavor { get; set; }
+
         public IEnumerable<ProductoXCompra> ProductoXCompra { get; set; }
 
 

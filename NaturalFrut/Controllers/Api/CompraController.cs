@@ -60,18 +60,18 @@ namespace NaturalFrut.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            //Cliente cliente = clienteBL.GetClienteById(ventaMayoristaDTO.ClienteID);
+            Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
 
-            /*if (cliente == null)
-                return BadRequest();*/
+            if (proveedor == null)
+                return BadRequest();
 
             var compra = Mapper.Map<CompraDTO, Compra>(compraDTO);
 
             compraBL.AddCompra(compra);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
-            /* cliente.Saldo = ventaMayorista.SumaTotal - ventaMayorista.EntregaEfectivo;
-             clienteBL.UpdateCliente(cliente);  */
+             proveedor.Debe = compraDTO.Debe;
+             proveedorBL.UpdateProveedor(proveedor);  
 
             if (compra.ProductosXCompra != null)
             {
@@ -97,7 +97,7 @@ namespace NaturalFrut.Controllers.Api
 
                         stockNuevo.ProductoID = item.ProductoID;
                         stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
-                        stock.Cantidad = item.Cantidad;
+                        stockNuevo.Cantidad = item.Cantidad;
 
                         stockBL.AddStock(stockNuevo);
 
@@ -112,158 +112,96 @@ namespace NaturalFrut.Controllers.Api
 
         //PUT /api/compra
         [HttpPut]
-        public IHttpActionResult UpdateCompra(CompraUpdateDTO compraUpdateDTO)
+        public IHttpActionResult UpdateCompra(CompraDTO compraDTO)
         {
-            //if (!ModelState.IsValid)
-            //    return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-            //var proveedor = proveedorBL.GetProveedorById(compraUpdateDTO.Compra.ProveedorID);
-
-            //if (proveedor == null)
-            //    return BadRequest();
-
-            var compraInDB = compraBL.GetCompraById(compraUpdateDTO.Compra.ID);
-
-            //List<float> cantProds = new List<float>();
-
-            //foreach (var prod in compraInDB.ProductosXCompra)
-            //{
-            //    cantProds.Add(prod.Cantidad);
-            //}
-
-            Compra compraUpdate = new Compra();
+            var compraInDB = compraBL.GetCompraById(compraDTO.ID);
 
             if (compraInDB == null)
                 return NotFound();
 
-
-
-            //Update para los campos de compra
-            compraUpdate.Factura = compraUpdateDTO.Compra.Factura;
-            compraUpdate.NoConcretado = compraUpdateDTO.Compra.NoConcretado;
-            compraUpdate.TipoFactura = compraUpdateDTO.Compra.TipoFactura;
-            compraUpdate.SumaTotal = compraUpdateDTO.Compra.SumaTotal;
-            compraUpdate.DescuentoPorc = compraUpdateDTO.Compra.DescuentoPorc;
-            compraUpdate.Descuento = compraUpdateDTO.Compra.Descuento;
-            compraUpdate.Subtotal = compraUpdateDTO.Compra.Subtotal;
-            compraUpdate.ImporteNoGravado = compraUpdateDTO.Compra.ImporteNoGravado;
-            compraUpdate.Iva = compraUpdateDTO.Compra.Iva;
-            compraUpdate.ImporteIva = compraUpdateDTO.Compra.ImporteIva;
-            compraUpdate.Iibbbsas = compraUpdateDTO.Compra.Iibbbsas;
-            compraUpdate.ImporteIibbbsas = compraUpdateDTO.Compra.ImporteIibbbsas;
-            compraUpdate.Iibbcaba = compraUpdateDTO.Compra.Iibbcaba;
-            compraUpdate.ImporteIibbcaba = compraUpdateDTO.Compra.ImporteIibbcaba;
-            compraUpdate.PercIva = compraUpdateDTO.Compra.PercIva;
-            compraUpdate.ImportePercIva = compraUpdateDTO.Compra.ImportePercIva;
-            compraUpdate.Total = compraUpdateDTO.Compra.Total;
-            compraUpdate.TotalGastos = compraUpdateDTO.Compra.TotalGastos;
-
-            //Update para los campos de sus ProductosXVenta asociados
-            for (int i = 0; i < compraInDB.ProductosXCompra.Count; i++)
-            {
-                compraUpdate.ProductosXCompra[i].Cantidad = compraUpdateDTO.Compra.ProductosXCompra[i].Cantidad;
-                compraUpdate.ProductosXCompra[i].Importe = compraUpdateDTO.Compra.ProductosXCompra[i].Importe;
-                compraUpdate.ProductosXCompra[i].Descuento = compraUpdateDTO.Compra.ProductosXCompra[i].Descuento;
-                compraUpdate.ProductosXCompra[i].ImporteDescuento = compraUpdateDTO.Compra.ProductosXCompra[i].ImporteDescuento;
-                compraUpdate.ProductosXCompra[i].Iibbbsas = compraUpdateDTO.Compra.ProductosXCompra[i].Iibbbsas;
-                compraUpdate.ProductosXCompra[i].Iibbcaba = compraUpdateDTO.Compra.ProductosXCompra[i].Iibbcaba;
-                compraUpdate.ProductosXCompra[i].Iva = compraUpdateDTO.Compra.ProductosXCompra[i].Iva;
-                compraUpdate.ProductosXCompra[i].PrecioUnitario = compraUpdateDTO.Compra.ProductosXCompra[i].PrecioUnitario;
-                compraUpdate.ProductosXCompra[i].Total = compraUpdateDTO.Compra.ProductosXCompra[i].Total;
-            }
-
-            compraBL.UpdateCompra(compraUpdate);
+            Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
-            //cliente.Saldo = ventaMayoristaInDB.SumaTotal - ventaMayoristaInDB.EntregaEfectivo;
-            //clienteBL.UpdateCliente(cliente);
+            proveedor.Debe = compraDTO.Debe;
+            proveedor.SaldoAfavor = compraDTO.SaldoAfavor;
+            proveedorBL.UpdateProveedor(proveedor);
 
-            //Paso siguiente - Agregamos productos nuevos a la venta, si los hay
-            //if (compraUpdateDTO.ProductosXCompra != null)
-            //{
-            //    foreach (var prod in compraUpdateDTO.ProductosXCompra)
-            //    {
-            //        ProductoXCompra nuevoProd = new ProductoXCompra()
-            //        {
-            //            ProductoID = prod.ProductoID,
-            //            Cantidad = prod.Cantidad,
-            //            TipoDeUnidadID = prod.TipoDeUnidadID,
-            //            Importe = prod.Importe,
-            //            Descuento = prod.Descuento,
-            //            ImporteDescuento = prod.ImporteDescuento,
-            //            Iibbbsas = prod.Iibbbsas,
-            //            Iibbcaba = prod.Iibbcaba,
-            //            Iva = prod.Iva,
-            //            PrecioUnitario = prod.PrecioUnitario,
-            //            Total = prod.Total,
-            //            CompraID = prod.CompraID
-            //        };
+            //actualizo stock
 
-            //        productoXCompraBL.AddProductoXCompra(nuevoProd);
-            //    }
-            //}
-
-            if (compraInDB.NoConcretado)
+            if (compraDTO.ProductosXCompra != null)
             {
-                //Actualizacion de stock para productos existenetes
-                foreach (var item in compraInDB.ProductosXCompra)
+                foreach (var item in compraDTO.ProductosXCompra)
                 {
 
-                    Producto producto = productoBL.GetProductoById(item.ProductoID);
-
+                    var prdXcompra = productoXCompraBL.GetProductoXCompraById(item.ID);
 
                     Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
 
-                    if (stock != null)
+                    if (prdXcompra.Cantidad > item.Cantidad)
                     {
-                        stock.Cantidad = stock.Cantidad + item.Cantidad;
+                        var cantidad = prdXcompra.Cantidad - item.Cantidad;
+                        stock.Cantidad = stock.Cantidad - cantidad;
                         stockBL.UpdateStock(stock);
-
                     }
-                    else
+
+                    if (item.Cantidad > prdXcompra.Cantidad)
                     {
-                        Stock stockNuevo = new Stock();
-
-                        stockNuevo.ProductoID = item.ProductoID;
-                        stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
-                        stock.Cantidad = item.Cantidad;
-
-                        stockBL.AddStock(stockNuevo);
-
+                        var cantidad = item.Cantidad - prdXcompra.Cantidad;
+                        stock.Cantidad = stock.Cantidad + cantidad;
+                        stockBL.UpdateStock(stock);
                     }
-
                 }
 
-                if (compraUpdateDTO.ProductosXCompra != null)
-                { 
-                    //Actualizacion de stock para productos nuevos
-                    foreach (var item in compraUpdateDTO.ProductosXCompra)
+                foreach (var item in compraDTO.ProductosXCompra)
+                {
+
+                    foreach (var item2 in compraInDB.ProductosXCompra)
                     {
-
-                        Producto producto = productoBL.GetProductoById(item.ProductoID);
-                        Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
-
-                        if (stock != null)
+                        if (item.ID == item2.ID)
                         {
-                            stock.Cantidad = stock.Cantidad + item.Cantidad;
-                            stockBL.UpdateStock(stock);
+                            item2.Cantidad = item.Cantidad;
+                            item2.Importe = item.Importe;
+                            item2.Descuento = item.Descuento;
+                            item2.ImporteDescuento = item.ImporteDescuento;
+                            item2.Iibbbsas = item.Iibbbsas;
+                            item2.Iibbcaba = item.Iibbcaba;
+                            item2.Iva = item.Iva;
+                            item2.PrecioUnitario = item.PrecioUnitario;
+                            item2.Total = item.Total;
+                            item2.ProductoID = item.ProductoID;
+                            item2.CompraID = item.CompraID;
+                            item2.TipoDeUnidadID = item.TipoDeUnidadID;
 
                         }
-                        else
-                        {
-                            Stock stockNuevo = new Stock();
-
-                            stockNuevo.ProductoID = item.ProductoID;
-                            stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
-                            stockNuevo.Cantidad = item.Cantidad;
-
-                            stockBL.AddStock(stockNuevo);
-
-                        }
-
                     }
                 }
-            }            
+            }          
+
+            
+
+            compraInDB.Factura = compraDTO.Factura;
+            compraInDB.NoConcretado = compraDTO.NoConcretado;
+            compraInDB.TipoFactura = compraDTO.TipoFactura;
+            compraInDB.SumaTotal = compraDTO.SumaTotal;
+            compraInDB.DescuentoPorc = compraDTO.DescuentoPorc;
+            compraInDB.Descuento = compraDTO.Descuento;
+            compraInDB.Subtotal = compraDTO.Subtotal;
+            compraInDB.ImporteNoGravado = compraDTO.ImporteNoGravado;
+            compraInDB.Iva = compraDTO.Iva;
+            compraInDB.ImporteIva = compraDTO.ImporteIva;
+            compraInDB.Iibbbsas = compraDTO.Iibbbsas;
+            compraInDB.ImporteIibbbsas = compraDTO.ImporteIibbbsas;
+            compraInDB.Iibbcaba = compraDTO.Iibbcaba;
+            compraInDB.ImporteIibbcaba = compraDTO.ImporteIibbcaba;
+            compraInDB.PercIva = compraDTO.PercIva;
+            compraInDB.ImportePercIva = compraDTO.ImportePercIva;
+            compraInDB.Total = compraDTO.Total;
+            compraInDB.TotalGastos = compraDTO.TotalGastos;
+
+            compraBL.UpdateCompra(compraInDB);
 
             return Ok();
         }
