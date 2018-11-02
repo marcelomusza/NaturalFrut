@@ -239,8 +239,79 @@ namespace NaturalFrut.Controllers
 
 
                 //Consultamos Stock segun tipo de producto
-                Stock productoSegunStock = new Stock();                
-                if (prod.EsMix)
+                Stock productoSegunStock = new Stock();     
+                
+
+                if(prod.EsMix && prod.EsBlister)
+                {
+                    //Operacion especifica para productos que son MIX y BLISTER a la vez
+                    if(tipoUnidadID == Constants.TIPODEUNIDAD_MIX)
+                    {
+                        //Calculamos el Stock en base a la cantidad 
+                        var productosMixStock = stockBL.GetListaProductosMixById(productoID);
+                        List<double> prodsDisponible = new List<double>();
+                        int contador = 0;
+
+                        foreach (var prodMix in productosMixStock)
+                        {
+                            productoSegunStock = stockBL.ValidarStockProducto(prodMix.ProductoDelMixId.GetValueOrDefault(), tipoUnidadID);
+
+                            if (productoSegunStock == null)
+                                throw new Exception("El Producto " + prodMix.ProductoDelMix.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+
+                            for (double i = prodMix.Cantidad; i < productoSegunStock.Cantidad; i += prodMix.Cantidad)
+                            {
+                                if (productoSegunStock.Cantidad >= prodMix.Cantidad)
+                                    contador++;
+                            }
+
+                            prodsDisponible.Add(contador);
+                            contador = 0;
+
+                        }
+
+                        stockDisponible = prodsDisponible.Min();
+                    }
+                    else if(tipoUnidadID == Constants.TIPODEUNIDAD_BLISTER)
+                    {
+                        //Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+                        //if (productoBlisterSegunStock == null)
+                        //    throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+                        //stockDisponible = productoBlisterSegunStock.Cantidad;
+
+                        //Calculamos el Stock en base a la cantidad 
+                        var productosBlisterMixStock = stockBL.GetListaProductosMixById(productoID);
+                        List<double> prodsDisponible = new List<double>();
+                        int contador = 0;
+
+                        foreach (var prodMix in productosBlisterMixStock)
+                        {
+                            productoSegunStock = stockBL.ValidarStockProducto(prodMix.ProductoDelMixId.GetValueOrDefault(), Constants.TIPODEUNIDAD_MIX);
+
+                            if (productoSegunStock == null)
+                                throw new Exception("El Producto " + prodMix.ProductoDelMix.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+
+                            for (double i = (prodMix.Cantidad / 10); i < productoSegunStock.Cantidad; i += (prodMix.Cantidad / 10))
+                            {                                
+                                    contador++;
+                            }
+
+                            prodsDisponible.Add(contador);
+                            contador = 0;
+
+                        }
+
+                        stockDisponible = prodsDisponible.Min();
+                    }
+
+
+
+                }
+                else if (prod.EsMix)
                 {
                     //Calculamos el Stock en base a la cantidad 
                     var productosMixStock = stockBL.GetListaProductosMixById(productoID);
@@ -250,6 +321,10 @@ namespace NaturalFrut.Controllers
                     foreach (var prodMix in productosMixStock)
                     {
                         productoSegunStock = stockBL.ValidarStockProducto(prodMix.ProductoDelMixId.GetValueOrDefault(), tipoUnidadID);
+
+                        if (productoSegunStock == null)
+                            throw new Exception("El Producto " + prodMix.ProductoDelMix.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
 
                         for (double i = prodMix.Cantidad; i < productoSegunStock.Cantidad; i += prodMix.Cantidad)
                         {
@@ -265,13 +340,26 @@ namespace NaturalFrut.Controllers
                     stockDisponible = prodsDisponible.Min();
 
                 }
+                else if (prod.EsBlister)
+                {
+                    Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+                    ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+
+                    if (productoBlisterSegunStock == null)
+                        throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+                    double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunStock.Cantidad) / (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
+
+                    stockDisponible = cantidadEnKG;
+
+                }
                 else
                 {
                     //Stock para el resto de los productos
                     productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
 
                     if (productoSegunStock == null)
-                        throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+                        throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
 
 
                     stockDisponible = productoSegunStock.Cantidad;
@@ -333,12 +421,7 @@ namespace NaturalFrut.Controllers
                         break;
 
                     case Constants.PRECIO_X_BLISTER:
-
-                        Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
-
-                        if (productoBlisterSegunStock == null)
-                            throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
-
+                       
                         ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
 
                         if (productoBlisterSegunLista == null)
@@ -380,6 +463,10 @@ namespace NaturalFrut.Controllers
         {
 
             List<TipoDeUnidad> tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
+
+            var item = tiposDeUnidad.SingleOrDefault(x => x.ID == Constants.TIPODEUNIDAD_BLISTER);
+            if (item != null)
+                tiposDeUnidad.Remove(item);
 
             return Json(new { TiposDeUnidad = tiposDeUnidad, Counter = counter }, JsonRequestBehavior.AllowGet);
         }

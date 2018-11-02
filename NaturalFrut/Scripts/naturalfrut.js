@@ -34,7 +34,7 @@ function ValorANumero(v) {
     v = v.split('.').join('');
     v = v.split(',').join('.');
 
-    return Number(v.replace(/[^0-9.]/g, ""));
+    return Number(v.replace(/[^0-9.-]/g, ""));
 }
 
 function FormatearValor(valor) {

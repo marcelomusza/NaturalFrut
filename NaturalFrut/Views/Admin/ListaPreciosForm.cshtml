@@ -35,18 +35,18 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.PrecioXKG)
-                @Html.TextBoxFor(c => c.PrecioXKG, new { @class = "form-control" })
+                @Html.TextBoxFor(c => c.PrecioXKG, new { @class = "form-control", onkeyup = "ValidarPunto(this);" })
                 @Html.ValidationMessageFor(c => c.PrecioXKG)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.PrecioXBultoCerrado)
-                @Html.TextBoxFor(c => c.PrecioXBultoCerrado, new { @class = "form-control" })
+                @Html.TextBoxFor(c => c.PrecioXBultoCerrado, new { @class = "form-control", onkeyup = "ValidarPunto(this);" })
                 @Html.ValidationMessageFor(c => c.PrecioXBultoCerrado)
             </div>
             <div class="form-group">
                 @Html.LabelFor(c => c.PrecioXUnidad)
-                @Html.TextBoxFor(c => c.PrecioXUnidad, new { @class = "form-control" })
+                @Html.TextBoxFor(c => c.PrecioXUnidad, new { @class = "form-control", onkeyup = "ValidarPunto(this);" })
                 @Html.ValidationMessageFor(c => c.PrecioXUnidad)
             </div>
             <div class="form-group">
@@ -82,5 +82,33 @@
 @section scripts {
 
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            //$("#PrecioXUnidad").on("keyup", function () {
+
+            //    //$(this).val(FormatearValor($(this).val()));
+            //    //$(this).val(ValidarPuntoPorComa($(this)));
+
+            //});
+
+            //$("#PrecioXKG").on("blur", function () {
+
+            //    //$(this).val(FormatearValor($(this).val()));
+
+            //});
+
+            //$("#PrecioXBultoCerrado").on("blur", function () {
+
+            //    //$(this).val(FormatearValor($(this).val()));
+
+            //});
+
+        });
+        
+
+    </script>
 
 }
