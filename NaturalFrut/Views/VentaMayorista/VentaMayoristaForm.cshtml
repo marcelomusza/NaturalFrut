@@ -67,8 +67,8 @@
             </div>
 
             <div class="form-group">
-                <label>Nuevo Saldo</label>
-                <input id="nuevosaldo" name="nuevosaldo" type="text" value="" class="form-control js-formatvalue" disabled />
+                <label>Saldo Parcial</label>
+                <input id="saldoparcial" name="saldoparcial" type="text" value="" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="checkbox">
@@ -234,7 +234,7 @@
                 tipoDescuentoTotal: 0,
                 descuento: 0,
                 saldo: 0,
-                nuevoSaldo: 0,
+                saldoParcial: 0,
                 entregaEfectivo: 0,
                 productosXVenta : []
             };
@@ -247,7 +247,7 @@
 
             //Valor inicial para Saldos
             $("#saldo").val(0);
-            $("#nuevosaldo").val(0);
+            $("#saldoparcial").val(0);
 
             //**EVENTOS START **//
             
@@ -565,7 +565,7 @@
 
 
                             if (totalCalculado) {
-
+                                
                                 CargarProductosAlVM(vm);
 
                                 $.ajax({
@@ -666,14 +666,14 @@
 
             if (data.Saldo != 0) {
                 $("#saldo").val(data.Saldo);
-                $("#nuevosaldo").val(data.Saldo);
+                $("#saldoparcial").val(data.Saldo);
             }             
 
             //RecalcularTotal();
             //;
 
             $("#saldo").val(FormatearValor($("#saldo").val()));
-            $("#nuevosaldo").val(FormatearValor($("#nuevosaldo").val()));
+            $("#saldoparcial").val(FormatearValor($("#saldoparcial").val()));
 
         }
 
@@ -846,7 +846,7 @@
             vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
             vm.saldo = DeFormatearValor($("#saldo").val());
-            vm.nuevoSaldo = DeFormatearValor($("#nuevosaldo").val());
+            vm.saldoParcial = DeFormatearValor($("#saldoparcial").val());
             vm.sumaTotal = DeFormatearValor($("#totalventa").val());
 
         }
@@ -965,7 +965,7 @@
             var sumaTotal = DeFormatearEntregaEfectivo($("#totalventa").val());
             var saldo = DeFormatearEntregaEfectivo($("#saldo").val());
 
-            $("#nuevosaldo").val(FormatearValor(parseFloat(sumaTotal) + parseFloat(saldo) - parseFloat(entregaEfvo)));
+            $("#saldoparcial").val(FormatearValor(parseFloat(sumaTotal) + parseFloat(saldo) - parseFloat(entregaEfvo)));
 
         }
 
@@ -1028,7 +1028,7 @@
             var saldo = $("#saldo").val();
 
             $("#totalventa").val(FormatearValor(0));
-            $("#nuevosaldo").val(saldo);
+            $("#saldoparcial").val(saldo);
         }
 
 

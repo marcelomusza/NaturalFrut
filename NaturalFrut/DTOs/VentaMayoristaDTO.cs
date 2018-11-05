@@ -27,7 +27,7 @@ namespace NaturalFrut.DTOs
 
         public double? Saldo { get; set; }
 
-        public double? NuevoSaldo { get; set; }
+        public double? SaldoParcial { get; set; }
 
         public int NumeroVenta { get; set; }
 

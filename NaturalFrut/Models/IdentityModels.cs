@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System.Configuration;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using NaturalFrut.Helpers;
 
 namespace NaturalFrut.Models
 {
@@ -31,6 +33,11 @@ namespace NaturalFrut.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
+        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionMarcelo"].ConnectionString);
+        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionProduction"].ConnectionString);
+        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionYesica"].ConnectionString);
+        private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionTest"].ConnectionString);
+
         //Asignación de DbSets para CodeFirst migrations 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<CondicionIVA> CondicionIVA { get; set; }
@@ -52,21 +59,13 @@ namespace NaturalFrut.Models
         public DbSet<Compra> Compra { get; set; }
         public DbSet<ProductoXCompra> ProductoXCompra { get; set; }
 
-        ////CONTEXT MARCELO
-        //public ApplicationDbContext()
-        //    : base("DefaultConnectionMarcelo", throwIfV1Schema: false)
-        //{
-        //}
-
-
-        // CONTEXT YESICA
-
-        public ApplicationDbContext()
-            : base("DefaultConnectionYesica", throwIfV1Schema: false)
+        public ApplicationDbContext()            
         {
+            Database.Connection.ConnectionString = connStr;
+
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
-
-
+        
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

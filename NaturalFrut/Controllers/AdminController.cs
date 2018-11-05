@@ -16,6 +16,7 @@ using Rotativa.Options;
 using System.Net.Mail;
 using System.IO;
 using System.Net;
+using System.Configuration;
 
 namespace NaturalFrut.Controllers
 {
@@ -1418,8 +1419,9 @@ namespace NaturalFrut.Controllers
 
             MailModel datos = datosMail;
             string nombreArchivo = "ListaPreciosBlister_" + DateTime.Now.ToString("ddMMyyyy");
-            string from = "marcelomusza@gmail.com";
-
+            string from = Encryption.DecryptPassword(ConfigurationManager.AppSettings["MailFrom"]);
+            string mailPass = Encryption.DecryptPassword(ConfigurationManager.AppSettings["MailPassword"]);
+            
             if (!ModelState.IsValid)
             {
                 return View("Mail\\EnviarMailListaPreciosForm", datos);
@@ -1440,13 +1442,13 @@ namespace NaturalFrut.Controllers
 
                 SmtpClient smtp = new SmtpClient();
 
-                smtp.Host = "smtp.gmail.com";
+                smtp.Host = ConfigurationManager.AppSettings["MailHost"];
                 smtp.UseDefaultCredentials = false;
 
-                NetworkCredential networkCredential = new NetworkCredential(from, "MaRce1000%!");
+                NetworkCredential networkCredential = new NetworkCredential(from, mailPass);
                 smtp.EnableSsl = true;
                 smtp.Credentials = networkCredential;
-                smtp.Port = 25;
+                smtp.Port = int.Parse(ConfigurationManager.AppSettings["MailPort"]);
 
                 smtp.Send(mail);
 

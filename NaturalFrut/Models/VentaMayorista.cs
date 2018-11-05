@@ -31,7 +31,7 @@ namespace NaturalFrut.Models
 
         public double? Saldo { get; set; }
 
-        public double? NuevoSaldo { get; set; }
+        public double? SaldoParcial { get; set; }
 
         [Required]
         public int ClienteID { get; set; }

@@ -3,7 +3,7 @@ namespace NaturalFrut.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class nuevoscamposProveedor : DbMigration
+    public partial class fixbase : DbMigration
     {
         public override void Up()
         {

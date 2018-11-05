@@ -66,10 +66,16 @@ namespace NaturalFrut.Controllers.Api
 
             ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
 
-            //Actualizamos el Saldo en base a la Entrega de Efectivo   
-            cliente.Saldo = ventaMayorista.NuevoSaldo;
-            clienteBL.UpdateCliente(cliente);
 
+            if(ventaMayoristaDTO.NoConcretado)
+            {
+
+                //Actualizamos el Saldo en base a la Entrega de Efectivo   
+                cliente.Saldo = ventaMayorista.SaldoParcial;
+                cliente.SaldoParcial = ventaMayorista.SaldoParcial;
+                clienteBL.UpdateCliente(cliente);
+
+            }
            
             //Una vez cargada la venta, actualizamos Stock
             foreach (var item in ventaMayorista.ProductosXVenta)
@@ -207,8 +213,8 @@ namespace NaturalFrut.Controllers.Api
             ventaMayoristaInDB.Impreso = ventaMayoristaDTO.Impreso;
             ventaMayoristaInDB.NoConcretado = ventaMayoristaDTO.NoConcretado;
             ventaMayoristaInDB.Facturado = ventaMayoristaDTO.Facturado;
-            ventaMayoristaInDB.Saldo = ventaMayoristaDTO.NuevoSaldo;
-            ventaMayoristaInDB.NuevoSaldo = ventaMayoristaDTO.NuevoSaldo;
+            //ventaMayoristaInDB.Saldo = ventaMayoristaDTO.SaldoParcial;
+            //ventaMayoristaInDB.SaldoParcial = ventaMayoristaDTO.SaldoParcial;
             ventaMayoristaInDB.SumaTotal = ventaMayoristaDTO.SumaTotal;
 
             //Update para los campos de sus ProductosXVenta asociados
@@ -223,9 +229,15 @@ namespace NaturalFrut.Controllers.Api
             ventaMayoristaBL.UpdateVentaMayorista(ventaMayoristaInDB);
 
 
-            //Actualizamos el Saldo en base a la Entrega de Efectivo            
-            cliente.Saldo = ventaMayoristaDTO.NuevoSaldo;
-            clienteBL.UpdateCliente(cliente);
+            if (ventaMayoristaDTO.NoConcretado)
+            {
+
+                //Actualizamos el Saldo en base a la Entrega de Efectivo   
+                cliente.Saldo = ventaMayoristaDTO.SaldoParcial;
+                cliente.SaldoParcial = ventaMayoristaDTO.SaldoParcial;
+                clienteBL.UpdateCliente(cliente);
+
+            }
 
 
             //Una vez actualizada la venta, actualizamos Stock

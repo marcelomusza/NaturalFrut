@@ -38,6 +38,8 @@ namespace NaturalFrut.DTOs
 
         public double? Saldo { get; set; }
 
+        public double? SaldoParcial { get; set; }
+
         [Required]
         public string Email { get; set; }
 

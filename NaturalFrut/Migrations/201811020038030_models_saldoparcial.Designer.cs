@@ -7,13 +7,13 @@ namespace NaturalFrut.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ClienteSaldoProp : IMigrationMetadata
+    public sealed partial class models_saldoparcial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ClienteSaldoProp));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(models_saldoparcial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810300012138_ClienteSaldoProp"; }
+            get { return "201811020038030_models_saldoparcial"; }
         }
         
         string IMigrationMetadata.Source
