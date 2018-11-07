@@ -22,27 +22,27 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Required]
         public DateTime Fecha { get; set; }
 
-        [Required]
-        [Display(Name = "Importe Venta Total")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
-        public decimal ImporteVentaTotal { get; set; }
+        //[Required]
+        //[Display(Name = "Importe Venta Total")]
+        //[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        //public decimal ImporteVentaTotal { get; set; }
 
         [Required]
         [Display(Name = "Importe Informe Z")]
         [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double ImporteInformeZ { get; set; }
 
-        [Required]
-        [Display(Name = "IVA")]
-        public double Iva { get; set; }
+        //[Required]
+        //[Display(Name = "IVA")]
+        //public double Iva { get; set; }
 
-        [Required]
-        [Display(Name = "Cantidad Personas")]
-        public int CantidadPersonas { get; set; }
+        //[Required]
+        //[Display(Name = "Cantidad Personas")]
+        //public int CantidadPersonas { get; set; }
 
-        [Required]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
-        public double Promedio { get; set; }
+        //[Required]
+        //[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        //public double Promedio { get; set; }
 
         [Required]
         [Display(Name = "Importe IVA")]
@@ -112,11 +112,11 @@ namespace NaturalFrut.App_BLL.ViewModels
             NumeroVenta = ventaMinorista.NumeroVenta;
             Local = ventaMinorista.Local;
             Fecha = ventaMinorista.Fecha;
-            ImporteVentaTotal = ventaMinorista.ImporteVentaTotal;
+            //ImporteVentaTotal = ventaMinorista.ImporteVentaTotal;
             ImporteInformeZ = ventaMinorista.ImporteInformeZ;
-            Iva = ventaMinorista.Iva;
-            CantidadPersonas = ventaMinorista.CantidadPersonas;
-            Promedio = ventaMinorista.Promedio;
+            //Iva = ventaMinorista.Iva;
+            //CantidadPersonas = ventaMinorista.CantidadPersonas;
+            //Promedio = ventaMinorista.Promedio;
             ImporteIva = ventaMinorista.ImporteIva;
             PrimerNumeroTicket = ventaMinorista.PrimerNumeroTicket;
             UltimoNumeroTicket = ventaMinorista.UltimoNumeroTicket;

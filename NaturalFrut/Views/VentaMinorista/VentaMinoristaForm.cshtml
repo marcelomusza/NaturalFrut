@@ -8,7 +8,7 @@
 
 <h2>Ingresar Venta</h2>
 
-@using (Html.BeginForm("GuardarVentaMinorista", "VentaMinorista"))
+@using (Html.BeginForm("GuardarVentaMinorista", "VentaMinorista", FormMethod.Post, new { id = "vtaminform" }))
 {
 
     <div class="row">
@@ -38,41 +38,70 @@
                 @Html.ValidationMessageFor(c => c.Local)
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(c => c.Iva)
                 @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Iva)
-            </div>
+            </div>*@
 
-            <div class="form-group">
-                @Html.LabelFor(c => c.ImporteVentaTotal)
-                @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);"} })
-                @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
-            </div>
+            @*<div class="form-group">
+            @Html.LabelFor(c => c.ImporteVentaTotal)
+            @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);"} })
+            @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
+        </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteInformeZ)
-                @Html.EditorFor(c => c.ImporteInformeZ, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.ImporteInformeZ, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.ImporteInformeZ)
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(c => c.CantidadPersonas)
-                @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.CantidadPersonas)
-            </div>
+            @*<div class="form-group">
+            @Html.LabelFor(c => c.CantidadPersonas)
+            @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.CantidadPersonas)
+        </div>*@
 
-            <div class="form-group">
-                @Html.LabelFor(c => c.Promedio)
-                @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
-                @Html.ValidationMessageFor(c => c.Promedio)
-            </div>
+            @*<div class="form-group">
+            @Html.LabelFor(c => c.Promedio)
+            @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
+            @Html.ValidationMessageFor(c => c.Promedio)
+        </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteIva)
-                @Html.EditorFor(c => c.ImporteIva, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.ImporteIva, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.ImporteIva)
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.RazonSocial)
+                @Html.TextBoxFor(c => c.RazonSocial, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.RazonSocial)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.TipoFactura)
+                    @Html.DropDownListFor(c => c.TipoFactura, new List<SelectListItem>
+                {
+                new SelectListItem{Text="A", Value="A"},
+                new SelectListItem{Text="B", Value="B"}
+                }, "Elegir tipo factura", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.TipoFactura)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.NumFactura)
+                @Html.TextBoxFor(c => c.NumFactura, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.NumFactura)
+            </div>
+
+
+        </div>
+
+
+        <!--Agrupamos campos de la columna derecha-->
+        <div class="col-sm-6">
 
             <div class="form-group">
                 @Html.LabelFor(c => c.PrimerNumeroTicket)
@@ -85,62 +114,40 @@
                 @Html.TextBoxFor(c => c.UltimoNumeroTicket, new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.UltimoNumeroTicket)
             </div>
-        </div>
-
-
-        <!--Agrupamos campos de la columna derecha-->
-        <div class="col-sm-6">
-            <div class="form-group">
-                @Html.LabelFor(c => c.NumFactura)
-                @Html.TextBoxFor(c => c.NumFactura, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.NumFactura)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(c => c.RazonSocial)
-                @Html.TextBoxFor(c => c.RazonSocial, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.RazonSocial)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(c => c.TipoFactura)
-                @Html.TextBoxFor(c => c.TipoFactura, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.TipoFactura)
-            </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaVisa)
-                @Html.EditorFor(c => c.TarjetaVisa, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.TarjetaVisa, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaVisa)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaVisaDeb)
-                @Html.EditorFor(c => c.TarjetaVisaDeb, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.TarjetaVisaDeb, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaVisaDeb)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaMaster)
-                @Html.EditorFor(c => c.TarjetaMaster, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.TarjetaMaster, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaMaster)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaMaestro)
-                @Html.EditorFor(c => c.TarjetaMaestro, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.TarjetaMaestro, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaMaestro)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaCabal)
-                @Html.EditorFor(c => c.TarjetaCabal, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.TarjetaCabal, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TarjetaCabal)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TotalTarjetas)
-                @Html.EditorFor(c => c.TotalTarjetas, "Currency", new { htmlAttributes = new { @class = "form-control", onkeyup = "ValidarPunto(this);" } })
+                @Html.EditorFor(c => c.TotalTarjetas, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
                 @Html.ValidationMessageFor(c => c.TotalTarjetas)
             </div>
 
@@ -172,51 +179,104 @@
 
         $(document).ready(function () {
 
-            $("#vtaminsubmit").click(function () {
 
+            if (@Model.ID != 0) {
 
-
-                var importeVentaTotal = $("#ImporteVentaTotal").val();
-                importeVentaTotal = FormatearValorMonetario(importeVentaTotal);
-                $("#ImporteVentaTotal").val(importeVentaTotal);
-
-                var importeInformeZ = $("#ImporteInformeZ").val();
-                importeInformeZ = FormatearValorMonetario(importeInformeZ);
-                $("#ImporteInformeZ").val(importeInformeZ);
-
-                var promedio = $("#Promedio").val();
-                promedio = FormatearValorMonetario(promedio);
-                $("#Promedio").val(promedio);
-
-                var importeIva = $("#ImporteIva").val();
-                importeIva = FormatearValorMonetario(importeIva);
-                $("#ImporteIva").val(importeIva);
-
-                var tarjetaVisa = $("#TarjetaVisa").val();
-                tarjetaVisa = FormatearValorMonetario(tarjetaVisa);
-                $("#TarjetaVisa").val(tarjetaVisa);
-
-                var tarjetaVisaDeb = $("#TarjetaVisaDeb").val();
-                tarjetaVisaDeb = FormatearValorMonetario(tarjetaVisaDeb);
-                $("#TarjetaVisaDeb").val(tarjetaVisaDeb);
-
-                var tarjetaMaster = $("#TarjetaMaster").val();
-                tarjetaMaster = FormatearValorMonetario(tarjetaMaster);
-                $("#TarjetaMaster").val(tarjetaMaster);
-
-                var tarjetaMaestro = $("#TarjetaMaestro").val();
-                tarjetaMaestro = FormatearValorMonetario(tarjetaMaestro);
-                $("#TarjetaMaestro").val(tarjetaMaestro);
-
-                var tarjetaCabal = $("#TarjetaCabal").val();
-                tarjetaCabal = FormatearValorMonetario(tarjetaCabal);
-                $("#TarjetaCabal").val(tarjetaCabal);
-
-                var totalTarjetas = $("#TotalTarjetas").val();
-                totalTarjetas = FormatearValorMonetario(totalTarjetas);
-                $("#TotalTarjetas").val(totalTarjetas);
+                if ("@Model.TipoFactura" == "A") {
+                    $("#TipoFactura option:selected").val("A");
+                }
+                else if("@Model.TipoFactura" == "B") {
+                    $("#TipoFactura option:selected").val("B");
+                }
                 
+            }
 
+
+            $("#vtaminsubmit").click(function (e) {
+
+                e.preventDefault();
+
+                bootbox.confirm("¿Estas seguro de concretar la venta?", function (result) {
+
+                    if (result) {
+
+                        //var importeVentaTotal = $("#ImporteVentaTotal").val();
+                        //importeVentaTotal = FormatearValorMonetario(importeVentaTotal);
+                        //$("#ImporteVentaTotal").val(importeVentaTotal);
+
+                        var importeInformeZ = $("#ImporteInformeZ").val();
+                        importeInformeZ = FormatearValorMonetario(importeInformeZ);
+                        $("#ImporteInformeZ").val(importeInformeZ);
+
+                        //var promedio = $("#Promedio").val();
+                        //promedio = FormatearValorMonetario(promedio);
+                        //$("#Promedio").val(promedio);
+
+                        var importeIva = $("#ImporteIva").val();
+                        importeIva = FormatearValorMonetario(importeIva);
+                        $("#ImporteIva").val(importeIva);
+
+                        var tarjetaVisa = $("#TarjetaVisa").val();
+                        tarjetaVisa = FormatearValorMonetario(tarjetaVisa);
+                        $("#TarjetaVisa").val(tarjetaVisa);
+
+                        var tarjetaVisaDeb = $("#TarjetaVisaDeb").val();
+                        tarjetaVisaDeb = FormatearValorMonetario(tarjetaVisaDeb);
+                        $("#TarjetaVisaDeb").val(tarjetaVisaDeb);
+
+                        var tarjetaMaster = $("#TarjetaMaster").val();
+                        tarjetaMaster = FormatearValorMonetario(tarjetaMaster);
+                        $("#TarjetaMaster").val(tarjetaMaster);
+
+                        var tarjetaMaestro = $("#TarjetaMaestro").val();
+                        tarjetaMaestro = FormatearValorMonetario(tarjetaMaestro);
+                        $("#TarjetaMaestro").val(tarjetaMaestro);
+
+                        var tarjetaCabal = $("#TarjetaCabal").val();
+                        tarjetaCabal = FormatearValorMonetario(tarjetaCabal);
+                        $("#TarjetaCabal").val(tarjetaCabal);
+
+                        var totalTarjetas = $("#TotalTarjetas").val();
+                        totalTarjetas = FormatearValorMonetario(totalTarjetas);
+                        $("#TotalTarjetas").val(totalTarjetas);
+
+
+                        $("#vtaminform").submit();
+
+                    }
+
+                });
+
+                
+            });
+
+            $("#TipoFactura").on("change", function () {
+
+                var importeInformeZ = DeFormatearValor($("#ImporteInformeZ").val());
+                var tipoFactura = $("#TipoFactura option:selected").val();
+
+                if (importeInformeZ != 0) {
+
+                    if (tipoFactura == "A") {
+                        var operacion = importeInformeZ / 1.21;
+                        $("#ImporteIva").val(FormatearValor(operacion));
+                    }
+                    else if (tipoFactura == "B") {
+                        var operacion = importeInformeZ * 0.21;
+                        $("#ImporteIva").val(FormatearValor(operacion));
+                    }
+
+                }
+                else {
+                    bootbox.alert("Por favor llenar el campo de Importe Informe Z");
+                    $("#TipoFactura option:selected").removeAttr("selected");
+                }
+
+            });
+
+            $(".js-formatearvalor").on("blur", function () {
+
+                $(this).val(FormatearValor(this.value));
             });
 
         });

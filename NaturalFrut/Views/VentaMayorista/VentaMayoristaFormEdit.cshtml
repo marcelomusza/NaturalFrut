@@ -1237,7 +1237,10 @@
 
             $(".importe").each(function () {
 
-                $(this).val(FormatearValor(this.value));
+                $(this).on("blur", function () {
+                    $(this).val(FormatearValor(this.value));
+                });
+                
             });
 
         }

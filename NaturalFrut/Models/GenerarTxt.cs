@@ -1,4 +1,5 @@
 ﻿using NaturalFrut.App_BLL;
+using NaturalFrut.Helpers;
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace NaturalFrut.Controllers
                     reporteTemp.Fecha = ventaInDB.Fecha.Date.ToString("dd/MM/yyyy");
                     reporteTemp.Local = ventaInDB.Local;
                     reporteTemp.Importe_Informe_Z = String.Format("{0:c}", ventaInDB.ImporteInformeZ);
-                    reporteTemp.IVA = "1," + ventaInDB.Iva.ToString();
+                    reporteTemp.IVA = Constants.IVA;
                     reporteTemp.Importe_IVA = String.Format("{0:c}", ventaInDB.ImporteIva);
                     reporteTemp.Factura_N = ventaInDB.NumFactura;
                     reporteTemp.Tipo_Factura = ventaInDB.TipoFactura;

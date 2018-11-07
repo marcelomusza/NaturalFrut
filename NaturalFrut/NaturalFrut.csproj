@@ -295,6 +295,10 @@
     <Compile Include="Migrations\201811020038030_models_saldoparcial.Designer.cs">
       <DependentUpon>201811020038030_models_saldoparcial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811060115448_vtamin_cambios.cs" />
+    <Compile Include="Migrations\201811060115448_vtamin_cambios.Designer.cs">
+      <DependentUpon>201811060115448_vtamin_cambios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\GenerarTxt.cs">
@@ -559,6 +563,7 @@
     <Content Include="Content\Images\DeleteIcon.png" />
     <Content Include="Content\Images\DetailsIcon.png" />
     <Content Include="Content\Images\EditIcon.png" />
+    <Content Include="Content\Images\NotaPedido.png" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.css" />
@@ -810,6 +815,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811020038030_models_saldoparcial.resx">
       <DependentUpon>201811020038030_models_saldoparcial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811060115448_vtamin_cambios.resx">
+      <DependentUpon>201811060115448_vtamin_cambios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

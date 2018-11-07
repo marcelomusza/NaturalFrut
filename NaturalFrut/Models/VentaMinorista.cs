@@ -22,20 +22,20 @@ namespace NaturalFrut.Models
         [Required]
         public DateTime Fecha { get; set; }
 
-        [Required]
-        public decimal ImporteVentaTotal { get; set; }
+        //[Required]
+        //public decimal ImporteVentaTotal { get; set; }
 
         [Required]
         public double ImporteInformeZ { get; set; }
 
-        [Required]
-        public double Iva { get; set; }
+        //[Required]
+        //public double Iva { get; set; }
 
-        [Required]
-        public int CantidadPersonas { get; set; }
+        //[Required]
+        //public int CantidadPersonas { get; set; }
 
-        [Required]
-        public double Promedio { get; set; }
+        //[Required]
+        //public double Promedio { get; set; }
 
         [Required]
         public double ImporteIva { get; set; }

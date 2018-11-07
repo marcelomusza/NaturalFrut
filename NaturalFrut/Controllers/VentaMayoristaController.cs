@@ -420,7 +420,7 @@ namespace NaturalFrut.Controllers
 
                         break;
 
-                    case Constants.PRECIO_X_BLISTER:
+                    case Constants.TIPODEUNIDAD_BLISTER:
                        
                         ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
 

@@ -36,7 +36,8 @@
                 <thead>
                     <tr>
                         <th>Fecha</th>
-                        <th>NumeroVenta</th>
+                        <th>Numero de Venta</th>
+                        <th>Local</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -62,6 +63,15 @@
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
 
+                "order": [[1, "desc"]],
+
+                "columnDefs": [
+                    { "width": "20%", "targets": 0 },
+                    { "width": "25%", "targets": 1 },
+                    { "width": "35%", "targets": 2 },
+                    { "width": "20%", "targets": 3 },
+                ],
+
                 ajax: {
 
                     url: "/api/ventasminorista",
@@ -73,6 +83,9 @@
                     },
                     {
                         data: "NumeroVenta"
+                    },
+                    {
+                        data: "Local"
                     },
                     {
                         data: "ID",
