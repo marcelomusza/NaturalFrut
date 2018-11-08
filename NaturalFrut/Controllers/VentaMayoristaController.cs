@@ -340,29 +340,48 @@ namespace NaturalFrut.Controllers
                     stockDisponible = prodsDisponible.Min();
 
                 }
-                else if (prod.EsBlister)
-                {
-                    Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
-                    ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+                //else if (prod.EsBlister)
+                //{
+                //    Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+                //    ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
 
-                    if (productoBlisterSegunStock == null)
-                        throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+                //    if (productoBlisterSegunStock == null)
+                //        throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
 
-                    double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunStock.Cantidad) / (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
+                //    double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunStock.Cantidad) / (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
 
-                    stockDisponible = cantidadEnKG;
+                //    stockDisponible = cantidadEnKG;
 
-                }
+                //}
                 else
                 {
-                    //Stock para el resto de los productos
-                    productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+                    //Stock para el productos comunes y blisters
+                    if(tipoUnidadID == Constants.TIPODEUNIDAD_BLISTER)
+                    {
+                        //Producto Blister
+                        Stock productoBlisterSegunStock = stockBL.ValidarStockProducto(productoID, Constants.PRECIO_X_KG);
+                        ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
 
-                    if (productoSegunStock == null)
-                        throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+                        if (productoBlisterSegunStock == null)
+                            throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+                        double cantidadEnKG = (Convert.ToDouble(productoBlisterSegunStock.Cantidad) / (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
+
+                        stockDisponible = cantidadEnKG;
+                    }
+                    else
+                    {
+                        //Producto Comun
+                        productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+                        if (productoSegunStock == null)
+                            throw new Exception("El Producto " + prod.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
 
 
-                    stockDisponible = productoSegunStock.Cantidad;
+                        stockDisponible = productoSegunStock.Cantidad;
+                    }
+
+                    
                 }
 
 
@@ -464,9 +483,9 @@ namespace NaturalFrut.Controllers
 
             List<TipoDeUnidad> tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
 
-            var item = tiposDeUnidad.SingleOrDefault(x => x.ID == Constants.TIPODEUNIDAD_BLISTER);
-            if (item != null)
-                tiposDeUnidad.Remove(item);
+            //var item = tiposDeUnidad.SingleOrDefault(x => x.ID == Constants.TIPODEUNIDAD_BLISTER);
+            //if (item != null)
+            //    tiposDeUnidad.Remove(item);
 
             return Json(new { TiposDeUnidad = tiposDeUnidad, Counter = counter }, JsonRequestBehavior.AllowGet);
         }

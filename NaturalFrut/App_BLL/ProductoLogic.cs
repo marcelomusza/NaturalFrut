@@ -140,14 +140,14 @@ namespace NaturalFrut.App_BLL
             return listaProductos;
         }
 
-        public List<Producto> GetAllProductosBlister()
-        {
-            return productoRP.GetAll()
-                .Include(p => p.Categoria)
-                .Include(p => p.Marca)
-                .Where(p => p.EsBlister == true && p.EsMix == false)
-                .ToList();
-        }
+        //public List<Producto> GetAllProductosBlister()
+        //{
+        //    return productoRP.GetAll()
+        //        .Include(p => p.Categoria)
+        //        .Include(p => p.Marca)
+        //        .Where(p => p.EsBlister == true && p.EsMix == false)
+        //        .ToList();
+        //}
 
 
 

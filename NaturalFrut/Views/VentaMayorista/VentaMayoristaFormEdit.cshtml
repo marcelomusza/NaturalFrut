@@ -977,20 +977,20 @@
 
         }
 
-        function ValidarTipoDeProducto(counter) {
+        //function ValidarTipoDeProducto(counter) {
 
-            var productoID = $("#producto" + counter).attr("data-producto-id");
+        //    var productoID = $("#producto" + counter).attr("data-producto-id");
 
-            if (productoID > 0) {
-                $.getJSON("/VentaMayorista/ValidarTipoDeProductoAsync", { ProductoID : productoID, Counter: counter }, PopulateTipoDeUnidadSegunProducto)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
-            }
+        //    if (productoID > 0) {
+        //        $.getJSON("/VentaMayorista/ValidarTipoDeProductoAsync", { ProductoID : productoID, Counter: counter }, PopulateTipoDeUnidadSegunProducto)
+        //            .error(function (xhr, textStatus, exceptionThrown) {
+        //                bootbox.alert(xhr.responseText);
+        //            })
+        //    }
 
-        }
+        //}
 
-        PopulateTipoDeUnidadSegunProducto = function (data) {
+        @*PopulateTipoDeUnidadSegunProducto = function (data) {
 
             if (data.EsBlister) {
                 $("#tiposdeunidad" + data.Counter).empty();
@@ -1011,7 +1011,7 @@
                 
             }
 
-        }
+        }*@
 
         UpdateStockBlister = function (data) {
 
