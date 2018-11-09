@@ -35,8 +35,8 @@ namespace NaturalFrut.Models
 
         //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionMarcelo"].ConnectionString);
         //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionProduction"].ConnectionString);
-        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionYesica"].ConnectionString);
-        private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionTest"].ConnectionString);
+        private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionYesica"].ConnectionString);
+        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionTest"].ConnectionString);
 
         //Asignación de DbSets para CodeFirst migrations 
         public DbSet<Cliente> Clientes { get; set; }
@@ -64,6 +64,8 @@ namespace NaturalFrut.Models
             Database.Connection.ConnectionString = connStr;
 
             Database.SetInitializer<ApplicationDbContext>(null);
+
+            Configuration.LazyLoadingEnabled = false;
         }
         
         public static ApplicationDbContext Create()

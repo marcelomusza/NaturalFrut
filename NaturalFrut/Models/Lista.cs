@@ -22,7 +22,7 @@ namespace NaturalFrut.Models
         public int PorcentajeAumento { get; set; }
 
 
-
+        [System.Runtime.Serialization.IgnoreDataMember]
         public IList<ListaPrecio> ListaPrecios { get; set; }
         
         public IList<Cliente> Cliente { get; set; }
