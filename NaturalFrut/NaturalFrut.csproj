@@ -287,17 +287,13 @@
     <Compile Include="DTOs\CompraUpdateDTO.cs" />
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
-    <Compile Include="Migrations\201811020009420_fixbase.cs" />
-    <Compile Include="Migrations\201811020009420_fixbase.Designer.cs">
-      <DependentUpon>201811020009420_fixbase.cs</DependentUpon>
+    <Compile Include="Migrations\201811072102239_nuevasMigrations.cs" />
+    <Compile Include="Migrations\201811072102239_nuevasMigrations.Designer.cs">
+      <DependentUpon>201811072102239_nuevasMigrations.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811020038030_models_saldoparcial.cs" />
-    <Compile Include="Migrations\201811020038030_models_saldoparcial.Designer.cs">
-      <DependentUpon>201811020038030_models_saldoparcial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811060115448_vtamin_cambios.cs" />
-    <Compile Include="Migrations\201811060115448_vtamin_cambios.Designer.cs">
-      <DependentUpon>201811060115448_vtamin_cambios.cs</DependentUpon>
+    <Compile Include="Migrations\201811081857596_nuevasMigrationss.cs" />
+    <Compile Include="Migrations\201811081857596_nuevasMigrationss.Designer.cs">
+      <DependentUpon>201811081857596_nuevasMigrationss.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
@@ -810,14 +806,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811020009420_fixbase.resx">
-      <DependentUpon>201811020009420_fixbase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811072102239_nuevasMigrations.resx">
+      <DependentUpon>201811072102239_nuevasMigrations.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811020038030_models_saldoparcial.resx">
-      <DependentUpon>201811020038030_models_saldoparcial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811060115448_vtamin_cambios.resx">
-      <DependentUpon>201811060115448_vtamin_cambios.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811081857596_nuevasMigrationss.resx">
+      <DependentUpon>201811081857596_nuevasMigrationss.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -795,6 +795,8 @@
                                     })
                                     .fail(function () {
                                         toastr.error("Se ha producido un error al guardar la compra, revise los datos a ingresar...");
+                                        //Reseteamos los productos del viewmodel
+                                        vm.productosXCompra = [];      
                                     });
 
                             }

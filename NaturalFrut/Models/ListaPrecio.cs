@@ -1,4 +1,5 @@
 ﻿using NaturalFrut.App_BLL.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -37,9 +38,10 @@ namespace NaturalFrut.Models
         [Display(Name = "Precio x Unidad")]
         public string PrecioXUnidad { get; set; }
 
-
+        
         public Lista Lista { get; set; }
 
+       
         public Producto Producto { get; set; }
 
         

@@ -1,4 +1,5 @@
 ﻿using NaturalFrut.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,9 +31,10 @@ namespace NaturalFrut.DTOs
         [Required]
         public string PrecioXUnidad { get; set; }
 
-
+       
         public Lista Lista { get; set; }
 
+        
         public Producto Producto { get; set; }
 
     }
