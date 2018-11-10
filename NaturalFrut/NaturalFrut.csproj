@@ -261,6 +261,7 @@
     <Compile Include="App_BLL\ViewModels\VentaMinoristaViewModel.cs" />
     <Compile Include="App_BLL\ViewModels\VentaMayoristaViewModel.cs" />
     <Compile Include="App_DAL\BaseRepository.cs" />
+    <Compile Include="App_DAL\UOWVentaMayorista.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />

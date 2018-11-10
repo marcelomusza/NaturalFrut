@@ -15,10 +15,17 @@ namespace NaturalFrut.App_DAL
     {
 
         readonly ApplicationDbContext _context;
+        internal DbSet dbSet;
 
         public BaseRepository()
         {
             _context = new ApplicationDbContext();
+        }
+
+        public BaseRepository(ApplicationDbContext context)
+        {
+            _context = context;
+            dbSet = _context.Set<T>();
         }
 
 
