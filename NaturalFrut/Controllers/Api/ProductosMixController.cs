@@ -28,12 +28,16 @@ namespace NaturalFrut.Controllers.Api
 
 
         //GET /api/productosmix
-        public IEnumerable<ProductoDTO> GetProductosMix()
+        public IEnumerable<ProductoMixDTO> GetProductosMix()
         {
 
-            var productosMix = productoBL.GetAllProductosSegunFlagMix();
+            //var productosMix = productoBL.GetAllProductosSegunFlagMix();
+            var productosMix = productoBL.GetAllProductoMix();
+
+           
+            
                        
-            return productosMix.Select(Mapper.Map<Producto, ProductoDTO>);
+            return productosMix.Select(Mapper.Map<ProductoMix, ProductoMixDTO>);
         }
 
         

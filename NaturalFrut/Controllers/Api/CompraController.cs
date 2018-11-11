@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.Interfaces;
+using NaturalFrut.App_DAL;
 using NaturalFrut.DTOs;
 using NaturalFrut.Helpers;
 using NaturalFrut.Models;
@@ -23,7 +24,9 @@ namespace NaturalFrut.Controllers.Api
         private readonly ProveedorLogic proveedorBL;
         private readonly CommonLogic clasificacionBL;
         private readonly ProductoLogic productoBL;
-        private readonly ProductoXCompraLogic productoXCompraBL;        
+        private readonly ProductoXCompraLogic productoXCompraBL;
+
+        private UOWCompra _UOWCompra = new UOWCompra();
 
         public CompraController(IRepository<Compra> CompraRepo,
             IRepository<Stock> StockRepo,
@@ -67,11 +70,13 @@ namespace NaturalFrut.Controllers.Api
 
             var compra = Mapper.Map<CompraDTO, Compra>(compraDTO);
 
-            compraBL.AddCompra(compra);
+            //compraBL.AddCompra(compra);
+            _UOWCompra.CompraRepository.Add(compra);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
              proveedor.Debe = compraDTO.Debe;
-             proveedorBL.UpdateProveedor(proveedor);  
+            //proveedorBL.UpdateProveedor(proveedor);  
+            _UOWCompra.ProveedorRepository.Update(proveedor);
 
             if (compra.ProductosXCompra != null)
             {
@@ -88,7 +93,8 @@ namespace NaturalFrut.Controllers.Api
                     if(stock != null)
                     {
                         stock.Cantidad = stock.Cantidad + item.Cantidad;
-                        stockBL.UpdateStock(stock);
+                        //stockBL.UpdateStock(stock);
+                        _UOWCompra.StockRepository.Update(stock);
 
                     }
                     else
@@ -99,13 +105,18 @@ namespace NaturalFrut.Controllers.Api
                         stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
                         stockNuevo.Cantidad = item.Cantidad;
 
-                        stockBL.AddStock(stockNuevo);
+                        //stockBL.AddStock(stockNuevo);
+                        _UOWCompra.StockRepository.Add(stockNuevo);
 
 
                     }
                     
                 }
             }
+
+            //Actualizamos valores
+            _UOWCompra.Save();
+
             return Ok();
         }
 
@@ -127,7 +138,8 @@ namespace NaturalFrut.Controllers.Api
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
             proveedor.Debe = compraDTO.Debe;
             proveedor.SaldoAfavor = compraDTO.SaldoAfavor;
-            proveedorBL.UpdateProveedor(proveedor);
+            //proveedorBL.UpdateProveedor(proveedor);
+            _UOWCompra.ProveedorRepository.Update(proveedor);
 
             //actualizo stock
 
@@ -144,14 +156,16 @@ namespace NaturalFrut.Controllers.Api
                     {
                         var cantidad = prdXcompra.Cantidad - item.Cantidad;
                         stock.Cantidad = stock.Cantidad - cantidad;
-                        stockBL.UpdateStock(stock);
+                        //stockBL.UpdateStock(stock);
+                        _UOWCompra.StockRepository.Update(stock);
                     }
 
                     if (item.Cantidad > prdXcompra.Cantidad)
                     {
                         var cantidad = item.Cantidad - prdXcompra.Cantidad;
                         stock.Cantidad = stock.Cantidad + cantidad;
-                        stockBL.UpdateStock(stock);
+                        //stockBL.UpdateStock(stock);
+                        _UOWCompra.StockRepository.Update(stock);
                     }
                 }
 
@@ -162,46 +176,87 @@ namespace NaturalFrut.Controllers.Api
                     {
                         if (item.ID == item2.ID)
                         {
-                            item2.Cantidad = item.Cantidad;
-                            item2.Importe = item.Importe;
-                            item2.Descuento = item.Descuento;
-                            item2.ImporteDescuento = item.ImporteDescuento;
-                            item2.Iibbbsas = item.Iibbbsas;
-                            item2.Iibbcaba = item.Iibbcaba;
-                            item2.Iva = item.Iva;
-                            item2.PrecioUnitario = item.PrecioUnitario;
-                            item2.Total = item.Total;
-                            item2.ProductoID = item.ProductoID;
-                            item2.CompraID = item.CompraID;
-                            item2.TipoDeUnidadID = item.TipoDeUnidadID;
+                            ProductoXCompra prodAActualizar = _UOWCompra.ProductosXCompraRepository.GetByID(item.ID);
+
+                            prodAActualizar.Cantidad = item.Cantidad;
+                            prodAActualizar.Importe = item.Importe;
+                            prodAActualizar.Descuento = item.Descuento;
+                            prodAActualizar.ImporteDescuento = item.ImporteDescuento;
+                            prodAActualizar.Iibbbsas = item.Iibbbsas;
+                            prodAActualizar.Iibbcaba = item.Iibbcaba;
+                            prodAActualizar.Iva = item.Iva;
+                            prodAActualizar.PrecioUnitario = item.PrecioUnitario;
+                            prodAActualizar.Total = item.Total;
+                            prodAActualizar.ProductoID = item.ProductoID;
+                            prodAActualizar.CompraID = item.CompraID;
+                            prodAActualizar.TipoDeUnidadID = item.TipoDeUnidadID;
+
+                            _UOWCompra.ProductosXCompraRepository.Update(prodAActualizar);
+
+                            //item2.Cantidad = item.Cantidad;
+                            //item2.Importe = item.Importe;
+                            //item2.Descuento = item.Descuento;
+                            //item2.ImporteDescuento = item.ImporteDescuento;
+                            //item2.Iibbbsas = item.Iibbbsas;
+                            //item2.Iibbcaba = item.Iibbcaba;
+                            //item2.Iva = item.Iva;
+                            //item2.PrecioUnitario = item.PrecioUnitario;
+                            //item2.Total = item.Total;
+                            //item2.ProductoID = item.ProductoID;
+                            //item2.CompraID = item.CompraID;
+                            //item2.TipoDeUnidadID = item.TipoDeUnidadID;
 
                         }
                     }
                 }
-            }          
+            }
 
-            
+            Compra compraAActualizar = _UOWCompra.CompraRepository.GetByID(compraInDB.ID);
 
-            compraInDB.Factura = compraDTO.Factura;
-            compraInDB.NoConcretado = compraDTO.NoConcretado;
-            compraInDB.TipoFactura = compraDTO.TipoFactura;
-            compraInDB.SumaTotal = compraDTO.SumaTotal;
-            compraInDB.DescuentoPorc = compraDTO.DescuentoPorc;
-            compraInDB.Descuento = compraDTO.Descuento;
-            compraInDB.Subtotal = compraDTO.Subtotal;
-            compraInDB.ImporteNoGravado = compraDTO.ImporteNoGravado;
-            compraInDB.Iva = compraDTO.Iva;
-            compraInDB.ImporteIva = compraDTO.ImporteIva;
-            compraInDB.Iibbbsas = compraDTO.Iibbbsas;
-            compraInDB.ImporteIibbbsas = compraDTO.ImporteIibbbsas;
-            compraInDB.Iibbcaba = compraDTO.Iibbcaba;
-            compraInDB.ImporteIibbcaba = compraDTO.ImporteIibbcaba;
-            compraInDB.PercIva = compraDTO.PercIva;
-            compraInDB.ImportePercIva = compraDTO.ImportePercIva;
-            compraInDB.Total = compraDTO.Total;
-            compraInDB.TotalGastos = compraDTO.TotalGastos;
+            compraAActualizar.Factura = compraDTO.Factura;
+            compraAActualizar.NoConcretado = compraDTO.NoConcretado;
+            compraAActualizar.TipoFactura = compraDTO.TipoFactura;
+            compraAActualizar.SumaTotal = compraDTO.SumaTotal;
+            compraAActualizar.DescuentoPorc = compraDTO.DescuentoPorc;
+            compraAActualizar.Descuento = compraDTO.Descuento;
+            compraAActualizar.Subtotal = compraDTO.Subtotal;
+            compraAActualizar.ImporteNoGravado = compraDTO.ImporteNoGravado;
+            compraAActualizar.Iva = compraDTO.Iva;
+            compraAActualizar.ImporteIva = compraDTO.ImporteIva;
+            compraAActualizar.Iibbbsas = compraDTO.Iibbbsas;
+            compraAActualizar.ImporteIibbbsas = compraDTO.ImporteIibbbsas;
+            compraAActualizar.Iibbcaba = compraDTO.Iibbcaba;
+            compraAActualizar.ImporteIibbcaba = compraDTO.ImporteIibbcaba;
+            compraAActualizar.PercIva = compraDTO.PercIva;
+            compraAActualizar.ImportePercIva = compraDTO.ImportePercIva;
+            compraAActualizar.Total = compraDTO.Total;
+            compraAActualizar.TotalGastos = compraDTO.TotalGastos;
 
-            compraBL.UpdateCompra(compraInDB);
+            _UOWCompra.CompraRepository.Update(compraAActualizar);
+
+            //compraInDB.Factura = compraDTO.Factura;
+            //compraInDB.NoConcretado = compraDTO.NoConcretado;
+            //compraInDB.TipoFactura = compraDTO.TipoFactura;
+            //compraInDB.SumaTotal = compraDTO.SumaTotal;
+            //compraInDB.DescuentoPorc = compraDTO.DescuentoPorc;
+            //compraInDB.Descuento = compraDTO.Descuento;
+            //compraInDB.Subtotal = compraDTO.Subtotal;
+            //compraInDB.ImporteNoGravado = compraDTO.ImporteNoGravado;
+            //compraInDB.Iva = compraDTO.Iva;
+            //compraInDB.ImporteIva = compraDTO.ImporteIva;
+            //compraInDB.Iibbbsas = compraDTO.Iibbbsas;
+            //compraInDB.ImporteIibbbsas = compraDTO.ImporteIibbbsas;
+            //compraInDB.Iibbcaba = compraDTO.Iibbcaba;
+            //compraInDB.ImporteIibbcaba = compraDTO.ImporteIibbcaba;
+            //compraInDB.PercIva = compraDTO.PercIva;
+            //compraInDB.ImportePercIva = compraDTO.ImportePercIva;
+            //compraInDB.Total = compraDTO.Total;
+            //compraInDB.TotalGastos = compraDTO.TotalGastos;
+
+            //compraBL.UpdateCompra(compraInDB);
+
+            //Actualizamos la operación
+            _UOWCompra.Save();
 
             return Ok();
         }
@@ -211,10 +266,14 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult DeleteProductoCompra(BorrarProdCompraDTO prodCompra)
         {
                         
-            var productoInDB = productoXCompraBL.GetProductoXCompraIndividualById(prodCompra);            
+            var productoInDB = productoXCompraBL.GetProductoXCompraIndividualById(prodCompra);
+            
 
             if (productoInDB == null)
                 return NotFound();
+
+            //Referenciamos producto que borraremos con UOW
+            var prodABorrar = _UOWCompra.ProductosXCompraRepository.GetByID(productoInDB.ID);
 
             var importeTotalProducto = productoInDB.Total;
 
@@ -222,22 +281,31 @@ namespace NaturalFrut.Controllers.Api
 
             //restamos stock
 
-            Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);
+            Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);            
             Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
 
             if (stock != null)
             {
                 stock.Cantidad = stock.Cantidad - prodCompra.Cantidad;
-                stockBL.UpdateStock(stock);
+                //stockBL.UpdateStock(stock);
+                _UOWCompra.StockRepository.Update(stock);
 
             }
-            productoXCompraBL.RemoveProductoXCompra(productoInDB);
+
             //Actualizamos el total de la venta
-            var compraInDB = compraBL.GetCompraById(prodCompra.CompraID);
+            //var compraInDB = compraBL.GetCompraById(prodCompra.CompraID);
+            Compra compraInDB = _UOWCompra.CompraRepository.GetByID(prodCompra.CompraID);
 
             compraInDB.TotalGastos = compraInDB.TotalGastos - importeTotalProducto;
 
-            compraBL.UpdateCompra(compraInDB);
+            //compraBL.UpdateCompra(compraInDB);
+            _UOWCompra.CompraRepository.Update(compraInDB);
+
+            //productoXCompraBL.RemoveProductoXCompra(productoInDB);
+            _UOWCompra.ProductosXCompraRepository.Delete(prodABorrar);
+
+
+            _UOWCompra.Save();
 
             return Ok();
 

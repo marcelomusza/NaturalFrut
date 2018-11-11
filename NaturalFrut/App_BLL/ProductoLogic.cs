@@ -112,7 +112,7 @@ namespace NaturalFrut.App_BLL
                 .Where(p => p.EsMix == true)
                 .ToList();
         }
-
+        
         public List<Marca> GetMarcaList()
         {
             return marcaRP.GetAll().ToList();
@@ -154,10 +154,12 @@ namespace NaturalFrut.App_BLL
         public List<ProductoMix> GetAllProductoMix()
         {
 
-            var productos = productoMixRP.GetAll()
+            var productos = productoMixRP.GetAll()                
+                .GroupBy(p => p.ProdMixId)
+                .Select(group => group.FirstOrDefault())
                 .Include(c => c.ProductoDelMix)
                 .Include(c => c.ProdMix)
-                .ToList();
+                .ToList();            
 
             return productos;
         }
