@@ -13,6 +13,7 @@ using NaturalFrut.Pdf;
 
 namespace NaturalFrut.Controllers
 {
+    [Authorize(Roles = "Administrator, User")]
     public class CompraController : Controller
     {
         private readonly CompraLogic compraBL;

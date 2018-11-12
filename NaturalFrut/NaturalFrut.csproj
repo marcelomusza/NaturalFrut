@@ -289,14 +289,6 @@
     <Compile Include="DTOs\CompraUpdateDTO.cs" />
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
-    <Compile Include="Migrations\201811072102239_nuevasMigrations.cs" />
-    <Compile Include="Migrations\201811072102239_nuevasMigrations.Designer.cs">
-      <DependentUpon>201811072102239_nuevasMigrations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811081857596_nuevasMigrationss.cs" />
-    <Compile Include="Migrations\201811081857596_nuevasMigrationss.Designer.cs">
-      <DependentUpon>201811081857596_nuevasMigrationss.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\GenerarTxt.cs">
@@ -806,14 +798,6 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811072102239_nuevasMigrations.resx">
-      <DependentUpon>201811072102239_nuevasMigrations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811081857596_nuevasMigrationss.resx">
-      <DependentUpon>201811081857596_nuevasMigrationss.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

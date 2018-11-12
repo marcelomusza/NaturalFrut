@@ -35,23 +35,23 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.PrecioXKG)
-                @Html.TextBoxFor(c => c.PrecioXKG, new { @class = "form-control", onkeyup = "ValidarPunto(this);" })
+                @Html.TextBoxFor(c => c.PrecioXKG, new { @class = "form-control", onkeyup = "ValidarPunto(this); ValidarSoloNumeroYComa(this);", @Value = "0" })
                 @Html.ValidationMessageFor(c => c.PrecioXKG)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.PrecioXBultoCerrado)
-                @Html.TextBoxFor(c => c.PrecioXBultoCerrado, new { @class = "form-control", onkeyup = "ValidarPunto(this);" })
+                @Html.TextBoxFor(c => c.PrecioXBultoCerrado, new { @class = "form-control", onkeyup = "ValidarPunto(this); ValidarSoloNumeroYComa(this);", @Value = "0" })
                 @Html.ValidationMessageFor(c => c.PrecioXBultoCerrado)
             </div>
             <div class="form-group">
                 @Html.LabelFor(c => c.PrecioXUnidad)
-                @Html.TextBoxFor(c => c.PrecioXUnidad, new { @class = "form-control", onkeyup = "ValidarPunto(this);" })
+                @Html.TextBoxFor(c => c.PrecioXUnidad, new { @class = "form-control", onkeyup = "ValidarPunto(this); ValidarSoloNumeroYComa(this);", @Value = "0" })
                 @Html.ValidationMessageFor(c => c.PrecioXUnidad)
             </div>
             <div class="form-group">
                 @Html.LabelFor(c => c.KGBultoCerrado)
-                @Html.TextBoxFor(c => c.KGBultoCerrado, new { @class = "form-control" })
+                @Html.TextBoxFor(c => c.KGBultoCerrado, new { @class = "form-control", onkeyup = "ValidarPunto(this); ValidarSoloNumeroYComa(this);", @Value = "0" })
                 @Html.ValidationMessageFor(c => c.KGBultoCerrado)
             </div>
 

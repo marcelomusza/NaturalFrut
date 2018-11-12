@@ -74,3 +74,10 @@ function ValidarPunto(textbox) {
     }
 
 }
+
+function ValidarSoloNumeroYComa(textbox) {
+    var clean = textbox.value.replace(/[^0-9,]/g, "")
+        .replace(/(,.*?),(.*,)?/, "$1");
+    // don't move cursor to end if no change
+    if (clean !== textbox.valuee) textbox.value = clean;
+}

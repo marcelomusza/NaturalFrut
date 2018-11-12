@@ -22,6 +22,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public IEnumerable<Producto> Producto { get; set; }
 
         [Required]       
+        [Display(Name = "Producto")]
         public int? ProductoID { get; set; }
 
       

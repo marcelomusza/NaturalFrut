@@ -97,7 +97,40 @@ namespace NaturalFrut.Controllers
 
             return View(user);
         }
-        
+
+        public ActionResult Borrar(string id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
+
+            var user = UserManager.FindById(id);
+            if (user == null)
+                return HttpNotFound();
+
+            UserManager.Delete(user);
+
+            var usuarios = UserManager.Users.ToList();
+            var userVM = new List<UserViewModel>();
+
+            foreach (var usuario in usuarios)
+            {
+                userVM.Add(
+
+                    new UserViewModel
+                    {
+                        Id = usuario.Id,
+                        Username = usuario.UserName,
+                        Roles = UserManager.GetRoles(usuario.Id)
+                    }
+
+                );
+            }
+
+            return View("Index", userVM);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Guardar([Bind(Include = "UserName,Id")] ApplicationUser formuser, string id, string RoleId)
@@ -145,6 +178,8 @@ namespace NaturalFrut.Controllers
                 return View();
             }
         }
+
+
 
        
     }

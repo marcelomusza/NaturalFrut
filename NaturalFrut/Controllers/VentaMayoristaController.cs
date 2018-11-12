@@ -13,6 +13,7 @@ using NaturalFrut.Pdf;
 
 namespace NaturalFrut.Controllers
 {
+    [Authorize(Roles = "Administrator, User")]
     public class VentaMayoristaController : Controller
     {
         private readonly VentaMayoristaLogic ventaMayoristaBL;

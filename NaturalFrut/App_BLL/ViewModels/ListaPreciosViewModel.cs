@@ -11,20 +11,16 @@ namespace NaturalFrut.App_BLL.ViewModels
     {
 
         public int? ID { get; set; }
-        
-        [Required]
+                
         [Display(Name = "Precio x Kg.")]
         public string PrecioXKG { get; set; }
 
-        [Required]
         [Display(Name = "Precio x Bulto Cerrado")]
         public string PrecioXBultoCerrado { get; set; }
 
-        [Required]
         [Display(Name = "Kg. del Bulto Cerrado")]
         public string KGBultoCerrado { get; set; }
 
-        [Required]
         [Display(Name = "Precio x Unidad")]
         public string PrecioXUnidad { get; set; }
 

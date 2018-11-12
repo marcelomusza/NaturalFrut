@@ -1000,7 +1000,7 @@ namespace NaturalFrut.Controllers
 
             ListaPreciosBlisterViewModel viewModel = new ListaPreciosBlisterViewModel(listaPrecioBlister)
             {
-                Producto = listaPreciosBL.GetProductoList()
+                Producto = listaPreciosBL.GetProductoBlisterList()
             };
 
             if (listaPrecioBlister == null)

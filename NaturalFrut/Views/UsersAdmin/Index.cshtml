@@ -24,6 +24,9 @@
                             </a> &nbsp;
                             <a href='@Url.Action("Editar", "UsersAdmin", new { id = item.Id })'>
                                 <img src="/Content/Images/EditIcon.png" title="Editar Usuario" />
+                            </a> &nbsp;
+                            <a href='@Url.Action("Borrar", "UsersAdmin", new { id = item.Id })' id="btnborrar">
+                                <img src="~/Content/Images/DeleteIcon.png" title="Editar Usuario" />
                             </a>
                         </td>
                     </tr>
@@ -33,3 +36,37 @@
 
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+
+            $("a[id='btnborrar']").on('click', function (e) {
+
+                var url = $(this)[0].href;
+
+                e.preventDefault();
+
+                bootbox.confirm("¿Estas seguro de realizar esta acción?", function (result) {
+
+                    if (result) {
+                        window.location = url;
+                    }
+
+                });
+
+            });
+
+
+
+
+        });
+
+
+
+
+    </script>
+}

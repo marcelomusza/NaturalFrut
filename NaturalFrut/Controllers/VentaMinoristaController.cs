@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace NaturalFrut.Controllers
 {
+    [Authorize(Roles = "Administrator, User")]
     public class VentaMinoristaController : Controller
     {
         private readonly VentaMinoristaLogic ventaMinoristaBL;
