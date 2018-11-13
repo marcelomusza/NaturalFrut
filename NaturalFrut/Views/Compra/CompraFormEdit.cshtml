@@ -151,7 +151,16 @@
 
             <div class="checkbox">
 
-                <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
+                @{
+                    if (Model.NoConcretado)
+                    {
+                        <input id="noconcretado" name="noconcretado" type="checkbox" value="" checked />
+                    }
+                    else
+                    {
+                        <input id="noconcretado" name="noconcretado" type="checkbox" value="" />
+                    }
+                }
                 <label><strong>Concretado</strong></label>
 
             </div>
@@ -193,7 +202,7 @@
                     @foreach (var producto in Model.ProductosXCompra)
                     {
                         <tr>
-                            <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" /></div></td>
+                            <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" disabled  /></div></td>
                             <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="js-cantidad form-control" data-js-counter="@counter" /></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID" selected>@producto.TipoDeUnidad.Nombre</option></select></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" type="text" data-js-counter="@counter" value="@producto.Importe" class="js-importe form-control js-formatvalue" onkeyup="ValidarPunto(this);" /></div></td>         
@@ -238,8 +247,8 @@
 
             @Html.AntiForgeryToken()
             @*<input type="hidden" id="CounterAnterior" />*@
-            <button type="submit" class="btn btn-primary">Actualizar Compra</button>
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
+            <button id="btnsubmit" type="submit" class="btn btn-primary">Actualizar Compra</button>
+            <button id="btncancelar" type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
         </div>
     </div>
@@ -304,7 +313,7 @@
 
             
             CargarValoresInicialesEnVM(vm);
-	    
+            ValidarCompraConcretada();
 	        FormatearValoresIniciales();
 	    
 	        RecalcularTotalGastos();
@@ -502,6 +511,27 @@
                 }
                 else {
                     vm.noConcretado = false;
+
+                    $('input[name*="cantidad"]').prop("disabled", false);
+                    $('input[name*="importe"]').prop("disabled", false);
+                    $('input[name*="descprod"]').prop("disabled", false);
+                    $('input[name*="importecondesc"]').prop("disabled", false);
+                    $('input[name*="iibbbsas"]').prop("disabled", false);
+                    $('input[name*="iibbcaba"]').prop("disabled", false);
+                    $('input[name*="iva"]').prop("disabled", false);
+                    $('input[class*="ibtnDel"]').prop("disabled", false);
+                    $("#sumatotal").prop("disabled", false);
+                    $("#descuentoporc").prop("disabled", false);
+                    $("#impnogravado").prop("disabled", false);
+                    $("#entregaEfectivo").prop("disabled", false);
+                    $("#iva").prop("disabled", false);
+                    $("#iibbbsas").prop("disabled", false);
+                    $("#iibbcaba").prop("disabled", false);
+                    $("#percepiva").prop("disabled", false);
+                    $("#importeiva").prop("disabled", true);
+                    $("#importeiibbbsas").prop("disabled", true);
+                    $("#importeiibbcaba").prop("disabled", true);
+                    $("#importepercepiva").prop("disabled", true);
                 }
 
 
@@ -956,6 +986,25 @@
 
         }
 
+        function ValidarCompraConcretada() {
+
+            var userRole = '@(User.IsInRole("Administrator") ? "true" : "false")';
+
+            if ($("#noconcretado").prop('checked')) {
+
+                //Venta Concretada, grisamos todos los campos del formulario, excepto Concretado si el user es Admin
+                $("#compraform :input").prop("disabled", true);
+
+                $("#btnsubmit").prop("disabled", false);
+                $("#btncancelar").prop("disabled", false);
+
+                if (userRole == "true")
+                    $("#noconcretado").prop("disabled", false);
+
+            }
+
+        }
+
         function RecalcularTotalGastos() {
 
                 var sumaGastoTotal = 0;
@@ -966,9 +1015,9 @@
 
                 $("#totalgastos").val(FormatearValor(sumaGastoTotal)).trigger( "change" );
 
-                
 
-               
+
+
 
         }
 
@@ -1173,7 +1222,7 @@
                 }
             }
 
-	
+
         }
 
         function calculoDebe() {
@@ -1189,13 +1238,13 @@
                 $("#debe").val(FormatearValor(debe));
             }
 
-            
+
 
            // var totalGasto = DeFormatearValor($("#totalgastos").val());
 
            // debe = debe - entregaEfectivo;
             //var gastoTotalInicial = DeFormatearValor($("#gastoTotalInicial").val());
-            
+
             //if(gastoTotalInicial > totalGasto){
 
             //    var nuevoDebe = gastoTotalInicial - totalGasto
@@ -1211,7 +1260,7 @@
 
 
             //        $("#debe").val(FormatearValor(0));
-                
+
             //    }else
             //    {
             //        debe =  debe - entregaEfectivo;
@@ -1230,7 +1279,7 @@
             //    debe =  debe - entregaEfectivo ;
             //    $("#debe").val(FormatearValor(debe));
             //    $("#saldoAfavor").val(FormatearValor(0));
-            
+
             //}
 
             //if(gastoTotalInicial == totalGasto){
@@ -1238,19 +1287,19 @@
             //    debe = debe - entregaEfectivo ;
             //    $("#debe").val(FormatearValor(debe));
             //    $("#saldoAfavor").val(FormatearValor(0));
-            
+
             //}
 
         }
 
         function recalculoDebe() {
 
-            
+
             var debe = DeFormatearValor($("#debe").val());
             var totalGasto = DeFormatearValor($("#totalgastos").val());
 
             var gastoTotalInicial = DeFormatearValor($("#gastoTotalInicial").val());
-            
+
             if(gastoTotalInicial > totalGasto){
 
                 var nuevoDebe = gastoTotalInicial - totalGasto
@@ -1262,10 +1311,10 @@
                     debe = debe *(-1);
                    // $("#saldoAfavor").val(FormatearValor(debe));
                     $("#nuevodebe").val(FormatearValor(0));
-                
+
                 }else
                 {
-                   
+
                     $("#nuevodebe").val(FormatearValor(debe));
                    // $("#saldoAfavor").val(FormatearValor(0));
                 }
@@ -1278,25 +1327,25 @@
 
                 debe = debe + nuevoDebe;
 
-     
+
                 $("#nuevodebe").val(FormatearValor(debe));
                 //$("#saldoAfavor").val(FormatearValor(0));
-            
+
             }
 
             if(gastoTotalInicial == totalGasto){
 
-                
+
                 $("#nuevodebe").val(FormatearValor(debe));
                 //$("#saldoAfavor").val(FormatearValor(0));
-            
+
             }
 
         }
-	
+
         function FormatearValoresIniciales() {
 
-            var totalGastoInicial = 
+            var totalGastoInicial =
 
             $(".js-formatvalue").each(function () {
 
