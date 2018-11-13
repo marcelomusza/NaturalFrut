@@ -32,11 +32,8 @@ namespace NaturalFrut.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
-        private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionMarcelo"].ConnectionString);
-        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionProduction"].ConnectionString);
-        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionYesica"].ConnectionString);
-        //private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["ConnectionTest"].ConnectionString);
+                
+        private static string connStr = Encryption.DecryptPassword(ConfigurationManager.ConnectionStrings["NaturalConnection"].ConnectionString);
 
         //Asignación de DbSets para CodeFirst migrations 
         public DbSet<Cliente> Clientes { get; set; }
