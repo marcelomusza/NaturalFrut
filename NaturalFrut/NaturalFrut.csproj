@@ -289,8 +289,13 @@
     <Compile Include="DTOs\CompraUpdateDTO.cs" />
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
+    <Compile Include="Migrations\201811142022081_seAgregaLocal.cs" />
+    <Compile Include="Migrations\201811142022081_seAgregaLocal.Designer.cs">
+      <DependentUpon>201811142022081_seAgregaLocal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
+    <Compile Include="Models\CompraReporte.cs" />
     <Compile Include="Models\GenerarTxt.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -788,6 +793,7 @@
     <Content Include="Views\Admin\Stock.cshtml" />
     <Content Include="Views\Admin\StockForm.cshtml" />
     <Content Include="Views\Admin\StockFormEdit.cshtml" />
+    <Content Include="Views\Compra\Reportes\ReporteCompraEntreFechas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -798,6 +804,11 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811142022081_seAgregaLocal.resx">
+      <DependentUpon>201811142022081_seAgregaLocal.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

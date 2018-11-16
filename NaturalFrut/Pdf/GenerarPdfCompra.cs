@@ -140,6 +140,7 @@ namespace NaturalFrut.Pdf
             if (pageN == 1)
             {
 
+                
                 headerTable.HorizontalAlignment = 0;
                 headerTable.SpacingBefore = 0;
                 headerTable.SpacingAfter = 0;
@@ -158,47 +159,56 @@ namespace NaturalFrut.Pdf
 
                 cell.Colspan = 12;
                 cell.Border = 0;
-
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("NATURAL FRUT", titleFont));
                 cell.Colspan = 8;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Orden de Compra", subTitleFont));
                 cell.Colspan = 4;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);             
 
                 cell = new PdfPCell(new Phrase(Chunk.NEWLINE));
                 cell.Colspan = 12;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);               
 
                 cell = new PdfPCell(new Phrase("Sebastián Alejandro Genebrier  CUIT:20-32763767-4", boldTableFont));
                 cell.Colspan = 8;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("N°: " + Compra.NumeroCompra, boldTableFont));
                 cell.Colspan = 4;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);                
 
                 cell = new PdfPCell(new Phrase("Proveedor: " + Compra.ProveedorObj.Nombre, boldTableFont));
                 cell.Colspan = 8;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Fecha: " + Compra.Fecha, boldTableFont));
                 cell.Colspan = 4;
                 cell.Border = 0;
-                headerTable.AddCell(cell);                
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
+                headerTable.AddCell(cell);
+                
 
                 cell = new PdfPCell(new Phrase(Chunk.NEWLINE));
                 cell.Colspan = 12;
                 cell.Border = 0;
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Producto", boldTableFont));
@@ -218,6 +228,7 @@ namespace NaturalFrut.Pdf
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
                 
+
 
                 headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 20, writer.DirectContent);
 

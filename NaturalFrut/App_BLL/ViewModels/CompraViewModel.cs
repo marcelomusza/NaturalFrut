@@ -55,6 +55,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public string TipoFactura { get; set; }
 
+        public string Local { get; set; }
+
         public bool NoConcretado { get; set; }
 
         public Proveedor ProveedorObj { get; set; }

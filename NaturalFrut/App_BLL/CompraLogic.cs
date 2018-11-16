@@ -123,6 +123,32 @@ namespace NaturalFrut.App_BLL
 
         }
 
+        #region SECCION REPORTES
+        public List<Compra> GetAllCompraSegunFechas(DateTime fechaDesde, DateTime fechaHasta, string local)
+        {
+
+            var reporteComprasSegunFecha = compraRP
+                .GetAll()
+                .Include(c => c.Proveedor)
+                .Include(c => c.Clasificacion)
+                .Where(f => f.Fecha >= fechaDesde && f.Fecha <= fechaHasta && f.Local == local)
+                .ToList();
+
+
+            return reporteComprasSegunFecha;
+        }
+
+        public Compra GetCompraByNumeroCompra(int numCompra)
+        {
+            return compraRP
+                .GetAll()
+                .Include(c => c.Proveedor)
+                .Include(c => c.Clasificacion)
+                .Where(c => c.NumeroCompra == numCompra)
+                .SingleOrDefault();
+        }
+        #endregion
+
         //public ListaPrecioBlister CalcularImporteBlisterSegunCliente(int productoID)
         //{
 

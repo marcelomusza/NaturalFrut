@@ -49,6 +49,8 @@ namespace NaturalFrut.DTOs
 
         public string TipoFactura { get; set; }
 
+        public string Local { get; set; }
+
         [Required]
         public int ProveedorID { get; set; }
 

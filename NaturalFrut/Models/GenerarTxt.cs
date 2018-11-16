@@ -14,12 +14,18 @@ namespace NaturalFrut.Controllers
     public class GenerarTxt : Page
     {
         private VentaMinoristaLogic ventaMinoristaBL;
-        
+        private CompraLogic compraBL;
+
         public GenerarTxt(VentaMinoristaLogic ventaMinoristaBL)
         {
             this.ventaMinoristaBL = ventaMinoristaBL;
         }
-        
+
+        public GenerarTxt(CompraLogic compraBL)
+        {
+            this.compraBL = compraBL;
+        }
+
         public void CrearTxt(string ventas)
         {
 
@@ -96,6 +102,75 @@ namespace NaturalFrut.Controllers
             }
 
         }
+
+
+        public void CrearTxtCompra(string compra)
+        {
+
+            var numeroCompra = compra.Split(',');
+
+            Compra compraInDB = new Compra();
+            CompraReporte reporteTemp = new CompraReporte();
+            List<CompraReporte> compraReporte = new List<CompraReporte>();
+
+            foreach (var item in numeroCompra)
+            {
+                if (item != string.Empty)
+                {
+                    compraInDB = compraBL.GetCompraByNumeroCompra(int.Parse(item));
+
+                    //Guardamos los datos necesarios para el reporte
+                    reporteTemp = new CompraReporte();
+                    reporteTemp.ID = compraInDB.NumeroCompra;       
+                    reporteTemp.Nombre = compraInDB.Proveedor.Nombre;
+                    reporteTemp.Cuit = compraInDB.Proveedor.Cuit;
+                    reporteTemp.Iibb = compraInDB.Proveedor.Iibb;
+                    reporteTemp.Fecha = compraInDB.Fecha.Date.ToString("dd/MM/yyyy");
+                    reporteTemp.TipoFactura = compraInDB.TipoFactura;
+                    reporteTemp.Factura = compraInDB.Factura;
+                    reporteTemp.SumaTotal = String.Format("{0:c}",compraInDB.SumaTotal);
+                    reporteTemp.DescuentoPorc = compraInDB.DescuentoPorc;
+                    reporteTemp.Descuento = String.Format("{0:c}", compraInDB.Descuento);
+                    reporteTemp.Subtotal = String.Format("{0:c}", compraInDB.Subtotal);
+                    reporteTemp.Iva = compraInDB.Iva;
+                    reporteTemp.ImporteIva = String.Format("{0:c}", compraInDB.ImporteIva);
+                    reporteTemp.ImporteIibbbsas = String.Format("{0:c}", compraInDB.ImporteIibbbsas);
+                    reporteTemp.ImporteIibbcaba = String.Format("{0:c}", compraInDB.ImporteIibbcaba);
+                    reporteTemp.ImportePercIva = String.Format("{0:c}", compraInDB.ImportePercIva);
+                    reporteTemp.Clasificacion = compraInDB.Clasificacion.Nombre;
+                    reporteTemp.Total = String.Format("{0:c}", compraInDB.Total);
+
+
+                    compraReporte.Add(reporteTemp);
+                }
+
+            }
+
+
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    var tableFormatter = new TableFormatter();
+   
+                    sb.Append(tableFormatter.FormatObjects(compraReporte));
+
+                    //Export HTML String as PDF.
+                    StringReader sr = new StringReader(sb.ToString());
+
+                    HttpContext.Current.Response.ContentType = "text/plain";
+                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=ReporteCompra_.txt");
+                    HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    HttpContext.Current.Response.Write(sb.ToString());
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+        }
+
+     
 
     }
 }
