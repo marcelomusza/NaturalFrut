@@ -52,6 +52,7 @@
 
             var table = $("#compra").DataTable({
 
+                
                 "language": {
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
@@ -88,23 +89,25 @@
                     },
                     {
                         data: "ID",
+
                         render: function (data) {
-                            
+
                             var userRole = '@(User.IsInRole("Administrator") ? "true" : "false")';
 
                             if (userRole == "true") {
                                 return "<button class='btn-link js-delete' data-compra-id=" + data + "><img title='Borrar' src='/Content/Images/DeleteIcon.png'/></button>" +
                                     "<button class='btn-link js-edit' data-compra-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" +
-                                    "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Orden de Compra' src='/Content/Images/NotaPedido.png'/></button>";
+                                    "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Nota de Pedido' src='/Content/Images/NotaPedido.png'/></button>";
                             }
                             else {
                                 return "<button class='btn-link js-edit' data-compra-id=" + data + "><img title='Editar' src='/Content/Images/EditIcon.png'/></button>" +
-                                    "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Orden de Compra' src='/Content/Images/NotaPedido.png'/></button>";
+                                    "<button class='btn-link js-ordenCompra' data-compra-id=" + data + "><img title='Nota de Pedido' src='/Content/Images/NotaPedido.png'/></button>";
                             }
+
                         }
                     }
                 ]
-            });            
+            });
 
             $("#compra").on("click", ".js-delete", function () {
 
@@ -114,13 +117,16 @@
 
                     if (result) {
                         $.ajax({
-                            url: "/api/compra/" + button.attr("data-compra-id"),
+                            url: "/api/compra/deletecompra/" + button.attr("data-compra-id"),
                             method: "DELETE",
                             success: function () {
 
                                 toastr.success("La Compra se ah eliminado satisfactoriamente");
 
                                 table.row(button.parents("tr")).remove().draw();
+                            },
+                            fail: function () {
+                                toastr.error("Se produjo un problema al intentar eliminar la compra");
                             }
                         });
                     }

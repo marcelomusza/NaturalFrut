@@ -59,6 +59,16 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <label>Local</label>
+                <select id="local" name="local" class="form-control">
+                    <option value="">seleccione...</option>
+                    <option value="Mitre">Mitre</option>
+                    <option value="Laprida">Laprida</option>
+                    <option value="Mayorista">Mayorista</option>
+                </select>
+            </div>
+
             @*<div class="form-group">
                 <label>Tipo Factura</label>
                 <input id="tipofactura" name="tipofactura" required type="text" value="" class="form-control" />
@@ -338,7 +348,7 @@
 
         $(document).ready(function () {
 
-             $("#factura").mask("A999-99999999");
+             $("#factura").mask("A99999-99999999");
             //$("#factura").inputmask({ "mask": "(999) 999-9999" });
 
             //ViewModel para pasar al webAPI
@@ -365,6 +375,7 @@
                 totalGastos: 0,
                 noConcretado: false,
                 tipoFactura: "",
+                local: "",
                 debe: 0,
                 SaldoAfavor:0,
                 productosXCompra : []
@@ -1107,6 +1118,7 @@
 
             vm.factura = $("#factura").val();
             vm.tipoFactura = $("#tipofactura").val();
+            vm.local = $("#local").val();
             vm.sumaTotal = DeFormatearValor($("#sumatotal").val());
             vm.descuentoPorc = ValorANumero($("#descuentoporc").val());
             vm.descuento = DeFormatearValor($("#descuentoC").val());

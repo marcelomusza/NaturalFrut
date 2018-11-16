@@ -216,6 +216,7 @@ namespace NaturalFrut.Controllers.Api
             compraAActualizar.Factura = compraDTO.Factura;
             compraAActualizar.NoConcretado = compraDTO.NoConcretado;
             compraAActualizar.TipoFactura = compraDTO.TipoFactura;
+            compraAActualizar.Local = compraDTO.Local;
             compraAActualizar.SumaTotal = compraDTO.SumaTotal;
             compraAActualizar.DescuentoPorc = compraDTO.DescuentoPorc;
             compraAActualizar.Descuento = compraDTO.Descuento;
@@ -305,6 +306,63 @@ namespace NaturalFrut.Controllers.Api
             _UOWCompra.ProductosXCompraRepository.Delete(prodABorrar);
 
 
+            _UOWCompra.Save();
+
+            return Ok();
+
+        }
+
+        //DELETE /api/ventasMayorista/1
+        [HttpDelete]
+        [Route("api/compra/deletecompra/{Id}")]
+        public IHttpActionResult DeleteCompra(int Id)
+        {
+
+            var compraInDB = compraBL.GetCompraById(Id);
+
+            if (compraInDB == null)
+                return NotFound();
+
+            if(compraInDB.ProductosXCompra != null)
+            {
+                //RESTAMOS STOCK
+                for (int i = 0; i < compraInDB.ProductosXCompra.Count; i++)
+                {
+
+                    int prodId = compraInDB.ProductosXCompra[i].ProductoID;
+                    int tipoUnidadId = compraInDB.ProductosXCompra[i].TipoDeUnidadID;
+
+
+                    {
+                        Stock stock = _UOWCompra.StockRepository.GetAll().Where(s => s.ProductoID == prodId && s.TipoDeUnidadID == tipoUnidadId).SingleOrDefault();
+                        //Stock stock = stockBL.ValidarStockProducto(ventaMayoristaInDB.ProductosXVenta[i].ProductoID, ventaMayoristaInDB.ProductosXVenta[i].TipoDeUnidadID);
+                        stock.Cantidad = stock.Cantidad - compraInDB.ProductosXCompra[i].Cantidad;
+
+                        //stockBL.UpdateStock(stock);
+                        _UOWCompra.StockRepository.Update(stock);
+                    }
+                }
+
+
+                //BORRAMOS PRODUCTOS ASOCIADOS Y LA VENTA MAYORISTA                
+                //Borramos Productos asociados
+                foreach (var item in compraInDB.ProductosXCompra)
+                {
+                    var productoInDB = _UOWCompra.ProductosXCompraRepository.GetByID(item.ID);
+                    _UOWCompra.ProductosXCompraRepository.Delete(productoInDB);
+                }
+            }
+
+
+        
+           
+
+            ////Borramos Venta Mayorista
+            var compraABorrar = _UOWCompra.CompraRepository.GetByID(Id);
+            _UOWCompra.CompraRepository.Delete(compraABorrar);
+
+
+            //Concretamos la operacion
             _UOWCompra.Save();
 
             return Ok();
