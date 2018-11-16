@@ -784,10 +784,11 @@
     <Content Include="Views\VentaMayorista\Reportes\ReporteVentasPorCliente.cshtml" />
     <Content Include="Views\VentaMayorista\Reportes\ReporteProductosVendidos.cshtml" />
     <Content Include="Views\Compra\IndexReporte.cshtml" />
-    <Content Include="Views\Compra\Reportes\ReporteProductosPorProveedor.cshtml" />
+    <Content Include="Views\Compra\Reportes\ReporteComprasProveedor.cshtml" />
     <Content Include="Views\Admin\Stock.cshtml" />
     <Content Include="Views\Admin\StockForm.cshtml" />
     <Content Include="Views\Admin\StockFormEdit.cshtml" />
+    <Content Include="Views\Compra\Reportes\ReporteProductosProveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

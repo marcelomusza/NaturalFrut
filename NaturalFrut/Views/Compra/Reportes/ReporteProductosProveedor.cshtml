@@ -1,0 +1,192 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Generar Reporte Productos por Proveedor - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Productos por Proveedor</h2>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <label>Producto: </label>
+        <input type="text" class=" input-lg" id="proveedor" value="@ViewBag.ProductoNombre" disabled/>
+
+    </div>
+</div>
+
+<div class="row">
+    <hr class="hr-primary" />
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+            <table id="productoproveedor" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Compra</th>
+                        <th>Fecha</th>
+                        <th>Factura Nº</th>
+                        <th>Proveedor</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total $</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                @*<tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align: right;">
+
+                            <label>Total Ventas:</label>
+                            <input type="text" class="form-control vtamay-totalventa js-formatvalue" id="totalventas" value="0" disabled />
+
+                        </td>
+                    </tr>
+                </tfoot>*@
+            </table>
+       
+
+
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("IndexReporte", "Compra")';">Volver</button>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <br /><br />
+</div>
+
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#productoproveedor").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+
+                "order": [[0, "desc"]],
+
+                "columnDefs": [
+                    { "width": "10%", "targets": 0 },
+                    { "width": "15%", "targets": 1 },
+                    { "width": "15%", "targets": 2 },
+                    { "width": "30%", "targets": 3 },
+                    { "width": "7%", "targets": 4 },
+                    { "width": "13%", "targets": 5 },
+                    { "width": "10%", "targets": 6 },
+                ],
+
+                ajax: {
+
+                    url: "/api/compra/reporteprodporproveedor/" + @ViewBag.ProductoID,
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Compra.NumeroCompra"
+                    },
+                    {
+                        "data": "Compra.Fecha",
+                        "type": "date",
+                        "render": function (value) {
+                            if (value === null) return "";
+                            return moment(value).format('DD/MM/YYYY h:mm A');
+                        }
+                    },
+                    {
+                        data: "Compra.Factura"
+                    },
+                    {
+                        data: "Compra.Proveedor.Nombre"
+                    },
+                    {
+                        data: "Cantidad",                       
+                    },
+                    {
+                        data: "PrecioUnitario",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ "),
+                        'createdCell': function (td, cellData, rowData, row, col) {
+                            $(td).attr('class', 'js-sumaventa');
+                        }
+                    },
+                    {
+                        data: "Total",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ "),
+                        'createdCell': function (td, cellData, rowData, row, col) {
+                            $(td).attr('class', 'js-sumaventa');
+                        }
+                    },
+                    
+                ],
+
+                //"initComplete": function (settings, json) {
+                //    var api = this.api();
+                //    CalcularTotalVentas();
+                //},
+
+            });       
+
+
+            //FormatearValoresTabla();
+        });
+
+        //function FormatearValoresTabla() {
+
+        //    $(".js-sumatotal").each(function () {
+        //        var temp = DeFormatearValor(this.innerText);
+
+        //        $(this).val(FormatearValor(temp));
+        //        $(this).text(FormatearValor(temp));
+        //    });
+
+        //}
+
+        //function CalcularTotalVentas() {
+
+        //    var sumaventas = 0;
+
+        //    $(".js-sumaventa").each(function () {
+
+        //        var parcial = DeFormatearValor($(this).text());
+
+        //        sumaventas += parcial;
+
+        //    });
+
+        //    $("#totalventas").val(FormatearValor(sumaventas));
+
+        //}
+
+
+    </script>
+
+}

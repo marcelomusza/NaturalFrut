@@ -372,7 +372,7 @@ namespace NaturalFrut.Controllers
 
         }
 
-        public ActionResult ReporteProductosProveedor(int proveedorID)
+        public ActionResult ReporteComprasProveedor(int proveedorID)
         {
 
             var proveedor = proveedorBL.GetProveedorById(proveedorID);
@@ -383,7 +383,21 @@ namespace NaturalFrut.Controllers
             ViewBag.ProveedorNombre = proveedor.Nombre;
             ViewBag.ProveedorID = proveedor.ID;
 
-            return View("Reportes\\ReporteProductosPorProveedor");
+            return View("Reportes\\ReporteComprasProveedor");
+        }
+
+        public ActionResult ReporteProductosProveedor(int productoID)
+        {
+
+            var producto = productoBL.GetProductoById(productoID);
+
+            if (producto == null)
+                return HttpNotFound();
+            
+            ViewBag.ProductoNombre = producto.Nombre;
+            ViewBag.ProductoID = producto.ID;
+            
+            return View("Reportes\\ReporteProductosProveedor");
         }
 
     }

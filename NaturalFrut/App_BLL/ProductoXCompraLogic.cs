@@ -106,6 +106,18 @@ namespace NaturalFrut.App_BLL
               .Where(c => c.Compra.ProveedorID == id)
               .ToList();
         }
-       
+
+        public List<ProductoXCompra> GetProductoXCompraByIdProducto(int id)
+        {
+
+            return ProductoXCompraRP
+              .GetAll()
+              .Include(p => p.Producto)
+              .Include(v => v.Compra)
+              .Include("Compra.Proveedor")
+              .Where(p => p.ProductoID == id)
+              .ToList();
+        }
+
     }
 }
