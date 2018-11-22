@@ -1,6 +1,6 @@
 ﻿@model dynamic
 @{
-    ViewBag.Title = "Generar Reporte Compra - NaturalFrut";
+    ViewBag.Title = "Generar Reporte Venta Minorista - NaturalFrut";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -31,16 +31,7 @@
                 <input required id="fechahasta" type="text" class="form-control" />
             </div>
         </div>
-
-        <div class="form-group">
-            <label>Local</label>
-            <select id="local" name="local" class="form-control">
-                <option value="">seleccione...</option>
-                <option value="Mitre">Mitre</option>
-                <option value="Laprida">Laprida</option>
-                <option value="Mayorista">Mayorista</option>
-            </select>
-        </div>
+       
     </div>
 </div>
 
@@ -77,10 +68,10 @@
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Numero de Compra</th>
-                    <th>Proveedor</th>
+                    <th>Numero de Venta</th>
+                    <th>Razón Social</th>
                     <th>Factura</th>
-                    <th>Local</th>
+                    <th>Importe Informe Z</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -110,11 +101,10 @@
 
                 var fechaDesde = $("#fechadesde").val();
                 var fechaHasta = $("#fechahasta").val();
-                 var local = $("#local").val();
 
-                if (fechaDesde != "" && fechaHasta != "" && local !="") {
+                if (fechaDesde != "" && fechaHasta != "") {
 
-                    $.getJSON("GetReporteCompraAsync", { FechaDesde: fechaDesde, FechaHasta: fechaHasta, Local: local }, PopulateReportesPorFecha)
+                    $.getJSON("GetReporteVentaAsync", { FechaDesde: fechaDesde, FechaHasta: fechaHasta}, PopulateReportesPorFecha)
                         .error(function (xhr, textStatus, exceptionThrown) {
                             bootbox.alert(xhr.responseText);
                         })
@@ -127,7 +117,7 @@
 
                 if (data.Success) {
 
-                    vm.ReporteCompra = data.ReporteCompra;
+                    vm.ReporteVenta = data.ReporteVenta;
 
                     var table = $("#reportesporfecha").DataTable({
                         "destroy": true,
@@ -146,7 +136,7 @@
                                                   
                         ],
 
-                        data: data.ReporteCompra,
+                        data: data.ReporteVenta,
                         columns: [
                             {
                                 "data": "Fecha",
@@ -157,18 +147,18 @@
                                 }
                             },
                             {
-                                data: "NumeroCompra"
+                                data: "NumeroVenta"
                             },
                             {
-                                data: "Proveedor.Nombre"
+                                data: "RazonSocial"
                             },
                             {
-                                data: "Factura",
-                               
+                                data: "NumFactura",                               
                             },
                             {
-                                data: "Local",
-                               
+                                data: "ImporteInformeZ",         
+                                type: "num-fmt",
+                                render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
                             }
                                            
                         ],
@@ -176,9 +166,7 @@
                     });
 
                     $(".row").removeClass("rte-hidden");
-
-                    
-
+                   
                 }
                 else {
                     bootbox.alert("Error al generar la búsqueda de compras")
@@ -189,17 +177,17 @@
             
             $("#btnGenerarReporteTxt").on('click', function () {
 
-                var numCompra = "";
+                var numVenta = "";
 
-                $.each(vm.ReporteCompra, function (key, value) {
+                $.each(vm.ReporteVenta, function (key, value) {
 
-                    numCompra += value.NumeroCompra + ",";
+                    numVenta += value.NumeroVenta + ",";
 
                     // and the rest of your code
                 });
 
-                if (numCompra != "") {
-                    location.href = "GenerarReporteTxt?compra=" + numCompra;
+                if (numVenta != "") {
+                    location.href = "GenerarReporteTxt?ventas=" + numVenta;
                 }
                 else {
                     toastr.error("No se puede generar Reporte sin datos.");
@@ -209,17 +197,17 @@
 
             $("#btnGenerarReporteExcel").on('click', function () {
 
-                var numCompra = "";
+                var numVenta = "";
 
-                $.each(vm.ReporteCompra, function (key, value) {
+                $.each(vm.ReporteVenta, function (key, value) {
 
-                    numCompra += value.NumeroCompra + ",";
+                    numVenta += value.NumeroVenta + ",";
 
                     // and the rest of your code
                 });
 
-                if (numCompra != "") {
-                    location.href = "GenerarReporteExcel?compra=" + numCompra;
+                if (numVenta != "") {
+                    location.href = "GenerarReporteExcel?ventas=" + numVenta;
                 }
                 else {
                     toastr.error("No se puede generar Reporte sin datos.");

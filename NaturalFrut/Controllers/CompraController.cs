@@ -10,6 +10,7 @@ using NaturalFrut.Helpers;
 using Rotativa;
 using Rotativa.Options;
 using NaturalFrut.Pdf;
+using System.Data;
 
 namespace NaturalFrut.Controllers
 {
@@ -272,84 +273,163 @@ namespace NaturalFrut.Controllers
 
           }
 
-            //    public ActionResult CalcularStockBlisterAsync(int productoID, int tipoUnidadID, int counter)
-            //    {
-            //        try
-            //        {
-            //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+        //    public ActionResult CalcularStockBlisterAsync(int productoID, int tipoUnidadID, int counter)
+        //    {
+        //        try
+        //        {
+        //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
 
-            //            return Json(new { Success = true, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
-
-
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-            //        }
+        //            return Json(new { Success = true, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
 
 
-
-            //    }
-
-            //    public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
-            //    {
-
-            //        try
-            //        {
-            //            double importe;
-            //            double importeTotal;
-
-            //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
-
-            //            if (productoSegunStock == null)
-            //                throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
-
-            //            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
-
-            //            if (productoBlisterSegunLista == null)
-            //                throw new Exception("Error al cargar los precios de producto");
-
-            //            importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
-
-            //            //Sumamos el importe total
-            //            importeTotal = importe * cantidad;
-
-            //            return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
-
-
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-            //        }
-
-
-            //    }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+        //        }
 
 
 
-            //[AllowAnonymous]
-            //public ActionResult GenerarNotaPedido(int Id)
-            //{
+        //    }
 
-            //    var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+        //    public ActionResult CalcularValorBlisterAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
+        //    {
 
-            //    VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
-            //    {
-            //        Clientes = clienteBL.GetClienteById(venta.ClienteID),
-            //        ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
+        //        try
+        //        {
+        //            double importe;
+        //            double importeTotal;
 
-            //    };
+        //            Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
+
+        //            if (productoSegunStock == null)
+        //                throw new Exception("El Producto no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
+
+        //            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoID);
+
+        //            if (productoBlisterSegunLista == null)
+        //                throw new Exception("Error al cargar los precios de producto");
+
+        //            importe = Convert.ToDouble(productoBlisterSegunLista.Precio);
+
+        //            //Sumamos el importe total
+        //            importeTotal = importe * cantidad;
+
+        //            return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
+
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+        //        }
+
+
+        //    }
 
 
 
-            //    ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
+        //[AllowAnonymous]
+        //public ActionResult GenerarNotaPedido(int Id)
+        //{
+
+        //    var venta = ventaMayoristaBL.GetVentaMayoristaById(Id);
+
+        //    VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(venta)
+        //    {
+        //        Clientes = clienteBL.GetClienteById(venta.ClienteID),
+        //        ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID)
+
+        //    };
+
+
+
+        //    ViewBag.ProductoXVenta = productoxVentaBL.GetProductoXVentaByIdVenta(venta.ID);
 
 
 
 
-            //    return View("NotaDePedidoForm", viewModel);
-            //}
+        //    return View("NotaDePedidoForm", viewModel);
+        //}
+
+
+        public ActionResult GetReporteCompraAsync(DateTime fechaDesde, DateTime fechaHasta, string local)
+        {
+
+            try
+            {
+
+                var reporteCompra = compraBL.GetAllCompraSegunFechas(fechaDesde, fechaHasta, local);
+
+                if (reporteCompra == null)
+                    throw new Exception("No se encontraron Compras según el rango de fecha seleccionada");
+
+
+                return Json(new { Success = true, ReporteCompra = reporteCompra }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ReporteCompra()
+        {
+
+            return View("Reportes\\ReporteCompraEntreFechas");
+        }
+
+        [AllowAnonymous]
+        public ActionResult GenerarReporteTxt(string compra)
+        {
+
+
+            GenerarTxt txt = new GenerarTxt(compraBL);
+
+            txt.CrearTxtCompra(compra);
+
+            return View("");
+
+        }
+
+        [AllowAnonymous]
+        public ActionResult GenerarReporteExcel(string compra)
+        {
+
+            ExcelExportHelper excel = new ExcelExportHelper(compraBL);            
+
+            DataTable tablaCompras = excel.ArmarExcel(compra, Constants.COMPRA_EXCEL);
+
+            string[] columns = { "Id", "Proveedor", "CUIT", "IIBB", "Mes Año", "Tipo", "Suma Total", "Descuento %", "Descuento",
+                                "Subtotal", "IVA", "Importe IVA", "IIBB BSAS", "IIBB CABA", "Percepción IVA", "Clasificación", "Total"};
+            
+            //byte[] filecontent = ExcelExportHelper.ExportExcel(technologies, "Technology", true, columns);
+            byte[] filecontent = ExcelExportHelper.ExportExcel(tablaCompras, "Reporte Compras", true, columns);
+
+            string fecha = string.Format("{0}{1}{2}", DateTime.Now.Date.Day, DateTime.Now.Date.Month, DateTime.Now.Date.Year);
+
+
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "ReporteCompra_" + fecha + ".xlsx");            
+
+        }
+
+        //public ActionResult ReporteProductosProveedor(int proveedorID)
+        //{
+
+        //    var proveedor = proveedorBL.GetProveedorById(proveedorID);
+
+        //    if (proveedor == null)
+        //        return HttpNotFound();
+
+        //    ViewBag.ProveedorNombre = proveedor.Nombre;
+        //    ViewBag.ProveedorID = proveedor.ID;
+
+        //    return View("Reportes\\ReporteProductosPorProveedor");
+        //}
+
 
 
         [AllowAnonymous]

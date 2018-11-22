@@ -84,5 +84,22 @@ namespace NaturalFrut.App_BLL
 
             return reporteVentasSegunFecha;
         }
+
+
+        #region Seccion Reportes
+        public List<VentaMinorista> GetAllVentaMinoristaSegunFechas(DateTime fechaDesde, DateTime fechaHasta, string local)
+        {
+
+            var reporteVentaSegunFecha = ventaMinoristaRP
+                .GetAll()
+                .Where(f => f.Fecha >= fechaDesde && f.Fecha <= fechaHasta && f.Local == local)
+                .ToList();
+
+
+            return reporteVentaSegunFecha;
+        }
+
+        #endregion
+
     }
 }

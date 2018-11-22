@@ -19,6 +19,7 @@ namespace NaturalFrut.Helpers
 
         public const string IVA = "1,21";
 
-
+        public const int VENTA_MINORISTA_EXCEL = 1;
+        public const int COMPRA_EXCEL = 2;
     }
 }
