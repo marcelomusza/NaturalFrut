@@ -153,7 +153,13 @@
                     // and the rest of your code
                 });
 
-                location.href = "GenerarReporteTxt?ventas=" + numVentas;
+                if (numVentas) {
+                    location.href = "GenerarReporteTxt?ventas=" + numVentas;
+                }
+                else {
+                    toastr.error("No se puede generar Reporte sin datos.");
+                }
+                
                 
             })
 

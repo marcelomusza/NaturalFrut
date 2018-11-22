@@ -45,15 +45,10 @@ namespace NaturalFrut.Pdf
 
                     };
 
+
                     sb.Append("<br />");
                     sb.Append("<br />");
                     sb.Append("<br />");
-                    sb.Append("<br />");
-                    sb.Append("<br />");
-                    sb.Append("<br />");
-                    sb.Append("<br />");
-                    sb.Append("<br />");
-                   
 
                     //Generar contenido del body de la tabla
                     sb.Append("<table style='font-size:8px;' border = '0' ;>");
@@ -75,15 +70,15 @@ namespace NaturalFrut.Pdf
                             fondoColor = true;
                         }
 
-                        sb.Append("<td width='70%'>" + prod.Producto.Nombre + "</td>");
-                        sb.Append("<td width='10%' align = 'center'>" + prod.Cantidad + "</td>");
-                        sb.Append("<td width='10%' align = 'center'>" + prod.PrecioUnitario + "</td>");
-                        sb.Append("<td width='10%' align = 'center'>" + prod.Total + "</td>");
+                        sb.Append("<td width='40%'>" + prod.Producto.Nombre + "</td>");
+                        sb.Append("<td width='20%' align = 'left'>" + prod.Cantidad + "</td>");
+                        sb.Append("<td width='20%' align = 'left'>" + prod.PrecioUnitario + "</td>");
+                        sb.Append("<td width='20%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
                     }
 
-                    sb.Append("<tr><td align = 'center' colspan = '25'>Total: </td>");
-                    sb.Append("<td>$"+compra.TotalGastos+"</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '3'>Total: </td>");
+                    sb.Append("<td>$" + compra.TotalGastos + "</td>");
                     sb.Append("</tr>");
                     sb.Append("</tr></table>");
 
@@ -108,7 +103,7 @@ namespace NaturalFrut.Pdf
 
 
                     HttpContext.Current.Response.ContentType = "application/pdf";
-                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=NotaPedido_" + compra.NumeroCompra + ".pdf");
+                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=OrdenDeCompra_" + compra.NumeroCompra + ".pdf");
                     HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     HttpContext.Current.Response.Write(pdfDoc);
                     HttpContext.Current.Response.End();
@@ -135,7 +130,7 @@ namespace NaturalFrut.Pdf
             var boldTableFont = FontFactory.GetFont("Arial", 9, Font.BOLD);
             var endingMessageFont = FontFactory.GetFont("Arial", 10, Font.ITALIC);
             var bodyFont = FontFactory.GetFont("Arial", 12, Font.NORMAL);
-            var headerTable = new PdfPTable(12);
+            var headerTable = new PdfPTable(4);
             
             if (pageN == 1)
             {
@@ -149,7 +144,7 @@ namespace NaturalFrut.Pdf
 
                
 
-                //headerTable.SetWidths(new float[] { 70,10,10,10 });             
+                headerTable.SetWidths(new float[] { 40, 20, 20, 20});             
 
 
                 PdfPCell cell;
@@ -157,59 +152,64 @@ namespace NaturalFrut.Pdf
 
                 cell = new PdfPCell();
 
-                cell.Colspan = 12;
+                cell.Colspan = 4;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("NATURAL FRUT", titleFont));
-                cell.Colspan = 8;
+                cell.Colspan = 3;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Orden de Compra", subTitleFont));
-                cell.Colspan = 4;
+                cell.Colspan = 1;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);             
 
                 cell = new PdfPCell(new Phrase(Chunk.NEWLINE));
-                cell.Colspan = 12;
+                cell.Colspan = 4;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);               
 
                 cell = new PdfPCell(new Phrase("Sebastián Alejandro Genebrier  CUIT:20-32763767-4", boldTableFont));
-                cell.Colspan = 8;
+                cell.Colspan = 3;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("N°: " + Compra.NumeroCompra, boldTableFont));
-                cell.Colspan = 4;
+                cell.Colspan = 1;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);                
 
                 cell = new PdfPCell(new Phrase("Proveedor: " + Compra.ProveedorObj.Nombre, boldTableFont));
-                cell.Colspan = 8;
+                cell.Colspan = 3;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
 
                 cell = new PdfPCell(new Phrase("Fecha: " + Compra.Fecha, boldTableFont));
-                cell.Colspan = 4;
+                cell.Colspan = 1;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
                 
 
                 cell = new PdfPCell(new Phrase(Chunk.NEWLINE));
-                cell.Colspan = 12;
+                cell.Colspan = 4;
                 cell.Border = 0;
                 cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                 headerTable.AddCell(cell);
+                cell = new PdfPCell(new Phrase(Chunk.NEWLINE));
+                cell.Colspan = 4;
+                cell.Border = 0;
+                headerTable.AddCell(cell);
+
 
                 cell = new PdfPCell(new Phrase("Producto", boldTableFont));
                 cell.BorderWidth = 0;

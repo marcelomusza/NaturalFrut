@@ -1,12 +1,12 @@
 ﻿@model dynamic
 @{
-    ViewBag.Title = "Generar Reporte Compra - NaturalFrut";
+    ViewBag.Title = "Generar Reporte Compra por Proveedor - NaturalFrut";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 
-<h2>Productos por Proveedor</h2>
+<h2>Compras por Proveedor</h2>
 
 <div class="row">
     <hr class="hr-primary" />
@@ -29,7 +29,7 @@
 <div class="row">
     <div class="col-sm-12">
 
-            <table id="prodporproveedor" class="table table-bordered table-hover">
+            <table id="compraproveedor" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Compra</th>
@@ -85,7 +85,7 @@
 
         $(document).ready(function () {
 
-            var table = $("#prodporproveedor").DataTable({
+            var table = $("#compraproveedor").DataTable({
 
                 "language": {
                     "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
@@ -105,7 +105,7 @@
 
                 ajax: {
 
-                    url: "/api/compra/reporteprodporproveedor/" + @ViewBag.ProveedorID,
+                    url: "/api/compra/reportecomprasporproveedor/" + @ViewBag.ProveedorID,
                     dataSrc: ""
                 },
                 columns: [

@@ -1,9 +1,11 @@
 ﻿using iTextSharp.text;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.ViewModels;
+using NaturalFrut.Helpers;
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +32,12 @@ namespace NaturalFrut.Controllers
             var ventaMinorista = ventaMinoristaBL.GetAllVentaMinorista();
 
             return View(ventaMinorista);
+        }
+
+        public ActionResult IndexReporte()
+        {
+
+            return View();
         }
 
        
@@ -121,8 +129,27 @@ namespace NaturalFrut.Controllers
            
         }
 
-       
-     
+        [AllowAnonymous]
+        public ActionResult GenerarReporteExcel(string ventas)
+        {
+
+            ExcelExportHelper excel = new ExcelExportHelper(ventaMinoristaBL);
+
+            DataTable tablaCompras = excel.ArmarExcel(ventas, Constants.VENTA_MINORISTA_EXCEL);
+
+            string[] columns = { "Id", "Fecha", "Local", "Importe Informe Z", "IVA", "Importe IVA",
+                "Factura nº", "Tipo Factura", "Primer Número Ticket", "Último Número Ticket"};
+
+            //byte[] filecontent = ExcelExportHelper.ExportExcel(technologies, "Technology", true, columns);
+            byte[] filecontent = ExcelExportHelper.ExportExcel(tablaCompras, "Reporte Ventas Minoristas", true, columns);
+
+            string fecha = string.Format("{0}{1}{2}", DateTime.Now.Date.Day, DateTime.Now.Date.Month, DateTime.Now.Date.Year);
+
+
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "ReporteVentaMinorista_" + fecha + ".xlsx");
+
+        }
+
 
 
 
@@ -153,6 +180,35 @@ namespace NaturalFrut.Controllers
             return RedirectToAction("Index", "VentaMinorista");
 
         }
+
+        public ActionResult ReporteVentas()
+        {
+            return View("Reportes\\ReporteVentaEntreFechas");
+        }
+
+        public ActionResult GetReporteVentaAsync(DateTime fechaDesde, DateTime fechaHasta)
+        {
+
+            try
+            {
+
+                var reporteVenta = ventaMinoristaBL.GetAllVentaMinoristaSegunFechas(fechaDesde, fechaHasta);
+
+                if (reporteVenta == null)
+                    throw new Exception("No se encontraron Compras según el rango de fecha seleccionada");
+
+
+                return Json(new { Success = true, ReporteVenta = reporteVenta }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
 
     }
 }

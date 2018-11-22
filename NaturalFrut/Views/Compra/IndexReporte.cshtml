@@ -35,7 +35,21 @@
             <div class="col-sm-12">
                 <div class="form-group">
 
-                    <label>Productos por Proveedor</label>
+                    <label>Productos</label>
+                    <div class="tt-container">
+                        <input id="producto" name="producto" data-msg-required="Por favor ingresa un Producto" data-proveedor-id="" required type="text" value="" class="form-control" />
+                        <button id="btnproducto" class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <label>Proveedor</label>
                     <div class="tt-container">
                         <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" required type="text" value="" class="form-control" />
                         <button id="btnproveedor" class="btn btn-outline-secondary btn-primary boton-reporte" type="button">Ver</button>
@@ -87,7 +101,7 @@
             $("#btnproveedor").on("click", function () {                
 
                 if (vm.ProveedorID != null) {
-                    var url = '@Url.Action("ReporteProductosProveedor", "Compra")?proveedorID=' + vm.ProveedorID;
+                    var url = '@Url.Action("ReporteComprasProveedor", "Compra")?proveedorID=' + vm.ProveedorID;
                     window.location = url;
                 }
                 else {
@@ -95,13 +109,23 @@
                 }
                
 
-                
-
             });           
+
+            $("#btnproducto").on("click", function () {                
+
+                if (vm.ProductoID != null) {
+                    var url = '@Url.Action("ReporteProductosProveedor", "Compra")?productoID=' + vm.ProductoID;
+                    window.location = url;
+                }
+                else {
+                    toastr.error("Error al realizar la consulta, producto no encontrado.")
+                }
+               
+            });         
 
             
 
-            // Autocomplete para Cliente Ventas
+            // Autocomplete para Proveedor
             var proveedor = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -128,7 +152,31 @@
 
                 });
 
+            // Autocomplete para Producto
+            var producto = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/productos/productosxlistareporte',
+                    cache: false
+                }
+            });
 
+            $("#producto").typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: true,
+                limit: Infinity
+            }, {
+                    name: 'producto',
+                    display: 'Nombre',
+                    source: producto
+                }).on("typeahead:select", function (e, producto) {
+
+                    $("#producto").attr("data-producto-id", producto.ID);
+                    vm.ProductoID = producto.ID;
+
+                });
            
 
         });

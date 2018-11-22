@@ -10,6 +10,7 @@ using NaturalFrut.Helpers;
 using Rotativa;
 using Rotativa.Options;
 using NaturalFrut.Pdf;
+using System.Data;
 
 namespace NaturalFrut.Controllers
 {
@@ -351,13 +352,14 @@ namespace NaturalFrut.Controllers
         //    return View("NotaDePedidoForm", viewModel);
         //}
 
+
         public ActionResult GetReporteCompraAsync(DateTime fechaDesde, DateTime fechaHasta, string local)
         {
 
             try
             {
 
-                var reporteCompra = compraBL.GetAllCompraSegunFechas(fechaDesde, fechaHasta,local);
+                var reporteCompra = compraBL.GetAllCompraSegunFechas(fechaDesde, fechaHasta, local);
 
                 if (reporteCompra == null)
                     throw new Exception("No se encontraron Compras según el rango de fecha seleccionada");
@@ -381,6 +383,56 @@ namespace NaturalFrut.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult GenerarReporteTxt(string compra)
+        {
+
+
+            GenerarTxt txt = new GenerarTxt(compraBL);
+
+            txt.CrearTxtCompra(compra);
+
+            return View("");
+
+        }
+
+        [AllowAnonymous]
+        public ActionResult GenerarReporteExcel(string compra)
+        {
+
+            ExcelExportHelper excel = new ExcelExportHelper(compraBL);            
+
+            DataTable tablaCompras = excel.ArmarExcel(compra, Constants.COMPRA_EXCEL);
+
+            string[] columns = { "Id", "Proveedor", "CUIT", "IIBB", "Mes Año", "Tipo", "Suma Total", "Descuento %", "Descuento",
+                                "Subtotal", "IVA", "Importe IVA", "IIBB BSAS", "IIBB CABA", "Percepción IVA", "Clasificación", "Total"};
+            
+            //byte[] filecontent = ExcelExportHelper.ExportExcel(technologies, "Technology", true, columns);
+            byte[] filecontent = ExcelExportHelper.ExportExcel(tablaCompras, "Reporte Compras", true, columns);
+
+            string fecha = string.Format("{0}{1}{2}", DateTime.Now.Date.Day, DateTime.Now.Date.Month, DateTime.Now.Date.Year);
+
+
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "ReporteCompra_" + fecha + ".xlsx");            
+
+        }
+
+        //public ActionResult ReporteProductosProveedor(int proveedorID)
+        //{
+
+        //    var proveedor = proveedorBL.GetProveedorById(proveedorID);
+
+        //    if (proveedor == null)
+        //        return HttpNotFound();
+
+        //    ViewBag.ProveedorNombre = proveedor.Nombre;
+        //    ViewBag.ProveedorID = proveedor.ID;
+
+        //    return View("Reportes\\ReporteProductosPorProveedor");
+        //}
+
+
+
+        [AllowAnonymous]
         public ActionResult PrintAll(int Id)
         {
 
@@ -400,20 +452,7 @@ namespace NaturalFrut.Controllers
 
         }
 
-        [AllowAnonymous]
-        public ActionResult GenerarReporteTxt(string compra)
-        {
-
-
-            GenerarTxt txt = new GenerarTxt(compraBL);
-
-            txt.CrearTxtCompra(compra);
-
-            return View("");
-
-        }
-
-        public ActionResult ReporteProductosProveedor(int proveedorID)
+        public ActionResult ReporteComprasProveedor(int proveedorID)
         {
 
             var proveedor = proveedorBL.GetProveedorById(proveedorID);
@@ -424,7 +463,21 @@ namespace NaturalFrut.Controllers
             ViewBag.ProveedorNombre = proveedor.Nombre;
             ViewBag.ProveedorID = proveedor.ID;
 
-            return View("Reportes\\ReporteProductosPorProveedor");
+            return View("Reportes\\ReporteComprasProveedor");
+        }
+
+        public ActionResult ReporteProductosProveedor(int productoID)
+        {
+
+            var producto = productoBL.GetProductoById(productoID);
+
+            if (producto == null)
+                return HttpNotFound();
+            
+            ViewBag.ProductoNombre = producto.Nombre;
+            ViewBag.ProductoID = producto.ID;
+            
+            return View("Reportes\\ReporteProductosProveedor");
         }
 
     }

@@ -59,7 +59,8 @@
 
 <div class="row rte-hidden">
     <div class="col-sm-12 text-right">
-        <button id="btnGenerarReporte" type="button" class="btn btn-primary">Generar Reporte</button>
+        <button id="btnGenerarReporteTxt" type="button" class="btn btn-primary">Generar Reporte TXT</button>
+        <button id="btnGenerarReporteExcel" type="button" class="btn btn-success">Generar Reporte Excel</button>
     </div>
 </div>
 
@@ -186,7 +187,7 @@
             }
 
             
-            $("#btnGenerarReporte").on('click', function () {
+            $("#btnGenerarReporteTxt").on('click', function () {
 
                 var numCompra = "";
 
@@ -197,8 +198,35 @@
                     // and the rest of your code
                 });
 
-                location.href = "GenerarReporteTxt?compra=" + numCompra;
+                if (numCompra != "") {
+                    location.href = "GenerarReporteTxt?compra=" + numCompra;
+                }
+                else {
+                    toastr.error("No se puede generar Reporte sin datos.");
+                }
                 
+            })
+
+            $("#btnGenerarReporteExcel").on('click', function () {
+
+                var numCompra = "";
+
+                $.each(vm.ReporteCompra, function (key, value) {
+
+                    numCompra += value.NumeroCompra + ",";
+
+                    // and the rest of your code
+                });
+
+                if (numCompra != "") {
+                    location.href = "GenerarReporteExcel?compra=" + numCompra;
+                }
+                else {
+                    toastr.error("No se puede generar Reporte sin datos.");
+                }
+
+                
+
             })
 
             

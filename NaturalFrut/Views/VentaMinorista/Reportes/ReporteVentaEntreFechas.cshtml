@@ -1,6 +1,6 @@
 ﻿@model dynamic
 @{
-    ViewBag.Title = "Generar Reporte Venta Mayorista - NaturalFrut";
+    ViewBag.Title = "Generar Reporte Venta Minorista - NaturalFrut";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -31,6 +31,7 @@
                 <input required id="fechahasta" type="text" class="form-control" />
             </div>
         </div>
+       
     </div>
 </div>
 
@@ -42,17 +43,25 @@
 
         @Html.AntiForgeryToken()
         <button id="btnBuscar" type="button" class="btn btn-primary">Buscar</button>
-        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("IndexReporte", "VentaMayorista")';">Cancelar</button>
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("IndexReporte", "Compra")';">Cancelar</button>
 
     </div>
 </div>
 
+<div class="row rte-hidden">
+    <div class="col-sm-12 text-right">
+        <button id="btnGenerarReporteTxt" type="button" class="btn btn-primary">Generar Reporte TXT</button>
+        <button id="btnGenerarReporteExcel" type="button" class="btn btn-success">Generar Reporte Excel</button>
+    </div>
+</div>
 
 <div class="row">
     <br /><br />
 </div>
 
 <div class="row rte-hidden">
+    
+
     <div class="col-sm-12">
 
         <table id="reportesporfecha" class="table table-bordered table-hover">
@@ -60,33 +69,19 @@
                 <tr>
                     <th>Fecha</th>
                     <th>Numero de Venta</th>
-                    <th>Cliente</th>
-                    <th>No Concretado</th>
-                    <th>Facturado</th>
-                    <th>Importe Total</th>
+                    <th>Razón Social</th>
+                    <th>Factura</th>
+                    <th>Importe Informe Z</th>
                 </tr>
             </thead>
             <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6" style="text-align: right;">                        
-
-                        <label>Total Ventas:</label>
-                        <input type="text" class="form-control vtamay-totalventa js-formatvalue" id="totalventa" value="0" disabled />
-
-                    </td>
-                </tr>
-            </tfoot>
+            
         </table>
 
     </div>
 </div>
 
-@*<div class="row rte-hidden">
-    <div class="col-sm-12">
-        <button id="btnGenerarReporte" type="button" class="btn btn-primary">Generar Reporte (PDF)</button>
-    </div>
-</div>*@
+
 
 @section scripts
 {
@@ -109,7 +104,7 @@
 
                 if (fechaDesde != "" && fechaHasta != "") {
 
-                    $.getJSON("GetReporteVentasMayoristaAsync", { FechaDesde: fechaDesde, FechaHasta: fechaHasta }, PopulateReportesPorFecha)
+                    $.getJSON("GetReporteVentaAsync", { FechaDesde: fechaDesde, FechaHasta: fechaHasta}, PopulateReportesPorFecha)
                         .error(function (xhr, textStatus, exceptionThrown) {
                             bootbox.alert(xhr.responseText);
                         })
@@ -122,10 +117,10 @@
 
                 if (data.Success) {
 
-                    vm.ReporteVentas = data.ReporteVentas;
+                    vm.ReporteVenta = data.ReporteVenta;
 
                     var table = $("#reportesporfecha").DataTable({
-
+                        "destroy": true,
                         "language": {
                             "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                         },
@@ -138,11 +133,10 @@
                             { "width": "30%", "targets": 2 },
                             { "width": "13%", "targets": 3 },
                             { "width": "13%", "targets": 4 },
-                            { "width": "14%", "targets": 5 },                            
+                                                  
                         ],
 
-                        data: data.ReporteVentas,
-                        destroy: true,
+                        data: data.ReporteVenta,
                         columns: [
                             {
                                 "data": "Fecha",
@@ -156,98 +150,79 @@
                                 data: "NumeroVenta"
                             },
                             {
-                                data: "Cliente.Nombre"
+                                data: "RazonSocial"
                             },
                             {
-                                data: "NoConcretado",
-                                mRender: function (data, type, row) {
-
-                                    if (data == true)
-                                        return 'Si';
-                                    else
-                                        return 'No';
-
-                                }
+                                data: "NumFactura",                               
                             },
                             {
-                                data: "Facturado",
-                                mRender: function (data, type, row) {
-
-                                    if (data == true)
-                                        return 'Si';
-                                    else
-                                        return 'No';
-
-                                }
-                            },
-                            {
-                                data: "SumaTotal",
+                                data: "ImporteInformeZ",         
                                 type: "num-fmt",
-                                render: $.fn.dataTable.render.number('.', ',', 2, "$ "),
-                                'createdCell': function (td, cellData, rowData, row, col) {
-                                    $(td).attr('class', 'js-sumaventa');
-                                }
-                            }                            
+                                render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
+                            }
+                                           
                         ],
 
-                        "initComplete": function (settings, json) {
-                            var api = this.api();
-                            CalcularTotalVentas();
-                        },
                     });
 
                     $(".row").removeClass("rte-hidden");
-
-                    
-
+                   
                 }
                 else {
-                    bootbox.alert("Error al generar la búsqueda de ventas")
+                    bootbox.alert("Error al generar la búsqueda de compras")
                 }
-
-                //CalcularTotalVentas();
 
             }
 
             
+            $("#btnGenerarReporteTxt").on('click', function () {
+
+                var numVenta = "";
+
+                $.each(vm.ReporteVenta, function (key, value) {
+
+                    numVenta += value.NumeroVenta + ",";
+
+                    // and the rest of your code
+                });
+
+                if (numVenta != "") {
+                    location.href = "GenerarReporteTxt?ventas=" + numVenta;
+                }
+                else {
+                    toastr.error("No se puede generar Reporte sin datos.");
+                }
+                
+            })
+
+            $("#btnGenerarReporteExcel").on('click', function () {
+
+                var numVenta = "";
+
+                $.each(vm.ReporteVenta, function (key, value) {
+
+                    numVenta += value.NumeroVenta + ",";
+
+                    // and the rest of your code
+                });
+
+                if (numVenta != "") {
+                    location.href = "GenerarReporteExcel?ventas=" + numVenta;
+                }
+                else {
+                    toastr.error("No se puede generar Reporte sin datos.");
+                }
+
+                
+
+            })
 
             
 
 
-            //$("#btnGenerarReporte").on('click', function () {
-
-            //    var numVentas = "";
-
-            //    $.each(vm.ReporteVentas, function (key, value) {
-
-            //        numVentas += value.NumeroVenta + ",";
-
-            //        // and the rest of your code
-            //    });
-
-            //    location.href = "GenerarReporteTxt?ventas=" + numVentas;
-
-            //})
-
-
         });
 
-        function CalcularTotalVentas() {
-
-            var sumaventas = 0;
-
-            $(".js-sumaventa").each(function () {
-
-                var parcial = DeFormatearValor($(this).text());
-                
-                sumaventas += parcial;
-
-            });
-
-            $("#totalventa").val(FormatearValor(sumaventas));
-
-        }
-
+      
 
     </script>
 
