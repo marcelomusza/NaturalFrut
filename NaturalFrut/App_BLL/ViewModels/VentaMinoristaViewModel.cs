@@ -57,7 +57,7 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         [Required]
         [Display(Name = "Número Factura")]
-        public int NumFactura { get; set; }
+        public string NumFactura { get; set; }
 
         [Required]
         [Display(Name = "Razón Social")]

@@ -302,6 +302,10 @@
     <Compile Include="Migrations\201812180101161_nuevabase.Designer.cs">
       <DependentUpon>201812180101161_nuevabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812270250339_numfacturavtamino.cs" />
+    <Compile Include="Migrations\201812270250339_numfacturavtamino.Designer.cs">
+      <DependentUpon>201812270250339_numfacturavtamino.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -825,6 +829,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812180101161_nuevabase.resx">
       <DependentUpon>201812180101161_nuevabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812270250339_numfacturavtamino.resx">
+      <DependentUpon>201812270250339_numfacturavtamino.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

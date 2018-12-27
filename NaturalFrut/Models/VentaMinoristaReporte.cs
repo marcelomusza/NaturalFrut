@@ -22,7 +22,7 @@ namespace NaturalFrut.Models
         
         public string Importe_IVA { get; set; }
         
-        public int Factura_N { get; set; }
+        public string Factura_N { get; set; }
         
         public string Tipo_Factura { get; set; }
         

@@ -47,7 +47,7 @@ namespace NaturalFrut.Models
         public int UltimoNumeroTicket { get; set; }
 
         [Required]
-        public int NumFactura { get; set; }
+        public string NumFactura { get; set; }
 
         [Required]
         public string RazonSocial { get; set; }

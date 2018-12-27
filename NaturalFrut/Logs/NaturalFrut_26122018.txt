@@ -1,0 +1,8 @@
+26/Dec/2018 23:46:34 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+26/Dec/2018 23:46:34 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
+26/Dec/2018 23:51:16 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+26/Dec/2018 23:51:16 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
+26/Dec/2018 23:51:52 INFO  NaturalFrut.Controllers.VentaMinoristaController [DESKTOP-AG3NTTG\Marce] - Guardando Nueva Venta Minorista...
+26/Dec/2018 23:51:52 INFO  NaturalFrut.App_DAL.BaseRepository`1 [DESKTOP-AG3NTTG\Marce] - Datos salvados en la base de datos satisfactoriamente.
+26/Dec/2018 23:53:50 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+26/Dec/2018 23:53:50 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
