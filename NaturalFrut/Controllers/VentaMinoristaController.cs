@@ -91,11 +91,12 @@ namespace NaturalFrut.Controllers
                 return View("Error");
             }
 
-            var serverTime = vtaMinorista.Fecha;
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
-            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+            //var serverTime = vtaMinorista.Fecha;
+            //var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            //var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
 
-            ViewBag.Fecha = serverTimeConverted;
+            //ViewBag.Fecha = serverTimeConverted;
+            ViewBag.Fecha = vtaMinorista.Fecha;
 
             ViewBag.Locales = new List<string>()
             {
@@ -121,11 +122,11 @@ namespace NaturalFrut.Controllers
                 return View("Error");
             }
 
-            var serverTime = vtaMinorista.Fecha;
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
-            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+            //var serverTime = vtaMinorista.Fecha;
+            //var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            //var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
 
-            ViewBag.Fecha = serverTimeConverted;
+            //ViewBag.Fecha = serverTimeConverted;
 
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel(vtaMinorista);
 
