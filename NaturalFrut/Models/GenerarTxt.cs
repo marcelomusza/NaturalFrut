@@ -92,9 +92,11 @@ namespace NaturalFrut.Controllers
 
                     //Export HTML String as PDF.
                     StringReader sr = new StringReader(sb.ToString());
-                  
+
+                    string fecha = string.Format("{0}{1}{2}", DateTime.Now.Date.Day, DateTime.Now.Date.Month, DateTime.Now.Date.Year);
+
                     HttpContext.Current.Response.ContentType = "text/plain";
-                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=ReporteVenta_.txt");
+                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=ReporteVenta_" + fecha + ".txt");
                     HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     HttpContext.Current.Response.Write(sb.ToString());
                     HttpContext.Current.Response.End();
@@ -160,8 +162,10 @@ namespace NaturalFrut.Controllers
                     //Export HTML String as PDF.
                     StringReader sr = new StringReader(sb.ToString());
 
+                    string fecha = string.Format("{0}{1}{2}", DateTime.Now.Date.Day, DateTime.Now.Date.Month, DateTime.Now.Date.Year);
+
                     HttpContext.Current.Response.ContentType = "text/plain";
-                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=ReporteCompra_.txt");
+                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=ReporteCompra_" + fecha + ".txt");
                     HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     HttpContext.Current.Response.Write(sb.ToString());
                     HttpContext.Current.Response.End();

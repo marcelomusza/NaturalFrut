@@ -129,7 +129,7 @@
                     submitHandler: function () {
 
                             //Modal para aceptacion de venta
-                            bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
+                            bootbox.confirm("Estas seguro que deseas concretar la operación?", function (result) {
 
                                 if (result) {
 
@@ -151,7 +151,7 @@
 
                                         })
                                         .fail(function () {
-                                            toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+                                            toastr.error("Se ha producido un error al guardar el stock, revise los datos a ingresar...");
                                         });
 
                                 }

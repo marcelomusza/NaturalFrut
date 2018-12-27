@@ -1,4 +1,5 @@
 ﻿using iTextSharp.text;
+using log4net;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.ViewModels;
 using NaturalFrut.Helpers;
@@ -9,6 +10,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,7 +20,8 @@ namespace NaturalFrut.Controllers
     public class VentaMinoristaController : Controller
     {
         private readonly VentaMinoristaLogic ventaMinoristaBL;
-        
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public VentaMinoristaController(VentaMinoristaLogic VentaMinoristaLogic)
         {
@@ -44,9 +47,24 @@ namespace NaturalFrut.Controllers
         public ActionResult NuevaVentaMinorista()
         {
 
+            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-AR");
+
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel();
 
             var ultimaVenta = ventaMinoristaBL.GetNumeroDeVenta();
+
+            ViewBag.Locales = new List<string>()
+            {
+                "Mitre",
+                "Laprida",
+                "Mayorista"
+            };
+
+            var serverTime = DateTime.UtcNow;
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+
+            ViewBag.Fecha = serverTimeConverted;
 
 
             if (ultimaVenta == null)
@@ -68,7 +86,24 @@ namespace NaturalFrut.Controllers
             var vtaMinorista = ventaMinoristaBL.GetVentaMinoristaById(Id);
 
             if (vtaMinorista == null)
-                return HttpNotFound();
+            {
+                log.Error("No se ha encontrado Venta Minorista con ID: " + Id);
+                return View("Error");
+            }
+
+            var serverTime = vtaMinorista.Fecha;
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+
+            ViewBag.Fecha = serverTimeConverted;
+
+            ViewBag.Locales = new List<string>()
+            {
+                "Mitre",
+                "Laprida",
+                "Mayorista"
+            };
+
 
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel(vtaMinorista);
 
@@ -81,7 +116,16 @@ namespace NaturalFrut.Controllers
             var vtaMinorista = ventaMinoristaBL.GetVentaMinoristaById(Id);
 
             if (vtaMinorista == null)
-                return HttpNotFound();
+            {
+                log.Error("No se ha encontrado Venta Minorista con ID: " + Id);
+                return View("Error");
+            }
+
+            var serverTime = vtaMinorista.Fecha;
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+
+            ViewBag.Fecha = serverTimeConverted;
 
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel(vtaMinorista);
 
@@ -102,7 +146,11 @@ namespace NaturalFrut.Controllers
                 var reporteVentas = ventaMinoristaBL.GetAllVentaMinoristaSegunFechas(fechaDesde, fechaHasta);
 
                 if (reporteVentas == null)
+                {
+                    log.Error("No se encontraron Ventas según el rango de fecha seleccionada");
                     throw new Exception("No se encontraron Ventas según el rango de fecha seleccionada");
+                }
+                    
 
 
                 return Json(new { Success = true, ReporteVentas = reporteVentas }, JsonRequestBehavior.AllowGet);
@@ -110,7 +158,7 @@ namespace NaturalFrut.Controllers
             }
             catch (Exception ex)
             {
-
+                log.Error("Se ha producido un error al intentar generar Reporte Venta Minorista. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
             
@@ -157,11 +205,25 @@ namespace NaturalFrut.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GuardarVentaMinorista(VentaMinorista ventaMinorista)
         {
+            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-AR");
 
             if (!ModelState.IsValid)
             {
 
                 VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel(ventaMinorista);
+
+                ViewBag.Locales = new List<string>()
+                {
+                    "Mitre",
+                    "Laprida",
+                    "Mayorista"
+                };
+
+                var serverTime = DateTime.UtcNow;
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+
+                ViewBag.Fecha = serverTimeConverted;
 
                 return View("VentaMinoristaForm", viewModel);
             }
@@ -169,11 +231,13 @@ namespace NaturalFrut.Controllers
             if (ventaMinorista.ID == 0)
             {
                 //Agregamos nueva Venta Mayorista
+                log.Info("Guardando Nueva Venta Minorista...");
                 ventaMinoristaBL.AddVentaMinorista(ventaMinorista);
             }
             else
             {
                 //Edicion de Venta Mayorista existente
+                log.Info("Editando Venta Minorista con ID: " + ventaMinorista.ID);
                 ventaMinoristaBL.UpdateVentaMinorista(ventaMinorista);
             }
 
@@ -195,15 +259,17 @@ namespace NaturalFrut.Controllers
                 var reporteVenta = ventaMinoristaBL.GetAllVentaMinoristaSegunFechas(fechaDesde, fechaHasta);
 
                 if (reporteVenta == null)
-                    throw new Exception("No se encontraron Compras según el rango de fecha seleccionada");
-
+                {
+                    log.Error("No se encontraron Ventas según el rango de fecha seleccionada");
+                    throw new Exception("No se encontraron Ventas según el rango de fecha seleccionada");
+                }
 
                 return Json(new { Success = true, ReporteVenta = reporteVenta }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
-
+                log.Error("Se ha producido un error al traer reporte de Venta. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 

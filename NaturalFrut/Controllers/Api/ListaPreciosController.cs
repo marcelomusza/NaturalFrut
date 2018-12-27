@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -18,6 +19,8 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ListaPreciosLogic listaPreciosBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ListaPreciosController(IRepository<ListaPrecio> ListaPrecioRepo)
         {
@@ -40,7 +43,10 @@ namespace NaturalFrut.Controllers.Api
             var listaPrecio = listaPreciosBL.GetListaPrecioById(id);
 
             if (listaPrecio == null)
+            {
+                log.Error("Lista de Precios no encontrada con ID: " + id);
                 return NotFound();
+            }
 
             return Ok(Mapper.Map<ListaPrecio, ListaPrecioDTO>(listaPrecio));
         }
@@ -50,13 +56,18 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateListaPrecios(ListaPrecioDTO listaPrecioDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o inexistentes.");
                 return BadRequest();
+            }
 
             var listaPrecio = Mapper.Map<ListaPrecioDTO, ListaPrecio>(listaPrecioDTO);
 
             listaPreciosBL.AddListaPrecio(listaPrecio);
 
             listaPrecioDTO.ID = listaPrecio.ID;
+
+            log.Info("Lista de Precios creada satisfactoriamente. ID:" + listaPrecio.ID);
 
             return Created(new Uri(Request.RequestUri + "/" + listaPrecio.ID), listaPrecioDTO);
         }
@@ -66,16 +77,24 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateListaPrecios(int id, ListaPrecioDTO listaPrecioDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o inexistentes.");
                 return BadRequest();
+            }
 
             var listaPrecioInDB = listaPreciosBL.GetListaPrecioById(id);
 
             if (listaPrecioInDB == null)
+            {
+                log.Error("Lista de Precios no encontrada en la base de datos con ID: " + id);
                 return NotFound();
+            }
 
             Mapper.Map(listaPrecioDTO, listaPrecioInDB);
 
             listaPreciosBL.UpdateListaPrecio(listaPrecioInDB);
+
+            log.Info("Lista de Precios actualizada satisfactoriamente, ID: " + id);
 
             return Ok();
         }
@@ -88,9 +107,14 @@ namespace NaturalFrut.Controllers.Api
             var listaPrecioInDB = listaPreciosBL.GetListaPrecioById(id);
 
             if (listaPrecioInDB == null)
+            {
+                log.Error("Lista de Precios no encontrada en la base de datos con ID: " + id);
                 return NotFound();
+            }
 
             listaPreciosBL.RemoveListaPrecio(listaPrecioInDB);
+
+            log.Info("Lista de Precios eliminada satisfactoriamente. ID: " + id);
 
             return Ok();
 

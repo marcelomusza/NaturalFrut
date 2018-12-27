@@ -1,4 +1,5 @@
-﻿using NaturalFrut.App_BLL.Interfaces;
+﻿using log4net;
+using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace NaturalFrut.App_DAL
         private BaseRepository<Proveedor> proveedorRP;
         private BaseRepository<Stock> stockRP;
         private BaseRepository<ProductoXCompra> prodXCompraRP;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public IRepository<Compra> CompraRepository
@@ -69,6 +72,8 @@ namespace NaturalFrut.App_DAL
         public void Save()
         {
             _context.SaveChanges();
+
+            log.Info("Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA");
         }
 
         private bool disposed = false;

@@ -17,6 +17,7 @@ using System.Net.Mail;
 using System.IO;
 using System.Net;
 using System.Configuration;
+using log4net;
 
 namespace NaturalFrut.Controllers
 {
@@ -32,6 +33,8 @@ namespace NaturalFrut.Controllers
         private readonly ListaPreciosLogic listaPreciosBL;
         private readonly StockLogic stockBL;
 
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public AdminController(ClienteLogic ClienteLogic, CommonLogic CommonLogic, ProveedorLogic ProveedorLogic, ProductoLogic ProductoLogic, VendedorLogic VendedorLogic, ListaPreciosLogic ListaPreciosLogic, StockLogic StockLogic)
         {
             clienteBL = ClienteLogic;
@@ -45,20 +48,29 @@ namespace NaturalFrut.Controllers
 
         public ActionResult Index()
         {
+            log.Info("Accediendo al panel administrativo...");
             return View();
         }
 
         #region Acciones Cliente
         public ActionResult Clientes()
         {
+            log.Info("Accediendo a la lista de clientes...");
 
             var clientes = clienteBL.GetAllClientes();
 
+            if(clientes == null)
+            {
+                log.Error("Error al traer lista de clientes.");
+                return View("Error");
+            }
+                
             return View(clientes);
         }
 
         public ActionResult NuevoCliente()
         {
+            log.Info("Accediendo a la creación de un nuevo cliente...");
 
             var condicionIva = clienteBL.GetCondicionIvaList();
             var tipoCliente = clienteBL.GetTipoClienteList();
@@ -76,11 +88,15 @@ namespace NaturalFrut.Controllers
 
         public ActionResult EditarCliente(int Id)
         {
+            log.Info("Accediendo a la edición de un cliente...");
 
             var cliente = clienteBL.GetClienteById(Id);
 
             if (cliente == null)
-                return HttpNotFound();
+            {
+                log.Error("Se ha producido un error accediendo al cliente para su edición, cliente no encontrado...");
+                return View("Error");
+            }                
 
             ClienteViewModel viewModel = new ClienteViewModel(cliente)
             {
@@ -88,8 +104,6 @@ namespace NaturalFrut.Controllers
                 TipoCliente = clienteBL.GetTipoClienteList(),
                 Lista = clienteBL.GetListaList()
             };
-
-            
 
             return View("ClienteForm", viewModel);
         }
@@ -101,7 +115,11 @@ namespace NaturalFrut.Controllers
             if (cliente != null)
                 clienteBL.RemoveCliente(cliente);
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al buscar cliente en la base de datos.");
+                return View("Error");
+            }
+                
 
             return RedirectToAction("Clientes", "Admin");
         }
@@ -112,8 +130,7 @@ namespace NaturalFrut.Controllers
         {
 
             if (!ModelState.IsValid)
-            {
-
+            {                
                 ClienteViewModel viewModel = new ClienteViewModel(cliente)
                 {
                     CondicionIVA = clienteBL.GetCondicionIvaList(),
@@ -124,14 +141,18 @@ namespace NaturalFrut.Controllers
                 return View("ClienteForm", viewModel);
             }
 
+            
+
             if (cliente.ID == 0)
             {
                 //Agregamos nuevo Cliente
+                log.Info("Salvando nuevo cliente en la base.");
                 clienteBL.AddCliente(cliente);
             }
             else
             {
                 //Edicion de Cliente Existente
+                log.Info("Editando cliente existente en la base.");
                 clienteBL.UpdateCliente(cliente);
             }
 
@@ -146,12 +167,19 @@ namespace NaturalFrut.Controllers
 
             var condicionIVA = commonBL.GetAllCondicionIVA();
 
+            if (condicionIVA == null)
+            {
+                log.Error("Error al traer lista de condicion iva.");
+                return View("Error");
+            }
+
+
             return View(condicionIVA);
         }
 
         public ActionResult NuevoCondicionIVA()
         {
-
+            
             CondicionIVA condicionIVA = new CondicionIVA();
 
             return View("CondicionIVAForm", condicionIVA);
@@ -170,11 +198,13 @@ namespace NaturalFrut.Controllers
             if (condicionIVA.ID == 0)
             {
                 //Agregamos nuevo CondicionIVA
+                log.Info("Guardando nueva Condición IVA");
                 commonBL.AddCondicionIVA(condicionIVA);
             }
             else
             {
                 //Edicion de Cliente Existente
+                log.Info("Guardando Edición de Condición IVA");
                 commonBL.UpdateCondicionIVA(condicionIVA);
             }
 
@@ -187,9 +217,11 @@ namespace NaturalFrut.Controllers
 
             var condicionIVA = commonBL.GetCondicionIVAById(Id);
 
-
             if (condicionIVA == null)
-                return HttpNotFound();
+            {
+                log.Error("No se ha encontrado la condición IVA buscada");
+                return View("Error");
+            }                
 
             return View("CondicionIVAForm", condicionIVA);
         }
@@ -201,7 +233,10 @@ namespace NaturalFrut.Controllers
             if (condicionIVA != null)
                 commonBL.RemoveCondicionIVA(condicionIVA);
             else
-                return HttpNotFound();
+            {
+                log.Error("No se ha encontrado la condición IVA buscada");
+                return View("Error");
+            }
 
             return RedirectToAction("CondicionIVA", "Admin");
         }
@@ -212,6 +247,12 @@ namespace NaturalFrut.Controllers
         {
 
             var tipoCliente = commonBL.GetAllTipoCliente();
+
+            if (tipoCliente == null)
+            {
+                log.Error("Error al traer lista de tipo Cliente.");
+                return View("Error");
+            }
 
             return View(tipoCliente);
         }
@@ -237,11 +278,13 @@ namespace NaturalFrut.Controllers
             if (tipoCliente.ID == 0)
             {
                 //Agregamos nuevo TipoCliente
+                log.Info("Salvando nuevo Tipo Cliente");
                 commonBL.AddTipoCliente(tipoCliente);
             }
             else
             {
                 //Edicion de Tipo Cliente existente
+                log.Info("Salvando nuevo Tipo Cliente");
                 commonBL.UpdateTipoCliente(tipoCliente);
             }
 
@@ -256,7 +299,10 @@ namespace NaturalFrut.Controllers
 
 
             if (tipoCliente == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer lista de tipo Cliente.");
+                return View("Error");
+            }
 
             return View("TipoClienteForm", tipoCliente);
         }
@@ -268,7 +314,10 @@ namespace NaturalFrut.Controllers
             if (tipoCliente != null)
                 commonBL.RemoveTipoCliente(tipoCliente);
             else
-                return HttpNotFound();
+            {               
+                log.Error("Error al traer tipo Cliente.");
+                return View("Error");                
+            }               
 
             return RedirectToAction("TipoCliente", "Admin");
         }
@@ -279,6 +328,12 @@ namespace NaturalFrut.Controllers
         {
 
             var proveedores = proveedorBL.GetAllProveedores();
+
+            if (proveedores == null)
+            {
+                log.Error("Error al traer lista de tipo Cliente.");
+                return View("Error");
+            }
 
             return View(proveedores);
         }
@@ -295,11 +350,13 @@ namespace NaturalFrut.Controllers
 
             var proveedor = proveedorBL.GetProveedorById(Id);
 
-            ProveedorViewModel viewModel = new ProveedorViewModel(proveedor)
- ;
-
             if (proveedor == null)
-                return HttpNotFound();
+            {
+                log.Error("Proveedor no encontrado...");
+                return View("Error");
+            }
+
+            ProveedorViewModel viewModel = new ProveedorViewModel(proveedor);
 
             return View("ProveedorForm", viewModel);
         }
@@ -311,7 +368,10 @@ namespace NaturalFrut.Controllers
             if (proveedor != null)
                 proveedorBL.RemoveProveedor(proveedor);
             else
-                return HttpNotFound();
+            {
+                log.Error("Proveedor no encontrado en la base.");
+                return View("Error");
+            }
 
             return RedirectToAction("Proveedores", "Admin");
         }
@@ -333,11 +393,13 @@ namespace NaturalFrut.Controllers
             if (proveedor.ID == 0)
             {
                 //Agregamos nuevo Proveedor
+                log.Info("Guardando nuevo Proveedor.");
                 proveedorBL.AddProveedor(proveedor);
             }
             else
             {
                 //Edicion de Proveedor Existente
+                log.Info("Editando Proveedor existente.");
                 proveedorBL.UpdateProveedor(proveedor);
             }
 
@@ -351,6 +413,12 @@ namespace NaturalFrut.Controllers
         {
 
             var productos = productoBL.GetAllProducto();
+
+            if (productos == null)
+            {
+                log.Error("Error al acceder a la lista de productos...");
+                return View("Error");
+            }
 
             return View(productos);
         }
@@ -375,14 +443,17 @@ namespace NaturalFrut.Controllers
 
             var producto = productoBL.GetProductoById(Id);
 
+            if (producto == null)
+            {
+                log.Error("Error al acceder al producto seleccionado...");
+                return View("Error");
+            }
+
             ProductoViewModel viewModel = new ProductoViewModel(producto)
             {
                 Categoria = productoBL.GetCategoriaList(),
                 Marca = productoBL.GetMarcaList()
             };
-
-            if (producto == null)
-                return HttpNotFound();
 
             return View("ProductoForm", viewModel);
         }
@@ -393,15 +464,18 @@ namespace NaturalFrut.Controllers
 
             if (producto != null)
             {
+                log.Info("Accediendo al proceso para borrar Producto: " + producto.Nombre);
+
                 if (producto.EsMix)
                 {
+                    log.Info("Producto Mix: " + producto.Nombre + ". Se procederá a borrar sus productos asociados...");
+                    var listaProductosDelMix = productoBL.GetListaProductosMixById(producto.ID);                    
 
-                    var listaProductosDelMix = productoBL.GetListaProductosMixById(producto.ID);
-
-                    if(listaProductosDelMix != null)
+                    if (listaProductosDelMix != null)
                     {
                         foreach (var productoMix in listaProductosDelMix)
                         {
+                            log.Info("Producto del mix a borrar: " + productoMix.ProductoDelMix.Nombre);
                             productoBL.RemoveProductoMix(productoMix);
                         }
                     }
@@ -410,13 +484,16 @@ namespace NaturalFrut.Controllers
                     productoBL.RemoveProducto(producto);
 
                 }
-                    
+
                 else
                     productoBL.RemoveProducto(producto);
             }
-                
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder al producto con ID: " + Id);
+                return View("Error");
+            }
+
 
             return RedirectToAction("Productos", "Admin");
         }
@@ -441,11 +518,13 @@ namespace NaturalFrut.Controllers
             if (producto.ID == 0)
             {
                 //Agregamos nuevo Proveedor
+                log.Info("Guardando nuevo producto: " + producto.Nombre);
                 productoBL.AddProducto(producto);
             }
             else
             {
                 //Edicion de Proveedor Existente
+                log.Info("Editando Producto existente: " + producto.Nombre);
                 productoBL.UpdateProducto(producto);
             }
 
@@ -453,13 +532,18 @@ namespace NaturalFrut.Controllers
 
         }
         #endregion
-
-
+        
         #region Acciones Producto Mix
         public ActionResult ProductosMix()
         {
 
             var productosMix = productoBL.GetAllProductoMix();
+
+            if (productosMix == null)
+            {
+                log.Error("Error al acceder a la lista de productos...");
+                return View("Error");
+            }
 
             return View(productosMix);
         }
@@ -478,12 +562,18 @@ namespace NaturalFrut.Controllers
             var prodMix = productoBL.GetProductoById(Id);
 
             if (prodMix == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder al producto Mix seleccionado con ID: " + Id);
+                return View("Error");
+            }
 
             var productosMix = productoBL.GetListaProductosMixById(Id);
 
             if (productosMix == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder a la lista de Productos Mix asociados bajo el ID: " + Id);
+                return View("Error");
+            }
 
             ViewBag.ProdMixID = prodMix.ID;
             ViewBag.ProdMixNombre = prodMix.Nombre;
@@ -497,12 +587,18 @@ namespace NaturalFrut.Controllers
             var prodMix = productoBL.GetProductoById(Id);
 
             if (prodMix == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder al producto Mix seleccionado con ID: " + Id);
+                return View("Error");
+            }
 
             var productosMix = productoBL.GetListaProductosMixById(Id);
 
             if (productosMix == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder a la lista de Productos Mix asociados bajo el ID: " + Id);
+                return View("Error");
+            }
 
             ViewBag.ProdMixID = prodMix.ID;
             ViewBag.ProdMixNombre = prodMix.Nombre;
@@ -534,12 +630,14 @@ namespace NaturalFrut.Controllers
 
             if (productoMix.ID == 0)
             {
-                //Agregamos nuevo Proveedor
+                //Agregamos nuevo Prod mix
+                log.Info("Guardando nuevo Producto Mix: " + productoMix.ProdMix.Nombre);
                 productoBL.AddProductoMix(productoMix);
             }
             else
             {
-                //Edicion de Proveedor Existente
+                //Edicion de prod mix Existente
+                log.Info("Editando Producto Mix existente: " + productoMix.ProdMix.Nombre + ". ID: " + productoMix.ID);
                 productoBL.UpdateProductoMix(productoMix);
             }
 
@@ -547,13 +645,18 @@ namespace NaturalFrut.Controllers
 
         } 
         #endregion
-
-
+        
         #region Acciones Vendedor
         public ActionResult vendedores()
         {
 
             var vendedores = vendedorBL.GetAllVendedores();
+
+            if (vendedores == null)
+            {
+                log.Error("Error al traer lista de vendedores.");
+                return View("Error");
+            }
 
             return View(vendedores);
         }
@@ -572,7 +675,10 @@ namespace NaturalFrut.Controllers
             var vendedor = vendedorBL.GetVendedorById(Id);
 
             if (vendedor == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer vendedor con ID: " + Id);
+                return View("Error");
+            }
 
             return View("VendedorForm", vendedor);
         }
@@ -582,9 +688,15 @@ namespace NaturalFrut.Controllers
             var vendedor = vendedorBL.GetVendedorById(Id);
 
             if (vendedor != null)
+            {
+                log.Info("Borrando Vendedor: " + vendedor.Nombre);
                 vendedorBL.RemoveVendedor(vendedor);
+            }                
             else
-                return HttpNotFound();
+            {
+                log.Error("Vendedor no encontrado con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("Vendedores", "Admin");
         }
@@ -602,12 +714,14 @@ namespace NaturalFrut.Controllers
 
             if (vendedor.ID == 0)
             {
-                //Agregamos nuevo Proveedor
+                //Agregamos nuevo Vendedor
+                log.Info("Guardando nuevo Vendedor: " + vendedor.Nombre);
                 vendedorBL.AddVendedor(vendedor);
             }
             else
             {
                 //Edicion de Proveedor Existente
+                log.Info("Editando Vendedor Existente: " + vendedor.Nombre + ", bajo ID: " + vendedor.ID);
                 vendedorBL.UpdateVendedor(vendedor);
             }
 
@@ -621,6 +735,12 @@ namespace NaturalFrut.Controllers
         {
 
             var categorias = commonBL.GetAllCategorias();
+
+            if (categorias == null)
+            {
+                log.Error("Error al traer lista de Categorias");
+                return View("Error");
+            }
 
             return View(categorias);
         }
@@ -639,7 +759,10 @@ namespace NaturalFrut.Controllers
             var categoria = commonBL.GetCategoriaById(Id);
 
             if (categoria == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Categoria con ID: " + Id);
+                return View("Error");
+            }
 
             return View("CategoriaForm", categoria);
         }
@@ -650,9 +773,15 @@ namespace NaturalFrut.Controllers
             var categoria = commonBL.GetCategoriaById(Id);
 
             if (categoria != null)
+            {
+                log.Info("Borrando Categoria: " + categoria.Nombre + ", ID: " + Id);
                 commonBL.RemoveCategoria(categoria);
+            }                
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al Borrar Categoria con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("Categorias", "Admin");
         }
@@ -670,11 +799,13 @@ namespace NaturalFrut.Controllers
             if (categoria.ID == 0)
             {
                 //Agregamos nuevo TipoCliente
+                log.Info("Guardando nueva categoria: " + categoria.Nombre);
                 commonBL.AddCategoria(categoria);
             }
             else
             {
                 //Edicion de Tipo Cliente existente
+                log.Info("Editando Categoria Existente: " + categoria.Nombre + ", ID: " + categoria.ID);
                 commonBL.UpdateCategoria(categoria);
             }
 
@@ -687,6 +818,12 @@ namespace NaturalFrut.Controllers
         public ActionResult Marcas()
         {
             var marcas = commonBL.GetAllMarcas();
+
+            if (marcas == null)
+            {
+                log.Error("Error al traer lista de Marcas");
+                return View("Error");
+            }
 
             return View(marcas);
         }
@@ -705,7 +842,10 @@ namespace NaturalFrut.Controllers
             var marca = commonBL.GetMarcaById(Id);
 
             if (marca == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Marca con ID: " + Id);
+                return View("Error");
+            }
 
             return View("MarcaForm", marca);
         }
@@ -716,9 +856,15 @@ namespace NaturalFrut.Controllers
             var marca = commonBL.GetMarcaById(Id);
 
             if (marca != null)
+            {
+                log.Info("Borrando Marca: " + marca.Nombre + ", ID: " + Id);
                 commonBL.RemoveMarca(marca);
+            }                
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al borrar Marca con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("Marcas", "Admin");
         }
@@ -736,11 +882,13 @@ namespace NaturalFrut.Controllers
             if (marca.ID == 0)
             {
                 //Agregamos nuevo TipoCliente
+                log.Info("Guarando Marca nueva: " + marca.Nombre);
                 commonBL.AddMarca(marca);
             }
             else
             {
                 //Edicion de Tipo Cliente existente
+                log.Info("Editando Marca existente: " + marca.Nombre + ", ID: " + marca.ID);
                 commonBL.UpdateMarca(marca);
             }
 
@@ -754,6 +902,12 @@ namespace NaturalFrut.Controllers
         {
 
             var tiposDeUnidad = commonBL.GetAllTiposDeUnidad();
+
+            if (tiposDeUnidad == null)
+            {
+                log.Error("Error al traer Tipos de Unidad.");
+                return View("Error");
+            }
 
             return View(tiposDeUnidad);
         }
@@ -770,6 +924,12 @@ namespace NaturalFrut.Controllers
 
             var tipoDeUnidad = commonBL.GetTipoDeUnidadById(Id);
 
+            if (tipoDeUnidad == null)
+            {
+                log.Error("Error al traer tipo de unidad con iD: " + Id);
+                return View("Error");
+            }
+
 
             if (tipoDeUnidad == null)
                 return HttpNotFound();
@@ -782,9 +942,15 @@ namespace NaturalFrut.Controllers
             var tipoDeUnidad = commonBL.GetTipoDeUnidadById(Id);
 
             if (tipoDeUnidad != null)
+            {
+                log.Info("Borrando Tipo de Unidad: " + tipoDeUnidad.Nombre + ", ID: " + Id);
                 commonBL.RemoveTipoDeUnidad(tipoDeUnidad);
+            }               
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al borrar tipo de unidad con iD: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("TiposDeUnidad", "Admin");
         }
@@ -802,11 +968,13 @@ namespace NaturalFrut.Controllers
             if (tipoDeUnidad.ID == 0)
             {
                 //Agregamos nuevo TipoCliente
+                log.Info("Guardando nuevo tipo de unidad: " + tipoDeUnidad.Nombre);
                 commonBL.AddTipoDeUnidad(tipoDeUnidad);
             }
             else
             {
                 //Edicion de Tipo Cliente existente
+                log.Info("Editando tipo de unidad: " + tipoDeUnidad.Nombre + ", ID: " + tipoDeUnidad.ID);
                 commonBL.UpdateTipoDeUnidad(tipoDeUnidad);
             }
 
@@ -819,6 +987,12 @@ namespace NaturalFrut.Controllers
         public ActionResult Lista()
         {
             var lista = listaPreciosBL.GetAllLista();
+
+            if (lista == null)
+            {
+                log.Error("Error al traer Lista.");
+                return View("Error");
+            }
 
             return View(lista);
         }
@@ -836,7 +1010,10 @@ namespace NaturalFrut.Controllers
             var lista = listaPreciosBL.GetListaById(Id);
 
             if (lista == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Lista con iD: " + Id);
+                return View("Error");
+            }
 
             return View("ListaForm", lista);
         }
@@ -847,9 +1024,15 @@ namespace NaturalFrut.Controllers
             var lista = listaPreciosBL.GetListaById(Id);
 
             if (lista != null)
+            {
+                log.Info("Borrando Lista: " + lista.Nombre + ", ID: " + Id);
                 listaPreciosBL.RemoveLista(lista);
+            }                
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Lista con iD: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("Lista", "Admin");
         }
@@ -867,11 +1050,13 @@ namespace NaturalFrut.Controllers
             if (lista.ID == 0)
             {
                 //Agregamos nuevo Lista de Precios
+                log.Info("Guardando nueva Lista: " + lista.Nombre);
                 listaPreciosBL.AddLista(lista);
             }
             else
             {
                 //Edicion de Cliente Existente
+                log.Info("Editando Lista: " + lista.Nombre + ", ID: " + lista.ID);
                 listaPreciosBL.UpdateLista(lista);
             }
 
@@ -885,6 +1070,12 @@ namespace NaturalFrut.Controllers
         {
             var listaPrecio = listaPreciosBL.GetAllListaPrecio();
             ViewBag.ListaPrincipalID = Constants.LISTAPRINCIPAL;
+
+            if (listaPrecio == null)
+            {
+                log.Error("Error al traer Lista Precios.");
+                return View("Error");
+            }
 
             return View(listaPrecio);
         }
@@ -910,14 +1101,17 @@ namespace NaturalFrut.Controllers
 
             var listaPrecio = listaPreciosBL.GetListaPrecioById(Id);
 
+            if (listaPrecio == null)
+            {
+                log.Error("Error al traer Lista Precio con iD: " + Id);
+                return View("Error");
+            }
+
             ListaPreciosViewModel viewModel = new ListaPreciosViewModel(listaPrecio)
             {
                 Lista = listaPreciosBL.GetListaList(),
                 Producto = listaPreciosBL.GetProductoList()
-            };
-
-            if (listaPrecio == null)
-                return HttpNotFound();
+            };            
 
             return View("ListaPreciosForm", viewModel);
         }
@@ -928,9 +1122,15 @@ namespace NaturalFrut.Controllers
             var listaPrecio = listaPreciosBL.GetListaPrecioById(Id);
 
             if (listaPrecio != null)
+            {
+                log.Info("Borrando Lista Precios con ID: " + listaPrecio.ID);
                 listaPreciosBL.RemoveListaPrecio(listaPrecio);
+            }               
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Lista Precio con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("ListaPrecios", "Admin");
         }
@@ -955,11 +1155,13 @@ namespace NaturalFrut.Controllers
             if (listaPrecio.ID == 0)
             {
                 //Agregamos nuevo Lista de Precios
+                log.Info("Guardando nueva Lista de Precios para Producto con ID: " + listaPrecio.ID);
                 listaPreciosBL.AddListaPrecio(listaPrecio);
             }
             else
             {
                 //Edicion de Cliente Existente
+                log.Info("Editando Lista de Precios del Producto con ID: " + listaPrecio.ID);
                 listaPreciosBL.UpdateListaPrecio(listaPrecio);
             }
 
@@ -970,12 +1172,17 @@ namespace NaturalFrut.Controllers
         
 
         #endregion
-
-
+        
         #region Acciones Lista Precios Blister
         public ActionResult ListaPreciosBlister()
         {
             var listaPrecioBlister = listaPreciosBL.GetAllListaPrecioBlister();
+
+            if (listaPrecioBlister == null)
+            {
+                log.Error("Error al traer Lista Precios Blister.");
+                return View("Error");
+            }
 
             return View(listaPrecioBlister);
         }
@@ -998,14 +1205,17 @@ namespace NaturalFrut.Controllers
 
             var listaPrecioBlister = listaPreciosBL.GetListaPrecioBlisterById(Id);
 
+            if (listaPrecioBlister == null)
+            {
+                log.Error("Error al traer Lista Precio Blister con ID: " + Id);
+                return View("Error");
+            }
+
             ListaPreciosBlisterViewModel viewModel = new ListaPreciosBlisterViewModel(listaPrecioBlister)
             {
                 Producto = listaPreciosBL.GetProductoBlisterList()
             };
-
-            if (listaPrecioBlister == null)
-                return HttpNotFound();
-
+            
             return View("ListaPreciosBlisterForm", viewModel);
         }
 
@@ -1015,9 +1225,15 @@ namespace NaturalFrut.Controllers
             var listaPrecioBlister = listaPreciosBL.GetListaPrecioBlisterById(Id);
 
             if (listaPrecioBlister != null)
+            {
+                log.Info("Borrando lista de precios Blister con ID: " + listaPrecioBlister.ID);
                 listaPreciosBL.RemoveListaPrecioBlister(listaPrecioBlister);
+            }                
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Lista Precio Blister con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("ListaPreciosBlister", "Admin");
         }
@@ -1041,11 +1257,13 @@ namespace NaturalFrut.Controllers
             if (listaPrecioBlister.ID == 0)
             {
                 //Agregamos nuevo Lista de Precios
+                log.Info("Guardando nueva Lista de Precios Blister" );
                 listaPreciosBL.AddListaPrecioBlister(listaPrecioBlister);
             }
             else
             {
                 //Edicion de Cliente Existente
+                log.Info("Editando Lista de Precios Blister con ID: " + listaPrecioBlister.ID);
                 listaPreciosBL.UpdateListaPrecioBlister(listaPrecioBlister);
             }
 
@@ -1053,15 +1271,18 @@ namespace NaturalFrut.Controllers
 
         }
 
-        #endregion
-
-
-
+        #endregion               
 
         #region Acciones Clasificacion
         public ActionResult Clasificacion()
         {
             var clasificacion = commonBL.GetAllClasificacion();
+
+            if (clasificacion == null)
+            {
+                log.Error("Error al traer Clasificacion.");
+                return View("Error");
+            }
 
             return View(clasificacion);
         }
@@ -1080,7 +1301,10 @@ namespace NaturalFrut.Controllers
             var clasificacion = commonBL.GetClasificacionById(Id);
 
             if (clasificacion == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Clasificacion con ID: " + Id);
+                return View("Error");
+            }
 
             return View("ClasificacionForm", clasificacion);
         }
@@ -1091,9 +1315,15 @@ namespace NaturalFrut.Controllers
             var clasificacion = commonBL.GetClasificacionById(Id);
 
             if (clasificacion != null)
+            {
+                log.Info("Borrando Clasificacion con ID: " + clasificacion.ID + ", Nombre: " + clasificacion.Nombre);
                 commonBL.RemoveClasificacion(clasificacion);
+            }            
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Clasificacion con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("Clasificacion", "Admin");
         }
@@ -1110,12 +1340,12 @@ namespace NaturalFrut.Controllers
 
             if (clasificacion.ID == 0)
             {
-                
+                log.Info("Guardando nueva Clasificacion: " + clasificacion.Nombre);
                 commonBL.AddClasificacion(clasificacion);
             }
             else
             {
-                
+                log.Info("Editando Clasificacion existente: " + clasificacion.Nombre);
                 commonBL.UpdateClasificacion(clasificacion);
             }
 
@@ -1130,6 +1360,12 @@ namespace NaturalFrut.Controllers
         {
 
             var listaPrecios = listaPreciosBL.GetAllLista();
+
+            if (listaPrecios == null)
+            {
+                log.Error("Error al traer Lista de Precios.");
+                return View("Error");
+            }
 
             ViewBag.ListaPrecios = listaPrecios;
 
@@ -1146,6 +1382,18 @@ namespace NaturalFrut.Controllers
             var listaDePrecios = listaPreciosBL.GetListaPrecioExportByListaId(lista.ID);
             //var categorias = commonBL.GetAllCategorias();
             //var marcas = commonBL.GetAllMarcas();
+
+            if (lis == null)
+            {
+                log.Error("Error al traer Lista de Precios.");
+                return View("Error");
+            }
+
+            if (listaDePrecios == null)
+            {
+                log.Error("Error al traer Lista de Precios para exportar.");
+                return View("Error");
+            }
 
             List<Marca> marca = new List<Marca>();
             List<Categoria> categoria = new List<Categoria>();
@@ -1190,6 +1438,18 @@ namespace NaturalFrut.Controllers
             var listaDePrecios = listaPreciosBL.GetListaPrecioExportByListaId(listaid);
             //var categorias = commonBL.GetAllCategorias();
             //var marcas = commonBL.GetAllMarcas();
+
+            if (lis == null)
+            {
+                log.Error("Error al traer Lista de Precios.");
+                return View("Error");
+            }
+
+            if (listaDePrecios == null)
+            {
+                log.Error("Error al traer Lista de Precios para exportar.");
+                return View("Error");
+            }
 
             List<Marca> marca = new List<Marca>();
             List<Categoria> categoria = new List<Categoria>();
@@ -1246,7 +1506,8 @@ namespace NaturalFrut.Controllers
 
             MailModel datos = datosMail;
             string nombreArchivo = "ListaPrecios_" + DateTime.Now.ToString("ddMMyyyy");
-            string from = "marcelomusza@gmail.com";
+            string from = Encryption.DecryptPassword(ConfigurationManager.AppSettings["MailFrom"]);
+            string mailPass = Encryption.DecryptPassword(ConfigurationManager.AppSettings["MailPassword"]);            
 
             if (!ModelState.IsValid)
             {
@@ -1269,18 +1530,28 @@ namespace NaturalFrut.Controllers
 
                 SmtpClient smtp = new SmtpClient();
 
-                smtp.Host = "smtp.gmail.com";
+                smtp.Host = ConfigurationManager.AppSettings["MailHost"];
                 smtp.UseDefaultCredentials = false;
 
-                NetworkCredential networkCredential = new NetworkCredential(from, "MaRce1000%!");
+                NetworkCredential networkCredential = new NetworkCredential(from, mailPass);
                 smtp.EnableSsl = true;
                 smtp.Credentials = networkCredential;
-                smtp.Port = 25;
+                smtp.Port = int.Parse(ConfigurationManager.AppSettings["MailPort"]);
 
-                smtp.Send(mail);
+                try
+                {
+                    log.Info("Enviando mail, datos: Subject: " + mail.Subject + ", To: " + mail.To);
+                    smtp.Send(mail);
+                    log.Info("Mail Enviado satisfactoriamente");
 
-                ViewBag.Message = "Enviado";
-                ViewBag.ListaID = listaid;
+                    ViewBag.Message = "Enviado";
+                    ViewBag.ListaID = listaid;
+                    
+                }
+                catch (Exception e)
+                {
+                    log.Error("Error al enviar el mail: " + e.Message);              
+                }
 
                 return View("Mail\\EnviarMailListaPreciosForm", datos);
 
@@ -1294,7 +1565,7 @@ namespace NaturalFrut.Controllers
             var lis = listaPreciosBL.GetListaById(listaid);
             var listaDePrecios = listaPreciosBL.GetListaPrecioByListaId(listaid);
             var categorias = commonBL.GetAllCategorias();
-            var marcas = commonBL.GetAllMarcas();
+            var marcas = commonBL.GetAllMarcas();           
 
             ListaPreciosExportViewModel viewModel = new ListaPreciosExportViewModel()
             {
@@ -1313,18 +1584,31 @@ namespace NaturalFrut.Controllers
                 PageMargins = new Margins(15, 15, 15, 15),
             };
 
+            log.Info("Exportando Lista de Precios en formato PDF: " + pdf.FileName);
+
             Byte[] PdfData = pdf.BuildFile(ControllerContext);
+
+            if (PdfData == null)
+                log.Error("Error al exportar el archivo PDF.");
+
             return PdfData;
         }
 
         #endregion
 
+        #region Acciones Descarga/Exportar Lista de Precios Blister
         public ActionResult ExportarListaPreciosBlister()
         {
 
             var listaDePreciosBlister = listaPreciosBL.GetAllExportListaPrecioBlister();
             //var categorias = commonBL.GetAllCategorias();
             //var marcas = commonBL.GetAllMarcas();
+
+            if (listaDePreciosBlister == null)
+            {
+                log.Error("No se pudo traer la lista de precios Blister para exportar");
+                return View("Error");
+            }
 
             List<Marca> marca = new List<Marca>();
             List<Categoria> categoria = new List<Categoria>();
@@ -1346,8 +1630,8 @@ namespace NaturalFrut.Controllers
                         marca.Add(item.Producto.Marca);
                 }
             }
-            
-            
+
+
 
             ListaPreciosBlisterExportViewModel viewModel = new ListaPreciosBlisterExportViewModel()
             {
@@ -1366,6 +1650,12 @@ namespace NaturalFrut.Controllers
             var listaDePreciosBlister = listaPreciosBL.GetAllExportListaPrecioBlister();
             //var categorias = commonBL.GetAllCategorias();
             //var marcas = commonBL.GetAllMarcas();
+
+            if (listaDePreciosBlister == null)
+            {
+                log.Error("No se pudo traer la lista de precios Blister para exportar");
+                return View("Error");
+            }
 
             List<Marca> marca = new List<Marca>();
             List<Categoria> categoria = new List<Categoria>();
@@ -1421,7 +1711,7 @@ namespace NaturalFrut.Controllers
             string nombreArchivo = "ListaPreciosBlister_" + DateTime.Now.ToString("ddMMyyyy");
             string from = Encryption.DecryptPassword(ConfigurationManager.AppSettings["MailFrom"]);
             string mailPass = Encryption.DecryptPassword(ConfigurationManager.AppSettings["MailPassword"]);
-            
+
             if (!ModelState.IsValid)
             {
                 return View("Mail\\EnviarMailListaPreciosForm", datos);
@@ -1450,7 +1740,19 @@ namespace NaturalFrut.Controllers
                 smtp.Credentials = networkCredential;
                 smtp.Port = int.Parse(ConfigurationManager.AppSettings["MailPort"]);
 
-                smtp.Send(mail);
+                try
+                {
+                    log.Info("Enviando mail, datos: Subject: " + mail.Subject + ", To: " + mail.To);
+                    smtp.Send(mail);
+                    log.Info("Mail Enviado satisfactoriamente");
+
+                    ViewBag.Message = "Enviado";
+
+                }
+                catch (Exception e)
+                {
+                    log.Error("Error al enviar el mail: " + e.Message);
+                }
 
                 ViewBag.Message = "Enviado";
 
@@ -1504,16 +1806,28 @@ namespace NaturalFrut.Controllers
                 PageMargins = new Margins(15, 15, 15, 15),
             };
 
-            Byte[] PdfData = pdf.BuildFile(ControllerContext);
-            return PdfData;
-        }
+            log.Info("Exportando Lista de Precios Blister en formato PDF: " + pdf.FileName);
 
+            Byte[] PdfData = pdf.BuildFile(ControllerContext);
+
+            if (PdfData == null)
+                log.Error("Error al exportar el archivo PDF.");
+
+            return PdfData;
+        } 
+        #endregion
 
         #region Acciones Stock
         public ActionResult Stock()
         {
 
             var stock = stockBL.GetAllStock();
+
+            if (stock == null)
+            {
+                log.Error("Error al traer Stock.");
+                return View("Error");
+            }
 
             return View(stock);
         }
@@ -1533,7 +1847,10 @@ namespace NaturalFrut.Controllers
             var stock = stockBL.GetStockById(Id);
 
             if (stock == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Stock con ID: " + Id);
+                return View("Error");
+            }
 
             ViewBag.StockID = Id;
 
@@ -1545,9 +1862,15 @@ namespace NaturalFrut.Controllers
             var stock = stockBL.GetStockById(Id);
 
             if (stock != null)
+            {
+                log.Info("Borrando Elemento del Stock con ID: " + Id);
                 stockBL.RemoveStock(stock);
+            }               
             else
-                return HttpNotFound();
+            {
+                log.Error("Error al traer Stock con ID: " + Id);
+                return View("Error");
+            }
 
             return RedirectToAction("Stock", "Admin");
         }

@@ -74,6 +74,9 @@
       <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -295,9 +298,9 @@
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
     <Compile Include="Helpers\ExcelExportHelper.cs" />
-    <Compile Include="Migrations\201811142022081_seAgregaLocal.cs" />
-    <Compile Include="Migrations\201811142022081_seAgregaLocal.Designer.cs">
-      <DependentUpon>201811142022081_seAgregaLocal.cs</DependentUpon>
+    <Compile Include="Migrations\201812180101161_nuevabase.cs" />
+    <Compile Include="Migrations\201812180101161_nuevabase.Designer.cs">
+      <DependentUpon>201812180101161_nuevabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
@@ -595,6 +598,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="log4.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
@@ -698,7 +702,9 @@
     <Content Include="Scripts\typeahead.jquery.js" />
     <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Tababular\Tababular.csproj" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -803,10 +809,12 @@
     <Content Include="Views\Compra\Reportes\ReporteCompraEntreFechas.cshtml" />
     <Content Include="Views\VentaMinorista\Reportes\ReporteVentaEntreFechas.cshtml" />
     <Content Include="Views\VentaMinorista\IndexReporte.cshtml" />
+    <Content Include="Views\Admin\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="DTOs\fonts\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -815,8 +823,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811142022081_seAgregaLocal.resx">
-      <DependentUpon>201811142022081_seAgregaLocal.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812180101161_nuevabase.resx">
+      <DependentUpon>201812180101161_nuevabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

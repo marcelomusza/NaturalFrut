@@ -10,6 +10,7 @@ using NaturalFrut.Helpers;
 using Rotativa;
 using Rotativa.Options;
 using NaturalFrut.Pdf;
+using log4net;
 
 namespace NaturalFrut.Controllers
 {
@@ -22,6 +23,8 @@ namespace NaturalFrut.Controllers
         private readonly StockLogic stockBL;
         private readonly ProductoXVentaLogic productoxVentaBL;
         private readonly ProductoLogic productoBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public VentaMayoristaController(VentaMayoristaLogic VentaMayoristaLogic, 
             ClienteLogic ClienteLogic,
@@ -91,10 +94,14 @@ namespace NaturalFrut.Controllers
         public ActionResult NuevaVentaMayorista()
         {
 
-            var ultimaVenta = ventaMayoristaBL.GetNumeroDeVenta();            
+            var ultimaVenta = ventaMayoristaBL.GetNumeroDeVenta();
 
             //Cargamos datos a mandar a la view
-            ViewBag.Fecha = DateTime.Now;
+            var serverTime = DateTime.UtcNow;
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+
+            ViewBag.Fecha = serverTimeConverted;
             ViewBag.Vendedores = ventaMayoristaBL.GetVendedorList();
             ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
             ViewBag.TipoDeUnidadMix = Constants.TIPODEUNIDAD_MIX;
@@ -121,6 +128,12 @@ namespace NaturalFrut.Controllers
             var vtaMayorista = ventaMayoristaBL.GetVentaMayoristaById(Id);
             //var productosXVentaMayorista = ventaMayoristaBL.GetProductosXVentaMayorista(Id);
 
+            if(vtaMayorista == null)
+            {
+                log.Error("Error al acceder a la venta mayorista con ID: " + Id);
+                return View("Error");
+            }
+
             foreach (var producto in vtaMayorista.ProductosXVenta)
             {
 
@@ -146,10 +159,7 @@ namespace NaturalFrut.Controllers
 
             ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
             ViewBag.TipoDeUnidadMix = Constants.TIPODEUNIDAD_MIX;
-            ViewBag.VentaMayoristaID = Id;
-
-            if (vtaMayorista == null)
-                return HttpNotFound();
+            ViewBag.VentaMayoristaID = Id;                       
 
             return View("VentaMayoristaFormEdit", vtaMayorista);
         }
@@ -236,8 +246,12 @@ namespace NaturalFrut.Controllers
                 Producto prod = productoBL.GetProductoById(productoID);
 
                 if (prod == null)
+                {
+                    log.Error("El producto no fue encontrado en el sistema, con ID: " + productoID);
                     throw new Exception("El Producto no fue encontrado en el sistema.");
+                }
 
+                log.Info("Calculando Stock y Valor del Producto: " + prod.Nombre);
 
                 //Consultamos Stock segun tipo de producto
                 Stock productoSegunStock = new Stock();     
@@ -385,6 +399,7 @@ namespace NaturalFrut.Controllers
                     
                 }
 
+                log.Info("Stock Disponible para el producto: " + stockDisponible);
 
                 //Calculamos los Precios
                 ListaPrecio productoSegunLista = ventaMayoristaBL.CalcularImporteSegunCliente(clienteID, productoID, cantidad);
@@ -463,15 +478,15 @@ namespace NaturalFrut.Controllers
                 //Sumamos el importe total
                 importeTotal = importe * cantidad;
 
+                log.Info("Importe del Producto: " + importeTotal);
 
                 return Json(new { Success = true, Importe = importe, ImporteTotal = importeTotal, Counter = counter, Stock = stockDisponible }, JsonRequestBehavior.AllowGet);
-
-                
 
                 
             }
             catch (Exception ex)
             {
+                log.Error("Se ha producido una excepción al calcular stock y valor del producto. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
@@ -522,15 +537,22 @@ namespace NaturalFrut.Controllers
                 Cliente cliente = clienteBL.GetClienteById(clienteID);                
 
                 if (cliente == null)
+                {
+                    log.Error("Cliente Invalido al calcular saldo con ID: " + clienteID);
                     throw new Exception("Cliente invalido al cargar Saldo Deudor");
+                }
+                    
 
                 var saldo = cliente.Saldo;
+
+                log.Info("El cliente: " + cliente.Nombre + " tiene saldo: " + saldo);
 
                 return Json(new { Saldo = saldo }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
+                log.Error("Se ha producido una excepción al traer el saldo del cliente. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
            
@@ -543,12 +565,15 @@ namespace NaturalFrut.Controllers
             {
                 Stock productoSegunStock = stockBL.ValidarStockProducto(productoID, tipoUnidadID);
 
+                log.Info("Stock disponible para el producto blister: " + productoSegunStock.Cantidad);
+
                 return Json(new { Success = true, Counter = counter, Stock = productoSegunStock.Cantidad }, JsonRequestBehavior.AllowGet);
 
 
             }
             catch (Exception ex)
             {
+                log.Error("Se ha producido una excepción al calcular Stock de producto Blister. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
             
@@ -600,7 +625,11 @@ namespace NaturalFrut.Controllers
                 var reporteVentas = ventaMayoristaBL.GetAllVentaMayoristaSegunFechas(fechaDesde, fechaHasta);
 
                 if (reporteVentas == null)
+                {
+                    log.Error("No se encontraron Ventas según el rango de fecha seleccionada");
                     throw new Exception("No se encontraron Ventas según el rango de fecha seleccionada");
+                }
+                    
 
 
                 return Json(new { Success = true, ReporteVentas = reporteVentas }, JsonRequestBehavior.AllowGet);
@@ -608,7 +637,7 @@ namespace NaturalFrut.Controllers
             }
             catch (Exception ex)
             {
-
+                log.Error("Se ha producido una excepción al operar con Reporte de Venta Mayorista. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
@@ -661,7 +690,11 @@ namespace NaturalFrut.Controllers
             var venta = ventaMayoristaBL.GetAllVentaMayorista();
 
             if(venta == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder a la lista de ventas mayoristas");
+                return View("Error");
+            }
+                
 
             return View(venta);
 

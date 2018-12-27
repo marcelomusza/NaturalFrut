@@ -28,21 +28,27 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Fecha)
-                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly" })
+                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = ViewBag.Fecha.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly" })
                 @Html.ValidationMessageFor(c => c.Fecha)
             </div>
 
+            @*<div class="form-group">
+            @Html.LabelFor(c => c.Local)
+            @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Local)
+        </div>*@
+
             <div class="form-group">
                 @Html.LabelFor(c => c.Local)
-                @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
+                @Html.DropDownListFor(c => c.Local, new SelectList(ViewBag.Locales), "Seleccione Local", new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.Local)
             </div>
 
             @*<div class="form-group">
-                @Html.LabelFor(c => c.Iva)
-                @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
-                @Html.ValidationMessageFor(c => c.Iva)
-            </div>*@
+            @Html.LabelFor(c => c.Iva)
+            @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Iva)
+        </div>*@
 
             @*<div class="form-group">
             @Html.LabelFor(c => c.ImporteVentaTotal)
@@ -82,11 +88,11 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TipoFactura)
-                    @Html.DropDownListFor(c => c.TipoFactura, new List<SelectListItem>
-                {
-                new SelectListItem{Text="A", Value="A"},
-                new SelectListItem{Text="B", Value="B"}
-                }, "Elegir tipo factura", new { @class = "form-control" })
+                @Html.DropDownListFor(c => c.TipoFactura, new List<SelectListItem>
+        {
+        new SelectListItem{Text="A", Value="A"},
+        new SelectListItem{Text="B", Value="B"}
+        }, "Elegir tipo factura", new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.TipoFactura)
             </div>
 
@@ -276,7 +282,9 @@
 
             $(".js-formatearvalor").on("blur", function () {
 
-                $(this).val(FormatearValor(this.value));
+                var valor = ValorANumero($(this).val());
+
+                $(this).val(FormatearValor(valor));
             });
 
         });

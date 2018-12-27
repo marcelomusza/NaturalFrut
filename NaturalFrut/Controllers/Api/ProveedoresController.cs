@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -18,6 +19,8 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ProveedorLogic proveedorBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ProveedoresController(IRepository<Proveedor> ProveedorRepo)
         {            
@@ -43,7 +46,10 @@ namespace NaturalFrut.Controllers.Api
             var proveedor = proveedorBL.GetProveedorById(id);
 
             if (proveedor == null)
+            {
+                log.Error("Proveedor no encontrado con ID: " + id);
                 return NotFound();
+            }
 
             return Ok(Mapper.Map<Proveedor, ProveedorDTO>(proveedor));
         }
@@ -53,13 +59,19 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateProveedor(ProveedorDTO proveedorDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o insuficientes.");
                 return BadRequest();
+            }
+                
 
             var proveedor = Mapper.Map<ProveedorDTO, Proveedor>(proveedorDTO);
 
             proveedorBL.AddProveedor(proveedor);
             
             proveedorDTO.ID = proveedor.ID;
+
+            log.Info("Proveedor creado satisfactoriamente, ID: " + proveedor.ID);
 
             return Created(new Uri(Request.RequestUri + "/" + proveedor.ID), proveedorDTO);
         }
@@ -69,16 +81,24 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateProveedores(int id, ProveedorDTO proveedorDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o insuficientes.");
                 return BadRequest();
+            }
 
             var proveedorInDB = proveedorBL.GetProveedorById(id);
 
             if (proveedorInDB == null)
+            {
+                log.Error("Proveedor no encontrado en la base de datos con ID: " + id);
                 return NotFound();
+            }
 
             Mapper.Map(proveedorDTO, proveedorInDB);
 
             proveedorBL.UpdateProveedor(proveedorInDB);
+
+            log.Info("Proveedor actualizado satisfactoriamente, ID: " + id);
 
             return Ok();
         }
@@ -91,9 +111,14 @@ namespace NaturalFrut.Controllers.Api
             var proveedorInDB = proveedorBL.GetProveedorById(id);
 
             if (proveedorInDB == null)
+            {
+                log.Error("Proveedor no encontrado en la base de datos con ID: " + id);
                 return NotFound();
+            }
 
             proveedorBL.RemoveProveedor(proveedorInDB);
+
+            log.Info("Proveedor eliminado satisfactoriamente, ID: " + id);
             
             return Ok();
 

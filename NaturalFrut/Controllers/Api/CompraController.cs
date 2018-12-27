@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.App_DAL;
@@ -27,6 +28,8 @@ namespace NaturalFrut.Controllers.Api
         private readonly ProductoXCompraLogic productoXCompraBL;
 
         private UOWCompra _UOWCompra = new UOWCompra();
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CompraController(IRepository<Compra> CompraRepo,
             IRepository<Stock> StockRepo,
@@ -61,22 +64,33 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult Compra(CompraDTO compraDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o insuficientes.");
                 return BadRequest();
+            }
 
             Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
 
             if (proveedor == null)
+            {
+                log.Error("No se ha encontrado Proveedor con el ID: " + compraDTO.ProveedorID);
                 return BadRequest();
+            }
+                
 
             var compra = Mapper.Map<CompraDTO, Compra>(compraDTO);
 
             //compraBL.AddCompra(compra);
             _UOWCompra.CompraRepository.Add(compra);
 
+            log.Info("Compra. Viejo Saldo Proveedor: " + compraDTO.Debe);
+
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
-             proveedor.Debe = compraDTO.Debe;
+            proveedor.Debe = compraDTO.Debe;
             //proveedorBL.UpdateProveedor(proveedor);  
             _UOWCompra.ProveedorRepository.Update(proveedor);
+
+            log.Info("Compra. Nuevo Saldo Proveedor: " + proveedor.Debe);
 
             if (compra.ProductosXCompra != null)
             {
@@ -96,6 +110,8 @@ namespace NaturalFrut.Controllers.Api
                         //stockBL.UpdateStock(stock);
                         _UOWCompra.StockRepository.Update(stock);
 
+                        log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
+
                     }
                     else
                     {
@@ -108,14 +124,20 @@ namespace NaturalFrut.Controllers.Api
                         //stockBL.AddStock(stockNuevo);
                         _UOWCompra.StockRepository.Add(stockNuevo);
 
+                        log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stockNuevo.Cantidad);
+
 
                     }
+
                     
+
                 }
             }
 
             //Actualizamos valores
             _UOWCompra.Save();
+
+            log.Info("Compra generada satisfactoriamente.");
 
             return Ok();
         }
@@ -126,20 +148,30 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateCompra(CompraDTO compraDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o insuficientes.");
                 return BadRequest();
+            }
 
             var compraInDB = compraBL.GetCompraById(compraDTO.ID);
 
             if (compraInDB == null)
+            {
+                log.Error("No se encontró compra existente con el ID: " + compraDTO.ID);
                 return NotFound();
+            }
 
             Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
+
+            log.Info("Compra. Viejo Saldo Proveedor: " + compraDTO.Debe);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
             proveedor.Debe = compraDTO.Debe;
             proveedor.SaldoAfavor = compraDTO.SaldoAfavor;
             //proveedorBL.UpdateProveedor(proveedor);
             _UOWCompra.ProveedorRepository.Update(proveedor);
+
+            log.Info("Compra. Nuevo Saldo Proveedor: " + proveedor.Debe);
 
             //actualizo stock
 
@@ -167,6 +199,8 @@ namespace NaturalFrut.Controllers.Api
                         //stockBL.UpdateStock(stock);
                         _UOWCompra.StockRepository.Update(stock);
                     }
+
+                    log.Info("Stock actualizado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
                 }
 
                 foreach (var item in compraDTO.ProductosXCompra)
@@ -192,6 +226,8 @@ namespace NaturalFrut.Controllers.Api
                             prodAActualizar.TipoDeUnidadID = item.TipoDeUnidadID;
 
                             _UOWCompra.ProductosXCompraRepository.Update(prodAActualizar);
+
+                            log.Info("Datos actualizados para producto con ID: " + item2.ProductoID);
 
                             //item2.Cantidad = item.Cantidad;
                             //item2.Importe = item.Importe;
@@ -259,6 +295,8 @@ namespace NaturalFrut.Controllers.Api
             //Actualizamos la operación
             _UOWCompra.Save();
 
+            log.Info("Compra actualizada satisfactoriamente. ID: " + compraAActualizar.ID);
+
             return Ok();
         }
 
@@ -271,25 +309,33 @@ namespace NaturalFrut.Controllers.Api
             
 
             if (productoInDB == null)
+            {
+                log.Error("Producto no encontrado en la base de datos con ID: " + prodCompra.ProductoID);
                 return NotFound();
+            }
 
             //Referenciamos producto que borraremos con UOW
             var prodABorrar = _UOWCompra.ProductosXCompraRepository.GetByID(productoInDB.ID);
 
             var importeTotalProducto = productoInDB.Total;
 
-            
 
             //restamos stock
 
             Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);            
             Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
 
+            log.Info("Producto a Borrar con ID: " + producto.ID);
+
             if (stock != null)
             {
+                log.Info("Stock Producto a Eliminar: " + stock.Cantidad);
+
                 stock.Cantidad = stock.Cantidad - prodCompra.Cantidad;
                 //stockBL.UpdateStock(stock);
                 _UOWCompra.StockRepository.Update(stock);
+
+                log.Info("Stock Producto Actualizado: " + stock.Cantidad);
 
             }
 
@@ -299,14 +345,17 @@ namespace NaturalFrut.Controllers.Api
 
             compraInDB.TotalGastos = compraInDB.TotalGastos - importeTotalProducto;
 
+            log.Info("Total gastos de Compra ID " + compraInDB.ID + " actualizado. Nuevo valor: " + compraInDB.TotalGastos);
+
             //compraBL.UpdateCompra(compraInDB);
             _UOWCompra.CompraRepository.Update(compraInDB);
 
             //productoXCompraBL.RemoveProductoXCompra(productoInDB);
             _UOWCompra.ProductosXCompraRepository.Delete(prodABorrar);
 
-
             _UOWCompra.Save();
+
+            log.Info("Producto eliminado de la compra satisfactoriamente.");
 
             return Ok();
 
@@ -321,7 +370,10 @@ namespace NaturalFrut.Controllers.Api
             var compraInDB = compraBL.GetCompraById(Id);
 
             if (compraInDB == null)
+            {
+                log.Error("Compra no encontrada en la base de datos con ID: " + Id);
                 return NotFound();
+            }
 
             if(compraInDB.ProductosXCompra != null)
             {
@@ -340,6 +392,8 @@ namespace NaturalFrut.Controllers.Api
 
                         //stockBL.UpdateStock(stock);
                         _UOWCompra.StockRepository.Update(stock);
+
+                        log.Info("Stock actualizado para Producto con ID: " + prodId + ". Nuevo valor: " + stock.Cantidad);
                     }
                 }
 
@@ -350,6 +404,8 @@ namespace NaturalFrut.Controllers.Api
                 {
                     var productoInDB = _UOWCompra.ProductosXCompraRepository.GetByID(item.ID);
                     _UOWCompra.ProductosXCompraRepository.Delete(productoInDB);
+
+                    log.Info("Producto borrado de la compra con ID: " + item.ID);
                 }
             }
 
@@ -364,6 +420,8 @@ namespace NaturalFrut.Controllers.Api
 
             //Concretamos la operacion
             _UOWCompra.Save();
+
+            log.Info("Compra eliminada satisfactoriamente.");
 
             return Ok();
 

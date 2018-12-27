@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -18,6 +19,8 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ClienteLogic clienteBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ClientesController(IRepository<Cliente> ClienteRepo)
         {            
@@ -43,7 +46,11 @@ namespace NaturalFrut.Controllers.Api
             var cliente = clienteBL.GetClienteById(id);
 
             if (cliente == null)
+            {
+                log.Error("Cliente no encontrado con ID: " + id);
                 return NotFound();
+            }
+                
 
             return Ok(Mapper.Map<Cliente, ClienteDTO>(cliente));
         }
@@ -53,13 +60,19 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateCliente(ClienteDTO clienteDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos invalidos o insuficientes.");
                 return BadRequest();
+            }
+                
 
             var cliente = Mapper.Map<ClienteDTO, Cliente>(clienteDTO);
 
             clienteBL.AddCliente(cliente);
             
             clienteDTO.ID = cliente.ID;
+
+            log.Info("Cliente: " + cliente.Nombre + ", agregado satisfactoriamente");
 
             return Created(new Uri(Request.RequestUri + "/" + cliente.ID), clienteDTO);
         }
@@ -69,16 +82,24 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateCliente(int id, ClienteDTO clienteDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos invalidos o insuficientes.");
                 return BadRequest();
+            }
 
             var clienteInDB = clienteBL.GetClienteById(id);
 
             if (clienteInDB == null)
+            {
+                log.Error("Cliente no encontrado con ID: " + id);
                 return NotFound();
+            }
 
             Mapper.Map(clienteDTO, clienteInDB);
 
             clienteBL.UpdateCliente(clienteInDB);
+
+            log.Info("Cliente: " + clienteInDB.Nombre + ", actualizado satisfactoriamente");
 
             return Ok();
         }
@@ -91,9 +112,14 @@ namespace NaturalFrut.Controllers.Api
             var clienteInDB = clienteBL.GetClienteById(id);
 
             if (clienteInDB == null)
+            {
+                log.Error("Cliente no encontrado con ID: " + id);
                 return NotFound();
+            }
 
             clienteBL.RemoveCliente(clienteInDB);
+
+            log.Info("Cliente eliminado satisfactoriamente. ID: " + id);
             
             return Ok();
 
@@ -109,7 +135,10 @@ namespace NaturalFrut.Controllers.Api
             var cliente = clienteBL.GetClienteById(clienteID);
 
             if (cliente == null)
+            {
+                log.Error("Cliente no encontrado con ID: " + clienteID);
                 return NotFound();
+            }
 
             return Ok(Mapper.Map<Cliente, ClienteDTO>(cliente));
         }

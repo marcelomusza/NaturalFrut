@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -18,6 +19,8 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly CommonLogic clasificacionBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ClasificacionController(IRepository<Clasificacion> ClasificacionRepo)
         {            
@@ -44,7 +47,11 @@ namespace NaturalFrut.Controllers.Api
             var clasificacion = clasificacionBL.GetClasificacionById(id);
 
             if (clasificacion == null)
+            {
+                log.Error("No se ha podido traer la lista de Clasificaciones");
                 return NotFound();
+            }
+                
 
             return Ok(Mapper.Map<Clasificacion, ClasificacionDTO>(clasificacion));
         }
@@ -54,13 +61,18 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateClasificacion(ClasificacionDTO clasificacionDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("No se ha llenado todos los campos correctamente para Clasificacion");
                 return BadRequest();
+            }
 
             var clasificacion = Mapper.Map<ClasificacionDTO, Clasificacion>(clasificacionDTO);
 
             clasificacionBL.AddClasificacion(clasificacion);
             
             clasificacionDTO.ID = clasificacion.ID;
+
+            log.Info("Clasificacion creada: " + clasificacion.Nombre);
 
             return Created(new Uri(Request.RequestUri + "/" + clasificacion.ID), clasificacionDTO);
         }
@@ -70,16 +82,24 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateClasificacion(int id, ClasificacionDTO clasificacionDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("No se ha llenado todos los campos correctamente para Clasificacion");
                 return BadRequest();
+            }
 
             var clasificacionInDB = clasificacionBL.GetClasificacionById(id);
 
             if (clasificacionInDB == null)
+            {
+                log.Error("No se ha podido traer la Clasificacion de la base de datos con ID: " + id);
                 return NotFound();
+            }
 
             Mapper.Map(clasificacionDTO, clasificacionInDB);
 
             clasificacionBL.UpdateClasificacion(clasificacionInDB);
+
+            log.Info("Clasificacion actualizada, Nombre: " + clasificacionInDB.Nombre);
 
             return Ok();
         }
@@ -92,9 +112,14 @@ namespace NaturalFrut.Controllers.Api
             var clasificacionInDB = clasificacionBL.GetClasificacionById(id);
 
             if (clasificacionInDB == null)
+            { 
+                log.Error("No se ha podido traer la clasificación con ID: " + id);
                 return NotFound();
+            }
 
             clasificacionBL.RemoveClasificacion(clasificacionInDB);
+
+            log.Info("Clasificacion " + clasificacionInDB.Nombre + " borrada exitosamente...");
             
             return Ok();
 

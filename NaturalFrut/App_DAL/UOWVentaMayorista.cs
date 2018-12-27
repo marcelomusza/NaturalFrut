@@ -1,4 +1,5 @@
-﻿using NaturalFrut.App_BLL.Interfaces;
+﻿using log4net;
+using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace NaturalFrut.App_DAL
         private BaseRepository<Cliente> clienteRP;
         private BaseRepository<Stock> stockRP;
         private BaseRepository<ProductoXVenta> prodXVentaRP;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public IRepository<VentaMayorista> VentaMayoristaRepository
@@ -69,6 +72,8 @@ namespace NaturalFrut.App_DAL
         public void Save()
         {
             _context.SaveChanges();
+
+            log.Info("Datos salvados satisfactoriamente en la base de datos. Unity of Work VENTA MAYORISTA");
         }
 
         private bool disposed = false;

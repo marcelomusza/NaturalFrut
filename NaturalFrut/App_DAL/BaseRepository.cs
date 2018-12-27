@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using log4net;
 
 namespace NaturalFrut.App_DAL
 {
@@ -16,6 +17,8 @@ namespace NaturalFrut.App_DAL
 
         readonly ApplicationDbContext _context;
         internal DbSet dbSet;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public BaseRepository()
         {
@@ -67,6 +70,9 @@ namespace NaturalFrut.App_DAL
             try
             {
                 _context.SaveChanges();
+
+                log.Info("Datos salvados en la base de datos satisfactoriamente.");
+
             }
             catch (DbEntityValidationException e)
             {
@@ -77,6 +83,8 @@ namespace NaturalFrut.App_DAL
                         Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
                     }
                 }
+
+                log.Error("Se ha producido una excepcion al intentar operar con la base de datos. Error: " + e.Message);
             }
         }
 

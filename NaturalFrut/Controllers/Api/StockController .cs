@@ -11,6 +11,7 @@ using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
 using NaturalFrut.App_BLL.ViewModels;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -20,6 +21,8 @@ namespace NaturalFrut.Controllers.Api
 
         private readonly StockLogic stockBL;
         private readonly ProductoLogic productoBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public StockController(IRepository<Stock> StockRepo, IRepository<Producto> ProductoRepo)
         {
@@ -44,7 +47,10 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateStock(StockDTO stock)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos inexistentes o incorrectos.");
                 return BadRequest();
+            }
 
 
             Producto producto = productoBL.GetProductoById(stock.ProductoID);
@@ -57,6 +63,8 @@ namespace NaturalFrut.Controllers.Api
                 stockIngresado.Cantidad = stockIngresado.Cantidad + stock.Cantidad;
                 stockBL.UpdateStock(stockIngresado);
 
+                log.Info("Stock Actualizado satisfactoriamente. ID: " + stockIngresado.ID);
+
             }
             else
             {
@@ -67,6 +75,8 @@ namespace NaturalFrut.Controllers.Api
                 stockNuevo.Cantidad = stock.Cantidad;
 
                 stockBL.AddStock(stockNuevo);
+
+                log.Info("Stock Agregado satisfactoriamente");
 
 
             }
@@ -81,7 +91,10 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateStock(StockViewModel stockUpdate)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos inexistentes o incorrectos.");
                 return BadRequest();
+            }
 
             Stock stockmodif = new Stock();
 
@@ -89,8 +102,7 @@ namespace NaturalFrut.Controllers.Api
             stockmodif.TipoDeUnidadID = stockUpdate.TipoDeUnidadID;
             stockmodif.ID = stockUpdate.ID;
 
-
-
+            
             if (!stockUpdate.isDelete)
             {
                 stockmodif.Cantidad = stockUpdate.NuevaCantidad + stockUpdate.Cantidad;
@@ -102,6 +114,9 @@ namespace NaturalFrut.Controllers.Api
                 stockmodif.Cantidad = stockUpdate.Cantidad - stockUpdate.NuevaCantidad ;
                 stockBL.UpdateStock(stockmodif);
             }
+
+            log.Info("Stock actualizado satisfactoriamente, ID: " + stockmodif.ID);
+
 
             return Ok();
         }

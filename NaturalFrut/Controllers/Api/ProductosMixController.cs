@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -18,6 +19,8 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ProductoLogic productoBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ProductosMixController(IRepository<ProductoMix> ProductoMixRepo,
             IRepository<Producto> ProductoRepo)
@@ -33,9 +36,6 @@ namespace NaturalFrut.Controllers.Api
 
             //var productosMix = productoBL.GetAllProductosSegunFlagMix();
             var productosMix = productoBL.GetAllProductoMix();
-
-           
-            
                        
             return productosMix.Select(Mapper.Map<ProductoMix, ProductoMixDTO>);
         }
@@ -60,16 +60,31 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateProductoMix(ProductoMixCreateDTO productosMixDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
-
-            foreach (var producto in productosMixDTO.ProductoMix)
             {
-                var productoMix = Mapper.Map<ProductoMixDTO, ProductoMix>(producto);
-
-                productoBL.AddProductoMix(productoMix);
+                log.Error("Formulario con datos inexistentes o incorrectos.");
+                return BadRequest();
             }
 
-            return Ok();
+            try
+            {
+                foreach (var producto in productosMixDTO.ProductoMix)
+                {
+                    var productoMix = Mapper.Map<ProductoMixDTO, ProductoMix>(producto);
+
+                    productoBL.AddProductoMix(productoMix);
+                }
+
+                log.Info("Producto Mix con ID: " + productosMixDTO.ID + ", creado satisfactoriamente");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Se ha producido un error al intentar agregar un nuevo Producto Mix. Error: " + ex.Message);
+                return BadRequest();
+            }
+
+            
         }
 
         //PUT /api/productosMix/1
@@ -77,37 +92,56 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateProductosMix(ProductosMixUpdateDTO productosDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
-
-            //Actualizamos productos existentes
-            foreach (var prodDTO in productosDTO.ProductosAnteriores)
             {
-                var productoMixInDB = productoBL.GetProductoDelMixById(prodDTO.ProdMixId, prodDTO.ProductoDelMixId);
-
-                if (productoMixInDB == null)
-                    return NotFound();
-
-                productoMixInDB.Cantidad = prodDTO.Cantidad;
-
-                productoBL.UpdateProductoMix(productoMixInDB);
-
+                log.Error("Formulario con datos inexistentes o incorrectos.");
+                return BadRequest();
             }
 
-            //Si hay productos nuevos, los agregamos
-            if(productosDTO.ProductosNuevos != null)
+            try
             {
-
-                foreach (var prodDTO in productosDTO.ProductosNuevos)
+                //Actualizamos productos existentes
+                foreach (var prodDTO in productosDTO.ProductosAnteriores)
                 {
-                    var productoMix = Mapper.Map<ProductoMixDTO, ProductoMix>(prodDTO);
+                    var productoMixInDB = productoBL.GetProductoDelMixById(prodDTO.ProdMixId, prodDTO.ProductoDelMixId);
 
-                    productoBL.AddProductoMix(productoMix);
+                    if (productoMixInDB == null)
+                    {
+                        log.Error("Producto Mix no encontrado en la base de datos, ProdMixId: " + prodDTO.ProdMixId + " y ProductoDelMixId: " + prodDTO.ProductoDelMixId);
+                        return NotFound();
+                    }
+
+                    productoMixInDB.Cantidad = prodDTO.Cantidad;
+
+                    productoBL.UpdateProductoMix(productoMixInDB);
+
+                    log.Info("ProdMixId: " + prodDTO.ProdMixId + " y ProductoDelMixId: " + prodDTO.ProductoDelMixId + ", Actualizado Satisfactoriamente");
                 }
 
+                //Si hay productos nuevos, los agregamos
+                if (productosDTO.ProductosNuevos != null)
+                {
+
+                    foreach (var prodDTO in productosDTO.ProductosNuevos)
+                    {
+                        var productoMix = Mapper.Map<ProductoMixDTO, ProductoMix>(prodDTO);
+
+                        productoBL.AddProductoMix(productoMix);
+
+                        log.Info("ProdMixId: " + prodDTO.ProdMixId + " y ProductoDelMixId: " + prodDTO.ProductoDelMixId + ", Actualizado Satisfactoriamente");
+                    }
+
+                }
+
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Se ha producido un error al intentar actualizar Producto Mix. Error: " + ex.Message);
+                return BadRequest();
             }
 
-
-            return Ok();
+            
         }
 
         //DELETE /api/productosmix/1
@@ -118,9 +152,14 @@ namespace NaturalFrut.Controllers.Api
             var productoMixInDB = productoBL.GetProductoMixByIdReal(id);
 
             if (productoMixInDB == null)
+            {
+                log.Error("No se ha encontrado Producto Mix con ID: " + id);
                 return NotFound();
+            }
 
             productoBL.RemoveProductoMix(productoMixInDB);
+
+            log.Info("Producto Mix eliminado satisfactoriamente, ID: " + id);
 
             return Ok();
 

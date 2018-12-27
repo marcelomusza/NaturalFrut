@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using NaturalFrut.App_BLL;
 using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.DTOs;
@@ -18,6 +19,8 @@ namespace NaturalFrut.Controllers.Api
     {
 
         private readonly VentaMinoristaLogic ventaMinoristaBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public VentasMinoristaController(IRepository<VentaMinorista> VentaMinoristaRepo)
         {
@@ -39,13 +42,18 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateVentasMinorista(VentaMinoristaDTO ventaMinoristaDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o insuficientes");
                 return BadRequest();
+            }
 
             var ventaMinorista = Mapper.Map<VentaMinoristaDTO, VentaMinorista>(ventaMinoristaDTO);
 
             ventaMinoristaBL.AddVentaMinorista(ventaMinorista);
 
             ventaMinoristaDTO.ID = ventaMinorista.ID;
+
+            log.Info("Venta Minorista creada satisfactoriamente. ID: " + ventaMinorista.ID);
 
             return Created(new Uri(Request.RequestUri + "/" + ventaMinorista.ID), ventaMinoristaDTO);
         }

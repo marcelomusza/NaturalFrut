@@ -10,6 +10,7 @@ using AutoMapper;
 using NaturalFrut.Models;
 using NaturalFrut.App_BLL.Interfaces;
 using System.Data.Entity;
+using log4net;
 
 namespace NaturalFrut.Controllers.Api
 {
@@ -18,7 +19,9 @@ namespace NaturalFrut.Controllers.Api
     {
         
         private readonly ProductoLogic productoBL;
-        private readonly ClienteLogic clienteBL;        
+        private readonly ClienteLogic clienteBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ProductosController(IRepository<Producto> ProductoRepo,
             IRepository<Cliente> ClienteRepo,
@@ -55,6 +58,8 @@ namespace NaturalFrut.Controllers.Api
         {
             var productos = productoBL.GetAllProductosSegunListaAsociada(clienteId);
             //var productosBlister = productoBL.GetAllProductosBlister();
+
+            log.Info("Accediendo a los Productos X Lista segun cliente ID: " + clienteId);
 
             List<Producto> productosConjunto = new List<Producto>();
 
@@ -158,7 +163,7 @@ namespace NaturalFrut.Controllers.Api
         {
 
             var productos = productoBL.GetAllProducto();
-            //var productosBlister = productoBL.GetAllProductosBlister();
+            //var productosBlister = productoBL.GetAllProductosBlister();            
 
             List<Producto> productosConjunto = new List<Producto>();
 
@@ -320,7 +325,10 @@ namespace NaturalFrut.Controllers.Api
             var producto = productoBL.GetProductoById(id);
 
             if (producto == null)
+            {
+                log.Error("Producto no encontrado con ID: " + id);
                 return NotFound();
+            }
 
             return Ok(Mapper.Map<Producto, ProductoDTO>(producto));
         }
@@ -331,13 +339,18 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult CreateProducto(ProductoDTO productoDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o inexistentes.");
                 return BadRequest();
+            }
 
             var producto = Mapper.Map<ProductoDTO, Producto>(productoDTO);
 
             productoBL.AddProducto(producto);
             
             productoDTO.ID = producto.ID;
+
+            log.Info("Producto creado satisfactoriamente. ID: " + producto.ID);
 
             return Created(new Uri(Request.RequestUri + "/" + producto.ID), productoDTO);
         }
@@ -347,16 +360,24 @@ namespace NaturalFrut.Controllers.Api
         public IHttpActionResult UpdateProductos(int id, ProductoDTO productoDTO)
         {
             if (!ModelState.IsValid)
+            {
+                log.Error("Formulario con datos incorrectos o inexistentes.");
                 return BadRequest();
+            }
 
             var productoInDB = productoBL.GetProductoById(id);
 
             if (productoInDB == null)
+            {
+                log.Error("No se encontro producto en la base de datos con ID: " + id);
                 return NotFound();
+            }
 
             Mapper.Map(productoDTO, productoInDB);
 
             productoBL.UpdateProducto(productoInDB);
+
+            log.Info("Producto actualizado satisfactoriamente. ID: " + id);
 
             return Ok();
         }
@@ -390,10 +411,15 @@ namespace NaturalFrut.Controllers.Api
 
                 else
                     productoBL.RemoveProducto(productoInDb);
-            }
 
+                log.Info("Producto borrado exitosamente. ID: " + id);
+            }
             else
+            {
+                log.Error("Producto no encontrado con ID:" + id);
                 return BadRequest();
+            }
+                
 
             return Ok();
 

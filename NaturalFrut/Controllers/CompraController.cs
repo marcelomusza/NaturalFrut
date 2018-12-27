@@ -11,6 +11,7 @@ using Rotativa;
 using Rotativa.Options;
 using NaturalFrut.Pdf;
 using System.Data;
+using log4net;
 
 namespace NaturalFrut.Controllers
 {
@@ -23,6 +24,8 @@ namespace NaturalFrut.Controllers
         private readonly CommonLogic commonBL;
         private readonly StockLogic stockBL;
         private readonly ProductoXCompraLogic productoxCompraBL;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CompraController(CompraLogic CompraLogic, 
             ProveedorLogic ProveedorLogic,
@@ -70,7 +73,11 @@ namespace NaturalFrut.Controllers
             var ultimaCompra = compraBL.GetNumeroDeCompra();
 
             //Cargamos datos a mandar a la view
-            ViewBag.Fecha = DateTime.Now;
+            var serverTime = DateTime.UtcNow;
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
+
+            ViewBag.Fecha = serverTimeConverted;
             ViewBag.Clasificacion = commonBL.GetAllClasificacion();
             //ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
 
@@ -96,7 +103,11 @@ namespace NaturalFrut.Controllers
             ViewBag.CompraID = Id;
 
             if (compra == null)
-                return HttpNotFound();
+            {
+                log.Error("No se pudo encontrar compra con ID: " + Id);
+                return View("Error");
+            }
+                
 
             return View("CompraFormEdit", compra);
         }
@@ -258,7 +269,11 @@ namespace NaturalFrut.Controllers
                 Proveedor proveedor = proveedorBL.GetProveedorById(proveedorID);
 
                 if (proveedor == null)
+                {
+                    log.Error("Error al traer el Proveedor con ID: " + proveedorID);
                     throw new Exception("Proveedor invalido al cargar Saldo Deudor");
+                }
+                    
 
                 var saldo = proveedor.Debe;
 
@@ -267,6 +282,7 @@ namespace NaturalFrut.Controllers
             }
             catch (Exception ex)
             {
+                log.Error("Se ha producido una excepción al operar con Proveedor Async. Error: " + ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
@@ -362,7 +378,11 @@ namespace NaturalFrut.Controllers
                 var reporteCompra = compraBL.GetAllCompraSegunFechas(fechaDesde, fechaHasta, local);
 
                 if (reporteCompra == null)
+                {
+                    log.Error("No se encontraron compras según el rango de fechas seleccionada.");
                     throw new Exception("No se encontraron Compras según el rango de fecha seleccionada");
+                }
+                    
 
 
                 return Json(new { Success = true, ReporteCompra = reporteCompra }, JsonRequestBehavior.AllowGet);
@@ -370,7 +390,7 @@ namespace NaturalFrut.Controllers
             }
             catch (Exception ex)
             {
-
+                log.Error("Se ha producido una excepción al operar con Reporte Compras. Error: " +ex.Message);
                 return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
@@ -444,7 +464,11 @@ namespace NaturalFrut.Controllers
             var compra = compraBL.GetAllCompra();
 
             if (compra == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder a todas las compras.");
+                return View("Error");
+            }
+                
 
             return View(compra);
 
@@ -458,7 +482,11 @@ namespace NaturalFrut.Controllers
             var proveedor = proveedorBL.GetProveedorById(proveedorID);
 
             if (proveedor == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder al proveedor con ID: " + proveedorID);
+                return View("Error");
+            }
+                
 
             ViewBag.ProveedorNombre = proveedor.Nombre;
             ViewBag.ProveedorID = proveedor.ID;
@@ -472,7 +500,11 @@ namespace NaturalFrut.Controllers
             var producto = productoBL.GetProductoById(productoID);
 
             if (producto == null)
-                return HttpNotFound();
+            {
+                log.Error("Error al acceder a Producto con ID: " + productoID);
+                return View("Error");
+            }
+               
             
             ViewBag.ProductoNombre = producto.Nombre;
             ViewBag.ProductoID = producto.ID;

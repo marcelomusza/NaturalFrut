@@ -29,7 +29,6 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         [Required]
         [Display(Name = "Importe Informe Z")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double ImporteInformeZ { get; set; }
 
         //[Required]
@@ -46,7 +45,6 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         [Required]
         [Display(Name = "Importe IVA")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double ImporteIva { get; set; }
 
         [Required]
@@ -71,32 +69,26 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         [Required]
         [Display(Name = "Tarjeta VISA")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double TarjetaVisa { get; set; }
 
         [Required]
         [Display(Name = "Tarjeta VISA Debito")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double TarjetaVisaDeb { get; set; }
 
         [Required]
         [Display(Name = "Tarjeta Master")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double TarjetaMaster { get; set; }
 
         [Required]
         [Display(Name = "Tarjeta Maestro")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double TarjetaMaestro { get; set; }
 
         [Required]
         [Display(Name = "Tarjeta Cabal")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double TarjetaCabal { get; set; }
 
         [Required]
         [Display(Name = "Total Tarjetas")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public double TotalTarjetas { get; set; }
 
 

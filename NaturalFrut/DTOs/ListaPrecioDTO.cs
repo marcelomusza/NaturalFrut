@@ -26,7 +26,7 @@ namespace NaturalFrut.DTOs
         public string PrecioXBultoCerrado { get; set; }
 
         [Required]
-        public int KGBultoCerrado { get; set; }
+        public string KGBultoCerrado { get; set; }
 
         [Required]
         public string PrecioXUnidad { get; set; }
