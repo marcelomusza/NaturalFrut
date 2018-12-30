@@ -33,10 +33,10 @@
             </div>
 
             @*<div class="form-group">
-            @Html.LabelFor(c => c.Local)
-            @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
-            @Html.ValidationMessageFor(c => c.Local)
-        </div>*@
+                    @Html.LabelFor(c => c.Local)
+                    @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.Local)
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Local)
@@ -45,16 +45,16 @@
             </div>
 
             @*<div class="form-group">
-            @Html.LabelFor(c => c.Iva)
-            @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
-            @Html.ValidationMessageFor(c => c.Iva)
-        </div>*@
+                    @Html.LabelFor(c => c.Iva)
+                    @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.Iva)
+                </div>*@
 
             @*<div class="form-group">
-            @Html.LabelFor(c => c.ImporteVentaTotal)
-            @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);"} })
-            @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
-        </div>*@
+                    @Html.LabelFor(c => c.ImporteVentaTotal)
+                    @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);"} })
+                    @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteInformeZ)
@@ -63,16 +63,16 @@
             </div>
 
             @*<div class="form-group">
-            @Html.LabelFor(c => c.CantidadPersonas)
-            @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
-            @Html.ValidationMessageFor(c => c.CantidadPersonas)
-        </div>*@
+                    @Html.LabelFor(c => c.CantidadPersonas)
+                    @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.CantidadPersonas)
+                </div>*@
 
             @*<div class="form-group">
-            @Html.LabelFor(c => c.Promedio)
-            @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
-            @Html.ValidationMessageFor(c => c.Promedio)
-        </div>*@
+                    @Html.LabelFor(c => c.Promedio)
+                    @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
+                    @Html.ValidationMessageFor(c => c.Promedio)
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteIva)
@@ -167,7 +167,7 @@
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(c => c.ID)
-            <button type="submit" id ="vtaminsubmit"class="btn btn-primary">Guardar</button>
+            <button type="submit" id="vtaminsubmit" class="btn btn-primary">Guardar</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "VentaMinorista")';">Cancelar</button>
 
         </div>
@@ -194,7 +194,10 @@
                 else if("@Model.TipoFactura" == "B") {
                     $("#TipoFactura option:selected").val("B");
                 }
-                
+
+				//Formateamos los valores existentes
+				FormatearValores();
+
             }
 
             $("#NumFactura").mask("A99999-99999999");
@@ -254,7 +257,7 @@
 
                 });
 
-                
+
             });
 
             $("#TipoFactura").on("change", function () {
@@ -287,6 +290,18 @@
 
                 $(this).val(FormatearValor(valor));
             });
+
+			function FormatearValores() {
+
+				$('.js-formatearvalor').each(function() {
+
+					var valor = ValorANumero($(this).val());
+
+                	$(this).val(FormatearValor(valor));
+
+				});
+
+			}
 
         });
 

@@ -1563,15 +1563,35 @@ namespace NaturalFrut.Controllers
         {
             //Traemos la lista de precios seleccionada
             var lis = listaPreciosBL.GetListaById(listaid);
-            var listaDePrecios = listaPreciosBL.GetListaPrecioByListaId(listaid);
-            var categorias = commonBL.GetAllCategorias();
-            var marcas = commonBL.GetAllMarcas();           
+            var listaDePrecios = listaPreciosBL.GetListaPrecioExportByListaId(listaid);
+            //var categorias = commonBL.GetAllCategorias();
+            //var marcas = commonBL.GetAllMarcas();
+            List<Marca> marca = new List<Marca>();
+            List<Categoria> categoria = new List<Categoria>();
+
+            //Filtramos en base a las marcas y categorias que contengan productos Blister
+            foreach (var item in listaDePrecios)
+            {
+                if (item.Producto.Categoria != null)
+                {
+                    var categoExistente = categoria.Find(c => c.Nombre == item.Producto.Categoria.Nombre);
+                    if (categoExistente == null)
+                        categoria.Add(item.Producto.Categoria);
+                }
+
+                else if (item.Producto.Marca != null)
+                {
+                    var marcaExistente = marca.Find(c => c.Nombre == item.Producto.Marca.Nombre);
+                    if (marcaExistente == null)
+                        marca.Add(item.Producto.Marca);
+                }
+            }
 
             ListaPreciosExportViewModel viewModel = new ListaPreciosExportViewModel()
             {
                 ListaPrecios = listaDePrecios,
-                Categorias = categorias,
-                Marcas = marcas,
+                Categorias = categoria,
+                Marcas = marca,
                 ListaId = listaid,
                 Nombre = lis.Nombre
             };

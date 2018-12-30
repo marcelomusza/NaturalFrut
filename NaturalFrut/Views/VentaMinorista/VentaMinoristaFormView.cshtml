@@ -39,38 +39,38 @@
             </div>
 
             @*<div class="form-group">
-                @Html.LabelFor(c => c.Iva)
-                @Html.TextBoxFor(c => c.Iva, new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(c => c.Iva)
-            </div>*@
+                    @Html.LabelFor(c => c.Iva)
+                    @Html.TextBoxFor(c => c.Iva, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(c => c.Iva)
+                </div>*@
 
             @*<div class="form-group">
-                @Html.LabelFor(c => c.ImporteVentaTotal)
-                @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
-            </div>*@
+                    @Html.LabelFor(c => c.ImporteVentaTotal)
+                    @Html.EditorFor(c => c.ImporteVentaTotal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteInformeZ)
-                @Html.EditorFor(c => c.ImporteInformeZ, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.ImporteInformeZ, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.ImporteInformeZ)
             </div>
 
             @*<div class="form-group">
-                @Html.LabelFor(c => c.CantidadPersonas)
-                @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(c => c.CantidadPersonas)
-            </div>*@
+                    @Html.LabelFor(c => c.CantidadPersonas)
+                    @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(c => c.CantidadPersonas)
+                </div>*@
 
             @*<div class="form-group">
-                @Html.LabelFor(c => c.Promedio)
-                @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(c => c.Promedio)
-            </div>*@
+                    @Html.LabelFor(c => c.Promedio)
+                    @Html.EditorFor(c => c.Promedio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(c => c.Promedio)
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteIva)
-                @Html.EditorFor(c => c.ImporteIva, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.ImporteIva, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.ImporteIva)
             </div>
 
@@ -110,37 +110,37 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaVisa)
-                @Html.EditorFor(c => c.TarjetaVisa, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.TarjetaVisa, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.TarjetaVisa)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaVisaDeb)
-                @Html.EditorFor(c => c.TarjetaVisaDeb, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.TarjetaVisaDeb, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.TarjetaVisaDeb)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaMaster)
-                @Html.EditorFor(c => c.TarjetaMaster, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.TarjetaMaster, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.TarjetaMaster)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaMaestro)
-                @Html.EditorFor(c => c.TarjetaMaestro, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.TarjetaMaestro, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.TarjetaMaestro)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TarjetaCabal)
-                @Html.EditorFor(c => c.TarjetaCabal, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.TarjetaCabal, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.TarjetaCabal)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TotalTarjetas)
-                @Html.EditorFor(c => c.TotalTarjetas, "Currency", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(c => c.TotalTarjetas, new { htmlAttributes = new { @class = "form-control js-formatearvalor", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(c => c.TotalTarjetas)
             </div>
 
@@ -151,7 +151,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            
+
             <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("Index", "VentaMinorista")';">Cancelar</button>
 
         </div>
@@ -164,5 +164,43 @@
 {
 
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            if (@Model.ID != 0) {
+
+                if ("@Model.TipoFactura" == "A") {
+                    $("#TipoFactura option:selected").val("A");
+                }
+                else if("@Model.TipoFactura" == "B") {
+                    $("#TipoFactura option:selected").val("B");
+                }
+
+            }
+
+			FormatearValores();
+
+
+
+			function FormatearValores() {
+
+				$('.js-formatearvalor').each(function() {
+
+					var valor = ValorANumero($(this).val());
+
+                	$(this).val(FormatearValor(valor));
+
+				});
+
+			}
+
+
+
+        });
+
+    </script>
 
 }

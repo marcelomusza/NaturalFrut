@@ -1,0 +1,98 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Generar Reporte Venta Mayorista Saldos - NaturalFrut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Reporte - Saldos</h2>
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+            <table id="saldosporcliente" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    
+                </tfoot>
+            </table>
+       
+
+
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <button type="button" class="btn btn-danger" value="Volver" onclick="location.href='@Url.Action("IndexReporte", "VentaMayorista")';">Volver</button>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <br /><br />
+</div>
+
+
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#saldosporcliente").DataTable({
+
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },                               
+
+                ajax: {
+
+                    url: "/api/clientes",
+                    dataSrc: ""
+                },
+                columns: [                    
+                    {
+                        data: "Nombre"
+                    },                    
+                    {
+                        data: "Saldo",
+                        type: "num-fmt",
+                        render: function (data, type, row) {
+
+                            var saldo = 0.00;
+
+                            if (data != null)
+                                saldo = data
+
+                            return '$ ' + saldo;
+                        }
+                    },
+                    
+                ],
+
+            });       
+
+
+        });
+
+
+    </script>
+
+}

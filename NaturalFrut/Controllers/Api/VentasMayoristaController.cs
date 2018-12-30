@@ -1105,7 +1105,5 @@ namespace NaturalFrut.Controllers.Api
 
         }
 
-
-
     }
 }

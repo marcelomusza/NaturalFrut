@@ -68,7 +68,12 @@ namespace NaturalFrut.Controllers
             
             return View("Reportes\\ReporteVentaEntreFechas");
         }
-                
+
+        public ActionResult ReporteSaldos()
+        {
+            return View("Reportes\\ReporteSaldos");
+        }
+
         public ActionResult ReporteVentasCliente(int clienteID)
         {
             ViewBag.ClienteID = clienteID;

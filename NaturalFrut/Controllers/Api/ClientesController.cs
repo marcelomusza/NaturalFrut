@@ -143,5 +143,6 @@ namespace NaturalFrut.Controllers.Api
             return Ok(Mapper.Map<Cliente, ClienteDTO>(cliente));
         }
 
+
     }
 }

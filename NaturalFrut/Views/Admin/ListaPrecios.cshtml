@@ -79,18 +79,21 @@
                     },
                     {
                         data: "PrecioXKG",
-                        type: "num-fmt",
-                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
+                        render: function (data, type, row) {
+                            return '$ ' + data;
+                        }
                     },
                     {
                         data: "PrecioXBultoCerrado",
-                        type: "num-fmt",
-                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
+                        render: function (data, type, row) {
+                            return '$ ' + data;
+                        }
                     },
                     {
                         data: "PrecioXUnidad",
-                        type: "num-fmt",
-                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
+                        render: function (data, type, row) {
+                            return '$ ' + data;
+                        }
                     },
                     {
                         data: "KGBultoCerrado",

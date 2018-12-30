@@ -1,0 +1,3 @@
+28/Dec/2018 10:56:01 INFO  NaturalFrut.Controllers.AdminController [DESKTOP-AG3NTTG\Marce] - Accediendo al panel administrativo...
+28/Dec/2018 10:56:13 INFO  NaturalFrut.Controllers.AdminController [DESKTOP-AG3NTTG\Marce] - Guardando nueva Lista de Precios Blister
+28/Dec/2018 10:56:13 INFO  NaturalFrut.App_DAL.BaseRepository`1 [DESKTOP-AG3NTTG\Marce] - Datos salvados en la base de datos satisfactoriamente.

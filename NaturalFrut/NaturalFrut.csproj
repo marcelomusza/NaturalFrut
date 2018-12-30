@@ -814,6 +814,7 @@
     <Content Include="Views\VentaMinorista\Reportes\ReporteVentaEntreFechas.cshtml" />
     <Content Include="Views\VentaMinorista\IndexReporte.cshtml" />
     <Content Include="Views\Admin\Error.cshtml" />
+    <Content Include="Views\VentaMayorista\Reportes\ReporteSaldos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
