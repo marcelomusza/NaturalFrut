@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using NaturalFrut.Models;
 
 namespace NaturalFrut.App_BLL.ViewModels
@@ -28,6 +29,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public IEnumerable<Producto> Producto { get; set; }
 
         [Required]
+        [Remote("IsProductoLista_Available", "Validation")]
         [Display(Name = "Producto")]
         public int ProductoId { get; set; }
 

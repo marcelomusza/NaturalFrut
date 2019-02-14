@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace NaturalFrut.App_BLL.ViewModels
 {
@@ -13,6 +14,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public int? ID { get; set; }
 
         [Required]
+        [Remote("IsProveedor_Available", "Validation")]
         [Display(Name = "Proveedor")]
         public string Nombre { get; set; }
 

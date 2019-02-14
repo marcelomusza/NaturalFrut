@@ -25,7 +25,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Nombre)
-                @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @data_val_remote="El valor ya existe en la base de datos, por favor ingrese otro para continuar..." })
                 @Html.ValidationMessageFor(c => c.Nombre)
             </div>
 

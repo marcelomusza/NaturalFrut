@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace NaturalFrut.Models
 {
@@ -19,6 +20,7 @@ namespace NaturalFrut.Models
         [Required]
         public string RazonSocial { get; set; }
 
+        [Key]
         [Required]
         public string Cuit { get; set; }
 

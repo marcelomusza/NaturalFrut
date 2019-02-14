@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using NaturalFrut.App_BLL.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace NaturalFrut.Models
 {
@@ -15,6 +16,7 @@ namespace NaturalFrut.Models
         public int ID { get; set; }
 
         [Required]
+        [Remote("IsClasificacion_Available", "Validation")]
         public string Nombre { get; set; }
 
        
