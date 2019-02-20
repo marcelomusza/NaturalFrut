@@ -3,7 +3,7 @@ namespace NaturalFrut.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class nuevabase : DbMigration
+    public partial class nuevaBase : DbMigration
     {
         public override void Up()
         {
@@ -403,7 +403,7 @@ namespace NaturalFrut.Migrations
                         ImporteIva = c.Double(nullable: false),
                         PrimerNumeroTicket = c.Int(nullable: false),
                         UltimoNumeroTicket = c.Int(nullable: false),
-                        NumFactura = c.Int(nullable: false),
+                        NumFactura = c.String(nullable: false),
                         RazonSocial = c.String(nullable: false),
                         TipoFactura = c.String(nullable: false),
                         TarjetaVisa = c.Double(nullable: false),

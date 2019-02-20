@@ -19,8 +19,7 @@ namespace NaturalFrut.Models
 
         [Required]
         public string RazonSocial { get; set; }
-
-        [Key]
+        
         [Required]
         public string Cuit { get; set; }
 
