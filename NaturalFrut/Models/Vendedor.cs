@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace NaturalFrut.Models
 {
@@ -14,6 +15,7 @@ namespace NaturalFrut.Models
         public int ID { get; set; }
 
         [Required]
+        [Remote("IsVendedor_Available", "Validation")]
         public string Nombre { get; set; }
 
         [Required]

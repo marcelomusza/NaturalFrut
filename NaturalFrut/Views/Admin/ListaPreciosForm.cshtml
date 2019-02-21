@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ProductoId)
-                @Html.DropDownListFor(c => c.ProductoId, new SelectList(Model.Producto, "Id", "Nombre"), "Seleccione un Producto", new { @class = "form-control" })
+                @Html.DropDownListFor(c => c.ProductoId, new SelectList(Model.Producto, "Id", "Nombre"), "Seleccione un Producto", new { @class = "form-control", @data_val_remote = "El valor ya existe en la base de datos, por favor ingrese otro para continuar..." })
                 @Html.ValidationMessageFor(c => c.ProductoId)
             </div>
 

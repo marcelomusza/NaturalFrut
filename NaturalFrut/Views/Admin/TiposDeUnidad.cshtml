@@ -6,13 +6,13 @@
 
 <h2>Tipos de Unidad</h2>
 
-<div class="row">
+@*<div class="row">
     <div class="col-sm-12">
         <p>
             @Html.ActionLink("Agregar nuevo", "NuevoTipoDeUnidad", null, new { @class = "btn btn-primary" })
         </p>
     </div>
-</div>
+</div>*@
 
 <div class="row">
     <div class="col-sm-12">
@@ -38,9 +38,9 @@
                                 <a href="@Url.Action("EditarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID })" id="btneditar"> 
                                     <img src="@Url.Content("../Content/Images/EditIcon.png")" />
                                 </a>
-                                <a href="@Url.Action("BorrarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID })" id="btnborrar"  >
+                                @*<a href="@Url.Action("BorrarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID })" id="btnborrar"  >
                                     <img src="@Url.Content("../Content/Images/DeleteIcon.png")" />
-                                </a>
+                                </a>*@
                                 @*@Html.ActionLink("Editar", "EditarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID }, new { @class = "ImgEditar" })*@
                                 @*@Html.ActionLink("Borrar", "BorrarTipoDeUnidad", "Admin", new { id = tipoDeUnidad.ID }, new { @class = "ImgBorrar" })*@
 

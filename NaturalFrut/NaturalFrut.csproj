@@ -289,6 +289,7 @@
     <Compile Include="Controllers\Api\VentasMinoristaController .cs" />
     <Compile Include="Controllers\Api\VentasMayoristaController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
+    <Compile Include="Controllers\ValidationController.cs" />
     <Compile Include="DTOs\BorrarProdCompraDTO.cs" />
     <Compile Include="DTOs\BorrarProdVtaMayDTO.cs" />
     <Compile Include="DTOs\ClasificacionDTO.cs" />
@@ -834,6 +835,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="DTOs\fonts\" />
     <Folder Include="Logs\" />
+    <Folder Include="Views\Validation\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
