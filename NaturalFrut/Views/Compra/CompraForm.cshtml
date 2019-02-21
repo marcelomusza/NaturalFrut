@@ -21,17 +21,14 @@
             </div>
 
             <div class="form-group">
-                <label>Proveedor</label>
-                <div class="tt-container compra-proveedor">
-                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" onblur="GetSaldoProveedor();" required type="text" value="" class="form-control" />
-                    <a href="#" onclick="NuevoProveedorModal(0)"><img src="~/Content/Images/addSign.png"  title="Ingresar Nuevo Proveedor" /></a>
-                </div>
+                <label>Fecha</label>
+                <input id="fecha" name="fecha" required type="datetime" value="@ViewBag.Fecha.ToString("dd/MM/yyyy HH:mm")" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label>Clasificación</label>
                 <div style="display:flex;">
-                    <select id="clasificacion" name="clasificacion" class="form-control" data-msg-required="Por favor ingresa una clasificación" required>
+                    <select id="clasificacion" name="clasificacion" class="form-control" required>
                         <option value="" selected="selected">Seleccione...</option>
                         @foreach (var clasificacion in @ViewBag.Clasificacion)
             {
@@ -45,7 +42,7 @@
 
             <div class="form-group">
                 <label>Factura</label>
-                <input id="factura" name="factura" required type="text" value="" class="form-control" />
+                <input id="factura" name="factura"  type="text" value="" class="form-control" />
             </div>
 
 
@@ -78,12 +75,12 @@
 
             <div class="form-group">
                 <label>Suma Total</label>
-                <input id="sumatotal" name="sumatotal" required type="text" value="" class="form-control js-formatvalue" onkeyup="ValidarPunto(this);" />
+                <input id="sumatotal" name="sumatotal" type="text" value="" class="form-control js-formatvalue" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
                 <label>Descuento %</label>
-                <input id="descuentoporc" name="descuentoporc"  type="number" value="" class="form-control" />
+                <input id="descuentoporc" name="descuentoporc" type="text" value="" class="form-control" onkeyup="ValidarPunto(this);"/>
             </div>
 
             <div class="form-group">
@@ -93,12 +90,12 @@
 
             <div class="form-group">
                 <label>Subtotal</label>
-                <input id="subtotal" name="subtotal" required type="text" value="" class="form-control js-formatvalue" disabled />
+                <input id="subtotal" name="subtotal"  type="text" value="" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="form-group">
                 <label>Importe no Gravado</label>
-                <input id="impnogravado" name="impnogravado" required type="text" value="" class="form-control js-formatvalue" onkeyup="ValidarPunto(this);" />
+                <input id="impnogravado" name="impnogravado"  type="text" value="" class="form-control js-formatvalue" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
@@ -106,12 +103,12 @@
 
                     <button type="button" class="btn btn-success"  href="#" onclick="NuevoProductoModal(0)">Nuevo Producto</button>
                 </div>
-                <label class="error field-validation-valid" for="clasificacion" data-valmsg-replace="true"></label>
+                <!--label class="error field-validation-valid" for="clasificacion" data-valmsg-replace="true"></label--> 
             </div>
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaEfectivo" required name="entregaEfectivo" type="number" value="" class="form-control" />
+                <input id="entregaEfectivo"  name="entregaEfectivo" type="text" value="0" class="form-control" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
@@ -119,25 +116,28 @@
                 <input id="debe" name="debe" type="text" value="" class="form-control js-formatvalue" disabled />
             </div>
 
-            @*<div class="form-group">
+            <div class="form-group">
                 <label>Saldo a Favor</label>
                 <input id="saldoFavor" name="saldoFavor" type="text" value="" class="form-control js-formatvalue" disabled />
-            </div>*@
+            </div>
 
         
         </div>
 
             <!--Agrupamos campos de la columna derecha-->
         <div class="col-sm-6">
-
             <div class="form-group">
-                <label>Fecha</label>
-                <input id="fecha" name="fecha" required type="datetime" value="@ViewBag.Fecha.ToString("dd/MM/yyyy HH:mm")" class="form-control" disabled />
+                <label>Proveedor</label>
+                <div class="tt-container compra-proveedor">
+                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" onblur="GetSaldoProveedor();" required type="text" value="" class="form-control" />
+                    <a href="#" onclick="NuevoProveedorModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Proveedor" /></a>
+                </div>
             </div>
+            
 
             <div class="form-group">
                 <label>IVA</label>
-                <input id="iva" name="iva" type="number" value="" class="form-control"  />
+                <input id="iva" name="iva" type="text" value="" class="form-control"  onkeyup="ValidarPunto(this);"/>
             </div>
 
             <div class="form-group">
@@ -147,7 +147,7 @@
 
             <div class="form-group">
                 <label>IIBB BsAs</label>
-                <input id="iibbbsas" name="iibbbsas" type="number" value="" class="form-control"   />
+                <input id="iibbbsas" name="iibbbsas" type="text" value="" class="form-control"   onkeyup="ValidarPunto(this);"/>
             </div>
             
             <div class="form-group">
@@ -157,7 +157,7 @@
 
             <div class="form-group">
                 <label>IIBB Caba</label>
-                <input id="iibbcaba" name="iibbcaba" type="number" value="" class="form-control"  />
+                <input id="iibbcaba" name="iibbcaba" type="text" value="" class="form-control" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
@@ -167,7 +167,7 @@
 
             <div class="form-group">
                 <label>Percep. IVA</label>
-                <input id="percepiva" name="percepiva" type="number" value="" class="form-control"  />
+                <input id="percepiva" name="percepiva" type="text" value="" class="form-control"  onkeyup="ValidarPunto(this);"/>
             </div>
 
             <div class="form-group">
@@ -376,7 +376,7 @@
                 noConcretado: false,
                 tipoFactura: "",
                 local: "",
-                debe: 0,
+                Debe: 0,
                 SaldoAfavor:0,
                 productosXCompra : []
             };
@@ -420,13 +420,13 @@
 
                 cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);"  /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" required type="text" value="" class="form-control" disabled /></div></td>';
+                cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc"  type="text" value="" class="form-control" disabled /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas"  type="text" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);"/></div></td>';
+                cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba"  type="text" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);"/></div></td>';
 
-                cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="text" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);"/></div></td>';
+                cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva"  type="text" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);"/></div></td>';
 
                 cols += '<td><div class="form-group"><input id="preciouni' + counter + '" name="preciouni" required type="text" value="" class="form-control" disabled /></div></td>';
 
@@ -981,6 +981,16 @@
 
 
             }
+
+            if (data.SaldoAfavor != 0) {
+
+                $("#saldoFavor").val(data.SaldoAfavor);
+
+                $("#saldoFavor").val(FormatearValor($("#saldoFavor").val()));
+
+
+
+            }
           
         }
 
@@ -1108,10 +1118,10 @@
         function CargarValoresInicialesEnVM(vm) {
 
             var numeroCompra = $("#numerocompra").val();
-            var fecha = $("#fecha").val();
+            //var fecha = $("#fecha").val();
 
             vm.numeroCompra = numeroCompra;
-            vm.fecha = fecha;
+            //vm.fecha = fecha;
         }
 
         function CargarProductosAlVM(vm) {
@@ -1133,7 +1143,10 @@
             vm.percIva = ValorANumero($("#percepiva").val());
             vm.importePercIva = DeFormatearValor($("#importepercepiva").val());
             vm.total = DeFormatearValor($("#total").val());
-            vm.debe = DeFormatearValor($("#debe").val());
+            vm.Debe = DeFormatearValor($("#debe").val());
+            vm.SaldoAfavor = DeFormatearValor($("#saldoFavor").val());
+            var fecha = $("#fecha").val();
+            vm.fecha = fecha;
 
             //Cargamos la lista de productos
             $(".listaproductos tr").each(function (i, row) {
@@ -1185,9 +1198,6 @@
 
             });
 
-            //Cargamos la suma total y el descuento total
-           // vm.descuento = $("#descuento").val();
-           // vm.saldo = $("#saldo").val();
             vm.totalGastos = DeFormatearValor($("#totalgastos").val());
 
         }
@@ -1195,21 +1205,90 @@
         function calculoDebe() {
 
 
-           var entregaEfectivo = $("#entregaEfectivo").val();
+           var aPagar = 0;
+           var nuevoValor = 0;
+           var entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
            var debe = DeFormatearValor($("#debe").val());
            var totalGasto = DeFormatearValor($("#totalgastos").val());
+           var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+           var total = DeFormatearValor($("#total").val());
 
-           var nuevoDebe = debe + totalGasto - entregaEfectivo;
-
-           if (nuevoDebe < 0) {
-               $("#debe").val(FormatearValor(0));
+           if (totalGasto != 0) {
+               aPagar = totalGasto;
            } else {
-               $("#debe").val(FormatearValor(nuevoDebe));
+               aPagar = total;
            }
-           
+       
+           if (debe == 0 && saldoFavor == 0) {
 
-           
+               nuevoValor = aPagar - entregaEfectivo;
 
+               if (nuevoValor < 0) {
+
+                   nuevoValor = nuevoValor * (-1);
+                   $("#debe").val(FormatearValor(0));
+                   $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+               } else if (nuevoValor > 0) {
+
+                   $("#debe").val(FormatearValor(nuevoValor));
+                   $("#saldoFavor").val(FormatearValor(0));
+               } else {
+
+                   $("#debe").val(FormatearValor(0));
+                   $("#saldoFavor").val(FormatearValor(0));
+               }
+           }
+
+           if (debe == 0 && saldoFavor != 0) {
+
+               nuevoValor = saldoFavor + entregaEfectivo;
+
+               nuevoValor = aPagar - nuevoValor;
+
+               if (nuevoValor < 0) {
+
+                   nuevoValor = nuevoValor * (-1);
+                   $("#debe").val(FormatearValor(0));
+                   $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+               } else if (nuevoValor > 0) {
+
+                   $("#debe").val(FormatearValor(nuevoValor));
+                   $("#saldoFavor").val(FormatearValor(0));
+               } else {
+
+                   $("#debe").val(FormatearValor(0));
+                   $("#saldoFavor").val(FormatearValor(0));
+               }
+           }
+
+           if (debe != 0 && saldoFavor == 0) {
+
+               nuevoValor = aPagar + debe;
+
+               nuevoValor = entregaEfectivo - nuevoValor;
+
+               if (nuevoValor < 0) {
+
+                   nuevoValor = nuevoValor * (-1);
+                   $("#debe").val(FormatearValor(nuevoValor));
+                   $("#saldoFavor").val(FormatearValor(0));
+
+               } else if (nuevoValor > 0) {
+
+                   $("#debe").val(FormatearValor(0));
+                   $("#saldoFavor").val(FormatearValor(nuevoValor));
+               } else {
+
+                   $("#debe").val(FormatearValor(0));
+                   $("#saldoFavor").val(FormatearValor(0));
+               }
+           }
+
+
+
+         
         }
 
         function ValidarTipoDeProducto(counter) {

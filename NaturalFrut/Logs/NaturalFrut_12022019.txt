@@ -1,0 +1,27 @@
+12/Feb/2019 12:40:15 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+12/Feb/2019 12:40:15 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+12/Feb/2019 12:41:12 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+12/Feb/2019 12:41:12 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+12/Feb/2019 14:50:16 INFO  NaturalFrut.Controllers.AdminController [DESKTOP-GMG7B6F\yesica.borina] - Accediendo al panel administrativo...
+12/Feb/2019 15:42:20 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 0
+12/Feb/2019 15:42:20 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+12/Feb/2019 15:42:20 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+12/Feb/2019 15:42:20 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+12/Feb/2019 15:44:50 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 0
+12/Feb/2019 15:44:50 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+12/Feb/2019 15:44:50 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+12/Feb/2019 15:44:50 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+12/Feb/2019 15:48:31 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 0
+12/Feb/2019 15:48:31 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+12/Feb/2019 15:48:31 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+12/Feb/2019 15:48:31 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1028
+12/Feb/2019 15:53:59 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+12/Feb/2019 15:53:59 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+12/Feb/2019 15:54:39 ERROR NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Formulario con datos incorrectos o insuficientes.
+12/Feb/2019 15:58:58 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+12/Feb/2019 15:58:58 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+12/Feb/2019 15:59:19 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 0
+12/Feb/2019 15:59:19 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+12/Feb/2019 15:59:19 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+12/Feb/2019 15:59:19 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1028
+12/Feb/2019 16:30:05 INFO  NaturalFrut.Controllers.VentaMayoristaController [DESKTOP-GMG7B6F\yesica.borina] - El cliente: Marcelo tiene saldo: 2084

@@ -62,6 +62,10 @@ namespace NaturalFrut.Models
         [Required]
         public int ClasificacionID { get; set; }
 
+        public double? Debe { get; set; }
+
+        public double? SaldoAfavor { get; set; }
+
 
 
         public Clasificacion Clasificacion { get; set; }        

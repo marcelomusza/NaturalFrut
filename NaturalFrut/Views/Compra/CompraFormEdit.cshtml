@@ -21,11 +21,10 @@
             </div>
 
             <div class="form-group">
-                <label>Proveedor</label>
-                <div class="tt-container compra-proveedor">
-                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="@Model.ProveedorID" required type="text" value="@Model.Proveedor.Nombre" class="form-control" disabled/>
-                </div>
+                <label>Fecha</label>
+                <input id="fecha" name="fecha" required type="datetime" value="@Model.Fecha" class="form-control" />
             </div>
+            
 
             <div class="form-group">
                 <label>Clasificación</label>
@@ -76,25 +75,25 @@
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaEfectivo" required name="entregaEfectivo" type="number" value="" class="form-control" />
+                <input id="entregaEfectivo" required name="entregaEfectivo" type="text" value="" class="form-control" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
                 <label>Saldo Actual</label>
-                <input id="nuevodebe" name="nuevodebe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
-            </div>
-
-            <div class="form-group">
-                <label>Saldo Anterior</label>
                 <input id="debe" name="debe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
             </div>
 
-            
-
             @*<div class="form-group">
+                <label>Saldo Anterior</label>
+                <input id="debe" name="debe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
+              </!-div>*@
+
+
+
+            <div class="form-group">
                 <label>Saldo a Favor</label>
-                <input id="saldoAfavor" name="saldoAfavor" type="text" value="@Model.Proveedor.SaldoAfavor" class="form-control js-formatvalue" disabled />
-            </div>*@
+                <input id="saldoFavor" name="saldoFavor" type="text" value="@Model.Proveedor.SaldoAfavor" class="form-control js-formatvalue" disabled />
+            </div>
 
             <input type="hidden" name="gastoTotalInicial"  id="gastoTotalInicial" value=""/>
 
@@ -102,11 +101,13 @@
 
         <!--Agrupamos campos de la columna derecha-->
         <div class="col-sm-6">
-
             <div class="form-group">
-                <label>Fecha</label>
-                <input id="fecha" name="fecha" required type="datetime" value="@Model.Fecha" class="form-control" disabled />
+                <label>Proveedor</label>
+                <div class="tt-container compra-proveedor">
+                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="@Model.ProveedorID" required type="text" value="@Model.Proveedor.Nombre" class="form-control" disabled />
+                </div>
             </div>
+            
 
             <div class="form-group">
                 <label>IVA</label>
@@ -310,22 +311,32 @@
                 noConcretado: false,
                 tipoFactura:"",
                 local:"",
-                debe: 0,
+                Debe: 0,
                 SaldoAfavor:0,
                 productosXCompra : []
             };
 
             var vm2 = [];
 
+            var totalInicial = 0;
+            var debeInicial = DeFormatearValor($("#debe").val());
+            var saldoFavorInicial = DeFormatearValor($("#saldoFavor").val());
+
+           
             
             CargarValoresInicialesEnVM(vm);
             ValidarCompraConcretada();
 	        FormatearValoresIniciales();
-	    
 	        RecalcularTotalGastos();
 
-	        var gastoTotalInicial = DeFormatearValor($("#totalgastos").val());
-	        $("#gastoTotalInicial").val(gastoTotalInicial);
+
+	        if(DeFormatearValor($("#totalgastos").val()) != 0){
+	            totalInicial = DeFormatearValor($("#totalgastos").val());
+	        }else{
+	            totalInicial = DeFormatearValor($("#total").val());
+	        }
+	         
+	        //$("#gastoTotalInicial").val(gastoTotalInicial);
 
 
 
@@ -484,9 +495,9 @@
 
 
 
-            $("#totalgastos").on('change', function () {
+          /*  $("#totalgastos").on('change', function () {
                 recalculoDebe();
-            })
+            })*/
 
             
             $("#descuentoporc").on('blur', function (){
@@ -810,7 +821,23 @@
                         bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
 
                             if (result) {
+                                
+                                var totalFinal = 0;
+                                var totalGasto = DeFormatearValor($("#totalgastos").val());
+                                var total = DeFormatearValor($("#total").val());
 
+                                if (totalGasto != 0) {
+                                    totalFinal  = totalGasto;
+                                } else {
+                                    totalFinal  = total;
+                                }
+
+                                if(debeInicial != 0 || saldoFavorInicial != 0){
+                                    if(totalInicial != totalFinal ){
+                                        recalculoDebe(totalInicial);
+                                    }
+                                }
+                               
                                 calculoDebe();
 
                                 CargarProductosAlVM(vm);                                
@@ -885,7 +912,7 @@
 
         }
 
-        function GetSaldoCliente() {
+       /* function GetSaldoCliente() {
 
             var clienteID = $("#cliente").attr("data-cliente-id");
 
@@ -898,14 +925,31 @@
 
         }
 
-        ActualizarSaldoCliente = function (data) {
+        ActualizarSaldoProveedor = function (data) {
 
-            if (data.Saldo != 0)
-                $("#saldo").val(data.Saldo);
+            if (data.Saldo != 0) {
 
-            RecalcularTotal();
+                $("#debe").val(data.Saldo);
 
-        }
+                $("#debe").val(FormatearValor($("#debe").val()));
+
+                
+
+
+
+            }
+
+            if (data.SaldoAfavor != 0) {
+
+                $("#saldoFavor").val(data.SaldoAfavor);
+
+                $("#saldoFavor").val(FormatearValor($("#saldoFavor").val()));
+
+
+
+            }
+          
+        }*/
 
 
 
@@ -1055,10 +1099,10 @@
         function CargarValoresInicialesEnVM(vm) {
 
             var numeroCompra = $("#numerocompra").val();
-            var fecha = $("#fecha").val();
+            
 
             vm.numeroCompra = numeroCompra;
-            vm.fecha = fecha;
+            
         }
 
         function CargarProductosAlVM(vm) {
@@ -1195,7 +1239,10 @@
             vm.importePercIva = DeFormatearValor($("#importepercepiva").val());
             vm.total = DeFormatearValor($("#total").val());
             vm.totalGastos = DeFormatearValor($("#totalgastos").val());
-            vm.debe = DeFormatearValor($("#debe").val());
+            vm.Debe = DeFormatearValor($("#debe").val());
+            vm.SaldoAfavor = DeFormatearValor($("#saldoFavor").val());
+            var fecha = $("#fecha").val();
+            vm.fecha = fecha;
 
         }
 
@@ -1234,119 +1281,150 @@
 
         function calculoDebe() {
 
+            var aPagar = 0;
+            var nuevoValor = 0;
             var entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
-            var debe = DeFormatearValor($("#nuevodebe").val());
+            var debe = DeFormatearValor($("#debe").val());
+            var totalGasto = DeFormatearValor($("#totalgastos").val());
+            var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+            var total = DeFormatearValor($("#total").val());
 
-            debe = debe - entregaEfectivo;
+            if (totalGasto != 0) {
+                aPagar = totalGasto;
+            } else {
+                aPagar = total;
+            }
+       
+           if (debe == 0 && saldoFavor == 0) {
 
-            if(debe < 0){
-                $("#debe").val(FormatearValor(0));
-            }else{
-                $("#debe").val(FormatearValor(debe));
+                nuevoValor = aPagar - entregaEfectivo;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+           if (debe == 0 && saldoFavor != 0) {
+
+               // nuevoValor = saldoFavor + entregaEfectivo;
+
+                nuevoValor = entregaEfectivo - saldoFavor;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+            if (debe != 0 && saldoFavor == 0) {
+
+               // nuevoValor = aPagar + debe;
+
+                nuevoValor = entregaEfectivo - debe;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
             }
 
 
-
-           // var totalGasto = DeFormatearValor($("#totalgastos").val());
-
-           // debe = debe - entregaEfectivo;
-            //var gastoTotalInicial = DeFormatearValor($("#gastoTotalInicial").val());
-
-            //if(gastoTotalInicial > totalGasto){
-
-            //    var nuevoDebe = gastoTotalInicial - totalGasto
-
-            //    debe = debe - nuevoDebe;
-
-            //    if(debe < 0){
-
-            //        debe = debe *(-1);
-            //        debe = entregaEfectivo + debe;
-
-            //        $("#saldoAfavor").val(FormatearValor(debe));
-
-
-            //        $("#debe").val(FormatearValor(0));
-
-            //    }else
-            //    {
-            //        debe =  debe - entregaEfectivo;
-            //        $("#debe").val(FormatearValor(debe));
-            //        $("#saldoAfavor").val(FormatearValor(0));
-            //    }
-
-            //}
-
-            //if(gastoTotalInicial < totalGasto){
-
-            //    var nuevoDebe =  totalGasto - gastoTotalInicial ;
-
-            //    debe = debe + nuevoDebe;
-
-            //    debe =  debe - entregaEfectivo ;
-            //    $("#debe").val(FormatearValor(debe));
-            //    $("#saldoAfavor").val(FormatearValor(0));
-
-            //}
-
-            //if(gastoTotalInicial == totalGasto){
-
-            //    debe = debe - entregaEfectivo ;
-            //    $("#debe").val(FormatearValor(debe));
-            //    $("#saldoAfavor").val(FormatearValor(0));
-
-            //}
 
         }
 
-        function recalculoDebe() {
+        function recalculoDebe(totalInicial) {
 
-
-            var debe = DeFormatearValor($("#debe").val());
+            var totalFinal = 0;           
+            var difTotal = 0;
             var totalGasto = DeFormatearValor($("#totalgastos").val());
+            var total = DeFormatearValor($("#total").val());
+            var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+            var debe = DeFormatearValor($("#debe").val());
+            
 
-            var gastoTotalInicial = DeFormatearValor($("#gastoTotalInicial").val());
+            if (totalGasto != 0) {
+                totalFinal  = totalGasto;
+            } else {
+                totalFinal  = total;
+            }
 
-            if(gastoTotalInicial > totalGasto){
+            if (debe != 0 && saldoFavor == 0) {
 
-                var nuevoDebe = gastoTotalInicial - totalGasto
+                difTotal = totalInicial - totalFinal;
 
-                debe = debe - nuevoDebe;
+                if (difTotal < 0) {
 
-                if(debe < 0){
+                    difTotal = difTotal * (-1);
+                    debe = debe + difTotal;
+                    $("#debe").val(FormatearValor(debe));
 
-                    debe = debe *(-1);
-                   // $("#saldoAfavor").val(FormatearValor(debe));
-                    $("#nuevodebe").val(FormatearValor(0));
-
-                }else
-                {
-
-                    $("#nuevodebe").val(FormatearValor(debe));
-                   // $("#saldoAfavor").val(FormatearValor(0));
+                }else{
+                    debe = debe - difTotal;
+                    $("#debe").val(FormatearValor(debe));
                 }
-
+                
             }
 
-            if(gastoTotalInicial < totalGasto){
 
-                var nuevoDebe =  totalGasto - gastoTotalInicial ;
+            if (debe == 0 && saldoFavor != 0) {
 
-                debe = debe + nuevoDebe;
+                difTotal = totalInicial - totalFinal;
 
+                if (difTotal < 0) {
 
-                $("#nuevodebe").val(FormatearValor(debe));
-                //$("#saldoAfavor").val(FormatearValor(0));
+                    difTotal = difTotal * (-1);
+                    difTotal = saldoFavor - difTotal;
 
-            }
+                    if (difTotal < 0 ){
+                        difTotal = difTotal * (-1);
 
-            if(gastoTotalInicial == totalGasto){
+                        $("#debe").val(FormatearValor(difTotal));
+                        $("#saldoFavor").val(FormatearValor(0));
 
-
-                $("#nuevodebe").val(FormatearValor(debe));
-                //$("#saldoAfavor").val(FormatearValor(0));
-
-            }
+                    }else{
+                        $("#saldoFavor").val(FormatearValor(difTotal));
+                    }
+                }else{
+                    difTotal = saldoFavor + difTotal;
+                    $("#saldoFavor").val(FormatearValor(difTotal));
+                }
+                    
+                
+            }    
 
         }
 

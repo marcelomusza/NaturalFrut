@@ -276,8 +276,9 @@ namespace NaturalFrut.Controllers
                     
 
                 var saldo = proveedor.Debe;
+                var saldoFavor = proveedor.SaldoAfavor;
 
-                return Json(new { Saldo = saldo }, JsonRequestBehavior.AllowGet);
+                return Json(new { Saldo = saldo, SaldoAfavor = saldoFavor }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)

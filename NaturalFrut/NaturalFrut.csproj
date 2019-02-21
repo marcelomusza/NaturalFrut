@@ -298,13 +298,21 @@
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
     <Compile Include="Helpers\ExcelExportHelper.cs" />
-    <Compile Include="Migrations\201812180101161_nuevabase.cs" />
-    <Compile Include="Migrations\201812180101161_nuevabase.Designer.cs">
-      <DependentUpon>201812180101161_nuevabase.cs</DependentUpon>
+    <Compile Include="Migrations\201902121539126_nuevaMigracion.cs" />
+    <Compile Include="Migrations\201902121539126_nuevaMigracion.Designer.cs">
+      <DependentUpon>201902121539126_nuevaMigracion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812270250339_numfacturavtamino.cs" />
+    <EmbeddedResource Include="Migrations\201812180101161_nuevabase.resx" />
     <Compile Include="Migrations\201812270250339_numfacturavtamino.Designer.cs">
-      <DependentUpon>201812270250339_numfacturavtamino.cs</DependentUpon>
+      <DependentUpon>201812180101161_nuevabase.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902131916414_nuevaMigracion1.cs" />
+    <Compile Include="Migrations\201902131916414_nuevaMigracion1.Designer.cs">
+      <DependentUpon>201902131916414_nuevaMigracion1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902131922370_nuevaMigracion2.cs" />
+    <Compile Include="Migrations\201902131922370_nuevaMigracion2.Designer.cs">
+      <DependentUpon>201902131922370_nuevaMigracion2.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
@@ -404,6 +412,12 @@
     <Compile Include="Tababular\Internals\TableModel\Table.cs" />
     <Compile Include="Tababular\Properties\AssemblyInfo.cs" />
     <Compile Include="Tababular\TableFormatter.cs" />
+    <EmbeddedResource Include="Migrations\201902131916414_nuevaMigracion1.resx">
+      <DependentUpon>201902131916414_nuevaMigracion1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902131922370_nuevaMigracion2.resx">
+      <DependentUpon>201902131922370_nuevaMigracion2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -828,11 +842,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812180101161_nuevabase.resx">
-      <DependentUpon>201812180101161_nuevabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902121539126_nuevaMigracion.resx">
+      <DependentUpon>201902121539126_nuevaMigracion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812270250339_numfacturavtamino.resx">
-      <DependentUpon>201812270250339_numfacturavtamino.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812270250339_numfacturavtamino.Designer.resx">
+      <DependentUpon>201812180101161_nuevabase.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

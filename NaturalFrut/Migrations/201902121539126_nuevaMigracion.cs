@@ -3,7 +3,7 @@ namespace NaturalFrut.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class numfacturavtamino : DbMigration
+    public partial class nuevaMigracion : DbMigration
     {
         public override void Up()
         {

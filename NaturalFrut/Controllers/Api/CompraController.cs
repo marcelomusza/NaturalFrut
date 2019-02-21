@@ -83,16 +83,20 @@ namespace NaturalFrut.Controllers.Api
             //compraBL.AddCompra(compra);
             _UOWCompra.CompraRepository.Add(compra);
 
-            log.Info("Compra. Viejo Saldo Proveedor: " + compraDTO.Debe);
+            //log.Info("Compra. Viejo Saldo Proveedor: " + compraDTO.Debe);
 
             //Actualizamos el Saldo en base a la Entrega de Efectivo            
+            // proveedor.Debe = compraDTO.Debe;
+            //proveedorBL.UpdateProveedor(proveedor); 
             proveedor.Debe = compraDTO.Debe;
-            //proveedorBL.UpdateProveedor(proveedor);  
+            proveedor.SaldoAfavor = compraDTO.SaldoAfavor;
             _UOWCompra.ProveedorRepository.Update(proveedor);
 
             log.Info("Compra. Nuevo Saldo Proveedor: " + proveedor.Debe);
 
-            if (compra.ProductosXCompra != null)
+            
+
+            if (compra.ProductosXCompra.Count != 0)
             {
 
                 //Una vez cargada la venta, actualizamos Stock
@@ -268,6 +272,7 @@ namespace NaturalFrut.Controllers.Api
             compraAActualizar.ImportePercIva = compraDTO.ImportePercIva;
             compraAActualizar.Total = compraDTO.Total;
             compraAActualizar.TotalGastos = compraDTO.TotalGastos;
+            compraAActualizar.Fecha = DateTime.Parse(compraDTO.Fecha);
 
             _UOWCompra.CompraRepository.Update(compraAActualizar);
 
