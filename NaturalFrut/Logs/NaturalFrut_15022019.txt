@@ -1,0 +1,2 @@
+15/Feb/2019 11:14:14 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+15/Feb/2019 11:14:14 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio

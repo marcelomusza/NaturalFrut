@@ -1,0 +1,257 @@
+20/Feb/2019 14:20:24 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+20/Feb/2019 14:20:24 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+20/Feb/2019 14:20:36 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 14:20:36 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 14:20:38 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 14:20:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 14:20:40 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 14:20:40 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 15:27:20 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 2000,4
+20/Feb/2019 15:27:20 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:27:20 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 15:27:46 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:27:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 15:28:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 15:28:33 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:28:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 15:30:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 15:30:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:30:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:31:51 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+20/Feb/2019 15:31:51 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+20/Feb/2019 15:34:18 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 15:34:18 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:34:18 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 1
+20/Feb/2019 15:34:18 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:34:18 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 15:36:00 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 5981,4
+20/Feb/2019 15:36:00 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 5981,4
+20/Feb/2019 15:36:00 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:36:00 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1058
+20/Feb/2019 15:38:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 9481,8
+20/Feb/2019 15:38:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 9481,8
+20/Feb/2019 15:38:46 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:38:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1058
+20/Feb/2019 15:51:32 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 15:51:32 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 0
+20/Feb/2019 15:51:32 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1036
+20/Feb/2019 15:51:32 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1037
+20/Feb/2019 15:51:32 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:51:32 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 15:51:34 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:51:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 15:52:16 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 15:52:16 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 15:52:16 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 15:53:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 15:53:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:53:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 11,6
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 446
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 15:55:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 446
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 447
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 448
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 446
+20/Feb/2019 15:55:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:48 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 447
+20/Feb/2019 15:55:48 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 15:55:54 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Estas entrando en la pagina de contactos!
+20/Feb/2019 15:55:54 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-GMG7B6F\yesica.borina] - Se Rompio
+20/Feb/2019 16:00:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 16:00:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 16:00:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 16:01:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 11,6
+20/Feb/2019 16:01:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 16:01:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 16:01:01 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:01:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 16:01:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 16:01:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 16:01:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1070
+20/Feb/2019 16:01:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1071
+20/Feb/2019 16:01:37 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:01:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 16:02:15 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:02:15 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 16:02:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 16:02:43 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:02:43 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 16:05:58 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 16:05:58 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 16:05:58 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 7. Nueva Cantidad: 1
+20/Feb/2019 16:06:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 11,6
+20/Feb/2019 16:06:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 16:06:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 16:06:35 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:06:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 16:07:27 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 16:07:27 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 16:07:27 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1074
+20/Feb/2019 16:07:27 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1075
+20/Feb/2019 16:07:27 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:07:27 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 16:07:29 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:07:29 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 16:17:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 16:17:37 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:17:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 16:18:41 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 16:18:41 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 16:18:41 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 16:18:41 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:18:41 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 16:27:54 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 2481,2
+20/Feb/2019 16:27:54 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 2481,2
+20/Feb/2019 16:27:54 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:27:54 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1072
+20/Feb/2019 16:30:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 16:30:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 16:30:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1076
+20/Feb/2019 16:30:01 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1077
+20/Feb/2019 16:30:02 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:30:02 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 16:30:03 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 16:30:03 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:04:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 17:04:38 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:04:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:05:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 17:05:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 17:05:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:05:38 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:05:38 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:08:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 5981,4
+20/Feb/2019 17:08:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 5981,4
+20/Feb/2019 17:08:22 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:08:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1074
+20/Feb/2019 17:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 17:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 17:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1078
+20/Feb/2019 17:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1079
+20/Feb/2019 17:09:12 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:09:14 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:09:14 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:09:49 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 17:09:49 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:09:49 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:10:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 17:10:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 17:10:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:10:35 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:10:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:15:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 5981,4
+20/Feb/2019 17:15:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 5981,4
+20/Feb/2019 17:15:09 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:15:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1076
+20/Feb/2019 17:17:08 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 17:17:08 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 17:17:08 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1080
+20/Feb/2019 17:17:08 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1081
+20/Feb/2019 17:17:08 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:17:08 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:17:10 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:17:10 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:17:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 17:17:57 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:17:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:18:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 17:18:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 17:18:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:18:46 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:18:46 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:19:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 7481,4
+20/Feb/2019 17:19:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 7481,4
+20/Feb/2019 17:19:06 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:19:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1078
+20/Feb/2019 17:19:32 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:19:32 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:19:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 17:19:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 17:19:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1082
+20/Feb/2019 17:19:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1083
+20/Feb/2019 17:19:34 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:19:34 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:20:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 17:20:37 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:20:37 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:21:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 17:21:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 17:21:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:21:23 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:21:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:29:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 7481,4
+20/Feb/2019 17:29:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 7481,4
+20/Feb/2019 17:29:33 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:29:33 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1080
+20/Feb/2019 17:29:41 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:29:41 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:29:44 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 17:29:44 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 17:29:44 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1084
+20/Feb/2019 17:29:44 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1085
+20/Feb/2019 17:29:44 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:29:44 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:30:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 17:30:47 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:30:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:31:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 17:31:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 17:31:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:31:35 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:31:35 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:42:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 5000,4
+20/Feb/2019 17:42:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 5000,4
+20/Feb/2019 17:42:57 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:42:57 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1082
+20/Feb/2019 17:43:05 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:43:05 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:43:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 444
+20/Feb/2019 17:43:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para Producto con ID: 5. Nuevo valor: 443
+20/Feb/2019 17:43:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1086
+20/Feb/2019 17:43:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Producto borrado de la compra con ID: 1087
+20/Feb/2019 17:43:06 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:43:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra eliminada satisfactoriamente.
+20/Feb/2019 17:47:31 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 1950,4
+20/Feb/2019 17:47:31 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:47:31 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:48:26 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 981
+20/Feb/2019 17:48:26 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 444
+20/Feb/2019 17:48:26 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado o creado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:48:26 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:48:26 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra generada satisfactoriamente.
+20/Feb/2019 17:48:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 2481
+20/Feb/2019 17:48:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 2481
+20/Feb/2019 17:48:47 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:48:47 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1084
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Viejo Saldo Proveedor: 0
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra. Nuevo Saldo Proveedor: 0
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Stock actualizado para producto con ID: 5. Nueva Cantidad: 445
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Datos actualizados para producto con ID: 5
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Datos actualizados para producto con ID: 5
+20/Feb/2019 17:50:23 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1085
