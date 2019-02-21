@@ -299,6 +299,10 @@
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
     <Compile Include="Helpers\ExcelExportHelper.cs" />
+    <Compile Include="Migrations\201902210041123_compranuevacolumna.cs" />
+    <Compile Include="Migrations\201902210041123_compranuevacolumna.Designer.cs">
+      <DependentUpon>201902210041123_compranuevacolumna.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -820,6 +824,11 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201902210041123_compranuevacolumna.resx">
+      <DependentUpon>201902210041123_compranuevacolumna.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
