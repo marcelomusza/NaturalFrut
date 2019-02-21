@@ -299,10 +299,6 @@
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
     <Compile Include="Helpers\ExcelExportHelper.cs" />
-    <Compile Include="Migrations\201902190034006_nuevaBase.cs" />
-    <Compile Include="Migrations\201902190034006_nuevaBase.Designer.cs">
-      <DependentUpon>201902190034006_nuevaBase.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -824,11 +820,6 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902190034006_nuevaBase.resx">
-      <DependentUpon>201902190034006_nuevaBase.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
