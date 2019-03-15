@@ -37,8 +37,7 @@ namespace NaturalFrut.DTOs
         [Required]
         public int ClienteID { get; set; }
 
-        [Required]
-        public int VendedorID { get; set; }
+        public int? VendedorID { get; set; }
 
 
         public Cliente Cliente { get; set; }

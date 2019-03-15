@@ -38,8 +38,8 @@
             <div class="form-group">
                 <label>Vendedor</label>
                 <div style="display:flex;">
-                    <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor" required>
-                        <option value="" selected="selected">Seleccione...</option>
+                    <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor">
+                        <option  selected="selected">Seleccione...</option>
                         @foreach (var vendedor in @ViewBag.Vendedores)
             {
                 <option value="@vendedor.ID">@vendedor.Nombre</option>
@@ -227,7 +227,7 @@
             var vm = {                
                 fecha: "",
                 clienteID: 0,
-                vendedorID: 0,
+                vendedorID: null,
                 numeroVenta: 0,
                 noConcretado: false,
                 sumaTotal: 0,

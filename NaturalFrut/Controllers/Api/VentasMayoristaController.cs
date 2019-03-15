@@ -74,8 +74,8 @@ namespace NaturalFrut.Controllers.Api
                 log.Error("No se ha encontrado cliente en la base de datos con ID: " + ventaMayoristaDTO.ClienteID);
                 return BadRequest();
             }
-                
 
+           
             var ventaMayorista = Mapper.Map<VentaMayoristaDTO, VentaMayorista>(ventaMayoristaDTO);
 
             //ventaMayoristaBL.AddVentaMayorista(ventaMayorista);

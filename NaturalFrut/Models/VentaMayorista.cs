@@ -35,9 +35,8 @@ namespace NaturalFrut.Models
 
         [Required]
         public int ClienteID { get; set; }
-
-        [Required]
-        public int VendedorID { get; set; }
+        
+        public int? VendedorID { get; set; }
 
         public int NumeroVenta { get; set; }
 

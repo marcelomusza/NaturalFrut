@@ -299,9 +299,9 @@
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
     <Compile Include="Helpers\ExcelExportHelper.cs" />
-    <Compile Include="Migrations\201902210041123_compranuevacolumna.cs" />
-    <Compile Include="Migrations\201902210041123_compranuevacolumna.Designer.cs">
-      <DependentUpon>201902210041123_compranuevacolumna.cs</DependentUpon>
+    <Compile Include="Migrations\201903152117502_vendedorseanull.cs" />
+    <Compile Include="Migrations\201903152117502_vendedorseanull.Designer.cs">
+      <DependentUpon>201903152117502_vendedorseanull.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
@@ -826,8 +826,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902210041123_compranuevacolumna.resx">
-      <DependentUpon>201902210041123_compranuevacolumna.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903152117502_vendedorseanull.resx">
+      <DependentUpon>201903152117502_vendedorseanull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
