@@ -26,14 +26,14 @@
             </div>
 
             @*<div class="form-group">
-                    <label>Cliente</label>
-                    <div class="tt-container vtamay-cliente">
-                        <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" onblur="GetSaldoCliente();" class="form-control" />
-                        <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
+            <label>Cliente</label>
+            <div class="tt-container vtamay-cliente">
+                <input id="cliente" name="cliente" data-msg-required="Por favor ingresa un Cliente" data-cliente-id="" required type="text" value="" onblur="GetSaldoCliente();" class="form-control" />
+                <a href="#" onclick="NuevoClienteModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Cliente" /></a>
 
 
-                    </div>
-                </div>*@
+            </div>
+        </div>*@
 
             <div class="form-group">
                 <label>Cliente</label>
@@ -43,25 +43,34 @@
             </div>
 
             @*<div class="form-group">
-                        <label>Vendedor</label>
-                        <div style="display:flex;">
-                            <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor" required>
-                                <option value="" selected="selected">Seleccione...</option>
-                                @foreach (var vendedor in @ViewBag.Vendedores)
-                        {
-                            <option value="@vendedor.ID">@vendedor.Nombre</option>
-                }
-                            </select>&nbsp;&nbsp;
-                            <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
-                        </div>
-                        <label class="error field-validation-valid" for="vendedor" data-valmsg-replace="true"></label>
+                <label>Vendedor</label>
+                <div style="display:flex;">
+                    <select id="vendedor" name="vendedor" class="form-control" data-msg-required="Por favor ingresa un Vendedor" required>
+                        <option value="" selected="selected">Seleccione...</option>
+                        @foreach (var vendedor in @ViewBag.Vendedores)
+                {
+                    <option value="@vendedor.ID">@vendedor.Nombre</option>
+        }
+                    </select>&nbsp;&nbsp;
+                    <a href="#" onclick="NuevoVendedorModal(0)"><img src="~/Content/Images/addSign.png" style="vertical-align:-webkit-baseline-middle;" title="Ingresar Nuevo Vendedor" /></a>
+                </div>
+                <label class="error field-validation-valid" for="vendedor" data-valmsg-replace="true"></label>
 
-                    </div>*@
+            </div>*@
 
             <div class="form-group">
                 <label>Vendedor</label>
-                <input id="vendedor" name="vendedor" type="text" value="@Model.Vendedor.Nombre" data-vendedor-id="@Model.VendedorID" class="form-control" disabled />
+                @if (Model.Vendedor == null)
+    {
+            <input id="vendedor" name="vendedor" type="text" data-vendedor-id="" class="form-control" disabled />
+}
+else
+{
+            <input id="vendedor" name="vendedor" type="text" value="@Model.Vendedor.Nombre" data-vendedor-id="@Model.VendedorID" class="form-control" disabled />
+}
+
             </div>
+            
 
         </div>
 
@@ -230,7 +239,6 @@
                 ID: 0,
                 fecha: "",
                 clienteID: 0,
-                vendedorID: 0,
                 numeroVenta: 0,
                 noConcretado: false,
                 facturado: false,
