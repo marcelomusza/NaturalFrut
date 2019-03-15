@@ -8,6 +8,7 @@ using NaturalFrut.Helpers;
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -177,79 +178,78 @@ namespace NaturalFrut.Controllers.Api
 
             log.Info("Compra. Nuevo Saldo Proveedor: " + proveedor.Debe);
 
-            //actualizo stock
+            ////actualizo stock
+            //if (compraDTO.ProductosXCompra != null)
+            //{
+            //    foreach (var item in compraDTO.ProductosXCompra)
+            //    {
 
-            if (compraDTO.ProductosXCompra != null)
-            {
-                foreach (var item in compraDTO.ProductosXCompra)
-                {
+            //        var prdXcompra = productoXCompraBL.GetProductoXCompraById(item.ID);
 
-                    var prdXcompra = productoXCompraBL.GetProductoXCompraById(item.ID);
+            //        Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
 
-                    Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+            //        if (prdXcompra.Cantidad > item.Cantidad)
+            //        {
+            //            var cantidad = prdXcompra.Cantidad - item.Cantidad;
+            //            stock.Cantidad = stock.Cantidad - cantidad;
+            //            //stockBL.UpdateStock(stock);
+            //            _UOWCompra.StockRepository.Update(stock);
+            //        }
 
-                    if (prdXcompra.Cantidad > item.Cantidad)
-                    {
-                        var cantidad = prdXcompra.Cantidad - item.Cantidad;
-                        stock.Cantidad = stock.Cantidad - cantidad;
-                        //stockBL.UpdateStock(stock);
-                        _UOWCompra.StockRepository.Update(stock);
-                    }
+            //        if (item.Cantidad > prdXcompra.Cantidad)
+            //        {
+            //            var cantidad = item.Cantidad - prdXcompra.Cantidad;
+            //            stock.Cantidad = stock.Cantidad + cantidad;
+            //            //stockBL.UpdateStock(stock);
+            //            _UOWCompra.StockRepository.Update(stock);
+            //        }
 
-                    if (item.Cantidad > prdXcompra.Cantidad)
-                    {
-                        var cantidad = item.Cantidad - prdXcompra.Cantidad;
-                        stock.Cantidad = stock.Cantidad + cantidad;
-                        //stockBL.UpdateStock(stock);
-                        _UOWCompra.StockRepository.Update(stock);
-                    }
+            //        log.Info("Stock actualizado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
+            //    }
 
-                    log.Info("Stock actualizado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
-                }
+            //    foreach (var item in compraDTO.ProductosXCompra)
+            //    {
 
-                foreach (var item in compraDTO.ProductosXCompra)
-                {
+            //        foreach (var item2 in compraInDB.ProductosXCompra)
+            //        {
+            //            if (item.ID == item2.ID)
+            //            {
+            //                ProductoXCompra prodAActualizar = _UOWCompra.ProductosXCompraRepository.GetByID(item.ID);
 
-                    foreach (var item2 in compraInDB.ProductosXCompra)
-                    {
-                        if (item.ID == item2.ID)
-                        {
-                            ProductoXCompra prodAActualizar = _UOWCompra.ProductosXCompraRepository.GetByID(item.ID);
+            //                prodAActualizar.Cantidad = item.Cantidad;
+            //                prodAActualizar.Importe = item.Importe;
+            //                prodAActualizar.Descuento = item.Descuento;
+            //                prodAActualizar.ImporteDescuento = item.ImporteDescuento;
+            //                prodAActualizar.Iibbbsas = item.Iibbbsas;
+            //                prodAActualizar.Iibbcaba = item.Iibbcaba;
+            //                prodAActualizar.Iva = item.Iva;
+            //                prodAActualizar.PrecioUnitario = item.PrecioUnitario;
+            //                prodAActualizar.Total = item.Total;
+            //                prodAActualizar.ProductoID = item.ProductoID;
+            //                prodAActualizar.CompraID = item.CompraID;
+            //                prodAActualizar.TipoDeUnidadID = item.TipoDeUnidadID;
 
-                            prodAActualizar.Cantidad = item.Cantidad;
-                            prodAActualizar.Importe = item.Importe;
-                            prodAActualizar.Descuento = item.Descuento;
-                            prodAActualizar.ImporteDescuento = item.ImporteDescuento;
-                            prodAActualizar.Iibbbsas = item.Iibbbsas;
-                            prodAActualizar.Iibbcaba = item.Iibbcaba;
-                            prodAActualizar.Iva = item.Iva;
-                            prodAActualizar.PrecioUnitario = item.PrecioUnitario;
-                            prodAActualizar.Total = item.Total;
-                            prodAActualizar.ProductoID = item.ProductoID;
-                            prodAActualizar.CompraID = item.CompraID;
-                            prodAActualizar.TipoDeUnidadID = item.TipoDeUnidadID;
+            //                _UOWCompra.ProductosXCompraRepository.Update(prodAActualizar);
 
-                            _UOWCompra.ProductosXCompraRepository.Update(prodAActualizar);
+            //                log.Info("Datos actualizados para producto con ID: " + item2.ProductoID);
 
-                            log.Info("Datos actualizados para producto con ID: " + item2.ProductoID);
+            //                //item2.Cantidad = item.Cantidad;
+            //                //item2.Importe = item.Importe;
+            //                //item2.Descuento = item.Descuento;
+            //                //item2.ImporteDescuento = item.ImporteDescuento;
+            //                //item2.Iibbbsas = item.Iibbbsas;
+            //                //item2.Iibbcaba = item.Iibbcaba;
+            //                //item2.Iva = item.Iva;
+            //                //item2.PrecioUnitario = item.PrecioUnitario;
+            //                //item2.Total = item.Total;
+            //                //item2.ProductoID = item.ProductoID;
+            //                //item2.CompraID = item.CompraID;
+            //                //item2.TipoDeUnidadID = item.TipoDeUnidadID;
 
-                            //item2.Cantidad = item.Cantidad;
-                            //item2.Importe = item.Importe;
-                            //item2.Descuento = item.Descuento;
-                            //item2.ImporteDescuento = item.ImporteDescuento;
-                            //item2.Iibbbsas = item.Iibbbsas;
-                            //item2.Iibbcaba = item.Iibbcaba;
-                            //item2.Iva = item.Iva;
-                            //item2.PrecioUnitario = item.PrecioUnitario;
-                            //item2.Total = item.Total;
-                            //item2.ProductoID = item.ProductoID;
-                            //item2.CompraID = item.CompraID;
-                            //item2.TipoDeUnidadID = item.TipoDeUnidadID;
-
-                        }
-                    }
-                }
-            }
+            //            }
+            //        }
+            //    }
+            //}
 
             Compra compraAActualizar = _UOWCompra.CompraRepository.GetByID(compraInDB.ID);
 
@@ -275,6 +275,68 @@ namespace NaturalFrut.Controllers.Api
             compraAActualizar.Fecha = DateTime.Parse(compraDTO.Fecha);
 
             _UOWCompra.CompraRepository.Update(compraAActualizar);
+
+
+
+            //Borramos todos los productos de la compra, para luego agregarlos nuevamente junto con sus actualizados
+            bool borrado = false;
+            borrado = DeleteProductosParaUpdate(compraInDB);
+
+            if (!borrado)
+            {
+                log.Error("Se ha producido un error intentando borrar los productos de la venta al momento de actualizar. Venta ID: " + compraInDB.ID);
+                return BadRequest();
+            }
+
+            //Agregamos nuevamente los productos a la compra, actualizados
+            foreach (var prodCompra in compraDTO.ProductosXCompra)
+            {
+                //UPDATE PRODUCTOS DE VENTA MAYORISTA
+                _UOWCompra.ProductosXCompraRepository.Add(prodCompra);
+            }
+
+            //Una vez cargada la venta, actualizamos Stock
+            foreach (var item in compraDTO.ProductosXCompra)
+            {
+
+                //Producto producto = productoBL.GetProductoById(item.ProductoID);
+
+
+                //Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+                Stock stock = _UOWCompra.StockRepository
+                                .GetAll()
+                                .Where(s => s.ProductoID == item.ProductoID && s.TipoDeUnidadID == item.TipoDeUnidadID)
+                                .SingleOrDefault();
+
+                if (stock != null)
+                {
+                    stock.Cantidad = stock.Cantidad + item.Cantidad;
+                    //stockBL.UpdateStock(stock);
+                    _UOWCompra.StockRepository.Update(stock);
+
+                    log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
+
+                }
+                else
+                {
+                    Stock stockNuevo = new Stock();
+
+                    stockNuevo.ProductoID = item.ProductoID;
+                    stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
+                    stockNuevo.Cantidad = item.Cantidad;
+
+                    //stockBL.AddStock(stockNuevo);
+                    _UOWCompra.StockRepository.Add(stockNuevo);
+
+                    log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stockNuevo.Cantidad);
+
+
+                }
+
+
+
+            }
+
 
             //compraInDB.Factura = compraDTO.Factura;
             //compraInDB.NoConcretado = compraDTO.NoConcretado;
@@ -305,6 +367,73 @@ namespace NaturalFrut.Controllers.Api
             return Ok();
         }
 
+        public bool DeleteProductosParaUpdate(Compra compra)
+        {
+            var productosCompra = _UOWCompra.ProductosXCompraRepository.GetAll().Where(p => p.CompraID == compra.ID).ToList();
+
+            //Iteramos todos los productos que vamos a borrar
+            foreach (var prodCompra in productosCompra)
+            {
+
+                BorrarProdCompraDTO idsDeCompra = new BorrarProdCompraDTO
+                {
+                    ProductoID = prodCompra.ProductoID,
+                    CompraID = compra.ID
+                };
+
+                //var productoInDB = productoXVentaBL.GetProductoXVentaIndividualById(idsDeVenta);
+                var productoInDB = _UOWCompra.ProductosXCompraRepository.GetAll()
+                    .Include(p => p.Producto)
+                    .Include(t => t.TipoDeUnidad)
+                    .Include(v => v.Compra)
+                    .Where(c => c.CompraID == prodCompra.CompraID && c.ProductoID == prodCompra.ProductoID).SingleOrDefault();
+
+                if (productoInDB == null)
+                {
+                    log.Error("No se ha encontrado Producto en la base de datos con ID:" + productoInDB);
+                    return false;
+                }
+
+                //Referenciamos producto que borraremos con UOW
+                var prodABorrar = _UOWCompra.ProductosXCompraRepository.GetByID(productoInDB.ID);
+
+                //Devolvemos Stock
+                //Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);
+                //Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
+                Stock stock = _UOWCompra.StockRepository
+                                .GetAll()
+                                .Where(s => s.ProductoID == prodCompra.ProductoID && s.TipoDeUnidadID == prodCompra.TipoDeUnidadID)
+                                .SingleOrDefault();
+
+                log.Info("Producto a Borrar con ID: " + productoInDB.ID);
+
+                if (stock != null)
+                {
+                    log.Info("Stock Producto a Eliminar: " + stock.Cantidad);
+
+                    stock.Cantidad = stock.Cantidad - prodCompra.Cantidad;
+                    //stockBL.UpdateStock(stock);
+                    _UOWCompra.StockRepository.Update(stock);
+
+                    log.Info("Stock Producto Actualizado: " + stock.Cantidad);
+
+                }
+
+                _UOWCompra.ProductosXCompraRepository.Delete(prodABorrar);
+                //_UOWVentaMayorista.Save();
+
+                log.Info("Producto de la compra borrado exitosamente.");
+
+
+            }
+
+            //Si el borrado total de productos fue exitoso, devolvemos true
+            return true;
+
+        }
+
+
+
         //DELETE /api/compra/1
         [HttpDelete]
         public IHttpActionResult DeleteProductoCompra(BorrarProdCompraDTO prodCompra)
@@ -323,7 +452,6 @@ namespace NaturalFrut.Controllers.Api
             var prodABorrar = _UOWCompra.ProductosXCompraRepository.GetByID(productoInDB.ID);
 
             var importeTotalProducto = productoInDB.Total;
-
 
             //restamos stock
 

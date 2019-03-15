@@ -144,7 +144,7 @@
                     @{ int counter = 0;}
                     @foreach (var producto in Model.ProductosXVenta)
                     {
-                        <tr class='productosexistentes'>
+                        <tr>
                             <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" disabled /></div></td>
                             <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
@@ -162,7 +162,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="5" style="text-align: left;">
-                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" disabled />
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
                         </td>
                         <td colspan="2" style="text-align: right;">
                             <input type="button" class="btn btn-lg btn-primary btn-block" id="calculartotal" value="Calcular Total" />
@@ -286,74 +286,74 @@
             });
 
             var counter = @counter; //Continuamos con la numeracion segun el contador de la tabla de productos
-            //$("#addrow").on("click", function () {
-            //    //RecalcularTotal();
-            //    ResetearDescuentoTotal();
-            //    ResetearTotal();
+            $("#addrow").on("click", function () {
+                //RecalcularTotal();
+                ResetearDescuentoTotal();
+                ResetearTotal();
 
-            //    var validarCliente = $("#cliente").valid();
+                var validarCliente = $("#cliente").valid();
 
-            //    if (validarCliente) {
+                if (validarCliente) {
 
-            //        var newRow = $("<tr class='productosnuevos'>");
-            //        var cols = "";
+                    var newRow = $("<tr>");
+                    var cols = "";
 
-            //        cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
+                    cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
 
-            //        cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this); CalcularValoresBlister(' + counter + ');" /><label id="stockdisponible' + counter + '" ></label></div></td>';
+                    cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="form-control" data-js-counter="' + counter + '" onBlur="ResetearValores(this); CalcularValoresBlister(' + counter + ');" /><label id="stockdisponible' + counter + '" ></label></div></td>';
 
-            //        cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
-            //        //GetTiposDeUnidadDynamic(counter);
+                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
+                    //GetTiposDeUnidadDynamic(counter);
 
-            //        cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-            //        cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control" disabled /></div></td>';
+                    cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control js-formatvalue" disabled /></div></td>';
 
-            //        cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="text" data-js-counter="' + counter + '" value=""  class="totalimporte form-control js-sumaparaentregaefvo"  disabled /></div></td>';
+                    cols += '<td><div class="form-group"><input id="totalimporte' + counter + '" name="totalimporte" required type="text" data-js-counter="' + counter + '" value=""  class="totalimporte form-control js-formatvalue"  disabled /></div></td>';
 
-            //        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
-            //        newRow.append(cols);
-            //        $("table.order-list").append(newRow);
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " id= "' + counter + '" name= "' + counter + '"  value="Borrar"></td>';
+                    newRow.append(cols);
+                    $("table.order-list").append(newRow);
 
-            //        typeahead_initialize(counter);
+                    typeahead_initialize(counter);
 
-            //        totalCalculado = false;
+                    totalCalculado = false;
 
-            //        counter++;
+                    counter++;
 
-            //        $("#producto" + counter).validate({
-            //            rules: {
-            //                producto: "required",
-            //            },
-            //            messages: {
-            //                producto: "Por favor ingresa un Producto",
-            //            },
+                    $("#producto" + counter).validate({
+                        rules: {
+                            producto: "required",
+                        },
+                        messages: {
+                            producto: "Por favor ingresa un Producto",
+                        },
 
-            //        });
+                    });
 
-            //        $("#cantidad" + counter).validate({
-            //            rules: {
-            //                cantidad: "required",
-            //            },
-            //            messages: {
-            //                cantidad: "Por favor ingresa una Cantidad",
-            //            },
+                    $("#cantidad" + counter).validate({
+                        rules: {
+                            cantidad: "required",
+                        },
+                        messages: {
+                            cantidad: "Por favor ingresa una Cantidad",
+                        },
 
-            //        });
+                    });
 
-            //        $("#tiposdeunidad" + counter).validate({
-            //            rules: {
-            //                tiposdeunidad: "required",
-            //            },
-            //            messages: {
-            //                tiposdeunidad: "Por favor ingresa una Unidad",
-            //            },
+                    $("#tiposdeunidad" + counter).validate({
+                        rules: {
+                            tiposdeunidad: "required",
+                        },
+                        messages: {
+                            tiposdeunidad: "Por favor ingresa una Unidad",
+                        },
 
-            //        });
+                    });
 
-            //    }
+                }
 
-            //});
+            });
 
             $("table.order-list").on("click", ".ibtnDel", function (event) {
 
@@ -879,6 +879,17 @@
 
         }
 
+        function ResetearDescuentoTotal() {
+
+            //Si se agrega o remueve un row, resetear el descuento total
+            $("#tipoDescuento").prop("selectedIndex", 0).change();
+            $("#descuento").attr("disabled", "disabled");
+            $("#descuento").val("");
+
+            //CalcularSaldoFinal();
+
+        }
+
         function CargarValoresInicialesEnVM(vm) {
 
             var numeroventa = $("#numeroventa").val();
@@ -891,7 +902,7 @@
         function CargarProductosAlVM(vm) {
 
             //Cargamos la lista de productos
-            $(".productosexistentes").each(function (i, row) {
+            $(".listaproductos tr").each(function (i, row) {
 
                 var $row = $(row),
                     $producto = $row.find('input[name*="producto"]'),
@@ -977,27 +988,34 @@
 
         }
 
-        //function ValidarTipoDeProducto(counter) {
+        function ValidarTipoDeProducto(counter) {
 
-        //    var productoID = $("#producto" + counter).attr("data-producto-id");
+            var productoID = $("#producto" + counter).attr("data-producto-id");
 
-        //    if (productoID > 0) {
-        //        $.getJSON("/VentaMayorista/ValidarTipoDeProductoAsync", { ProductoID : productoID, Counter: counter }, PopulateTipoDeUnidadSegunProducto)
-        //            .error(function (xhr, textStatus, exceptionThrown) {
-        //                bootbox.alert(xhr.responseText);
-        //            })
-        //    }
+            if (productoID > 0) {
+                $.getJSON("/VentaMayorista/ValidarTipoDeProductoAsync", { ProductoID : productoID, Counter: counter }, PopulateTipoDeUnidadSegunProducto)
+                    .error(function (xhr, textStatus, exceptionThrown) {
+                        bootbox.alert(xhr.responseText);
+                    })
+            }
 
-        //}
+        }
 
-        @*PopulateTipoDeUnidadSegunProducto = function (data) {
+        PopulateTipoDeUnidadSegunProducto = function (data) {
 
-            if (data.EsBlister) {
+            if (data.EsBlister && data.EsMix) {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
-                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
-                                
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister"));
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadMix").text("Mix"));
+
             }
+            @*else if (data.EsBlister) {
+                $("#tiposdeunidad" + data.Counter).empty();
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
+                $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister"));
+
+            }*@
             else if(data.EsMix) {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
@@ -1011,7 +1029,7 @@
                 
             }
 
-        }*@
+        }
 
         UpdateStockBlister = function (data) {
 

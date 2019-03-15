@@ -69,6 +69,6 @@ namespace NaturalFrut.DTOs
 
         public Proveedor Proveedor { get; set; }
 
-        public IList<ProductoXCompraDTO> ProductosXCompra { get; set; }
+        public IList<ProductoXCompra> ProductosXCompra { get; set; }
     }
 }

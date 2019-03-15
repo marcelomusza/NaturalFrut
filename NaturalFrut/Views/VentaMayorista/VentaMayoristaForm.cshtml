@@ -282,7 +282,7 @@
                     cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onChange="CalcularStockYValorProducto(' + counter + '); " required ><option value="-1" >Seleccione...</option></select></div></td>';
                     //GetTiposDeUnidadDynamic(counter);
 
-                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup=ValidarPunto(this); /></div></td>';
+                    cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" value="" class="form-control js-formatvalue" disabled /></div></td>';
 

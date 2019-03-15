@@ -255,3 +255,50 @@
 20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Datos actualizados para producto con ID: 5
 20/Feb/2019 17:50:23 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-GMG7B6F\yesica.borina] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
 20/Feb/2019 17:50:23 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-GMG7B6F\yesica.borina] - Compra actualizada satisfactoriamente. ID: 1085
+20/Feb/2019 21:40:08 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+20/Feb/2019 21:40:08 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
+20/Feb/2019 21:43:43 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+20/Feb/2019 21:43:43 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
+20/Feb/2019 21:45:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Nuevo Saldo Proveedor: 250
+20/Feb/2019 21:45:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock actualizado o creado para producto con ID: 1. Nueva Cantidad: 55
+20/Feb/2019 21:45:22 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-AG3NTTG\Marce] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 21:45:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra generada satisfactoriamente.
+20/Feb/2019 21:53:53 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Viejo Saldo Proveedor: 250
+20/Feb/2019 21:54:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Nuevo Saldo Proveedor: 250
+20/Feb/2019 21:55:07 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto a Borrar con ID: 1
+20/Feb/2019 21:55:15 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto a Eliminar: 55
+20/Feb/2019 22:00:08 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+20/Feb/2019 22:00:09 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
+20/Feb/2019 22:02:04 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Viejo Saldo Proveedor: 250
+20/Feb/2019 22:02:04 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Nuevo Saldo Proveedor: 250
+20/Feb/2019 22:02:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto a Borrar con ID: 1
+20/Feb/2019 22:02:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto a Eliminar: 55
+20/Feb/2019 22:02:14 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto Actualizado: 50
+20/Feb/2019 22:02:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto de la compra borrado exitosamente.
+20/Feb/2019 22:05:24 INFO  NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Estas entrando en la pagina de contactos!
+20/Feb/2019 22:05:24 ERROR NaturalFrut.Controllers.HomeController [DESKTOP-AG3NTTG\Marce] - Se Rompio
+20/Feb/2019 22:06:05 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Viejo Saldo Proveedor: 250
+20/Feb/2019 22:06:05 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Nuevo Saldo Proveedor: 250
+20/Feb/2019 22:06:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto a Borrar con ID: 1
+20/Feb/2019 22:06:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto a Eliminar: 55
+20/Feb/2019 22:06:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto Actualizado: 50
+20/Feb/2019 22:06:06 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto de la compra borrado exitosamente.
+20/Feb/2019 22:06:15 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock actualizado o creado para producto con ID: 1. Nueva Cantidad: 55
+20/Feb/2019 22:06:22 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock actualizado o creado para producto con ID: 2. Nueva Cantidad: 55
+20/Feb/2019 22:06:44 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-AG3NTTG\Marce] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 22:06:44 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra actualizada satisfactoriamente. ID: 1
+20/Feb/2019 22:09:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Viejo Saldo Proveedor: 350
+20/Feb/2019 22:09:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra. Nuevo Saldo Proveedor: 350
+20/Feb/2019 22:09:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto a Borrar con ID: 2
+20/Feb/2019 22:09:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto a Eliminar: 55
+20/Feb/2019 22:09:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto Actualizado: 50
+20/Feb/2019 22:09:09 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto de la compra borrado exitosamente.
+20/Feb/2019 22:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto a Borrar con ID: 3
+20/Feb/2019 22:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto a Eliminar: 55
+20/Feb/2019 22:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock Producto Actualizado: 50
+20/Feb/2019 22:09:12 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Producto de la compra borrado exitosamente.
+20/Feb/2019 22:09:24 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock actualizado o creado para producto con ID: 2. Nueva Cantidad: 56
+20/Feb/2019 22:09:24 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock actualizado o creado para producto con ID: 1. Nueva Cantidad: 56
+20/Feb/2019 22:09:24 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Stock actualizado o creado para producto con ID: 3. Nueva Cantidad: 55
+20/Feb/2019 22:09:24 INFO  NaturalFrut.App_DAL.UOWCompra [DESKTOP-AG3NTTG\Marce] - Datos salvados satisfactoriamente en la base de datos. Unity of Work COMPRA
+20/Feb/2019 22:09:24 INFO  NaturalFrut.Controllers.Api.CompraController [DESKTOP-AG3NTTG\Marce] - Compra actualizada satisfactoriamente. ID: 1

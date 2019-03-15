@@ -232,7 +232,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="12" style="text-align: left;">
-                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" disabled/>
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Agregar Producto" />
                         </td>
                     </tr>
                     <tr>
@@ -354,12 +354,12 @@
 
             var counter = @counter;
             $("#addrow").on("click", function () {
-                 RecalcularTotalGastos();
+                //RecalcularTotalGastos();
                 //var validarProveedor = $("#proveedor").valid();
 
                // if (validarProveedor) {
 
-                 var newRow = $("<tr class='productosnuevos'>");
+                 var newRow = $("<tr>");
                     var cols = "";
 
                     cols += '<td><div class="tt-container"><input id="producto' + counter + '" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="" required type="text" value="" onChange="ValidarTipoDeProducto(' + counter + '); " class="form-control" /></div></td>';
@@ -373,13 +373,13 @@
 
                 cols += '<td><div class="form-group"><input id="descprod' + counter + '" name="descprod" type="text" data-js-counter="' + counter + '" value="" class="js-descprod form-control" onkeyup="ValidarPunto(this);"  /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" required type="text" value="" class="form-control" disabled /></div></td>';
+                    cols += '<td><div class="form-group"><input id="importecondesc' + counter + '" name="importecondesc" type="text" value="" class="form-control" disabled /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iibbbsas' + counter + '" name="iibbbsas" type="text" data-js-counter="' + counter + '" value="" class="js-iibbbsas form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" required type="text" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iibbcaba' + counter + '" name="iibbcaba" type="text" data-js-counter="' + counter + '" value="" class="js-iibbcaba form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
-                    cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" required type="text" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);" /></div></td>';
+                    cols += '<td><div class="form-group"><input id="iva' + counter + '" name="iva" type="text" data-js-counter="' + counter + '" value="" class="js-iva form-control" onkeyup="ValidarPunto(this);" /></div></td>';
 
                     cols += '<td><div class="form-group"><input id="preciouni' + counter + '" name="preciouni" required type="text" value="" class="form-control" disabled /></div></td>';
 
