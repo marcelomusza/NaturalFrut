@@ -67,14 +67,14 @@ namespace NaturalFrut.Controllers
             return Json(false, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult IsCliente_Available(string Nombre)
+        public JsonResult IsCliente_Available(string Nombre, int ID)
         {
 
             var clientes = clienteBL.GetAllClientes();
 
             var ocurrencia = clientes.Find(m => m.Nombre.ToLower().Equals(Nombre.ToLower()));
 
-            if (ocurrencia == null)
+            if (ocurrencia == null || ID != 0)
                 return Json(true, JsonRequestBehavior.AllowGet);
 
             log.Error("El Cliente: " + Nombre + " ya existe en la base de datos...");

@@ -145,7 +145,7 @@ namespace NaturalFrut.App_BLL
 
             var cliente = clienteRP.GetByID(clienteID);
 
-            int listaAsociada = cliente.ListaId;
+            var listaAsociada = cliente.ListaId;
 
             var productoSegunLista = listaPreciosRP.GetAll()
                 .Where(p => p.ProductoID == productoID)

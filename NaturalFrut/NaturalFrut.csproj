@@ -311,6 +311,14 @@
     <Compile Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.Designer.cs">
       <DependentUpon>201903171637357_VtaMinorista_ReqLocaleImporte.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903171656518_Cliente_ReqNombreYDire.cs" />
+    <Compile Include="Migrations\201903171656518_Cliente_ReqNombreYDire.Designer.cs">
+      <DependentUpon>201903171656518_Cliente_ReqNombreYDire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.cs" />
+    <Compile Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.Designer.cs">
+      <DependentUpon>201903171702460_Cliente_ReqNombreYDire_FIX.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -842,6 +850,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.resx">
       <DependentUpon>201903171637357_VtaMinorista_ReqLocaleImporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171656518_Cliente_ReqNombreYDire.resx">
+      <DependentUpon>201903171656518_Cliente_ReqNombreYDire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.resx">
+      <DependentUpon>201903171702460_Cliente_ReqNombreYDire_FIX.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

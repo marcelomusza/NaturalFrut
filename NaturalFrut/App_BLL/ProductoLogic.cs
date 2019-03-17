@@ -121,7 +121,7 @@ namespace NaturalFrut.App_BLL
         public List<Producto> GetAllProductosSegunListaAsociada(int clienteID)
         {
             var cliente = clienteRP.GetByID(clienteID);
-            int listaAsociada = cliente.ListaId;
+            var listaAsociada = cliente.ListaId;
 
             List<ListaPrecio> productosSegunLista = listaPrecioRP.GetAll()
                 .Include(p => p.Producto)

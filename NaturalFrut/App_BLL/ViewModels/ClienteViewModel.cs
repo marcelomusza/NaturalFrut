@@ -14,19 +14,16 @@ namespace NaturalFrut.App_BLL.ViewModels
         public int? ID { get; set; }
 
         [Required]
-        [Remote("IsCliente_Available", "Validation")]
+        [Remote("IsCliente_Available", "Validation", AdditionalFields = "ID")]
         [Display(Name = "Nombre y Apellido")]
         public string Nombre { get; set; }
 
-        [Required]
         [Display(Name = "Razón Social")]
         public string RazonSocial { get; set; }
 
-        [Required]
         [Display(Name = "CUIT")]
         public string Cuit { get; set; }
 
-        [Required]
         [Display(Name = "IIBB")]
         public string Iibb { get; set; }
 
@@ -34,10 +31,8 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Dirección")]
         public string Direccion { get; set; }
 
-        [Required]
         public string Provincia { get; set; }
 
-        [Required]
         public string Localidad { get; set; }
 
         [Display(Name = "Teléfono Negocio")]
@@ -46,43 +41,35 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Teléfono Celular")]
         public int TelefonoCelular { get; set; }
 
-        [Required]
         [Display(Name = "Dirección Email")]
         public string Email { get; set; }
 
-        [Required]
         public string Transporte { get; set; }
 
-        [Required]
         [Display(Name = "Dirección Transporte")]
         public string DireccionTransporte { get; set; }
 
         [Display(Name = "Teléfono Transporte")]
         public int TelefonoTransporte { get; set; }
 
-        [Required]
         public string Dias { get; set; }
 
-        [Required]
         public string Horarios { get; set; }
 
         public IEnumerable<CondicionIVA> CondicionIVA { get; set; }
 
-        [Required]
         [Display(Name = "Condición ante IVA")]
-        public int CondicionIVAId { get; set; }
+        public int? CondicionIVAId { get; set; }
 
         public IEnumerable<TipoCliente> TipoCliente { get; set; }
 
-        [Required]
         [Display(Name = "Tipo de Cliente")]
-        public int TipoClienteId { get; set; }
+        public int? TipoClienteId { get; set; }
 
         public IEnumerable<Lista> Lista { get; set; }
 
-        [Required]
         [Display(Name = "Lista de Precios Asociada")]
-        public int ListaId { get; set; }
+        public int? ListaId { get; set; }
 
         public ClienteViewModel()
         {
