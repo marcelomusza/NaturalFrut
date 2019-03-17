@@ -12,14 +12,12 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public int? ID { get; set; }
 
-        [Required]
         [Display(Name = "Número Venta")]
         public int NumeroVenta { get; set; }
 
         [Required]
         public string Local { get; set; }
 
-        [Required]
         public DateTime Fecha { get; set; }
 
         //[Required]
@@ -43,51 +41,39 @@ namespace NaturalFrut.App_BLL.ViewModels
         //[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         //public double Promedio { get; set; }
 
-        [Required]
         [Display(Name = "Importe IVA")]
         public double ImporteIva { get; set; }
 
-        [Required]
         [Display(Name = "Primer Número Ticket")]
         public int PrimerNumeroTicket { get; set; }
 
-        [Required]
         [Display(Name = "Último Número Ticket")]
         public int UltimoNumeroTicket { get; set; }
 
-        [Required]
         [Display(Name = "Número Factura")]
         public string NumFactura { get; set; }
 
-        [Required]
         [Display(Name = "Razón Social")]
         public string RazonSocial { get; set; }
 
-        [Required]
         [Display(Name = "Tipo Factura")]
         public string TipoFactura { get; set; }
 
-        [Required]
         [Display(Name = "Tarjeta VISA")]
         public double TarjetaVisa { get; set; }
 
-        [Required]
         [Display(Name = "Tarjeta VISA Debito")]
         public double TarjetaVisaDeb { get; set; }
 
-        [Required]
         [Display(Name = "Tarjeta Master")]
         public double TarjetaMaster { get; set; }
 
-        [Required]
         [Display(Name = "Tarjeta Maestro")]
         public double TarjetaMaestro { get; set; }
 
-        [Required]
         [Display(Name = "Tarjeta Cabal")]
         public double TarjetaCabal { get; set; }
 
-        [Required]
         [Display(Name = "Total Tarjetas")]
         public double TotalTarjetas { get; set; }
 

@@ -307,6 +307,10 @@
     <Compile Include="Migrations\201903171624107_Proveedor_NombreReqOnly.Designer.cs">
       <DependentUpon>201903171624107_Proveedor_NombreReqOnly.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.cs" />
+    <Compile Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.Designer.cs">
+      <DependentUpon>201903171637357_VtaMinorista_ReqLocaleImporte.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -835,6 +839,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903171624107_Proveedor_NombreReqOnly.resx">
       <DependentUpon>201903171624107_Proveedor_NombreReqOnly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.resx">
+      <DependentUpon>201903171637357_VtaMinorista_ReqLocaleImporte.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

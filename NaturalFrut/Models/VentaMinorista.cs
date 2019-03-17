@@ -19,7 +19,6 @@ namespace NaturalFrut.Models
         [Required]
         public string Local { get; set; }
 
-        [Required]
         public DateTime Fecha { get; set; }
 
         //[Required]
@@ -37,40 +36,28 @@ namespace NaturalFrut.Models
         //[Required]
         //public double Promedio { get; set; }
 
-        [Required]
         public double ImporteIva { get; set; }
 
-        [Required]
         public int PrimerNumeroTicket { get; set; }
 
-        [Required]
         public int UltimoNumeroTicket { get; set; }
 
-        [Required]
         public string NumFactura { get; set; }
 
-        [Required]
         public string RazonSocial { get; set; }
 
-        [Required]
         public string TipoFactura { get; set; }
 
-        [Required]
         public double TarjetaVisa { get; set; }
 
-        [Required]
         public double TarjetaVisaDeb { get; set; }
 
-        [Required]
         public double TarjetaMaster { get; set; }
 
-        [Required]
         public double TarjetaMaestro { get; set; }
 
-        [Required]
         public double TarjetaCabal { get; set; }
 
-        [Required]
         public double TotalTarjetas { get; set; }
 
     }
