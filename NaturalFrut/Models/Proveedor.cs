@@ -17,13 +17,10 @@ namespace NaturalFrut.Models
         [Required]
         public string Nombre { get; set; }
 
-        [Required]
         public string Contacto { get; set; }
 
-        [Required]
         public string Direccion { get; set; }
 
-        [Required]
         public string Localidad { get; set; }
 
         public int TelefonoOficina { get; set; }
@@ -32,13 +29,10 @@ namespace NaturalFrut.Models
 
         public int TelefonoOtros { get; set; }
 
-        [Required]
         public string Cuit { get; set; }
 
-        [Required]
         public string Iibb { get; set; }
 
-        [Required]
         public string Email { get; set; }
 
         public double? Debe { get; set; }

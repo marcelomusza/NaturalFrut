@@ -18,15 +18,12 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Proveedor")]
         public string Nombre { get; set; }
 
-        [Required]
         [Display(Name = "Contacto")]
         public string Contacto { get; set; }
 
-        [Required]
         [Display(Name = "Dirección")]
         public string Direccion { get; set; }
 
-        [Required]
         public string Localidad { get; set; }
 
         [Display(Name = "Teléfono Oficina")]
@@ -38,15 +35,12 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Display(Name = "Teléfono Otros")]
         public int TelefonoOtros { get; set; }
 
-        [Required]
         [Display(Name = "CUIT")]
         public string Cuit { get; set; }
 
-        [Required]
         [Display(Name = "IIBB")]
         public string Iibb { get; set; }
 
-        [Required]
         [Display(Name = "Dirección Email")]
         public string Email { get; set; }      
 
