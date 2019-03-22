@@ -94,7 +94,7 @@ namespace NaturalFrut.App_BLL
 
         public List<Producto> GetProductoList()
         {
-             return productoRP.GetAll()
+             return productoRP.GetAll().OrderBy(p => p.Nombre)
                 .ToList();
         }
 

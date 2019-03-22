@@ -357,7 +357,11 @@
             });
 
             $("#vendedor").on('change', function () {
-                vm.vendedorID = this.value;
+
+                if (this.value != "Seleccione...")
+                    vm.vendedorID = this.value;
+                else
+                    vm.vendedorID = "";
             })
 
             $("#tipoDescuento").on('change', function () {
