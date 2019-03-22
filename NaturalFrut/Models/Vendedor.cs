@@ -15,7 +15,7 @@ namespace NaturalFrut.Models
         public int ID { get; set; }
 
         [Required]
-        [Remote("IsVendedor_Available", "Validation")]
+        [Remote("IsVendedor_Available", "Validation", AdditionalFields = "ID")]
         public string Nombre { get; set; }
 
         [Required]

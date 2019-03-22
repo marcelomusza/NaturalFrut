@@ -14,7 +14,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public int? ID { get; set; }
 
         [Required]
-        [Remote("IsProducto_Available", "Validation")]
+        [Remote("IsProducto_Available", "Validation", AdditionalFields = "ID")]
         public string Nombre { get; set; }
 
         

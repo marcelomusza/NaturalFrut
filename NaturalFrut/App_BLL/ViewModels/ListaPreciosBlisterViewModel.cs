@@ -23,7 +23,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public IEnumerable<Producto> Producto { get; set; }
 
         [Required]
-        [Remote("IsProductoBlisterLista_Available", "Validation")]
+        [Remote("IsProductoBlisterLista_Available", "Validation", AdditionalFields = "ID")]
         [Display(Name = "Producto")]
         public int? ProductoID { get; set; }
 
