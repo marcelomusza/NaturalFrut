@@ -1308,7 +1308,7 @@
 
         PopulateTipoDeUnidadSegunProducto = function (data) {
 
-            if (data.EsBlister) {
+            @*if (data.EsBlister) {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("@ViewBag.TipoDeUnidadBlister").text("Blister..."));
                 $("#tiposdeunidad" + data.Counter + " option:first").val("999").text("Blister...");
@@ -1318,15 +1318,15 @@
                 var productoID = $("#producto" + data.Counter).attr("data-producto-id");
                 var tipoUnidadID = $("#tiposdeunidad" + data.Counter + " option:selected").val();
 
-            }
-            else {
+            }*@
+            //else {
                 $("#tiposdeunidad" + data.Counter).empty();
                 $("#tiposdeunidad" + data.Counter).append($("<option />").val("-1").text("Seleccione..."));
                 GetTiposDeUnidadDynamic(data.Counter);
                 
                 $("#tiposdeunidad" + data.Counter).removeAttr("disabled");
                
-            }
+            //}
 
         }
 
