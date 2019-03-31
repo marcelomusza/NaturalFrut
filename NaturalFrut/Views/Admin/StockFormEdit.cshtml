@@ -33,8 +33,8 @@
             </div>
 
             <div class="form-group">
-                <label>Cantidad</label>
-                <input id="cantidadNueva" name="cantidadNueva" type="text" value="" class="form-control js-formatvalue" />
+                <label>Cantidad Nueva</label>
+                <input id="cantidadNueva" name="cantidadNueva" type="text" value="" class="form-control" onkeyup="ValidarPunto(this);" />
             </div>
 
          </div>
@@ -77,31 +77,31 @@
                 CargarValoresInicialesEnVM(vm);
 
 
-                var productos = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    prefetch: {
-                        url: 'api/productos/Productos',
-                        cache: false
-                    }
-                });
+                //var productos = new Bloodhound({
+                //    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                //    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                //    prefetch: {
+                //        url: 'api/productos/Productos',
+                //        cache: false
+                //    }
+                //});
 
-                $('#producto').typeahead({
-                    minLength: 1,
-                    highlight: true,
-                    hint: true,
-                    limit: Infinity
-                }, {
-                    name: 'producto',
-                    display: 'Nombre',
-                    source: productos
-                }).on("typeahead:select", function (e, producto) {
+                //$('#producto').typeahead({
+                //    minLength: 1,
+                //    highlight: true,
+                //    hint: true,
+                //    limit: Infinity
+                //}, {
+                //    name: 'producto',
+                //    display: 'Nombre',
+                //    source: productos
+                //}).on("typeahead:select", function (e, producto) {
 
-                    $("#producto").attr("data-producto-id", producto.ID);
-                    vm.ProductoID = producto.ID;
+                //    $("#producto").attr("data-producto-id", producto.ID);
+                //    vm.ProductoID = producto.ID;
 
 
-                });
+                //});
 
                 $("#tipoUnidad").on('change', function () {
                     vm.TipoDeUnidadID = this.value;
@@ -114,7 +114,7 @@
 
                         if (result) {
 
-                            vm.NuevaCantidad = $("#cantidadNueva").val();
+                            vm.NuevaCantidad = ValorANumero($("#cantidadNueva").val());
                             vm.IsDelete = false;
 
                             $.ajax({
@@ -148,7 +148,7 @@
 
                         if (result) {
 
-                            vm.NuevaCantidad = $("#cantidadNueva").val();
+                            vm.NuevaCantidad = ValorANumero($("#cantidadNueva").val());
                             vm.IsDelete = true;
 
                             $.ajax({
@@ -189,9 +189,11 @@
            // var cantidad = $("#cantidad").val();
             vm.ProductoID = $("#producto").attr("data-producto-id");
             vm.TipoDeUnidadID = $("#tipoUnidad").attr("data-tipoUnidad-id");
-            vm.Cantidad = $("#cantidad").val();
+            vm.Cantidad = ValorANumero($("#cantidad").val());
             vm.ID = @ViewBag.StockID;
         }
+
+        
 
 
     </script>
