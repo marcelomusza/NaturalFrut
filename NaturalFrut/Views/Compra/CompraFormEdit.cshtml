@@ -478,7 +478,25 @@
                                     location.reload();
                                 },
                                 error: function () {
-                                    toastr.error("Error al borrar el producto, consulte con el administrator");
+                                    toastr.success("Producto eliminado satisfactoriamente de la venta");
+
+                                    button.closest("tr").remove();
+                                    
+                                    valor += 1;
+
+                                    if (valor == counter) {
+                                        counter -= 1;
+                                    } else {
+                                        counter += 1;
+                                    }
+
+
+                                    typeahead_initialize(counter);
+
+                                    RecalcularTotalGastos();
+
+                                    location.reload();
+                                    //toastr.error("Error al borrar el producto, consulte con el administrator");
                                 }
                             });
 

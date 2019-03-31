@@ -366,7 +366,8 @@ namespace NaturalFrut.Controllers.Api
 
             return Ok();
         }
-
+        [HttpGet]
+        [Route("api/productos/DeleteProductosParaUpdate(")]
         public bool DeleteProductosParaUpdate(Compra compra)
         {
             var productosCompra = _UOWCompra.ProductosXCompraRepository.GetAll().Where(p => p.CompraID == compra.ID).ToList();
