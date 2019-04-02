@@ -319,6 +319,14 @@
     <Compile Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.Designer.cs">
       <DependentUpon>201903171702460_Cliente_ReqNombreYDire_FIX.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903312347406_ClienteDebeYSaldoAFavor.cs" />
+    <Compile Include="Migrations\201903312347406_ClienteDebeYSaldoAFavor.Designer.cs">
+      <DependentUpon>201903312347406_ClienteDebeYSaldoAFavor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904022101363_vtamay_IVA.cs" />
+    <Compile Include="Migrations\201904022101363_vtamay_IVA.Designer.cs">
+      <DependentUpon>201904022101363_vtamay_IVA.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -856,6 +864,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.resx">
       <DependentUpon>201903171702460_Cliente_ReqNombreYDire_FIX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903312347406_ClienteDebeYSaldoAFavor.resx">
+      <DependentUpon>201903312347406_ClienteDebeYSaldoAFavor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904022101363_vtamay_IVA.resx">
+      <DependentUpon>201904022101363_vtamay_IVA.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

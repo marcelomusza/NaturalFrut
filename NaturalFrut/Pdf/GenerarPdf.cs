@@ -98,10 +98,10 @@ namespace NaturalFrut.Pdf
                     sb.Append("<td>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Anterior: </td>");
-                    sb.Append("<td>$"+ venta.Saldo +"</td>");
+                    sb.Append("<td>$"+ venta.Debe +"</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Anterior: </td>");
-                    sb.Append("<td>$" + venta.Saldo + "</td>");
+                    sb.Append("<td>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Total: </td>");
                     sb.Append("<td>$" + venta.SumaTotal + "</td>");
@@ -116,10 +116,10 @@ namespace NaturalFrut.Pdf
                     sb.Append("<td>$" + venta.EntregaEfectivo + "</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Saldo: </td>");
-                    sb.Append("<td>$" + venta.Saldo + "</td>");
+                    sb.Append("<td>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '5'>Saldo: </td>");
-                    sb.Append("<td>$" + venta.Saldo + "</td>");
+                    sb.Append("<td>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
 
                     sb.Append("</tr></table>");

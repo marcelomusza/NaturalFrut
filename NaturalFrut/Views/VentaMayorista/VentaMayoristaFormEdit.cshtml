@@ -79,17 +79,17 @@ else
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaefectivo" name="entregaefectivo" required type="text" value="0" onkeyup="ValidarPunto(this);" onblur="CalcularSaldoFinal();" class="form-control" />
+                <input id="entregaEfectivo" name="entregaEfectivo" required type="text" value="0" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
-                <label>Saldo</label>
-                <input id="saldo" name="saldo" type="text" value="@Model.Cliente.Saldo" class="form-control" disabled />
+                <label>Saldo Actual</label>
+                <input id="debe" name="debe" type="text" value="@Model.Cliente.Debe" class="form-control" disabled />
             </div>
 
             <div class="form-group">
-                <label>Saldo Parcial</label>
-                <input id="saldoparcial" name="saldoparcial" type="text" value="" class="form-control js-formatvalue" disabled />
+                <label>Saldo a Favor</label>
+                <input id="saldoFavor" name="saldoFavor" type="text" value="@Model.Cliente.SaldoAfavor" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="checkbox">
@@ -188,9 +188,14 @@ else
                             </select>
                             <input type="text" class="form-control vtamay-descuento" id="descuento" value="@Model.Descuento" onkeyup="ValidarPunto(this);" />
                             <br /><br />
+
+                            <label>IVA:</label>
+                            <input type="text" class="form-control vtamay-descuento" id="iva" onkeyup="ValidarPunto(this);" value="@Model.IVA" />
+                            <br /><br />
+
                             <label>Total Venta:</label>
                             <input type="text" class="form-control vtamay-totalventa" id="totalventa" value="0" disabled />
-                            
+
                         </td>
                     </tr>
                 </tfoot>
@@ -245,9 +250,10 @@ else
                 sumaTotal: 0,
                 tipoDescuentoTotal: 0,
                 descuento: 0,
-                saldo: 0,
-                saldoParcial: 0,
+                Debe: 0,
+                SaldoAFavor: 0,
                 entregaEfectivo: 0,
+                iva: 0,
                 productosXVenta: []
             };
 
@@ -255,20 +261,28 @@ else
 
             var descuentoAplicado = false;
             var descuentoAplicadoPorProducto = false;
-            var totalCalculado = true;
+            var totalCalculado = false;
             //var totalVentaObj = document.getElementById("totalventa");
+
+            var totalInicial = 0;
+            var debeInicial = DeFormatearValor($("#debe").val());
+            var saldoFavorInicial = DeFormatearValor($("#saldoFavor").val());
+
+            totalInicial = DeFormatearValor($("#totalventa").val());
             
 
             ValidarVentaConcretada();
 
             CargarValoresInicialesEnVM(vm);
-            GetSaldoCliente();            
+            //GetSaldoCliente();            
             FormatearEntregaEfectivo();
+            FormatearSaldo();
             FormatearImportesExistentes();
             CargarTipoDescuento();
             //CargarSumaTotal();
             //GetSaldoParcialCliente();
 
+            
             
 
             
@@ -384,7 +398,7 @@ else
 
                             //Borramos la fila con datos
                             $.ajax({
-                                url: "/api/ventasmayorista/",
+                                url: "/api/ventasmayorista/deleteproductoventamayorista/",
                                 method: "DELETE",
                                 data: model,
                                 success: function () {
@@ -403,7 +417,9 @@ else
 
                                     typeahead_initialize(counter);
 
-                                    location.reload();
+                                    //Requerir que se calcule el total si no hacen click en el boton
+                                    totalCalculado = false;
+                                    //location.reload();
                                 },
                                 error: function () {
                                     toastr.error("Error al borrar el producto, consulte con el administrator");
@@ -423,6 +439,9 @@ else
                             }
 
                             typeahead_initialize(counter);
+
+                            //Requerir que se calcule el total si no hacen click en el boton
+                            totalCalculado = false;
                                                         
                             CargarTipoDescuento();
                             CargarSumaTotal();
@@ -456,7 +475,7 @@ else
 
                     RecalcularTotal();
                     CalcularDescuentoTotal();                    
-                    CalcularSaldoFinal();
+                    //CalcularSaldoFinal();
                 }
 
             })           
@@ -470,7 +489,7 @@ else
 
                     //Si el form estaba grisado, lo desgrisamos                   
                     //$("#totalventa").prop("disabled", true);
-                    //$("#saldoparcial").prop("disabled", true);
+                    //$("#saldoFavor").prop("disabled", true);
                     //$("#addrow").prop("disabled", true);
                     //$("#vendedor").prop("disabled", true);
                     //$("#fecha").prop("disabled", true);
@@ -478,10 +497,11 @@ else
                     $('input[name*="cantidad"]').prop("disabled", false);
                     $('input[name*="descprod"]').prop("disabled", false);
                     $('input[class*="ibtnDel"]').prop("disabled", false);
-                    $("#entregaefectivo").prop("disabled", false);
+                    $("#entregaEfectivo").prop("disabled", false);
                     $("#tipoDescuento").prop("disabled", false);
                     $("#descuento").prop("disabled", false);
                     $("#calculartotal").prop("disabled", false);
+                    $("#addrow").prop("disabled", false);
 
                 }
 
@@ -497,11 +517,11 @@ else
 
             })
 
-            $("#entregaefectivo").on('change', function () {
+            $("#entregaEfectivo").on('change', function () {
 
                 var valor = this.value;
                 valor = DeFormatearEntregaEfectivo(valor);
-                $("#entregaefectivo").val(FormatearValor(valor));
+                $("#entregaEfectivo").val(FormatearValor(valor));
 
             })
 
@@ -538,7 +558,7 @@ else
                 //Una vez cargados todos los productos, calculamos total
                 RecalcularTotal();
                 CalcularDescuentoTotal();
-                //CalcularSaldoFinal();
+                CalcularIVA();
 
                 totalCalculado = true;
 
@@ -596,6 +616,19 @@ else
 
                             if (result) {
 
+                                var totalFinal = 0;
+                                var total = DeFormatearValor($("#totalventa").val());
+                              
+                                totalFinal = total;                               
+
+                                if (debeInicial != 0 || saldoFavorInicial != 0) {
+                                    if (totalInicial != totalFinal) {
+                                        recalculoDebe(totalInicial);
+                                    }
+                                }
+
+                                calculoDebe();
+
                                 CargarProductosAlVM(vm);
 
                                 //var model = {
@@ -624,6 +657,9 @@ else
                                         //Reseteamos los productos del viewmodel
                                         vm.productosXVenta = [];
                                         //vm2 = [];
+
+                                        $("#debe").val(FormatearValor(debeInicial));
+                                        $("#saldoFavor").val(FormatearValor(saldoFavorInicial));
 
                                         totalCalculado = false;
                                     });
@@ -682,45 +718,45 @@ else
 
         }
 
-        function GetSaldoCliente() {
+        //function GetSaldoCliente() {
 
-            var clienteID = $("#cliente").attr("data-cliente-id");
+        //    var clienteID = $("#cliente").attr("data-cliente-id");
 
-            if (clienteID != "") {
-                $.getJSON("/VentaMayorista/GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
-                    .error(function (xhr, textStatus, exceptionThrown) {
-                        bootbox.alert(xhr.responseText);
-                    })
-            }
+        //    if (clienteID != "") {
+        //        $.getJSON("/VentaMayorista/GetSaldoClienteAsync", { ClienteID: clienteID }, ActualizarSaldoCliente)
+        //            .error(function (xhr, textStatus, exceptionThrown) {
+        //                bootbox.alert(xhr.responseText);
+        //            })
+        //    }
 
-        }
+        //}
 
-        ActualizarSaldoCliente = function (data) {
+        //ActualizarSaldoCliente = function (data) {
 
-            if (data.Saldo >= 0) {
-                $("#saldo").val(FormatearValor(data.Saldo));
-                $("#saldoparcial").val(FormatearValor(data.Saldo));
-            }
-            else {
-                $("#saldo").val(FormatearValor(0));
-                $("#saldoparcial").val(FormatearValor(0));
-            }
+        //    if (data.Saldo >= 0) {
+        //        $("#debe").val(FormatearValor(data.Debe));
+        //        $("#saldoFavor").val(FormatearValor(data.SaldoAFavor));
+        //    }
+        //    else {
+        //        $("#debe").val(FormatearValor(0));
+        //        $("#saldoFavor").val(FormatearValor(0));
+        //    }
 
-            CargarSumaTotal();
-            GetSaldoParcialCliente();
+        //    CargarSumaTotal();
+        //    //GetSaldoParcialCliente();
 
-            //Si no esta concretado, sumamos el total al saldo parcial
-            CalcularSaldoParcialInicial();
-        }
+        //    //Si no esta concretado, sumamos el total al saldo parcial
+        //    //CalcularSaldoParcialInicial();
+        //}
 
-        function GetSaldoParcialCliente() {
+        //function GetSaldoParcialCliente() {
 
-            var totalVenta = $("#totalventa").val();
-            var saldoParcial = $("#saldoparcial").val();            
-            //var nuevoSaldoParcial = DeFormatearValor(totalVenta) + DeFormatearValor(saldoParcial);
+        //    var totalVenta = $("#totalventa").val();
+        //    var saldoFavor = $("#saldoFavor").val();            
+        //    //var nuevoSaldoParcial = DeFormatearValor(totalVenta) + DeFormatearValor(saldoFavor);
 
-            $("#saldoparcial").val($("#saldo").val());
-        }
+        //    $("#saldoFavor").val($("#debe").val());
+        //}
 
         function CalcularStockYValorProducto(counter) {
 
@@ -804,60 +840,60 @@ else
 
         }
 
-        $("#totalventa").on('change', function () {
-            RecalcularSaldoParcial();
-        })
+        //$("#totalventa").on('change', function () {
+        //    RecalcularSaldoParcial();
+        //})
 
-        function RecalcularSaldoParcial() {
-
-
-            var saldo = DeFormatearValor($("#saldoparcial").val());
-            var totalVenta = DeFormatearValor($("#totalventa").val());
-            var totalVentaAnterior = ValorANumero($("#totalventaanterior").val());
-
-            if (totalVentaAnterior > totalVenta) {
-
-                var saldoParcial = totalVentaAnterior - totalVenta;
-
-                saldo = saldo - saldoParcial;
-
-                if (saldo < 0) {
-
-                    //debe = debe * (-1);
-                    // $("#saldoAfavor").val(FormatearValor(debe));
-                    $("#saldoparcial").val(FormatearValor(0));
-
-                } else {
-
-                    $("#saldoparcial").val(FormatearValor(saldo));
-                    // $("#saldoAfavor").val(FormatearValor(0));
-                }
-
-            }
-
-            if (totalVentaAnterior < totalVenta) {
-
-                var saldoParcial = totalVenta - totalVentaAnterior;
-
-                saldo = saldo + saldoParcial;
+        //function RecalcularSaldoParcial() {
 
 
-                $("#saldoparcial").val(FormatearValor(saldo));
-                //$("#saldoAfavor").val(FormatearValor(0));
+        //    var saldo = DeFormatearValor($("#saldoFavor").val());
+        //    var totalVenta = DeFormatearValor($("#totalventa").val());
+        //    var totalVentaAnterior = ValorANumero($("#totalventaanterior").val());
 
-            }
+        //    if (totalVentaAnterior > totalVenta) {
 
-            if (totalVentaAnterior == totalVenta) {
+        //        var saldoFavor = totalVentaAnterior - totalVenta;
+
+        //        saldo = saldo - saldoFavor;
+
+        //        if (saldo < 0) {
+
+        //            //debe = debe * (-1);
+        //            // $("#saldoAfavor").val(FormatearValor(debe));
+        //            $("#saldoFavor").val(FormatearValor(0));
+
+        //        } else {
+
+        //            $("#saldoFavor").val(FormatearValor(saldo));
+        //            // $("#saldoAfavor").val(FormatearValor(0));
+        //        }
+
+        //    }
+
+        //    if (totalVentaAnterior < totalVenta) {
+
+        //        var saldoFavor = totalVenta - totalVentaAnterior;
+
+        //        saldo = saldo + saldoFavor;
 
 
-                $("#saldoparcial").val(FormatearValor(saldo));
-                //$("#saldoAfavor").val(FormatearValor(0));
+        //        $("#saldoFavor").val(FormatearValor(saldo));
+        //        //$("#saldoAfavor").val(FormatearValor(0));
 
-            }
+        //    }
 
-            $("#totalventaanterior").val($("#totalventa").val());
+        //    if (totalVentaAnterior == totalVenta) {
 
-        }
+
+        //        $("#saldoFavor").val(FormatearValor(saldo));
+        //        //$("#saldoAfavor").val(FormatearValor(0));
+
+        //    }
+
+        //    $("#totalventaanterior").val($("#totalventa").val());
+
+        //}
 
         function GetTiposDeUnidadDynamic(counter) {
 
@@ -924,7 +960,7 @@ else
                 var productoid = $producto.attr("data-producto-id");
                 var cantidad = $cantidad.val();
                 var tipodeunidad = $tipodeunidad.val();
-                var descuento = $descuento.val();
+                var descuento = ValorANumero($descuento.val());
                 var importe = DeFormatearValor($importe.val());
                 var totalimporte = DeFormatearValor($totalimporte.val());
                 var prodxventaid = $prodxventaid.val();
@@ -987,11 +1023,12 @@ else
             vm.noConcretado = $("#noconcretado").prop('checked'); 
             vm.clienteID = $("#cliente").attr("data-cliente-id");
             vm.vendedorID = $("#vendedor").attr("data-vendedor-id");
-            vm.entregaEfectivo = DeFormatearValor($("#entregaefectivo").val());
+            vm.entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
             vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
-            vm.saldo = DeFormatearValor($("#saldo").val());
-            vm.saldoParcial = DeFormatearValor($("#saldoparcial").val());
+            vm.Debe = DeFormatearValor($("#debe").val());
+            vm.SaldoAFavor = DeFormatearValor($("#saldoFavor").val());
+            vm.iva = ValorANumero($("#iva").val());
             vm.sumaTotal = DeFormatearValor($("#totalventa").val());     
 
         }
@@ -1110,15 +1147,15 @@ else
 
         }
 
-        function DeFormatearValor(valor) {
+        //function DeFormatearValor(valor) {
 
-            if (valor.indexOf("$") != -1 || $("#descuento").val() != "") {
-                valor = valor.replace("$", "").trim();
-                valor = ValorANumero(valor);
-            }
+        //    if (valor.indexOf("$") != -1 || $("#descuento").val() != "") {
+        //        valor = valor.replace("$", "").trim();
+        //        valor = ValorANumero(valor);
+        //    }
 
-            return valor;
-        }
+        //    return valor;
+        //}
 
         function DeFormatearEntregaEfectivo(valor) {
 
@@ -1130,15 +1167,15 @@ else
             return valor;
         }
 
-        function DeFormatearSaldo(valor) {
+        //function DeFormatearSaldo(valor) {
 
-            if (valor != "") {
-                valor = valor.replace("$", "").trim();
-                valor = ValorANumero(valor);
-            }
+        //    if (valor != "") {
+        //        valor = valor.replace("$", "").trim();
+        //        valor = ValorANumero(valor);
+        //    }
 
-            return valor;
-        }
+        //    return valor;
+        //}
 
         function ValidarPunto(textbox) {
 
@@ -1154,36 +1191,53 @@ else
 
         function FormatearEntregaEfectivo() {
 
-            var valor = $("#entregaefectivo").val();
+            var valor = $("#entregaEfectivo").val();
             valor = DeFormatearEntregaEfectivo(valor);
-            $("#entregaefectivo").val(FormatearValor(valor));
+            $("#entregaEfectivo").val(FormatearValor(valor));
         }
 
-        function CalcularSaldoFinal() {
-
-            //var totalVentaAnterior = DeFormatearEntregaEfectivo($("#totalventaanterior").val());
-            var entregaEfvo = DeFormatearEntregaEfectivo($("#entregaefectivo").val());
-            var sumaTotal = DeFormatearEntregaEfectivo($("#totalventa").val());
-            var saldo = DeFormatearEntregaEfectivo($("#saldoparcial").val());
-            //var totalVentaMasSaldo = DeFormatearEntregaEfectivo($("#totalventamassaldo").val());
-
-            $("#saldoparcial").val(FormatearValor(parseFloat(saldo) - parseFloat(entregaEfvo)));
-
+        function FormatearSaldo() {
+            
+            $("#saldoFavor").val(FormatearValor(ValorANumero($("#saldoFavor").val())));
+            $("#debe").val(FormatearValor(ValorANumero($("#debe").val())));
         }
 
-        function ResetearSaldo() {
+        //function CalcularSaldoFinal() {
+
+        //    //var totalVentaAnterior = DeFormatearEntregaEfectivo($("#totalventaanterior").val());
+        //    var entregaEfvo = DeFormatearEntregaEfectivo($("#entregaEfectivo").val());
+        //    var sumaTotal = DeFormatearEntregaEfectivo($("#totalventa").val());
+        //    var saldo = DeFormatearEntregaEfectivo($("#saldoFavor").val());
+        //    //var totalVentaMasSaldo = DeFormatearEntregaEfectivo($("#totalventamassaldo").val());
+
+        //    $("#saldoFavor").val(FormatearValor(parseFloat(saldo) - parseFloat(entregaEfvo)));
+
+        //}
+
+        //function ResetearSaldo() {
            
-            var saldo = DeFormatearEntregaEfectivo($("#saldo").val());
-            $("#saldoparcial").val(FormatearValor(parseFloat(saldo)));
+        //    var saldo = DeFormatearEntregaEfectivo($("#debe").val());
+        //    $("#saldoFavor").val(FormatearValor(parseFloat(saldo)));
 
-        }
+        //}
 
         function ResetearTotal() {
-
-            var saldo = $("#saldo").val();
-
+                        
             $("#totalventa").val(FormatearValor(0));
-            $("#saldoparcial").val(saldo);
+        }
+
+        function CalcularIVA() {
+
+            var iva = ValorANumero($("#iva").val());
+            var totalActual = DeFormatearValor($("#totalventa").val());
+            var nuevoTotal = 0;
+
+            if (iva != 0) {
+
+                nuevoTotal = ((totalActual * iva) / 100) + totalActual;
+
+                $("#totalventa").val(FormatearValor(nuevoTotal));
+            }
         }
 
         function CalcularDescuentoTotal() {
@@ -1199,7 +1253,7 @@ else
 
                 var sumaVentaTotal = 0;
                 var nuevoTotal = 0;
-                var saldo = DeFormatearValor($("#saldo").val());
+                //var saldo = DeFormatearValor($("#debe").val());
 
                 $(".totalimporte").each(function () {
 
@@ -1263,9 +1317,10 @@ else
 
             $(".importe").each(function () {
 
-                $(this).on("blur", function () {
-                    $(this).val(FormatearValor(this.value));
-                });
+                $(this).val(FormatearValor(this.value));
+                //$(this).on("blur", function () {
+                //    $(this).val(FormatearValor(this.value));
+                //});
                 
             });
 
@@ -1291,17 +1346,156 @@ else
 
         }
 
-        function CalcularSaldoParcialInicial() {
+        //function CalcularSaldoParcialInicial() {
 
-            var concretado = $("#noconcretado").is(':checked');
-            var saldoParcial = DeFormatearValor($("#saldoparcial").val());
-            var sumaTotal = ValorANumero($("#totalventaanterior").val());
+        //    var concretado = $("#noconcretado").is(':checked');
+        //    var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+        //    var sumaTotal = ValorANumero($("#totalventaanterior").val());
 
-            if (concretado != true) {
-                $("#saldoparcial").val( FormatearValor(saldoParcial + sumaTotal) );
+        //    if (concretado != true) {
+        //        $("#saldoFavor").val( FormatearValor(saldoFavor + sumaTotal) );
+        //    }
+
+        //}
+
+        function calculoDebe() {
+
+            var aPagar = 0;
+            var nuevoValor = 0;
+            var entregaEfectivo = DeFormatearEntregaEfectivo($("#entregaEfectivo").val());
+            var debe = DeFormatearValor($("#debe").val());
+            var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+            var total = DeFormatearValor($("#totalventa").val());
+           
+            aPagar = total;           
+
+            if (debe == 0 && saldoFavor == 0) {
+
+                nuevoValor = aPagar - entregaEfectivo;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+            if (debe == 0 && saldoFavor != 0) {
+
+                // nuevoValor = saldoFavor + entregaEfectivo;
+
+                nuevoValor = entregaEfectivo - saldoFavor;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+            if (debe != 0 && saldoFavor == 0) {
+
+                // nuevoValor = aPagar + debe;
+
+                nuevoValor = entregaEfectivo - debe;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+
+
+        }
+
+        function recalculoDebe(totalInicial) {
+
+            var totalFinal = 0;
+            var difTotal = 0;
+            var total = DeFormatearValor($("#totalventa").val());
+            var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+            var debe = DeFormatearValor($("#debe").val());
+
+            totalFinal = total;
+         
+            if (debe != 0 && saldoFavor == 0) {
+
+                difTotal = totalInicial - totalFinal;
+
+                if (difTotal < 0) {
+
+                    difTotal = difTotal * (-1);
+                    debe = debe + difTotal;
+                    $("#debe").val(FormatearValor(debe));
+
+                } else {
+                    debe = debe - difTotal;
+                    $("#debe").val(FormatearValor(debe));
+                }
+
+            }
+
+
+            if (debe == 0 && saldoFavor != 0) {
+
+                difTotal = totalInicial - totalFinal;
+
+                if (difTotal < 0) {
+
+                    difTotal = difTotal * (-1);
+                    difTotal = saldoFavor - difTotal;
+
+                    if (difTotal < 0) {
+                        difTotal = difTotal * (-1);
+
+                        $("#debe").val(FormatearValor(difTotal));
+                        $("#saldoFavor").val(FormatearValor(0));
+
+                    } else {
+                        $("#saldoFavor").val(FormatearValor(difTotal));
+                    }
+                } else {
+                    difTotal = saldoFavor + difTotal;
+                    $("#saldoFavor").val(FormatearValor(difTotal));
+                }
+
+
             }
 
         }
+
 
     </script>
 

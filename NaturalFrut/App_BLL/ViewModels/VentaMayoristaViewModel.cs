@@ -31,6 +31,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double? SaldoParcial { get; set; }
 
+        public double? IVA { get; set; }
+
         public int NumeroVenta { get; set; }
 
         public Vendedor VendedorObj { get; set; }

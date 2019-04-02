@@ -34,9 +34,9 @@ namespace NaturalFrut.Models
 
         public int TelefonoCelular { get; set; }
 
-        public double? Saldo { get; set; }
+        public double? Debe { get; set; }
 
-        public double? SaldoParcial { get; set; }
+        public double? SaldoAfavor { get; set; }
 
         public string Email { get; set; }
 

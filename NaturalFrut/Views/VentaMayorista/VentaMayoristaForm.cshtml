@@ -58,17 +58,17 @@
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaefectivo" name="entregaefectivo" required type="text" value="0" onkeyup="ValidarPunto(this);" onblur="CalcularSaldoFinal();" class="form-control js-formatvalue" />
+                <input id="entregaEfectivo" name="entregaEfectivo" required type="text" value="0" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
-                <label>Saldo</label>
-                <input id="saldo" name="saldo" type="text" value="" class="form-control js-formatvalue" disabled />
+                <label>Saldo Actual</label>
+                <input id="debe" name="debe" type="text" value="" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="form-group">
-                <label>Saldo Parcial</label>
-                <input id="saldoparcial" name="saldoparcial" type="text" value="" class="form-control js-formatvalue" disabled />
+                <label>Saldo a Favor</label>
+                <input id="saldoFavor" name="saldoFavor" type="text" value="" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="checkbox">
@@ -125,6 +125,10 @@
                                 <option value="2">%</option>
                             </select>
                             <input type="text" class="form-control vtamay-descuento" id="descuento" value="" onkeyup="ValidarPunto(this);" disabled />
+                            <br /><br />
+
+                            <label>IVA:</label>                            
+                            <input type="text" class="form-control vtamay-descuento" id="iva" onkeyup="ValidarPunto(this);" value="0" />
                             <br /><br />
 
                             <label>Total Venta:</label>
@@ -233,9 +237,10 @@
                 sumaTotal: 0,
                 tipoDescuentoTotal: 0,
                 descuento: 0,
-                saldo: 0,
-                saldoParcial: 0,
+                Debe: 0,
+                SaldoAFavor: 0,
                 entregaEfectivo: 0,
+                iva: 0,
                 productosXVenta : []
             };
 
@@ -246,8 +251,8 @@
             CargarValoresInicialesEnVM(vm);
 
             //Valor inicial para Saldos
-            $("#saldo").val(0);
-            $("#saldoparcial").val(0);
+            $("#debe").val(0);
+            $("#saldoFavor").val(0);
 
             //**EVENTOS START **//
             
@@ -382,7 +387,7 @@
 
                     RecalcularTotal();
                     CalcularDescuentoTotal();
-                    CalcularSaldoFinal();
+                    //CalcularSaldoFinal();
                 }
 
                 
@@ -402,7 +407,7 @@
 
             //        var sumaVentaTotal = 0;
             //        var nuevoTotal = 0;
-            //        var saldo = DeFormatearValor($("#saldo").val());
+            //        var saldo = DeFormatearValor($("#debe").val());
                     
             //        $(".totalimporte").each(function () {
 
@@ -454,11 +459,11 @@
                
             })
 
-            $("#entregaefectivo").on('change', function () {
+            $("#entregaEfectivo").on('change', function () {
 
                 var valor = this.value;
                 valor = DeFormatearEntregaEfectivo(valor);                
-                $("#entregaefectivo").val(FormatearValor(valor)); 
+                $("#entregaEfectivo").val(FormatearValor(valor)); 
 
             })
 
@@ -509,7 +514,7 @@
                 //Una vez cargados todos los productos, calculamos total
                 RecalcularTotal();
                 CalcularDescuentoTotal();
-                CalcularSaldoFinal();
+                CalcularIVA();
 
                 totalCalculado = true;
 
@@ -569,6 +574,8 @@
 
 
                             if (totalCalculado) {
+
+                                calculoDebe();
                                 
                                 CargarProductosAlVM(vm);
 
@@ -591,6 +598,10 @@
 
                                         //Reseteamos los productos del viewmodel
                                         vm.productosXVenta = [];      
+
+                                        //Volvemos a traer los datos iniciales del Saldo
+                                        ResetearSaldo();
+                                        GetSaldoCliente();
 
                                         totalCalculado = false;
                                     });
@@ -669,15 +680,16 @@
         ActualizarSaldoCliente = function (data) {
 
             if (data.Saldo != 0) {
-                $("#saldo").val(data.Saldo);
-                $("#saldoparcial").val(data.Saldo);
+                $("#debe").val(data.Saldo);
+                $("#debe").val(FormatearValor($("#debe").val()));
+                
             }             
 
-            //RecalcularTotal();
-            //;
-
-            $("#saldo").val(FormatearValor($("#saldo").val()));
-            $("#saldoparcial").val(FormatearValor($("#saldoparcial").val()));
+            if (data.SaldoAFavor != 0) {
+                $("#saldoFavor").val(data.SaldoAFavor);
+                $("#saldoFavor").val(FormatearValor($("#saldoFavor").val()));
+            }
+            
 
         }
 
@@ -802,6 +814,12 @@
 
         }
 
+        function ResetearSaldo() {
+
+            $("#debe").val("0");
+            $("#saldoFavor").val("0");
+        }
+
         function CargarValoresInicialesEnVM(vm) {
 
             var numeroventa = $("#numeroventa").val();
@@ -827,7 +845,7 @@
                 var productoid = $producto.attr("data-producto-id");
                 var cantidad = $cantidad.val();
                 var tipodeunidad = $tipodeunidad.val();
-                var descuento = $descuento.val();
+                var descuento = ValorANumero($descuento.val());
                 var importe = DeFormatearValor($importe.val());
                 var totalimporte = DeFormatearValor($totalimporte.val());
 
@@ -846,11 +864,12 @@
             });
 
             //Cargamos el resto de valores a deformatear
-            vm.entregaEfectivo = DeFormatearValor($("#entregaefectivo").val());
+            vm.entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
             vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
-            vm.saldo = DeFormatearValor($("#saldo").val());
-            vm.saldoParcial = DeFormatearValor($("#saldoparcial").val());
+            vm.Debe = DeFormatearValor($("#debe").val());
+            vm.SaldoAFavor = DeFormatearValor($("#saldoFavor").val());
+            vm.iva = ValorANumero($("#iva").val());
             vm.sumaTotal = DeFormatearValor($("#totalventa").val());
 
         }
@@ -963,15 +982,30 @@
             return valor;
         }
 
-        function CalcularSaldoFinal() {
+        //function CalcularSaldoFinal() {
             
-            var entregaEfvo = DeFormatearEntregaEfectivo($("#entregaefectivo").val());
-            var sumaTotal = DeFormatearEntregaEfectivo($("#totalventa").val());
-            var saldo = DeFormatearEntregaEfectivo($("#saldo").val());
+        //    var entregaEfvo = DeFormatearEntregaEfectivo($("#entregaEfectivo").val());
+        //    var sumaTotal = DeFormatearEntregaEfectivo($("#totalventa").val());
+        //    var saldo = DeFormatearEntregaEfectivo($("#debe").val());
 
-            $("#saldoparcial").val(FormatearValor(parseFloat(sumaTotal) + parseFloat(saldo) - parseFloat(entregaEfvo)));
+        //    $("#saldoFavor").val(FormatearValor(parseFloat(sumaTotal) + parseFloat(saldo) - parseFloat(entregaEfvo)));
 
+        //}
+
+        function CalcularIVA() {
+
+            var iva = ValorANumero($("#iva").val());
+            var totalActual = DeFormatearValor($("#totalventa").val());
+            var nuevoTotal = 0;
+
+            if (iva != 0) {
+
+                nuevoTotal = ((totalActual * iva) / 100) + totalActual;
+
+                $("#totalventa").val(FormatearValor(nuevoTotal));
+            }
         }
+
 
         function CalcularDescuentoTotal() {
 
@@ -986,7 +1020,7 @@
 
                 var sumaVentaTotal = 0;
                 var nuevoTotal = 0;
-                var saldo = DeFormatearValor($("#saldo").val());
+                //var saldo = DeFormatearValor($("#debe").val());
 
                 $(".totalimporte").each(function () {
 
@@ -1029,11 +1063,96 @@
 
         function ResetearTotal() {
 
-            var saldo = $("#saldo").val();
+            //var saldo = $("#debe").val();
 
             $("#totalventa").val(FormatearValor(0));
-            $("#saldoparcial").val(saldo);
+            //$("#saldoFavor").val(saldo);
         }
+
+        function calculoDebe() {
+
+
+            var aPagar = 0;
+            var nuevoValor = 0;
+            var entregaEfectivo = Number(+DeFormatearValor($("#entregaEfectivo").val()));
+            var debe = DeFormatearValor($("#debe").val());
+            var saldoFavor = DeFormatearValor($("#saldoFavor").val());
+            var total = DeFormatearValor($("#totalventa").val());
+
+            
+            aPagar = total;
+            
+
+            if (debe == 0 && saldoFavor == 0) {
+
+                nuevoValor = aPagar - entregaEfectivo;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+            if (debe == 0 && saldoFavor != 0) {
+
+                nuevoValor = saldoFavor + entregaEfectivo;
+
+                nuevoValor = aPagar - nuevoValor;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+            if (debe != 0 && saldoFavor == 0) {
+
+                nuevoValor = aPagar + debe;
+
+                nuevoValor = entregaEfectivo - nuevoValor;
+
+                if (nuevoValor < 0) {
+
+                    nuevoValor = nuevoValor * (-1);
+                    $("#debe").val(FormatearValor(nuevoValor));
+                    $("#saldoFavor").val(FormatearValor(0));
+
+                } else if (nuevoValor > 0) {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(nuevoValor));
+                } else {
+
+                    $("#debe").val(FormatearValor(0));
+                    $("#saldoFavor").val(FormatearValor(0));
+                }
+            }
+
+        }
+
+
 
 
     </script>

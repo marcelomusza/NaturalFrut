@@ -548,11 +548,12 @@ namespace NaturalFrut.Controllers
                 }
                     
 
-                var saldo = cliente.Saldo;
+                var saldo = cliente.Debe;
+                var saldoFavor = cliente.SaldoAfavor;
 
                 log.Info("El cliente: " + cliente.Nombre + " tiene saldo: " + saldo);
 
-                return Json(new { Saldo = saldo }, JsonRequestBehavior.AllowGet);
+                return Json(new { Saldo = saldo, SaldoAFavor = saldoFavor }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)

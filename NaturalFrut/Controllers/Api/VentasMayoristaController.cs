@@ -84,15 +84,15 @@ namespace NaturalFrut.Controllers.Api
 
             if(ventaMayoristaDTO.NoConcretado)
             {
-                log.Info("Venta Concretada. Saldo anterior del cliente: " + cliente.Saldo);
+                log.Info("Venta Concretada. Saldo anterior del cliente: " + cliente.Debe);
                 //Actualizamos el Saldo en base a la Entrega de Efectivo   
-                cliente.Saldo = ventaMayorista.SaldoParcial;
-                cliente.SaldoParcial = ventaMayorista.SaldoParcial;
+                cliente.Debe = ventaMayorista.Debe;
+                cliente.SaldoAfavor = ventaMayorista.SaldoAFavor;
 
                 //clienteBL.UpdateCliente(cliente);
                 _UOWVentaMayorista.ClienteRepository.Update(cliente);
 
-                log.Info("Nuevo Saldo del cliente: " + cliente.Saldo);
+                log.Info("Nuevo Saldo del cliente: " + cliente.Debe);
 
             }
            
@@ -345,6 +345,7 @@ namespace NaturalFrut.Controllers.Api
             ventaUpdate.Impreso = ventaMayoristaDTO.Impreso;
             ventaUpdate.NoConcretado = ventaMayoristaDTO.NoConcretado;
             ventaUpdate.Facturado = ventaMayoristaDTO.Facturado;
+            ventaUpdate.IVA = ventaMayoristaDTO.IVA;
             ventaUpdate.SumaTotal = ventaMayoristaDTO.SumaTotal;
 
             //UPDATE VENTA MAYORISTA
@@ -377,8 +378,8 @@ namespace NaturalFrut.Controllers.Api
             {
 
                 //Actualizamos el Saldo en base a la Entrega de Efectivo   
-                cliente.Saldo = ventaMayoristaDTO.SaldoParcial;
-                cliente.SaldoParcial = ventaMayoristaDTO.SaldoParcial;
+                cliente.Debe = ventaMayoristaDTO.Debe;
+                cliente.SaldoAfavor = ventaMayoristaDTO.SaldoAFavor;
 
                 //clienteBL.UpdateCliente(cliente);
                 _UOWVentaMayorista.ClienteRepository.Update(cliente);
@@ -1093,6 +1094,7 @@ namespace NaturalFrut.Controllers.Api
 
         //DELETE /api/ventasMayorista/1
         [HttpDelete]
+        [Route("api/ventasmayorista/deleteproductoventamayorista/{Id}")]
         public IHttpActionResult DeleteProductoVentaMayorista(BorrarProdVtaMayDTO prodVenta)
         {
 
