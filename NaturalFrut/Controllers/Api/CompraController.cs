@@ -289,53 +289,60 @@ namespace NaturalFrut.Controllers.Api
             }
 
             //Agregamos nuevamente los productos a la compra, actualizados
-            foreach (var prodCompra in compraDTO.ProductosXCompra)
+
+            if(compraDTO.ProductosXCompra != null)
             {
-                //UPDATE PRODUCTOS DE VENTA MAYORISTA
-                _UOWCompra.ProductosXCompraRepository.Add(prodCompra);
-            }
-
-            //Una vez cargada la venta, actualizamos Stock
-            foreach (var item in compraDTO.ProductosXCompra)
-            {
-
-                //Producto producto = productoBL.GetProductoById(item.ProductoID);
-
-
-                //Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
-                Stock stock = _UOWCompra.StockRepository
-                                .GetAll()
-                                .Where(s => s.ProductoID == item.ProductoID && s.TipoDeUnidadID == item.TipoDeUnidadID)
-                                .SingleOrDefault();
-
-                if (stock != null)
+                foreach (var prodCompra in compraDTO.ProductosXCompra)
                 {
-                    stock.Cantidad = stock.Cantidad + item.Cantidad;
-                    //stockBL.UpdateStock(stock);
-                    _UOWCompra.StockRepository.Update(stock);
-
-                    log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
-
-                }
-                else
-                {
-                    Stock stockNuevo = new Stock();
-
-                    stockNuevo.ProductoID = item.ProductoID;
-                    stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
-                    stockNuevo.Cantidad = item.Cantidad;
-
-                    //stockBL.AddStock(stockNuevo);
-                    _UOWCompra.StockRepository.Add(stockNuevo);
-
-                    log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stockNuevo.Cantidad);
-
-
+                    //UPDATE PRODUCTOS DE VENTA MAYORISTA
+                    _UOWCompra.ProductosXCompraRepository.Add(prodCompra);
                 }
 
+                //Una vez cargada la venta, actualizamos Stock
+                foreach (var item in compraDTO.ProductosXCompra)
+                {
 
+                    //Producto producto = productoBL.GetProductoById(item.ProductoID);
+
+
+                    //Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+                    Stock stock = _UOWCompra.StockRepository
+                                    .GetAll()
+                                    .Where(s => s.ProductoID == item.ProductoID && s.TipoDeUnidadID == item.TipoDeUnidadID)
+                                    .SingleOrDefault();
+
+                    if (stock != null)
+                    {
+                        stock.Cantidad = stock.Cantidad + item.Cantidad;
+                        //stockBL.UpdateStock(stock);
+                        _UOWCompra.StockRepository.Update(stock);
+
+                        log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stock.Cantidad);
+
+                    }
+                    else
+                    {
+                        Stock stockNuevo = new Stock();
+
+                        stockNuevo.ProductoID = item.ProductoID;
+                        stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
+                        stockNuevo.Cantidad = item.Cantidad;
+
+                        //stockBL.AddStock(stockNuevo);
+                        _UOWCompra.StockRepository.Add(stockNuevo);
+
+                        log.Info("Stock actualizado o creado para producto con ID: " + item.ProductoID + ". Nueva Cantidad: " + stockNuevo.Cantidad);
+
+
+                    }
+
+
+
+                }
 
             }
+
+
 
 
             //compraInDB.Factura = compraDTO.Factura;

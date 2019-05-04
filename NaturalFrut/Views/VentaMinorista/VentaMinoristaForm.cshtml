@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Fecha)
-                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = ViewBag.Fecha.ToString("dd/MM/yyyy HH:mm"), @readonly = "readonly" })
+                @Html.TextBoxFor(c => c.Fecha, new { id = "Fecha", @class = "form-control", @Value = ViewBag.Fecha.ToString("dd/MM/yyyy HH:mm") })
                 @Html.ValidationMessageFor(c => c.Fecha)
             </div>
 
