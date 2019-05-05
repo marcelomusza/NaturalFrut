@@ -30,9 +30,9 @@ namespace NaturalFrut.Models
 
         public string Localidad { get; set; }
 
-        public int TelefonoNegocio { get; set; }
+        public int? TelefonoNegocio { get; set; }
 
-        public int TelefonoCelular { get; set; }
+        public int? TelefonoCelular { get; set; }
 
         public double? Debe { get; set; }
 
@@ -56,7 +56,7 @@ namespace NaturalFrut.Models
 
         public string DireccionTransporte { get; set; }
 
-        public int TelefonoTransporte { get; set; }
+        public int? TelefonoTransporte { get; set; }
 
         public string Dias { get; set; }
 

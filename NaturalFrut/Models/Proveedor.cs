@@ -23,11 +23,11 @@ namespace NaturalFrut.Models
 
         public string Localidad { get; set; }
 
-        public int TelefonoOficina { get; set; }
+        public int? TelefonoOficina { get; set; }
 
-        public int TelefonoCelular { get; set; }
+        public int? TelefonoCelular { get; set; }
 
-        public int TelefonoOtros { get; set; }
+        public int? TelefonoOtros { get; set; }
 
         public string Cuit { get; set; }
 

@@ -27,13 +27,13 @@ namespace NaturalFrut.App_BLL.ViewModels
         public string Localidad { get; set; }
 
         [Display(Name = "Teléfono Oficina")]
-        public int TelefonoOficina { get; set; }
+        public int? TelefonoOficina { get; set; }
 
         [Display(Name = "Teléfono Celular")]
-        public int TelefonoCelular { get; set; }
+        public int? TelefonoCelular { get; set; }
 
         [Display(Name = "Teléfono Otros")]
-        public int TelefonoOtros { get; set; }
+        public int? TelefonoOtros { get; set; }
 
         [Display(Name = "CUIT")]
         public string Cuit { get; set; }

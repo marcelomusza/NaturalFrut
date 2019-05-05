@@ -36,10 +36,10 @@ namespace NaturalFrut.App_BLL.ViewModels
         public string Localidad { get; set; }
 
         [Display(Name = "Teléfono Negocio")]
-        public int TelefonoNegocio { get; set; }
+        public int? TelefonoNegocio { get; set; }
 
         [Display(Name = "Teléfono Celular")]
-        public int TelefonoCelular { get; set; }
+        public int? TelefonoCelular { get; set; }
 
         [Display(Name = "Dirección Email")]
         public string Email { get; set; }
@@ -50,7 +50,7 @@ namespace NaturalFrut.App_BLL.ViewModels
         public string DireccionTransporte { get; set; }
 
         [Display(Name = "Teléfono Transporte")]
-        public int TelefonoTransporte { get; set; }
+        public int? TelefonoTransporte { get; set; }
 
         public string Dias { get; set; }
 
