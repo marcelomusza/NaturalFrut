@@ -175,7 +175,7 @@ namespace NaturalFrut.Controllers.Api
                             }
 
                             //Convertimos la cantidad a gramos (en formato kg)
-                            double cantidadEnGramos = (Convert.ToDouble(prod.Cantidad) / 1000) * item.Cantidad;
+                            double cantidadEnGramos = (Convert.ToDouble(prod.Cantidad) / 10) * item.Cantidad;
                             stockProdMix.Cantidad = stockProdMix.Cantidad - cantidadEnGramos;
 
                             if (stockProdMix.Cantidad < 0)
@@ -482,7 +482,7 @@ namespace NaturalFrut.Controllers.Api
                             }
 
                             //Convertimos la cantidad a gramos (en formato kg)
-                            double cantidadEnGramos = (Convert.ToDouble(prod.Cantidad) / 1000) * item.Cantidad;
+                            double cantidadEnGramos = (Convert.ToDouble(prod.Cantidad) / 10) * item.Cantidad;
                             stockProdMix.Cantidad = stockProdMix.Cantidad - cantidadEnGramos;
 
                             if (stockProdMix.Cantidad < 0)
@@ -1094,7 +1094,7 @@ namespace NaturalFrut.Controllers.Api
 
         //DELETE /api/ventasMayorista/1
         [HttpDelete]
-        [Route("api/ventasmayorista/deleteproductoventamayorista/{Id}")]
+        [Route("api/ventasmayorista/deleteproductoventamayorista/")]
         public IHttpActionResult DeleteProductoVentaMayorista(BorrarProdVtaMayDTO prodVenta)
         {
 
@@ -1131,7 +1131,13 @@ namespace NaturalFrut.Controllers.Api
 
                     foreach (var prod in productosMixStock)
                     {
-                        Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), productoInDB.TipoDeUnidadID);
+                        //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), productoInDB.TipoDeUnidadID);
+                        int prodDelMixID = prod.ProductoDelMixId.GetValueOrDefault();
+                        //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), item.TipoDeUnidadID);
+                        Stock stockProdMix = _UOWVentaMayorista.StockRepository
+                            .GetAll()
+                            .Where(s => s.ProductoID == prodDelMixID && s.TipoDeUnidadID == productoInDB.TipoDeUnidadID)
+                            .SingleOrDefault();
 
                         if (stockProdMix == null)
                         {
@@ -1164,7 +1170,11 @@ namespace NaturalFrut.Controllers.Api
 
                     foreach (var prod in productosBlisterMixStock)
                     {
-                        Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), Constants.TIPODEUNIDAD_MIX);
+                        //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), Constants.TIPODEUNIDAD_MIX);
+                        Stock stockProdMix = _UOWVentaMayorista.StockRepository
+                                .GetAll()
+                                .Where(s => s.ProductoID == prod.ProductoDelMixId.GetValueOrDefault() && s.TipoDeUnidadID == Constants.TIPODEUNIDAD_MIX)
+                                .SingleOrDefault();
 
                         if (stockProdMix == null)
                         {
@@ -1172,8 +1182,11 @@ namespace NaturalFrut.Controllers.Api
                             return BadRequest();
                         }
 
-                        ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoInDB.ProductoID);
-                        double cantidadEnKG = (Convert.ToDouble(productoInDB.Cantidad) * (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
+                        //ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoInDB.ProductoID);
+                        
+                        //Convertimos la cantidad a gramos (en formato kg)
+                        double cantidadEnKG = (Convert.ToDouble(prod.Cantidad) / 10) * productoInDB.Cantidad;
+                        //double cantidadEnKG = (Convert.ToDouble(productoInDB.Cantidad) * (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
 
                         stockProdMix.Cantidad = stockProdMix.Cantidad + cantidadEnKG;
 
@@ -1199,7 +1212,13 @@ namespace NaturalFrut.Controllers.Api
 
                 foreach (var prod in productosMixStock)
                 {
-                    Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), productoInDB.TipoDeUnidadID);
+                    //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), productoInDB.TipoDeUnidadID);
+                    int prodDelMixID = prod.ProductoDelMixId.GetValueOrDefault();
+                    //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), item.TipoDeUnidadID);
+                    Stock stockProdMix = _UOWVentaMayorista.StockRepository
+                        .GetAll()
+                        .Where(s => s.ProductoID == prodDelMixID && s.TipoDeUnidadID == productoInDB.TipoDeUnidadID)
+                        .SingleOrDefault();
 
                     if (stockProdMix == null)
                     {
@@ -1223,7 +1242,12 @@ namespace NaturalFrut.Controllers.Api
                 if (productoInDB.TipoDeUnidadID == Constants.TIPODEUNIDAD_BLISTER)
                 {
                     //Producto Blister
-                    Stock stock = stockBL.ValidarStockProducto(productoInDB.ProductoID, Constants.PRECIO_X_KG);
+                    //Stock stock = stockBL.ValidarStockProducto(productoInDB.ProductoID, Constants.PRECIO_X_KG);
+                    Stock stock = _UOWVentaMayorista.StockRepository
+                                .GetAll()
+                                .Where(s => s.ProductoID == productoInDB.ProductoID && s.TipoDeUnidadID == Constants.PRECIO_X_KG)
+                                .SingleOrDefault();
+
                     ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(productoInDB.ProductoID);
 
                     double cantidadEnKG = (Convert.ToDouble(productoInDB.Cantidad) * (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
@@ -1238,7 +1262,11 @@ namespace NaturalFrut.Controllers.Api
                 else
                 {
                     //Producto Comun
-                    Stock stock = stockBL.ValidarStockProducto(productoInDB.ProductoID, productoInDB.TipoDeUnidadID);
+                    //Stock stock = stockBL.ValidarStockProducto(productoInDB.ProductoID, productoInDB.TipoDeUnidadID);
+                    Stock stock = _UOWVentaMayorista.StockRepository
+                               .GetAll()
+                               .Where(s => s.ProductoID == productoInDB.ProductoID && s.TipoDeUnidadID == productoInDB.TipoDeUnidadID)
+                               .SingleOrDefault();
 
                     stock.Cantidad = stock.Cantidad + productoInDB.Cantidad;
 
@@ -1360,9 +1388,11 @@ namespace NaturalFrut.Controllers.Api
                                 return BadRequest();
                             }
 
-                            ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
+                            //ListaPrecioBlister productoBlisterSegunLista = ventaMayoristaBL.CalcularImporteBlisterSegunCliente(ventaMayoristaInDB.ProductosXVenta[i].ProductoID);
 
-                            double cantidadEnKG = (Convert.ToDouble(ventaMayoristaInDB.ProductosXVenta[i].Cantidad) * (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
+                            //Convertimos la cantidad a gramos (en formato kg)
+                            double cantidadEnKG = (Convert.ToDouble(prod.Cantidad) / 10) * ventaMayoristaInDB.ProductosXVenta[i].Cantidad;
+                            //double cantidadEnKG = (Convert.ToDouble(ventaMayoristaInDB.ProductosXVenta[i].Cantidad) * (Convert.ToDouble(productoBlisterSegunLista.Gramos) / 1000)); //Convierto a KG
                             stockProdMix.Cantidad = stockProdMix.Cantidad + cantidadEnKG;
 
                            

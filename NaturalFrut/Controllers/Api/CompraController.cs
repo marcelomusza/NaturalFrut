@@ -464,7 +464,11 @@ namespace NaturalFrut.Controllers.Api
             //restamos stock
 
             Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);            
-            Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
+            //Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
+            Stock stock = _UOWCompra.StockRepository.GetAll()
+                .Where(s => s.ProductoID == prodCompra.ProductoID && s.TipoDeUnidadID == prodCompra.TipoDeUnidadID)
+                .SingleOrDefault();
+
 
             log.Info("Producto a Borrar con ID: " + producto.ID);
 

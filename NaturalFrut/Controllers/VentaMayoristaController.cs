@@ -315,7 +315,7 @@ namespace NaturalFrut.Controllers
                                 throw new Exception("El Producto " + prodMix.ProductoDelMix.Nombre + " no tiene Stock Asociado para el Tipo de Unidad seleccionado. Revisar la carga del Stock en el sistema antes de continuar.");
 
 
-                            for (double i = (prodMix.Cantidad / 1000); i < productoSegunStock.Cantidad; i += (prodMix.Cantidad / 1000))
+                            for (double i = (prodMix.Cantidad / 10); i < productoSegunStock.Cantidad; i += (prodMix.Cantidad / 10))
                             {                                
                                     contador++;
                             }

@@ -75,7 +75,7 @@
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaEfectivo" required name="entregaEfectivo" type="text" value="" class="form-control" onkeyup="ValidarPunto(this);" />
+                <input id="entregaEfectivo" required name="entregaEfectivo" type="text" value="0" class="form-control" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
@@ -189,15 +189,15 @@
             <table class="table-bordered table-hover table order-list">
                 <thead>
                     <tr>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th style="width:100px;">Unidad</th>
+                        <th width="18%">Descripción</th>
+                        <th width="6%">Cant.</th>
+                        <th width="10%">Unidad</th>
                         <th>Importe</th>
-                        <th>Descuento</th>
+                        <th width="6%">Desc.</th>
                         <th>Importe c/desc.</th>
-                        <th>IIBB BSAS %</th>
-                        <th>IIBB CABA %</th>
-                        <th>IVA</th>
+                        <th width="6%">IIBB BSAS %</th>
+                        <th width="6%">IIBB CABA %</th>
+                        <th width="6%">IVA</th>
                         <th>Precio Uni.</th>
                         <th>Total</th>
                         <th>Acciones</th>
@@ -253,7 +253,7 @@
 
             @Html.AntiForgeryToken()
             @*<input type="hidden" id="CounterAnterior" />*@
-            <button id="btnsubmit" type="submit" class="btn btn-primary">Actualizar Compra</button>
+            <button id="btnsubmit" type="submit" class="btn btn-primary" onclick="ValidarTipoDeUnidad();">Actualizar Compra</button>
             <button id="btncancelar" type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
 
         </div>
@@ -366,7 +366,7 @@
 
                     cols += '<td><div class="form-group"><input id="cantidad' + counter + '" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="" class="js-cantidad form-control" data-js-counter="' + counter + '" ></label></div></td>';
 
-                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control"  ><option value="-1" ></option></select></div></td>';
+                    cols += '<td><div class="form-group"><select id="tiposdeunidad' + counter + '" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" required ><option value="-1" ></option></select></div></td>';
                 //GetTiposDeUnidadDynamic(counter);
 
                 cols += '<td><div class="form-group"><input id="importe' + counter + '" name="importe" required type="text" data-js-counter="' + counter + '" value="" class="js-importe form-control" onkeyup="ValidarPunto(this);" /></div></td>';
@@ -850,11 +850,14 @@
                     //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
 
                     //if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    
 
                         //Modal para aceptacion de venta
-                        bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
+                    bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {                        
 
                             if (result) {
+                                
+                                
                                 
                                 var totalFinal = 0;
                                 var totalGasto = DeFormatearValor($("#totalgastos").val());
@@ -1175,7 +1178,7 @@
                 var iva = ValorANumero($iva.val());
                 var preciouni = DeFormatearValor($preciouni.val());
                 var total = DeFormatearValor($total.val());
-                var prodxcompraid = $prodxcompraid.val();
+                var prodxcompraid = $prodxcompraid.val();               
 
                 vm.productosXCompra.push(
                     {
@@ -1484,6 +1487,22 @@
             $("#preciouni" + counter).val(FormatearValor($("#preciouni" + counter).val()));
             $("#total" + counter).val(FormatearValor($("#total" + counter).val()));
 
+        }
+
+        function ValidarTipoDeUnidad() {
+
+            $(".listaproductos tr").each(function (i, row) {
+
+                var $row = $(row),
+                    $tipodeunidad = $row.find('select[name*="tiposdeunidad"]');
+
+                if ($tipodeunidad.val() == -1) {
+                    bootbox.alert("Por favor completar los campos de Tipo de Unidad");
+                    event.preventDefault();
+                }
+
+            });
+            
         }
 
     </script>
