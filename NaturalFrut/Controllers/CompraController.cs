@@ -12,6 +12,7 @@ using Rotativa.Options;
 using NaturalFrut.Pdf;
 using System.Data;
 using log4net;
+using NaturalFrut.DTOs;
 
 namespace NaturalFrut.Controllers
 {
@@ -80,6 +81,7 @@ namespace NaturalFrut.Controllers
             ViewBag.Fecha = serverTimeConverted;
             ViewBag.Clasificacion = commonBL.GetAllClasificacion();
             //ViewBag.TipoDeUnidadBlister = Constants.TIPODEUNIDAD_BLISTER;
+
 
             if (ultimaCompra == null)
             {
@@ -241,6 +243,18 @@ namespace NaturalFrut.Controllers
 
 
         //    }
+
+        public ActionResult GetProductos()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            List<Producto> productos = db.Productos.ToList();
+
+            return Json(new { success = true, results = productos }, JsonRequestBehavior.AllowGet);
+            
+        }
 
 
         public ActionResult GetTiposDeUnidadDynamicAsync(int counter)

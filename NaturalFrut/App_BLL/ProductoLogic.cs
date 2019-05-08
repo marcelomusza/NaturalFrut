@@ -72,6 +72,11 @@ namespace NaturalFrut.App_BLL
                 .ToList();
         }
 
+        public List<Producto> GetAllProductoSinRelaciones()
+        {
+            return productoRP.GetAll().ToList();
+        }
+
         public Producto GetProductoById(int id)
         {
             return productoRP

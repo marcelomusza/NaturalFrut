@@ -79,6 +79,8 @@ namespace NaturalFrut.App_BLL
             return ProductoXVentaRP
                .GetAll()
                .Include(p => p.Producto)
+               .Include("Producto.Marca")
+               .Include("Producto.Categoria")
                .Include(t => t.TipoDeUnidad)
                .Where(v => v.VentaID == ventaID)
                .OrderBy(p => p.Producto.Nombre)

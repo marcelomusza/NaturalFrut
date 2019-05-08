@@ -934,9 +934,20 @@
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 prefetch: {
-                    url: 'api/productos/Productos',
+                    url: 'api/productos/productossinrelaciones',
                     cache: false
                 }
+                //remote: {
+                //    url: '/Compra/GetProductos',
+                //    filter: function (response) {
+                //        return $.map(response.results, function (producto) {
+                //            return {
+                //                Nombre: producto.Nombre
+                //            }
+                //        });
+                //    }
+                //},
+
             });
 
             $('#producto' + counter).typeahead({
@@ -945,9 +956,10 @@
                 hint: true,
                 limit: Infinity
             }, {
-                    name: 'producto',
+                    name: 'productos',
                     display: 'Nombre',
-                    source: productos
+                    source: productos,
+                    
                 }).on("typeahead:select", function (e, producto) {
 
                     $("#producto" + counter).attr("data-producto-id", producto.ID);

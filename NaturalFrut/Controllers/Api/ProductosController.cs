@@ -52,6 +52,45 @@ namespace NaturalFrut.Controllers.Api
             return productos.Select(Mapper.Map<Producto, ProductoDTO>);
         }
 
+        //GET /api/productos
+        [HttpGet]
+        [Route("compra/api/productos/productossinrelaciones")]
+        [Route("api/productos/productossinrelaciones")]
+        public IEnumerable<Producto> GetProductosSinRelaciones()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            List<Producto> productos = db.Productos.ToList();
+            List<Marca> marcas = db.Marcas.ToList();
+            List<Categoria> categorias = db.Categorias.ToList();
+
+            foreach (var prod in productos)
+            {
+                if (prod.MarcaId != null)
+                {
+                    var marca = (from a in marcas
+                                  where a.ID == prod.MarcaId
+                                  select a.Nombre).SingleOrDefault();
+
+                    prod.Nombre = prod.Nombre + " (" + marca + ")";
+                }                    
+
+                if (prod.CategoriaId != null)
+                {
+                    var catego = (from a in categorias
+                                 where a.ID == prod.CategoriaId
+                                 select a.Nombre).SingleOrDefault();
+
+                    prod.Nombre = prod.Nombre + " (" + catego + ")";
+                }
+                    
+            }
+
+            return productos;
+        }
+
         [HttpGet]
         [Route("ventamayorista/api/productos/productosxlista")]
         public IEnumerable<ProductoDTO> ProductosXLista(int clienteId)

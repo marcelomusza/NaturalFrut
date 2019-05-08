@@ -299,41 +299,9 @@
     <Compile Include="DTOs\StockDTO.cs" />
     <Compile Include="Helpers\Encryption.cs" />
     <Compile Include="Helpers\ExcelExportHelper.cs" />
-    <Compile Include="Migrations\201903152117502_vendedorseanull.cs" />
-    <Compile Include="Migrations\201903152117502_vendedorseanull.Designer.cs">
-      <DependentUpon>201903152117502_vendedorseanull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903171624107_Proveedor_NombreReqOnly.cs" />
-    <Compile Include="Migrations\201903171624107_Proveedor_NombreReqOnly.Designer.cs">
-      <DependentUpon>201903171624107_Proveedor_NombreReqOnly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.cs" />
-    <Compile Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.Designer.cs">
-      <DependentUpon>201903171637357_VtaMinorista_ReqLocaleImporte.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903171656518_Cliente_ReqNombreYDire.cs" />
-    <Compile Include="Migrations\201903171656518_Cliente_ReqNombreYDire.Designer.cs">
-      <DependentUpon>201903171656518_Cliente_ReqNombreYDire.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.cs" />
-    <Compile Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.Designer.cs">
-      <DependentUpon>201903171702460_Cliente_ReqNombreYDire_FIX.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903312347406_ClienteDebeYSaldoAFavor.cs" />
-    <Compile Include="Migrations\201903312347406_ClienteDebeYSaldoAFavor.Designer.cs">
-      <DependentUpon>201903312347406_ClienteDebeYSaldoAFavor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904022101363_vtamay_IVA.cs" />
-    <Compile Include="Migrations\201904022101363_vtamay_IVA.Designer.cs">
-      <DependentUpon>201904022101363_vtamay_IVA.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905052207448_cambiosClienteProveedor.cs" />
-    <Compile Include="Migrations\201905052207448_cambiosClienteProveedor.Designer.cs">
-      <DependentUpon>201905052207448_cambiosClienteProveedor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905052209395_clientetelefeonotrans.cs" />
-    <Compile Include="Migrations\201905052209395_clientetelefeonotrans.Designer.cs">
-      <DependentUpon>201905052209395_clientetelefeonotrans.cs</DependentUpon>
+    <Compile Include="Migrations\201905052235276_FreshDB.cs" />
+    <Compile Include="Migrations\201905052235276_FreshDB.Designer.cs">
+      <DependentUpon>201905052235276_FreshDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
@@ -858,32 +826,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903152117502_vendedorseanull.resx">
-      <DependentUpon>201903152117502_vendedorseanull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903171624107_Proveedor_NombreReqOnly.resx">
-      <DependentUpon>201903171624107_Proveedor_NombreReqOnly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903171637357_VtaMinorista_ReqLocaleImporte.resx">
-      <DependentUpon>201903171637357_VtaMinorista_ReqLocaleImporte.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903171656518_Cliente_ReqNombreYDire.resx">
-      <DependentUpon>201903171656518_Cliente_ReqNombreYDire.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903171702460_Cliente_ReqNombreYDire_FIX.resx">
-      <DependentUpon>201903171702460_Cliente_ReqNombreYDire_FIX.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903312347406_ClienteDebeYSaldoAFavor.resx">
-      <DependentUpon>201903312347406_ClienteDebeYSaldoAFavor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904022101363_vtamay_IVA.resx">
-      <DependentUpon>201904022101363_vtamay_IVA.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905052207448_cambiosClienteProveedor.resx">
-      <DependentUpon>201905052207448_cambiosClienteProveedor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905052209395_clientetelefeonotrans.resx">
-      <DependentUpon>201905052209395_clientetelefeonotrans.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905052235276_FreshDB.resx">
+      <DependentUpon>201905052235276_FreshDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -75,14 +75,25 @@ namespace NaturalFrut.Pdf
                             fondoColor = true;
                         }
 
-                        sb.Append("<td width='25%'>" + prod.Producto.Nombre + "</td>");
+                        if (prod.Producto.MarcaId != null)
+                            sb.Append("<td width='25%'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
+
+                        if (prod.Producto.CategoriaId != null)
+                            sb.Append("<td width='25%'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
+
                         //sb.Append("<td>pasas c/cobertura chocolate negrox 1kg</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.Descuento + "</td>");
                         sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
                         sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
-                        sb.Append("<td width='25%'>" + prod.Producto.Nombre + "</td>");
+
+                        if (prod.Producto.MarcaId != null)
+                            sb.Append("<td width='25%'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
+
+                        if (prod.Producto.CategoriaId != null)
+                            sb.Append("<td width='25%'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
+
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.Descuento + "</td>");
@@ -291,7 +302,11 @@ namespace NaturalFrut.Pdf
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
+                if(VentaMayorista.VendedorObj != null)
+                    cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
+                else
+                    cell = new PdfPCell(new Phrase("Vendedor: " + "", boldTableFont));
+
                 cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);
@@ -301,7 +316,11 @@ namespace NaturalFrut.Pdf
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
+                if (VentaMayorista.VendedorObj != null)
+                    cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
+                else
+                    cell = new PdfPCell(new Phrase("Vendedor: " + "", boldTableFont));
+
                 cell.Colspan = 3;
                 cell.Border = 0;
                 headerTable.AddCell(cell);

@@ -32,7 +32,35 @@ namespace NaturalFrut.Controllers.Api
         //GET /api/listaPrecios
         public IEnumerable<ListaPrecioDTO> GetListaPrecios()
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
             var listaPrecio = listaPreciosBL.GetAllListaPrecio();
+            List<Marca> marcas = db.Marcas.ToList();
+            List<Categoria> categorias = db.Categorias.ToList();
+
+            foreach (var item in listaPrecio)
+            {
+                if (item.Producto.MarcaId != null)
+                {
+                    var marca = (from a in marcas
+                                 where a.ID == item.Producto.MarcaId
+                                 select a.Nombre).SingleOrDefault();
+
+                    item.Producto.Nombre = item.Producto.Nombre + " (" + marca + ")";
+                }
+
+                if (item.Producto.CategoriaId != null)
+                {
+                    var catego = (from a in categorias
+                                  where a.ID == item.Producto.CategoriaId
+                                  select a.Nombre).SingleOrDefault();
+
+                    item.Producto.Nombre = item.Producto.Nombre + " (" + catego + ")";
+                }
+
+            }
 
             return listaPrecio.Select(Mapper.Map<ListaPrecio, ListaPrecioDTO>);
         }

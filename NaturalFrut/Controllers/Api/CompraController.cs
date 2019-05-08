@@ -70,7 +70,8 @@ namespace NaturalFrut.Controllers.Api
                 return BadRequest();
             }
 
-            Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
+            //Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
+            Proveedor proveedor = _UOWCompra.ProveedorRepository.GetByID(compraDTO.ProveedorID);
 
             if (proveedor == null)
             {
@@ -104,12 +105,13 @@ namespace NaturalFrut.Controllers.Api
                 foreach (var item in compra.ProductosXCompra)
                 {
 
-                    Producto producto = productoBL.GetProductoById(item.ProductoID);
+                   // Producto producto = productoBL.GetProductoById(item.ProductoID);
 
 
-                    Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+                    //Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
+                    Stock stock = _UOWCompra.StockRepository.GetAll().Where(s => s.ProductoID == item.ProductoID && s.TipoDeUnidadID == item.TipoDeUnidadID).SingleOrDefault();
 
-                    if(stock != null)
+                    if (stock != null)
                     {
                         stock.Cantidad = stock.Cantidad + item.Cantidad;
                         //stockBL.UpdateStock(stock);
@@ -158,7 +160,8 @@ namespace NaturalFrut.Controllers.Api
                 return BadRequest();
             }
 
-            var compraInDB = compraBL.GetCompraById(compraDTO.ID);
+            //var compraInDB = compraBL.GetCompraById(compraDTO.ID);
+            var compraInDB = _UOWCompra.CompraRepository.GetByID(compraDTO.ID);
 
             if (compraInDB == null)
             {
@@ -166,7 +169,8 @@ namespace NaturalFrut.Controllers.Api
                 return NotFound();
             }
 
-            Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
+            //Proveedor proveedor = proveedorBL.GetProveedorById(compraDTO.ProveedorID);
+            Proveedor proveedor = _UOWCompra.ProveedorRepository.GetByID(compraDTO.ProveedorID);
 
             log.Info("Compra. Viejo Saldo Proveedor: " + compraDTO.Debe);
 
@@ -463,14 +467,15 @@ namespace NaturalFrut.Controllers.Api
 
             //restamos stock
 
-            Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);            
+            //Producto producto = productoBL.GetProductoById(prodCompra.ProductoID);         
+            
             //Stock stock = stockBL.ValidarStockProducto(prodCompra.ProductoID, prodCompra.TipoDeUnidadID);
             Stock stock = _UOWCompra.StockRepository.GetAll()
                 .Where(s => s.ProductoID == prodCompra.ProductoID && s.TipoDeUnidadID == prodCompra.TipoDeUnidadID)
                 .SingleOrDefault();
 
 
-            log.Info("Producto a Borrar con ID: " + producto.ID);
+            log.Info("Producto a Borrar con ID: " + prodCompra.ProductoID);
 
             if (stock != null)
             {
