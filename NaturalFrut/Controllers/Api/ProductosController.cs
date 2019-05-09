@@ -63,30 +63,30 @@ namespace NaturalFrut.Controllers.Api
             db.Configuration.ProxyCreationEnabled = false;
 
             List<Producto> productos = db.Productos.ToList();
-            List<Marca> marcas = db.Marcas.ToList();
-            List<Categoria> categorias = db.Categorias.ToList();
+            //List<Marca> marcas = db.Marcas.ToList();
+            //List<Categoria> categorias = db.Categorias.ToList();
 
-            foreach (var prod in productos)
-            {
-                if (prod.MarcaId != null)
-                {
-                    var marca = (from a in marcas
-                                  where a.ID == prod.MarcaId
-                                  select a.Nombre).SingleOrDefault();
+            //foreach (var prod in productos)
+            //{
+            //    if (prod.MarcaId != null)
+            //    {
+            //        var marca = (from a in marcas
+            //                      where a.ID == prod.MarcaId
+            //                      select a.Nombre).SingleOrDefault();
 
-                    prod.Nombre = prod.Nombre + " (" + marca + ")";
-                }                    
+            //        prod.Nombre = prod.Nombre + " (" + marca + ")";
+            //    }                    
 
-                if (prod.CategoriaId != null)
-                {
-                    var catego = (from a in categorias
-                                 where a.ID == prod.CategoriaId
-                                 select a.Nombre).SingleOrDefault();
+            //    if (prod.CategoriaId != null)
+            //    {
+            //        var catego = (from a in categorias
+            //                     where a.ID == prod.CategoriaId
+            //                     select a.Nombre).SingleOrDefault();
 
-                    prod.Nombre = prod.Nombre + " (" + catego + ")";
-                }
+            //        prod.Nombre = prod.Nombre + " (" + catego + ")";
+            //    }
                     
-            }
+            //}
 
             return productos;
         }
@@ -106,28 +106,12 @@ namespace NaturalFrut.Controllers.Api
             {
                 if (prod.EsMix && prod.EsBlister)
                 {
-                    if (prod.Marca != null)
-                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX/BLISTER -";
-
-                    if (prod.Categoria != null)
-                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX/BLISTER -";
+                    prod.NombreAuxiliar = prod.NombreAuxiliar + " - MIX/BLISTER -";
                 }
                 else if (prod.EsMix)
                 {
-                    if (prod.Marca != null)
-                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ") - MIX -";
-
-                    if (prod.Categoria != null)
-                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ") - MIX -";
-                }                
-                else
-                {
-                    if (prod.Marca != null)
-                        prod.Nombre = prod.Nombre + " (" + prod.Marca.Nombre + ")";
-
-                    if (prod.Categoria != null)
-                        prod.Nombre = prod.Nombre + " (" + prod.Categoria.Nombre + ")";
-                }
+                    prod.NombreAuxiliar = prod.NombreAuxiliar + " - MIX -";
+                }          
 
                 productosConjunto.Add(prod);
             }

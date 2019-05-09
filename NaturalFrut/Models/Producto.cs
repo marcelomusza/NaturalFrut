@@ -26,6 +26,7 @@ namespace NaturalFrut.Models
 
         public bool EsMix { get; set; }
 
+        public string NombreAuxiliar { get; set; }
 
         public Categoria Categoria { get; set; }
 

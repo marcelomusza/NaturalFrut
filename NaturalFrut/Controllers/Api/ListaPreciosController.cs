@@ -37,30 +37,30 @@ namespace NaturalFrut.Controllers.Api
             db.Configuration.ProxyCreationEnabled = false;
 
             var listaPrecio = listaPreciosBL.GetAllListaPrecio();
-            List<Marca> marcas = db.Marcas.ToList();
-            List<Categoria> categorias = db.Categorias.ToList();
+            //List<Marca> marcas = db.Marcas.ToList();
+            //List<Categoria> categorias = db.Categorias.ToList();
 
-            foreach (var item in listaPrecio)
-            {
-                if (item.Producto.MarcaId != null)
-                {
-                    var marca = (from a in marcas
-                                 where a.ID == item.Producto.MarcaId
-                                 select a.Nombre).SingleOrDefault();
+            //foreach (var item in listaPrecio)
+            //{
+            //    if (item.Producto.MarcaId != null)
+            //    {
+            //        var marca = (from a in marcas
+            //                     where a.ID == item.Producto.MarcaId
+            //                     select a.Nombre).SingleOrDefault();
 
-                    item.Producto.Nombre = item.Producto.Nombre + " (" + marca + ")";
-                }
+            //        item.Producto.Nombre = item.Producto.Nombre + " (" + marca + ")";
+            //    }
 
-                if (item.Producto.CategoriaId != null)
-                {
-                    var catego = (from a in categorias
-                                  where a.ID == item.Producto.CategoriaId
-                                  select a.Nombre).SingleOrDefault();
+            //    if (item.Producto.CategoriaId != null)
+            //    {
+            //        var catego = (from a in categorias
+            //                      where a.ID == item.Producto.CategoriaId
+            //                      select a.Nombre).SingleOrDefault();
 
-                    item.Producto.Nombre = item.Producto.Nombre + " (" + catego + ")";
-                }
+            //        item.Producto.Nombre = item.Producto.Nombre + " (" + catego + ")";
+            //    }
 
-            }
+            //}
 
             return listaPrecio.Select(Mapper.Map<ListaPrecio, ListaPrecioDTO>);
         }

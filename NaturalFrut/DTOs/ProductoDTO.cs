@@ -23,7 +23,8 @@ namespace NaturalFrut.DTOs
 
         public Marca Marca { get; set; }
 
-      
+        public string NombreAuxiliar { get; set; }
+
         public int? MarcaId { get; set; }
 
         public bool EsBlister { get; set; }

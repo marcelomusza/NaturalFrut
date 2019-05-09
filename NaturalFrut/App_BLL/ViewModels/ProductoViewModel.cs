@@ -37,6 +37,8 @@ namespace NaturalFrut.App_BLL.ViewModels
         [Required]
         public bool EsMix { get; set; }
 
+        public string NombreAuxiliar { get; set; }
+
 
 
         public ProductoViewModel()

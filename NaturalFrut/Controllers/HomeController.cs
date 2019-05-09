@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using log4net;
+using NaturalFrut.App_BLL;
 
 namespace NaturalFrut.Controllers
 {
@@ -13,17 +14,24 @@ namespace NaturalFrut.Controllers
     {
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ProductoLogic productoBL;
+
+        public HomeController(ProductoLogic ProductoLogic)
+        {            
+            productoBL = ProductoLogic;
+        }
 
         public ActionResult Index()
         {
-            log.Info("Estas entrando en la pagina de contactos!");
-            log.Error("Se Rompio");
             return View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
+
+            productoBL.UpdateProductoAuxiliar();
+
 
             return View();
         }

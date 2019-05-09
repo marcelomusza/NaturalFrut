@@ -36,6 +36,34 @@ namespace NaturalFrut.App_BLL
             stockRP = stockRepository;
         }
 
+        internal void UpdateProductoAuxiliar()
+        {
+
+            var productos = productoRP.GetAll().ToList();
+
+            foreach (var producto in productos)
+            {
+                //Preparamos el Producto Auxiliar
+                if (producto.MarcaId != null)
+                {
+                    Marca marca = marcaRP.GetByID((int)producto.MarcaId);
+                    producto.NombreAuxiliar = producto.Nombre + " (" + marca.Nombre + ")";
+                }
+                if (producto.CategoriaId != null)
+                {
+                    Categoria catego = categoriaRP.GetByID((int)producto.CategoriaId);
+                    producto.NombreAuxiliar = producto.Nombre + " (" + catego.Nombre + ")";
+                }
+
+                productoRP.Update(producto);
+                productoRP.Save();
+            }
+
+            
+
+
+        }
+
         public ProductoLogic(IRepository<Producto> ProductoRepository)
         {
             productoRP = ProductoRepository;
@@ -95,6 +123,19 @@ namespace NaturalFrut.App_BLL
 
         public void AddProducto(Producto producto)
         {
+
+            //Preparamos el Producto Auxiliar
+            if (producto.MarcaId != null)
+            {
+                Marca marca = marcaRP.GetByID((int)producto.MarcaId);
+                producto.NombreAuxiliar = producto.Nombre + " (" + marca.Nombre + ")";
+            }
+            if (producto.CategoriaId != null)
+            {
+                Categoria catego = categoriaRP.GetByID((int)producto.CategoriaId);
+                producto.NombreAuxiliar = producto.Nombre + " (" + catego.Nombre + ")";
+            }
+
             productoRP.Add(producto);
             productoRP.Save();
         }
