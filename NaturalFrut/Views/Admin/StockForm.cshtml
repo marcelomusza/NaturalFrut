@@ -97,7 +97,7 @@
                     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
                     prefetch: {
-                        url: 'api/productos/Productos',
+                        url: 'api/productos/productossinrelaciones',
                         cache: false
                     }
                 });
@@ -109,7 +109,7 @@
                     limit: Infinity
                 }, {
                     name: 'producto',
-                    display: 'Nombre',
+                    display: 'NombreAuxiliar',
                     source: productos
                 }).on("typeahead:select", function (e, producto) {
 

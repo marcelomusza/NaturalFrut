@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label>Producto</label>
                 <div class="tt-container compra-proveedor">
-                    <input id="producto" name="producto"  data-producto-id="@Model.ProductoID" required type="text" value="@Model.Producto.Nombre" class="form-control" disabled/>
+                    <input id="producto" name="producto"  data-producto-id="@Model.ProductoID" required type="text" value="@Model.Producto.NombreAuxiliar" class="form-control" disabled/>
                 </div>
             </div>
 
@@ -43,7 +43,8 @@
 
     <div class="row">
         <div class="col-sm-12">
-
+            @Html.HiddenFor(c => c.ProductoAuxiliar)
+            @Html.HiddenFor(c => c.TipoDeUnidadAuxiliar)
             @Html.AntiForgeryToken()
             <button id="btnagregarstock" class="btn btn-outline-secondary btn-primary " type="button">Agregar Stock</button>
             <button id="btnquitarstock" class="btn btn-outline-secondary btn-primary " type="button">Quitar Stock</button>
@@ -71,6 +72,8 @@
                     TipoDeUnidadID: 0,
                     Cantidad: 0,
                     NuevaCantidad: 0,
+                    ProductoAuxiliar: "",
+                    TipoDeUnidadAuxiliar: "",
                     IsDelete: false
                 };
 
@@ -191,6 +194,8 @@
             vm.TipoDeUnidadID = $("#tipoUnidad").attr("data-tipoUnidad-id");
             vm.Cantidad = ValorANumero($("#cantidad").val());
             vm.ID = @ViewBag.StockID;
+            vm.ProductoAuxiliar = $("#ProductoAuxiliar").val();
+            vm.TipoDeUnidadAuxiliar = $("#TipoDeUnidadAuxiliar").val();
         }
 
         

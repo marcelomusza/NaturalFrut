@@ -31,6 +31,7 @@ namespace NaturalFrut
             container.RegisterType<IRepository<Clasificacion>, BaseRepository<Clasificacion>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<Compra>, BaseRepository<Compra>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<ProductoXCompra>, BaseRepository<ProductoXCompra>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<TipoDeUnidad>, BaseRepository<TipoDeUnidad>>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

@@ -26,6 +26,10 @@ namespace NaturalFrut.Models
 
         public Boolean isDelete { get; set; }
 
+        public string ProductoAuxiliar { get; set; }
+
+        public string TipoDeUnidadAuxiliar { get; set; }
+
 
         public Producto Producto { get; set; }
 

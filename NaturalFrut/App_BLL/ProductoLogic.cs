@@ -1,4 +1,6 @@
-﻿using NaturalFrut.App_BLL.Interfaces;
+﻿using AutoMapper;
+using NaturalFrut.App_BLL.Interfaces;
+using NaturalFrut.DTOs;
 using NaturalFrut.Models;
 using System;
 using System.Collections.Generic;
@@ -142,6 +144,19 @@ namespace NaturalFrut.App_BLL
 
         public void UpdateProducto(Producto producto)
         {
+
+            //Preparamos el Producto Auxiliar
+            if (producto.MarcaId != null)
+            {
+                Marca marca = marcaRP.GetByID((int)producto.MarcaId);
+                producto.NombreAuxiliar = producto.Nombre + " (" + marca.Nombre + ")";
+            }
+            if (producto.CategoriaId != null)
+            {
+                Categoria catego = categoriaRP.GetByID((int)producto.CategoriaId);
+                producto.NombreAuxiliar = producto.Nombre + " (" + catego.Nombre + ")";
+            }
+
             productoRP.Update(producto);
             productoRP.Save();
         }
@@ -164,26 +179,42 @@ namespace NaturalFrut.App_BLL
             return marcaRP.GetAll().ToList();
         }
 
-        public List<Producto> GetAllProductosSegunListaAsociada(int clienteID)
+        public List<ProductoDTO> GetAllProductosSegunListaAsociada(int clienteID)
         {
             var cliente = clienteRP.GetByID(clienteID);
             var listaAsociada = cliente.ListaId;
 
-            List<ListaPrecio> productosSegunLista = listaPrecioRP.GetAll()
-                .Include(p => p.Producto)
-                .Include(p => p.Producto.Categoria)
-                .Include(p => p.Producto.Marca)
-                .Where(p => p.ListaID == listaAsociada)
-                .ToList();
+            //List<ListaPrecio> productosSegunLista = listaPrecioRP.GetAll()
+            //    .Include(p => p.Producto)
+            //    //.Include(p => p.Producto.Categoria)
+            //    //.Include(p => p.Producto.Marca)
+            //    .Where(p => p.ListaID == listaAsociada)
+            //    .ToList();
 
-            List<Producto> listaProductos = new List<Producto>();
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
 
-            foreach (var prod in productosSegunLista)
-            {
-                listaProductos.Add(prod.Producto);
-            }
+            var prods = (from lp in db.ListaPrecios
+                         join p in db.Productos on lp.ProductoID equals p.ID
+                         where lp.ListaID == listaAsociada
+                         select new ProductoDTO {
+                             ID = p.ID,
+                             Nombre = p.Nombre,
+                             NombreAuxiliar = p.NombreAuxiliar
+                         }).ToList();
 
-            return listaProductos;
+
+
+            //List<Producto> listaProductos = new List<Producto>();
+
+            //foreach (var prod in productosSegunLista)
+            //{
+            //    listaProductos.Add(prod.Producto);
+            //}
+
+            return prods;
+            //return listaProductos;
         }
 
         //public List<Producto> GetAllProductosBlister()

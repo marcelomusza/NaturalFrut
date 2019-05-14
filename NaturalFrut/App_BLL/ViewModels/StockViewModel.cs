@@ -28,6 +28,10 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double NuevaCantidad { get; set; }
 
+        public string ProductoAuxiliar { get; set; }
+
+        public string TipoDeUnidadAuxiliar { get; set; }
+
         public Boolean isDelete { get; set; }
 
         public IEnumerable<Producto> Producto { get; set; }
@@ -45,6 +49,8 @@ namespace NaturalFrut.App_BLL.ViewModels
             ProductoID = stock.ProductoID;
             TipoDeUnidadID = stock.TipoDeUnidadID;
             Cantidad = stock.Cantidad;
+            ProductoAuxiliar = stock.ProductoAuxiliar;
+            TipoDeUnidadAuxiliar = stock.TipoDeUnidadAuxiliar;
 
         }
 

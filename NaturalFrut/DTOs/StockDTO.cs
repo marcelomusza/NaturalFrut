@@ -24,6 +24,10 @@ namespace NaturalFrut.DTOs
         [Display(Name = "Cantidad")]
         public double Cantidad { get; set; }
 
+        public string ProductoAuxiliar { get; set; }
+
+        public string TipoDeUnidadAuxiliar { get; set; }
+
 
         public Producto Producto { get; set; }
 

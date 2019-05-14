@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using NaturalFrut.DTOs;
 
 namespace NaturalFrut.App_BLL
 {
@@ -27,6 +28,8 @@ namespace NaturalFrut.App_BLL
             ProductoMixRP = ProductoMixRepository;
         }
 
+        
+
         public StockLogic(IRepository<Stock> StockRepository)
         {
             StockRP = StockRepository;
@@ -41,6 +44,10 @@ namespace NaturalFrut.App_BLL
 
         public List<Stock> GetAllStock()
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
             return StockRP.GetAll()
                 .Include(p => p.Producto)
                 .Include(t => t.TipoDeUnidad)
@@ -132,8 +139,30 @@ namespace NaturalFrut.App_BLL
 
         //        listaStockProdMix.Add(stockProd);
         //    }
-           
+
         //    return listaStockProdMix;
         //}
+
+
+        internal void UpdateStockAuxiliar()
+        {
+            var stock = StockRP.GetAll().ToList();
+
+            foreach (var item in stock)
+            {
+                //Preparamos el Stock Auxiliar
+                Producto prod = ProductoRP.GetByID(item.ProductoID);
+                TipoDeUnidad tu = TipoDeUnidadRP.GetByID(item.TipoDeUnidadID);
+
+
+                item.ProductoAuxiliar = prod.NombreAuxiliar;
+                item.TipoDeUnidadAuxiliar = tu.Nombre;
+
+                StockRP.Update(item);
+                StockRP.Save();
+            }
+
+
+        }
     }
 }

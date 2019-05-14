@@ -32,11 +32,14 @@ namespace NaturalFrut.App_BLL
             clasificacionRP = ClasificacionRepository;
         }
 
-        public CommonLogic(
-            IRepository<Clasificacion> ClasificacionRepository)
-        {
-            
+        public CommonLogic(IRepository<Clasificacion> ClasificacionRepository)
+        {            
             clasificacionRP = ClasificacionRepository;
+        }
+
+        public CommonLogic(IRepository<TipoDeUnidad> TipoDeUnidadRepository)
+        {
+            tipoDeUnidadRP = TipoDeUnidadRepository;
         }
 
 

@@ -21,13 +21,15 @@ namespace NaturalFrut.Controllers.Api
 
         private readonly StockLogic stockBL;
         private readonly ProductoLogic productoBL;
+        private readonly CommonLogic tipoDeUnidadBL;
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public StockController(IRepository<Stock> StockRepo, IRepository<Producto> ProductoRepo)
+        public StockController(IRepository<Stock> StockRepo, IRepository<Producto> ProductoRepo, IRepository<TipoDeUnidad> TipoDeUnidadRepo)
         {
             stockBL = new StockLogic(StockRepo);
             productoBL = new ProductoLogic(ProductoRepo);
+            tipoDeUnidadBL = new CommonLogic(TipoDeUnidadRepo);
         }
 
 
@@ -39,6 +41,19 @@ namespace NaturalFrut.Controllers.Api
             var stocks = stockBL.GetAllStock();
 
             return stocks.Select(Mapper.Map<Stock, StockDTO>);
+        }
+
+        [HttpGet]
+        [Route("api/stock/stocksinrelaciones")]
+        public IEnumerable<Stock> GetStockSinRelaciones()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            List<Stock> stock = db.Stock.ToList();
+
+            return stock;
         }
 
 
@@ -54,7 +69,7 @@ namespace NaturalFrut.Controllers.Api
 
 
             Producto producto = productoBL.GetProductoById(stock.ProductoID);
-
+            TipoDeUnidad tunidad = tipoDeUnidadBL.GetTipoDeUnidadById(stock.TipoDeUnidadID);
 
             Stock stockIngresado = stockBL.ValidarStockProducto(stock.ProductoID, stock.TipoDeUnidadID);
 
@@ -73,6 +88,8 @@ namespace NaturalFrut.Controllers.Api
                 stockNuevo.ProductoID = stock.ProductoID;
                 stockNuevo.TipoDeUnidadID = stock.TipoDeUnidadID;
                 stockNuevo.Cantidad = stock.Cantidad;
+                stockNuevo.ProductoAuxiliar = producto.NombreAuxiliar;
+                stockNuevo.TipoDeUnidadAuxiliar = tunidad.Nombre;
 
                 stockBL.AddStock(stockNuevo);
 
@@ -101,7 +118,8 @@ namespace NaturalFrut.Controllers.Api
             stockmodif.ProductoID = stockUpdate.ProductoID;
             stockmodif.TipoDeUnidadID = stockUpdate.TipoDeUnidadID;
             stockmodif.ID = stockUpdate.ID;
-
+            stockmodif.ProductoAuxiliar = stockUpdate.ProductoAuxiliar;
+            stockmodif.TipoDeUnidadAuxiliar = stockUpdate.TipoDeUnidadAuxiliar;
             
             if (!stockUpdate.isDelete)
             {

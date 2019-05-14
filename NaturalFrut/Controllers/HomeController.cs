@@ -15,10 +15,12 @@ namespace NaturalFrut.Controllers
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly ProductoLogic productoBL;
+        private readonly StockLogic stockBL;
 
-        public HomeController(ProductoLogic ProductoLogic)
+        public HomeController(ProductoLogic ProductoLogic, StockLogic StockLogic)
         {            
             productoBL = ProductoLogic;
+            stockBL = StockLogic;
         }
 
         public ActionResult Index()
@@ -30,7 +32,8 @@ namespace NaturalFrut.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
-            productoBL.UpdateProductoAuxiliar();
+            stockBL.UpdateStockAuxiliar();
+            //productoBL.UpdateProductoAuxiliar();
 
 
             return View();

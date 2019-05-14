@@ -307,6 +307,10 @@
     <Compile Include="Migrations\201905082234367_ProductoNombreAuxiliar.Designer.cs">
       <DependentUpon>201905082234367_ProductoNombreAuxiliar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905130219204_stocknuevascol.cs" />
+    <Compile Include="Migrations\201905130219204_stocknuevascol.Designer.cs">
+      <DependentUpon>201905130219204_stocknuevascol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -835,6 +839,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905082234367_ProductoNombreAuxiliar.resx">
       <DependentUpon>201905082234367_ProductoNombreAuxiliar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905130219204_stocknuevascol.resx">
+      <DependentUpon>201905130219204_stocknuevascol.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

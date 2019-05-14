@@ -56,6 +56,7 @@ namespace NaturalFrut.Controllers.Api
         [HttpGet]
         [Route("compra/api/productos/productossinrelaciones")]
         [Route("api/productos/productossinrelaciones")]
+        [Route("admin/api/productos/productossinrelaciones")]
         public IEnumerable<Producto> GetProductosSinRelaciones()
         {
             ApplicationDbContext db = new ApplicationDbContext();
@@ -100,7 +101,7 @@ namespace NaturalFrut.Controllers.Api
 
             log.Info("Accediendo a los Productos X Lista segun cliente ID: " + clienteId);
 
-            List<Producto> productosConjunto = new List<Producto>();
+            List<ProductoDTO> productosConjunto = new List<ProductoDTO>();
 
             foreach (var prod in productos)
             {
@@ -176,7 +177,7 @@ namespace NaturalFrut.Controllers.Api
 
 
 
-            return productosConjunto.Select(Mapper.Map<Producto, ProductoDTO>);
+            return productosConjunto;
         }
 
         [HttpGet]
@@ -248,7 +249,7 @@ namespace NaturalFrut.Controllers.Api
             var productos = productoBL.GetAllProductosSegunListaAsociada(clienteId);
             //var productosBlister = productoBL.GetAllProductosBlister();
 
-            List<Producto> productosConjunto = new List<Producto>();
+            List<ProductoDTO> productosConjunto = new List<ProductoDTO>();
 
             foreach (var prod in productos)
             {
@@ -286,7 +287,7 @@ namespace NaturalFrut.Controllers.Api
 
 
 
-            return productosConjunto.Select(Mapper.Map<Producto, ProductoDTO>);
+            return productosConjunto;
         }
 
         [HttpGet]

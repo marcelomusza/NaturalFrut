@@ -55,6 +55,7 @@ namespace NaturalFrut.Models
         public DbSet<Clasificacion> Clasificacion { get; set; }
         public DbSet<Compra> Compra { get; set; }
         public DbSet<ProductoXCompra> ProductoXCompra { get; set; }
+        public DbSet<Stock> Stock { get; set; }
 
         public ApplicationDbContext()            
         {

@@ -57,6 +57,8 @@ namespace NaturalFrut.App_BLL.ViewModels
                 MarcaId = producto.MarcaId;
 
             EsBlister = producto.EsBlister;
+
+            NombreAuxiliar = producto.NombreAuxiliar;
         }
 
         public string Titulo

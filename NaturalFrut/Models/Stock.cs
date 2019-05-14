@@ -25,6 +25,10 @@ namespace NaturalFrut.Models
         [Display(Name = "Cantidad")]
         public double Cantidad { get; set; }
 
+        public string ProductoAuxiliar { get; set; }
+
+        public string TipoDeUnidadAuxiliar { get; set; }
+
         //[Required]
         //[Display(Name = "Cantidad x Bulto")]
         //public int CantidadXBulto { get; set; }

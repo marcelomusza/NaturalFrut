@@ -60,6 +60,7 @@
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(c => c.ID)
+            @Html.HiddenFor(c => c.NombreAuxiliar)
             <button type="submit" class="btn btn-primary">Guardar</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Productos", "Admin")';">Cancelar</button>
 
