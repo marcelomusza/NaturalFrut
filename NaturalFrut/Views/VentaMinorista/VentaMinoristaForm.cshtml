@@ -33,10 +33,10 @@
             </div>
 
             @*<div class="form-group">
-                    @Html.LabelFor(c => c.Local)
-                    @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(c => c.Local)
-                </div>*@
+            @Html.LabelFor(c => c.Local)
+            @Html.TextBoxFor(c => c.Local, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Local)
+        </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Local)
@@ -45,16 +45,16 @@
             </div>
 
             @*<div class="form-group">
-                    @Html.LabelFor(c => c.Iva)
-                    @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(c => c.Iva)
-                </div>*@
+            @Html.LabelFor(c => c.Iva)
+            @Html.TextBoxFor(c => c.Iva, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Iva)
+        </div>*@
 
             @*<div class="form-group">
-                    @Html.LabelFor(c => c.ImporteVentaTotal)
-                    @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);"} })
-                    @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
-                </div>*@
+            @Html.LabelFor(c => c.ImporteVentaTotal)
+            @Html.EditorFor(c => c.ImporteVentaTotal, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);"} })
+            @Html.ValidationMessageFor(c => c.ImporteVentaTotal)
+        </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteInformeZ)
@@ -63,16 +63,16 @@
             </div>
 
             @*<div class="form-group">
-                    @Html.LabelFor(c => c.CantidadPersonas)
-                    @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(c => c.CantidadPersonas)
-                </div>*@
+            @Html.LabelFor(c => c.CantidadPersonas)
+            @Html.TextBoxFor(c => c.CantidadPersonas, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.CantidadPersonas)
+        </div>*@
 
             @*<div class="form-group">
-                    @Html.LabelFor(c => c.Promedio)
-                    @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
-                    @Html.ValidationMessageFor(c => c.Promedio)
-                </div>*@
+            @Html.LabelFor(c => c.Promedio)
+            @Html.EditorFor(c => c.Promedio, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);" } })
+            @Html.ValidationMessageFor(c => c.Promedio)
+        </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.ImporteIva)
@@ -80,19 +80,24 @@
                 @Html.ValidationMessageFor(c => c.ImporteIva)
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(c => c.RazonSocial)
                 @Html.TextBoxFor(c => c.RazonSocial, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.RazonSocial)
+            </div>*@
+            <div class="form-group">
+                @Html.LabelFor(c => c.RazonSocial)
+                @Html.DropDownListFor(c => c.RazonSocial, new SelectList(ViewBag.RazonesSociales), "Seleccione...", new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.RazonSocial)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.TipoFactura)
                 @Html.DropDownListFor(c => c.TipoFactura, new List<SelectListItem>
-        {
-        new SelectListItem{Text="A", Value="A"},
-        new SelectListItem{Text="B", Value="B"}
-        }, "Elegir tipo factura", new { @class = "form-control" })
+{
+new SelectListItem{Text="A", Value="A"},
+new SelectListItem{Text="B", Value="B"}
+}, "Elegir tipo factura", new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.TipoFactura)
             </div>
 
@@ -268,14 +273,14 @@
                 if (importeInformeZ != 0) {
 
                     if (tipoFactura == "A") {
-                        var operacion = importeInformeZ / 1.21;
-                        $("#ImporteIva").val(FormatearValor(operacion));
-                    }
-                    else if (tipoFactura == "B") {
                         var operacion = importeInformeZ * 0.21;
                         $("#ImporteIva").val(FormatearValor(operacion));
                     }
-
+                    else if (tipoFactura == "B") {
+                        var operacion = importeInformeZ - (importeInformeZ / 1.21);
+                        $("#ImporteIva").val(FormatearValor(operacion));
+                    }
+                    
                 }
                 else {
                     bootbox.alert("Por favor llenar el campo de Importe Informe Z");

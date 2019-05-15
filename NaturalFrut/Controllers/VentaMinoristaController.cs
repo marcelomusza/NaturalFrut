@@ -20,12 +20,14 @@ namespace NaturalFrut.Controllers
     public class VentaMinoristaController : Controller
     {
         private readonly VentaMinoristaLogic ventaMinoristaBL;
+        private readonly ClienteLogic clienteBL;
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public VentaMinoristaController(VentaMinoristaLogic VentaMinoristaLogic)
+        public VentaMinoristaController(VentaMinoristaLogic VentaMinoristaLogic, ClienteLogic ClienteLogic)
         {
             ventaMinoristaBL = VentaMinoristaLogic;
+            clienteBL = ClienteLogic;
         }
 
         // GET: VentaMinorista
@@ -52,6 +54,7 @@ namespace NaturalFrut.Controllers
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel();
 
             var ultimaVenta = ventaMinoristaBL.GetNumeroDeVenta();
+            var listaRazonesSoc = clienteBL.GetRazonesSocial();
 
             ViewBag.Locales = new List<string>()
             {
@@ -59,6 +62,8 @@ namespace NaturalFrut.Controllers
                 "Laprida",
                 "Mayorista"
             };
+
+            ViewBag.RazonesSociales = listaRazonesSoc.Select(c => c.RazonSocial).ToList();
 
             var serverTime = DateTime.UtcNow;
             var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
@@ -84,6 +89,7 @@ namespace NaturalFrut.Controllers
         public ActionResult EditarVentaMinorista(int Id)
         {
             var vtaMinorista = ventaMinoristaBL.GetVentaMinoristaById(Id);
+            var listaRazonesSoc = clienteBL.GetRazonesSocial();
 
             if (vtaMinorista == null)
             {
@@ -104,6 +110,8 @@ namespace NaturalFrut.Controllers
                 "Laprida",
                 "Mayorista"
             };
+
+            ViewBag.RazonesSociales = listaRazonesSoc.Select(c => c.RazonSocial).ToList();
 
 
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel(vtaMinorista);
@@ -127,7 +135,7 @@ namespace NaturalFrut.Controllers
             //var serverTimeConverted = TimeZoneInfo.ConvertTime(serverTime, timeZone);
 
             //ViewBag.Fecha = serverTimeConverted;
-
+            
             VentaMinoristaViewModel viewModel = new VentaMinoristaViewModel(vtaMinorista);
 
             return View("VentaMinoristaFormView", viewModel);

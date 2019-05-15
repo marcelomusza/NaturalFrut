@@ -55,6 +55,13 @@ namespace NaturalFrut.App_BLL
             clienteRP.Save();
         }
 
+        public List<Cliente> GetRazonesSocial()
+        {
+            return clienteRP.GetAll()
+                .Where(c => c.RazonSocial != null)
+                .ToList();
+        }
+
         public void AddCliente(Cliente cliente)
         {
             clienteRP.Add(cliente);
