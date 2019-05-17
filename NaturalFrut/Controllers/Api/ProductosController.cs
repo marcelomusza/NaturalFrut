@@ -55,6 +55,7 @@ namespace NaturalFrut.Controllers.Api
         //GET /api/productos
         [HttpGet]
         [Route("compra/api/productos/productossinrelaciones")]
+        [Route("compra/editarcompra/api/productos/productossinrelaciones")]
         [Route("api/productos/productossinrelaciones")]
         [Route("admin/api/productos/productossinrelaciones")]
         public IEnumerable<Producto> GetProductosSinRelaciones()

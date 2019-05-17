@@ -36,7 +36,7 @@ namespace NaturalFrut.App_BLL
         {            
             clasificacionRP = ClasificacionRepository;
         }
-
+        
         public CommonLogic(IRepository<TipoDeUnidad> TipoDeUnidadRepository)
         {
             tipoDeUnidadRP = TipoDeUnidadRepository;

@@ -25,6 +25,7 @@ namespace NaturalFrut.Controllers.Api
         //private readonly ClienteLogic clienteBL;
         private readonly ProveedorLogic proveedorBL;
         private readonly CommonLogic clasificacionBL;
+        private readonly CommonLogic tipoDeUnidadBL;
         private readonly ProductoLogic productoBL;
         private readonly ProductoXCompraLogic productoXCompraBL;
 
@@ -39,14 +40,15 @@ namespace NaturalFrut.Controllers.Api
             IRepository<Clasificacion> ClasificacionRepo,
             IRepository<Producto> ProductoRepo,
             //IRepository<ListaPrecioBlister> ListaPrecioBlisterRepo,
-            IRepository<ProductoXCompra> ProductoXCompraRepo)
+            IRepository<ProductoXCompra> ProductoXCompraRepo,
             //IRepository<ProductoMix> ProductoMixRepo)
+            IRepository<TipoDeUnidad> TipoDeUnidadRepo)
         {
             compraBL = new CompraLogic(CompraRepo);
             stockBL = new StockLogic(StockRepo);
             //clienteBL = new ClienteLogic(ClienteRepo);
             proveedorBL = new ProveedorLogic(ProveedorRepo);
-            clasificacionBL = new CommonLogic(ClasificacionRepo);
+            clasificacionBL = new CommonLogic(TipoDeUnidadRepo);
             productoBL = new ProductoLogic(ProductoRepo);
             productoXCompraBL = new ProductoXCompraLogic(ProductoXCompraRepo);
         }
@@ -110,9 +112,9 @@ namespace NaturalFrut.Controllers.Api
 
                     //Stock stock = stockBL.ValidarStockProducto(item.ProductoID, item.TipoDeUnidadID);
                     Stock stock = _UOWCompra.StockRepository.GetAll().Where(s => s.ProductoID == item.ProductoID && s.TipoDeUnidadID == item.TipoDeUnidadID).SingleOrDefault();
-
+                    
                     if (stock != null)
-                    {
+                    {                       
                         stock.Cantidad = stock.Cantidad + item.Cantidad;
                         //stockBL.UpdateStock(stock);
                         _UOWCompra.StockRepository.Update(stock);
@@ -124,9 +126,14 @@ namespace NaturalFrut.Controllers.Api
                     {
                         Stock stockNuevo = new Stock();
 
+                        Producto prod = productoBL.GetProductoById(item.ProductoID);
+                        TipoDeUnidad tunidad = clasificacionBL.GetTipoDeUnidadById(item.TipoDeUnidadID);
+
                         stockNuevo.ProductoID = item.ProductoID;
                         stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
                         stockNuevo.Cantidad = item.Cantidad;
+                        stockNuevo.ProductoAuxiliar = prod.NombreAuxiliar;
+                        stockNuevo.TipoDeUnidadAuxiliar = tunidad.Nombre;
 
                         //stockBL.AddStock(stockNuevo);
                         _UOWCompra.StockRepository.Add(stockNuevo);
@@ -328,9 +335,14 @@ namespace NaturalFrut.Controllers.Api
                     {
                         Stock stockNuevo = new Stock();
 
+                        Producto prod = productoBL.GetProductoById(item.ProductoID);
+                        TipoDeUnidad tunidad = clasificacionBL.GetTipoDeUnidadById(item.TipoDeUnidadID);
+
                         stockNuevo.ProductoID = item.ProductoID;
                         stockNuevo.TipoDeUnidadID = item.TipoDeUnidadID;
                         stockNuevo.Cantidad = item.Cantidad;
+                        stockNuevo.ProductoAuxiliar = prod.NombreAuxiliar;
+                        stockNuevo.TipoDeUnidadAuxiliar = tunidad.Nombre;
 
                         //stockBL.AddStock(stockNuevo);
                         _UOWCompra.StockRepository.Add(stockNuevo);
