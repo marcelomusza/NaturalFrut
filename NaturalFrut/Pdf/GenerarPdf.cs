@@ -102,35 +102,35 @@ namespace NaturalFrut.Pdf
                         sb.Append("</tr>");
                     }
 
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Suma de Venta: </td>");
-                    sb.Append("<td>$"+venta.SumaTotal+"</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Suma de Venta: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal+"</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Suma de Venta: </td>");
-                    sb.Append("<td>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Suma de Venta: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Anterior: </td>");
-                    sb.Append("<td>$"+ venta.Debe +"</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Anterior: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe +"</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Anterior: </td>");
-                    sb.Append("<td>$" + venta.Debe + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Anterior: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Total: </td>");
-                    sb.Append("<td>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Total: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Total: </td>");
-                    sb.Append("<td>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Total: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Efectivo: </td>");
-                    sb.Append("<td>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Efectivo: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Efectivo: </td>");
-                    sb.Append("<td>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Efectivo: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Saldo: </td>");
-                    sb.Append("<td>$" + venta.Debe + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Saldo: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '5'>Saldo: </td>");
-                    sb.Append("<td>$" + venta.Debe + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '4'>Saldo: </td>");
+                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
 
                     sb.Append("</tr></table>");
@@ -495,13 +495,13 @@ namespace NaturalFrut.Pdf
             tabFot.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
       
 
-            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-6832//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));
+            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-3075//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));
             cell.BorderWidth = 0;
             cell.Colspan = 6;
             tabFot.AddCell(cell);
 
 
-            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-6832//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));
+            cell = new PdfPCell(new Phrase("Haga su pedido al 4709-3075//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));
             cell.BorderWidth = 0;
             cell.Colspan = 6;
             tabFot.AddCell(cell);
