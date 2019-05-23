@@ -24,7 +24,13 @@
                 <label>Fecha</label>
                 <input id="fecha" name="fecha" required type="datetime" value="@Model.Fecha" class="form-control" />
             </div>
-            
+
+            <div class="form-group">
+                <label>Proveedor</label>
+                <div class="tt-container compra-proveedor">
+                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="@Model.ProveedorID" required type="text" value="@Model.Proveedor.Nombre" class="form-control" disabled />
+                </div>
+            </div>
 
             <div class="form-group">
                 <label>Clasificación</label>
@@ -33,12 +39,12 @@
 
             <div class="form-group">
                 <label>Factura</label>
-                <input id="factura" name="factura" required type="text" value="@Model.Factura" class="form-control" disabled/>
+                <input id="factura" name="factura" required type="text" value="@Model.Factura" class="form-control" disabled />
             </div>
 
             <div class="form-group">
                 <label>Tipo Factura</label>
-                <input id="tipofactura" name="tipofactura" required type="text" value="@Model.TipoFactura" class="form-control" disabled/>
+                <input id="tipofactura" name="tipofactura" required type="text" value="@Model.TipoFactura" class="form-control" disabled />
             </div>
 
             <div class="form-group">
@@ -55,12 +61,12 @@
 
             <div class="form-group">
                 <label>Descuento %</label>
-                <input id="descuentoporc" name="descuentoporc"  type="text" value="@Model.DescuentoPorc" onkeyup="ValidarPunto(this);" class="form-control" />
+                <input id="descuentoporc" name="descuentoporc" type="text" value="@Model.DescuentoPorc" onkeyup="ValidarPunto(this);" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label>Descuento</label>
-                <input id="descuentoC" name="descuentoC"  type="text" value="@Model.Descuento" onkeyup="ValidarPunto(this);" class="form-control js-formatvalue" disabled />
+                <input id="descuentoC" name="descuentoC" type="text" value="@Model.Descuento" onkeyup="ValidarPunto(this);" class="form-control js-formatvalue" disabled />
             </div>
 
             <div class="form-group">
@@ -84,9 +90,9 @@
             </div>
 
             @*<div class="form-group">
-                <label>Saldo Anterior</label>
-                <input id="debe" name="debe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
-              </!-div>*@
+          <label>Saldo Anterior</label>
+          <input id="debe" name="debe" type="text" value="@Model.Proveedor.Debe" class="form-control js-formatvalue" disabled />
+        </!-div>*@
 
 
 
@@ -95,19 +101,12 @@
                 <input id="saldoFavor" name="saldoFavor" type="text" value="@Model.Proveedor.SaldoAfavor" class="form-control js-formatvalue" disabled />
             </div>
 
-            <input type="hidden" name="gastoTotalInicial"  id="gastoTotalInicial" value=""/>
+            <input type="hidden" name="gastoTotalInicial" id="gastoTotalInicial" value="" />
 
         </div>
 
         <!--Agrupamos campos de la columna derecha-->
         <div class="col-sm-6">
-            <div class="form-group">
-                <label>Proveedor</label>
-                <div class="tt-container compra-proveedor">
-                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="@Model.ProveedorID" required type="text" value="@Model.Proveedor.Nombre" class="form-control" disabled />
-                </div>
-            </div>
-            
 
             <div class="form-group">
                 <label>IVA</label>
@@ -190,8 +189,8 @@
                 <thead>
                     <tr>
                         <th width="18%">Descripción</th>
-                        <th width="6%">Cant.</th>
-                        <th width="10%">Unidad</th>
+                        <th width="8%">Cant.</th>
+                        <th width="8%">Unidad</th>
                         <th>Importe</th>
                         <th width="6%">Desc.</th>
                         <th>Importe c/desc.</th>

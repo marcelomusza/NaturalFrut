@@ -26,6 +26,14 @@
             </div>
 
             <div class="form-group">
+                <label>Proveedor</label>
+                <div class="tt-container compra-proveedor">
+                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" onblur="GetSaldoProveedor();" required type="text" value="" class="form-control" />
+                    <a href="#" onclick="NuevoProveedorModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Proveedor" /></a>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label>Clasificación</label>
                 <div style="display:flex;">
                     <select id="clasificacion" name="clasificacion" class="form-control" required>
@@ -125,15 +133,7 @@
         </div>
 
             <!--Agrupamos campos de la columna derecha-->
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>Proveedor</label>
-                <div class="tt-container compra-proveedor">
-                    <input id="proveedor" name="proveedor" data-msg-required="Por favor ingresa un Proveedor" data-proveedor-id="" onblur="GetSaldoProveedor();" required type="text" value="" class="form-control" />
-                    <a href="#" onclick="NuevoProveedorModal(0)"><img src="~/Content/Images/addSign.png" title="Ingresar Nuevo Proveedor" /></a>
-                </div>
-            </div>
-            
+        <div class="col-sm-6">                        
 
             <div class="form-group">
                 <label>IVA</label>
@@ -207,8 +207,8 @@
                 <thead>
                     <tr>
                         <th width="18%">Descripción</th>
-                        <th width="6%">Cant.</th>
-                        <th width="10%">Unidad</th>
+                        <th width="8%">Cant.</th>
+                        <th width="8%">Unidad</th>
                         <th>Importe</th>
                         <th width="6%">Desc.</th>
                         <th>Importe c/desc.</th>

@@ -102,55 +102,72 @@ namespace NaturalFrut.Pdf
                         sb.Append("</tr>");
                     }
 
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Suma de Venta: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Suma de Venta: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Suma de Venta: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<tr><td colspan='2'  ></td><td align = 'right' colspan = '2' >Suma de Venta: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Anterior: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
+                    sb.Append("<tr><td colspan='2'  ></td><td align = 'right' colspan = '2' >Anterior: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Anterior: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Total: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Total: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.SumaTotal + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Efectivo: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Efectivo: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Saldo: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '4'>Saldo: </td>");
-                    sb.Append("<td align = 'right' colspan = '2'>$" + venta.Debe + "</td>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Anterior: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
 
-                    sb.Append("<tr><td colspan='6'><br/>");
-                    sb.Append("</td></tr>");
-                    sb.Append("<tr><td colspan='6'><br/>");
-                    sb.Append("</td></tr>");
-
-                    sb.Append("<tr><td colspan='6' >");
-                    sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:10px;'>");
+                    sb.Append("<tr>");
+                    sb.Append("<td colspan='2' rowspan='3'>");
+                    sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:8px;'>");
                     sb.Append("No se aceptan devoluciones pasadas las 72hs de entregado el pedido." +
                         " Los cambios, devoluciones y omisiones se realizarán en la siguiente compra. Revisar el pedido en el momento de la entrega.");
                     sb.Append("</td></tr></table>");
-                    sb.Append("</td></tr>");
+                    sb.Append("</td>");
+                    sb.Append("<td align = 'right' colspan = '2'>Total: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
+                    sb.Append("</tr>");
 
-                    sb.Append("<tr><td colspan='6' >");
-                    sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:10px;'>");
+                    sb.Append("<tr>");
+                    sb.Append("<td colspan='2' rowspan='3' >");
+                    sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:8px;'>");
                     sb.Append("No se aceptan devoluciones pasadas las 72hs de entregado el pedido." +
                         " Los cambios, devoluciones y omisiones se realizarán en la siguiente compra. Revisar el pedido en el momento de la entrega.");
                     sb.Append("</td></tr></table>");
-                    sb.Append("</td></tr>");
+                    sb.Append("</td>");
+                    sb.Append("<td align = 'right' colspan = '2'>Total: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
+                    sb.Append("</tr>");
+
+                    sb.Append("<tr><td align = 'right' colspan = '2' >Efectivo: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '2' >Efectivo: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '2' >Saldo: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '2' >Saldo: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
+                    sb.Append("</tr>");
+
+                    //sb.Append("<tr><td colspan='6'><br/>");
+                    //sb.Append("</td></tr>");
+                    //sb.Append("<tr><td colspan='6'><br/>");
+                    //sb.Append("</td></tr>");
+
+                    //sb.Append("<tr><td colspan='6' >");
+                    //sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:10px;'>");
+                    //sb.Append("No se aceptan devoluciones pasadas las 72hs de entregado el pedido." +
+                    //    " Los cambios, devoluciones y omisiones se realizarán en la siguiente compra. Revisar el pedido en el momento de la entrega.");
+                    //sb.Append("</td></tr></table>");
+                    //sb.Append("</td></tr>");
+
+                    //sb.Append("<tr><td colspan='6' >");
+                    //sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:10px;'>");
+                    //sb.Append("No se aceptan devoluciones pasadas las 72hs de entregado el pedido." +
+                    //    " Los cambios, devoluciones y omisiones se realizarán en la siguiente compra. Revisar el pedido en el momento de la entrega.");
+                    //sb.Append("</td></tr></table>");
+                    //sb.Append("</td></tr>");
 
 
 
