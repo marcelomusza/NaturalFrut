@@ -89,12 +89,14 @@ namespace NaturalFrut.App_BLL
 
         public ProductoXVenta GetProductoXVentaIndividualById(BorrarProdVtaMayDTO prodVenta)
         {
+
             return ProductoXVentaRP
-               .GetAll()
-               .Include(p => p.Producto)
-               .Include(t => t.TipoDeUnidad)
-               .Include(v => v.Venta)
-               .Where(c => c.VentaID == prodVenta.VentaID && c.ProductoID == prodVenta.ProductoID).SingleOrDefault();
+            .GetAll()
+            .Include(p => p.Producto)
+            .Include(t => t.TipoDeUnidad)
+            .Include(v => v.Venta)
+            .Where(c => c.VentaID == prodVenta.VentaID && c.ProductoID == prodVenta.ProductoID && c.TipoDeUnidadID == prodVenta.TipoDeUnidadID).SingleOrDefault();
+                                   
         }
 
         public List<ProductoXVenta> GetProductoXVentaByIdProducto(int id)

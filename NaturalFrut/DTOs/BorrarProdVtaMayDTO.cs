@@ -9,5 +9,6 @@ namespace NaturalFrut.Models
     {
         public int VentaID { get; set; }
         public int ProductoID { get; set; }
+        public int TipoDeUnidadID { get; set; }
     }
 }

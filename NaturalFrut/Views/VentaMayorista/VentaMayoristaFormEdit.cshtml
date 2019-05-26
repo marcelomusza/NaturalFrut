@@ -381,12 +381,16 @@ else
 
                 var button = $(this);
                 var productoID = $("#producto" + parseInt(button.context.id)).attr("data-producto-id");
+                var tipoDeUnidadID = $("#tiposdeunidad" + parseInt(button.context.id)).val();
                 var ventaID = @ViewBag.VentaMayoristaID;
                 var valor = parseInt(this.attributes.name.value);
 
+                var readonlyInput = $("#producto" + parseInt(button.context.id)).prop('disabled');
+
                 var model = {
                     "productoID": productoID,
-                    "ventaID": ventaID
+                    "ventaID": ventaID,
+                    "tipoDeUnidadID": tipoDeUnidadID
                 };
 
                 bootbox.confirm("¿Estas seguro de querer borrar el producto?", function (result) {
@@ -394,7 +398,7 @@ else
 
                     if (result) {
 
-                        if (productoID != "") {
+                        if (productoID != "" && readonlyInput) {
 
                             //Borramos la fila con datos
                             $.ajax({
@@ -555,12 +559,22 @@ else
 
             $("#calculartotal").on('click', function () {
 
-                //Una vez cargados todos los productos, calculamos total
-                RecalcularTotal();
-                CalcularDescuentoTotal();
-                CalcularIVA();
+                //Validamos primero productos duplicados
+                var validarDuplicados = ValidarProductoDuplicado();
 
-                totalCalculado = true;
+                if (!validarDuplicados) {
+
+                    //Una vez cargados todos los productos, calculamos total
+                    RecalcularTotal();
+                    CalcularDescuentoTotal();
+                    CalcularIVA();
+
+                    totalCalculado = true;
+
+                }
+                else {
+                    toastr.error("Hay Productos duplicados en el formulario, por favor revise la carga y vuelva a intentar...");
+                }
 
             })
 
@@ -1494,6 +1508,57 @@ else
 
             }
 
+        }
+
+        function ValidarProductoDuplicado() {
+
+            var prods = [];
+            var tempID = [];
+            var duplicate = false;
+
+            $(".listaproductos tr").each(function (i, row) {
+
+
+
+                var $row = $(row),
+                    $producto = $row.find('input[name*="producto"]'),
+                    $cantidad = $row.find('input[name*="cantidad"]'),
+                    $tipodeunidad = $row.find('select[name*="tiposdeunidad"]'),
+                    $descuento = $row.find('input[name*="descprod"]'),
+                    $importe = $row.find('input[name*="importe"]'),
+                    $totalimporte = $row.find('input[name*="totalimporte"]');
+
+                var productoid = $producto.attr("data-producto-id");
+                var cantidad = $cantidad.val();
+                var tipodeunidad = $tipodeunidad.val();
+                var descuento = ValorANumero($descuento.val());
+                var importe = DeFormatearValor($importe.val());
+                var totalimporte = DeFormatearValor($totalimporte.val());
+
+                prods.push(
+                    {
+                        ProdTU: productoid.toString() + tipodeunidad.toString()
+                    }
+                );
+
+
+
+
+
+            });
+
+            //Validamos productos duplicados
+            $.each(prods, function (key, value) {
+
+                if ($.inArray(value.ProdTU, tempID) === -1) {
+                    tempID.push(value.ProdTU);
+                }
+                else
+                    duplicate = true;
+
+            });
+
+            return duplicate;
         }
 
 

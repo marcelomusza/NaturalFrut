@@ -511,13 +511,23 @@
 
             $("#calculartotal").on('click', function () {
 
-                //Una vez cargados todos los productos, calculamos total
-                RecalcularTotal();
-                CalcularDescuentoTotal();
-                CalcularIVA();
+                //Validamos primero productos duplicados
+                var validarDuplicados = ValidarProductoDuplicado();
 
-                totalCalculado = true;
+                if (!validarDuplicados) {
 
+                    //Una vez cargados todos los productos, calculamos total
+                    RecalcularTotal();
+                    CalcularDescuentoTotal();
+                    CalcularIVA();
+
+                    totalCalculado = true;
+
+                }
+                else {
+                    toastr.error("Hay Productos duplicados en el formulario, por favor revise la carga y vuelva a intentar...");
+                }
+                
             })
 
             
@@ -558,68 +568,68 @@
 
                     //var validarProducto = $('input[name*="producto"]').valid();
                     //var validarCantidad = $('input[name*="cantidad"]').valid();
-                    //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
+                    //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();                    
 
                     //if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    
 
-                    //Modal para aceptacion de venta
-                    bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
+                        //Modal para aceptacion de venta
+                        bootbox.confirm("Estas seguro que deseas concretar la venta?", function (result) {
 
-                        if (result) {
+                            if (result) {
 
-                            var validarProductos = $('input[name*="producto"]');
+                                var validarProductos = $('input[name*="producto"]');
 
-                            if (validarProductos.length == 0)
-                                $("#calculartotal").trigger("click");
+                                if (validarProductos.length == 0)
+                                    $("#calculartotal").trigger("click");
 
 
-                            if (totalCalculado) {
+                                if (totalCalculado) {
 
-                                calculoDebe();
-                                
-                                CargarProductosAlVM(vm);
+                                    calculoDebe();
 
-                                $.ajax({
-                                    url: "/api/ventasmayorista",
-                                    method: "post",
-                                    data: vm
-                                })
-                                    .done(function () {
+                                    CargarProductosAlVM(vm);
 
-                                        toastr.success("La venta se ha guardado correctamente.");
-
-                                        setTimeout(function () {
-                                            window.location.href = "/VentaMayorista";
-                                        }, 4000);
-
+                                    $.ajax({
+                                        url: "/api/ventasmayorista",
+                                        method: "post",
+                                        data: vm
                                     })
-                                    .fail(function () {
-                                        toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+                                        .done(function () {
 
-                                        //Reseteamos los productos del viewmodel
-                                        vm.productosXVenta = [];      
+                                            toastr.success("La venta se ha guardado correctamente.");
 
-                                        //Volvemos a traer los datos iniciales del Saldo
-                                        ResetearSaldo();
-                                        GetSaldoCliente();
+                                            setTimeout(function () {
+                                                window.location.href = "/VentaMayorista";
+                                            }, 4000);
 
-                                        totalCalculado = false;
-                                    });
-                                    
+                                        })
+                                        .fail(function () {
+                                            toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+
+                                            //Reseteamos los productos del viewmodel
+                                            vm.productosXVenta = [];
+
+                                            //Volvemos a traer los datos iniciales del Saldo
+                                            ResetearSaldo();
+                                            GetSaldoCliente();
+
+                                            totalCalculado = false;
+                                        });
+
+                                }
+                                else {
+                                    toastr.error("Se ha producido un error al guardar la venta, revise los datos a ingresar...");
+                                    return false;
+                                }
+
+
+
+
+
                             }
-                            else {
-                                toastr.error("El valor total de la venta no ha sido calculado. Hacer click en el botón Calcular Total para continuar...");
-                            }
 
-
-
-                                
-
-                        }
-
-                    });
-
-                    //}
+                        });
                    
                     return false;
                 }
@@ -1150,6 +1160,57 @@
                 }
             }
 
+        }
+
+        function ValidarProductoDuplicado() {
+
+            var prods = [];
+            var tempID = [];
+            var duplicate = false;
+
+            $(".listaproductos tr").each(function (i, row) {
+
+                
+
+                var $row = $(row),
+                    $producto = $row.find('input[name*="producto"]'),
+                    $cantidad = $row.find('input[name*="cantidad"]'),
+                    $tipodeunidad = $row.find('select[name*="tiposdeunidad"]'),
+                    $descuento = $row.find('input[name*="descprod"]'),
+                    $importe = $row.find('input[name*="importe"]'),
+                    $totalimporte = $row.find('input[name*="totalimporte"]');
+
+                var productoid = $producto.attr("data-producto-id");
+                var cantidad = $cantidad.val();
+                var tipodeunidad = $tipodeunidad.val();
+                var descuento = ValorANumero($descuento.val());
+                var importe = DeFormatearValor($importe.val());
+                var totalimporte = DeFormatearValor($totalimporte.val());
+
+                prods.push(
+                    {
+                        ProdTU: productoid.toString() + tipodeunidad.toString()
+                    }
+                );
+
+
+
+                
+
+            });
+
+            //Validamos productos duplicados
+            $.each(prods, function (key, value) {
+
+                if ($.inArray(value.ProdTU, tempID) === -1) {
+                    tempID.push(value.ProdTU);
+                }
+                else
+                    duplicate = true;
+
+            });
+
+            return duplicate;
         }
 
 

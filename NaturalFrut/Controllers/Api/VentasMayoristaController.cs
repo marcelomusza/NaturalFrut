@@ -907,7 +907,8 @@ namespace NaturalFrut.Controllers.Api
                 BorrarProdVtaMayDTO idsDeVenta = new BorrarProdVtaMayDTO
                 {
                     ProductoID = prodVenta.ProductoID,
-                    VentaID = ventaMayorista.ID
+                    VentaID = ventaMayorista.ID,
+                    TipoDeUnidadID = prodVenta.TipoDeUnidadID
                 };
 
                 //var productoInDB = productoXVentaBL.GetProductoXVentaIndividualById(idsDeVenta);
@@ -915,7 +916,7 @@ namespace NaturalFrut.Controllers.Api
                     .Include(p => p.Producto)
                     .Include(t => t.TipoDeUnidad)
                     .Include(v => v.Venta)
-                    .Where(c => c.VentaID == prodVenta.VentaID && c.ProductoID == prodVenta.ProductoID).SingleOrDefault();
+                    .Where(c => c.VentaID == prodVenta.VentaID && c.ProductoID == prodVenta.ProductoID && c.TipoDeUnidadID == prodVenta.TipoDeUnidadID).SingleOrDefault();
 
                 if (productoInDB == null)
                 {
