@@ -11,6 +11,7 @@ using Rotativa;
 using Rotativa.Options;
 using NaturalFrut.Pdf;
 using log4net;
+using System.Data;
 
 namespace NaturalFrut.Controllers
 {
@@ -705,6 +706,26 @@ namespace NaturalFrut.Controllers
             return View(venta);
 
 
+
+        }
+
+        [AllowAnonymous]
+        public ActionResult GenerarReporteExcel()
+        {
+
+            ExcelExportHelper excel = new ExcelExportHelper(ventaMayoristaBL);
+
+            DataTable tablaVentas = excel.ArmarExcelVentasMayoristas();
+
+            string[] columns = { "Fecha", "EntregaEfectivo", "Debe", "SaldoAFavor", "ClienteID",
+                "VendedorID", "SumaTotal", "Cantidad", "Importe", "Total", "TipoDeUnidadID", "ProductoID", "VentaID"};
+
+            byte[] filecontent = ExcelExportHelper.ExportExcel(tablaVentas, "Reporte Ventas Mayoristas", true, columns);
+
+            string fecha = string.Format("{0}{1}{2}", DateTime.Now.Date.Day, DateTime.Now.Date.Month, DateTime.Now.Date.Year);
+
+
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "ReporteVentasMayoristas_" + fecha + ".xlsx");
 
         }
 

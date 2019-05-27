@@ -196,6 +196,17 @@ namespace NaturalFrut.App_BLL
 
             return reporteVentasSegunFecha;
         }
+
+        public List<VentaMayorista> GetVentasMayoristas()
+        {
+
+            var reporteVentasMayoristas = ventaMayoristaRP
+                .GetAll()
+                .Include(p => p.ProductosXVenta)
+                .ToList();
+
+            return reporteVentasMayoristas;
+        }
         #endregion
 
     }

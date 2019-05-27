@@ -15,6 +15,7 @@ namespace NaturalFrut.Helpers
 
         private CompraLogic compraBL;
         private VentaMinoristaLogic ventaMinoristaBL;
+        private VentaMayoristaLogic ventaMayoristaBL;
 
         public ExcelExportHelper(CompraLogic compraBL)
         {
@@ -24,6 +25,11 @@ namespace NaturalFrut.Helpers
         public ExcelExportHelper(VentaMinoristaLogic ventaMinoristaBL)
         {
             this.ventaMinoristaBL = ventaMinoristaBL;
+        }
+
+        public ExcelExportHelper(VentaMayoristaLogic ventaMayoristaBL)
+        {
+            this.ventaMayoristaBL = ventaMayoristaBL;
         }
 
         public static string ExcelContentType
@@ -301,6 +307,74 @@ namespace NaturalFrut.Helpers
 
         }
 
-       
+        public DataTable ArmarExcelVentasMayoristas()
+        {
+
+            DataTable tablaExcel = new DataTable();
+            List<VentaMayoristaReporte> ventaMayoristaReporte = new List<VentaMayoristaReporte>();
+            VentaMayoristaReporte reporteTemp = new VentaMayoristaReporte();
+
+            var ventasMayoristas = ventaMayoristaBL.GetVentasMayoristas();
+
+            if(ventasMayoristas != null)
+            {
+
+                foreach (var item in ventasMayoristas)
+                {         
+
+                    foreach (var venta in item.ProductosXVenta)
+                    {
+
+                        //Datos Venta
+                        reporteTemp = new VentaMayoristaReporte();
+                        reporteTemp.Fecha = item.Fecha.Date.ToString("dd/MM/yyyy");
+                        reporteTemp.EntregaEfectivo = item.EntregaEfectivo.ToString();
+                        reporteTemp.Debe = item.Debe.ToString();
+                        reporteTemp.SaldoAFavor = item.SaldoAFavor.ToString();
+                        reporteTemp.ClienteID = item.ClienteID;
+                        reporteTemp.VendedorID = (item.VendedorID != null) ? (int)item.VendedorID : 0;
+                        reporteTemp.SumaTotal = item.SumaTotal.ToString();
+
+                        //Productos
+                        reporteTemp.Cantidad = venta.Cantidad.ToString();
+                        reporteTemp.Importe = venta.Importe.ToString();
+                        reporteTemp.Total = venta.Total.ToString();
+                        reporteTemp.TipoDeUnidadID = venta.TipoDeUnidadID;
+                        reporteTemp.ProductoID = venta.ProductoID;
+                        reporteTemp.VentaID = (int)venta.VentaID;
+
+                        ventaMayoristaReporte.Add(reporteTemp);
+                    }
+
+                }
+
+                //Generamos el datatable correspondiente     
+                tablaExcel.Columns.Add("Fecha", typeof(string));
+                tablaExcel.Columns.Add("EntregaEfectivo", typeof(string));
+                tablaExcel.Columns.Add("Debe", typeof(string));
+                tablaExcel.Columns.Add("SaldoAFavor", typeof(string));
+                tablaExcel.Columns.Add("ClienteID", typeof(int));
+                tablaExcel.Columns.Add("VendedorID", typeof(int));
+                tablaExcel.Columns.Add("SumaTotal", typeof(string));
+                tablaExcel.Columns.Add("Cantidad", typeof(string));
+                tablaExcel.Columns.Add("Importe", typeof(string));
+                tablaExcel.Columns.Add("Total", typeof(string));
+                tablaExcel.Columns.Add("TipoDeUnidadID", typeof(int));
+                tablaExcel.Columns.Add("ProductoID", typeof(int));
+                tablaExcel.Columns.Add("VentaID", typeof(int));
+
+
+                foreach (var item in ventaMayoristaReporte)
+                {
+                    tablaExcel.Rows.Add(item.Fecha, item.EntregaEfectivo, item.Debe, item.SaldoAFavor, item.ClienteID, item.VendedorID,
+                        item.SumaTotal, item.Cantidad, item.Importe, item.Total, item.TipoDeUnidadID, item.ProductoID, item.VentaID);
+                }
+
+            }
+            
+
+
+            return tablaExcel;
+        }
     }
 }

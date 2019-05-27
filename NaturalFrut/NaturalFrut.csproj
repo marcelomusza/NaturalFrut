@@ -331,6 +331,7 @@
     <Compile Include="Models\ProductosMixUpdate.cs" />
     <Compile Include="Models\ProductoVendido.cs" />
     <Compile Include="Models\StockUpdate.cs" />
+    <Compile Include="Models\VentaMayoristaReporte.cs" />
     <Compile Include="Models\VentaMinoristaReporte.cs" />
     <Compile Include="Models\CompraUpdate.cs" />
     <Compile Include="Models\VentaUpdate.cs" />
