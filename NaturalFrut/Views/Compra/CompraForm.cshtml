@@ -361,6 +361,7 @@
                 iva: 0,
                 importeIva: 0,
                 sumaTotal: 0,
+                entregaEfectivo: 0,
                 descuentoPorc: 0,
                 descuento: 0,
                 importeIibbBsas: 0,
@@ -1161,6 +1162,7 @@
             vm.SaldoAfavor = DeFormatearValor($("#saldoFavor").val());
             var fecha = $("#fecha").val();
             vm.fecha = fecha;
+            vm.entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
 
             //Cargamos la lista de productos
             $(".listaproductos tr").each(function (i, row) {

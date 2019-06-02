@@ -81,7 +81,7 @@
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaEfectivo" required name="entregaEfectivo" type="text" value="0" class="form-control" onkeyup="ValidarPunto(this);" />
+                <input id="entregaEfectivo" required name="entregaEfectivo" type="text" value="@Model.EntregaEfectivo" class="form-control" onkeyup="ValidarPunto(this);" />
             </div>
 
             <div class="form-group">
@@ -295,6 +295,7 @@
                 iva: 0,
                 importeIva: 0,
                 sumaTotal: 0,
+                entregaEfectivo: 0,
                 descuentoPorc: 0,
                 descuento: 0,
                 importeIibbBsas: 0,
@@ -1281,6 +1282,7 @@
             vm.SaldoAfavor = DeFormatearValor($("#saldoFavor").val());
             var fecha = $("#fecha").val();
             vm.fecha = fecha;
+            vm.entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
 
         }
 

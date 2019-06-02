@@ -269,6 +269,7 @@ namespace NaturalFrut.Controllers.Api
             compraAActualizar.TipoFactura = compraDTO.TipoFactura;
             compraAActualizar.Local = compraDTO.Local;
             compraAActualizar.SumaTotal = compraDTO.SumaTotal;
+            compraAActualizar.EntregaEfectivo = compraDTO.EntregaEfectivo;
             compraAActualizar.DescuentoPorc = compraDTO.DescuentoPorc;
             compraAActualizar.Descuento = compraDTO.Descuento;
             compraAActualizar.Subtotal = compraDTO.Subtotal;
@@ -577,6 +578,14 @@ namespace NaturalFrut.Controllers.Api
 
             ////Borramos Venta Mayorista
             var compraABorrar = _UOWCompra.CompraRepository.GetByID(Id);
+
+            //Devolvemos Saldo
+            Proveedor prov = _UOWCompra.ProveedorRepository.GetByID(compraABorrar.ProveedorID);
+
+            //prov.Debe = prov.Debe - compraABorrar.TotalGastos;
+            //_UOWCompra.ProveedorRepository.Update(prov);
+
+
             _UOWCompra.CompraRepository.Delete(compraABorrar);
 
 

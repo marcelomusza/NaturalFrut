@@ -24,6 +24,8 @@ namespace NaturalFrut.Models
 
         public double SumaTotal { get; set; }
 
+        public double EntregaEfectivo { get; set; }
+
         public double ImporteIva { get; set; }
 
         public double DescuentoPorc { get; set; }

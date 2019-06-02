@@ -25,6 +25,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double Iva { get; set; }
 
+        public double EntregaEfectivo { get; set; }
+
         public double SumaTotal { get; set; }
 
         public double ImporteIva { get; set; }
