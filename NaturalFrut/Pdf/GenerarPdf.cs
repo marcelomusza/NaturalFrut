@@ -84,7 +84,7 @@ namespace NaturalFrut.Pdf
                         //sb.Append("<td>pasas c/cobertura chocolate negrox 1kg</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
-                        sb.Append("<td width='5%' align = 'center'>" + prod.Descuento + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento,2) + "</td>");
                         sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
                         sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
 
@@ -96,7 +96,7 @@ namespace NaturalFrut.Pdf
 
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
-                        sb.Append("<td width='5%' align = 'center'>" + prod.Descuento + "</td>");
+                        sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento, 2) + "</td>");
                         sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
                         sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
