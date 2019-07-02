@@ -145,7 +145,7 @@ namespace NaturalFrut.App_BLL
         public void UpdateProducto(Producto producto)
         {
 
-            Stock prodStock = stockRP.GetAll().Where(c => c.ProductoID == producto.ID).SingleOrDefault();
+            var prodStock = stockRP.GetAll().Where(c => c.ProductoID == producto.ID).ToList();
 
             //Preparamos el Producto Auxiliar
             if (producto.MarcaId != null)
@@ -161,9 +161,13 @@ namespace NaturalFrut.App_BLL
 
             if(prodStock != null)
             {
-                prodStock.ProductoAuxiliar = producto.NombreAuxiliar;
-                stockRP.Update(prodStock);
-                stockRP.Save();
+                foreach (var stock in prodStock)
+                {
+                    stock.ProductoAuxiliar = producto.NombreAuxiliar;
+                    stockRP.Update(stock);
+                    stockRP.Save();
+                }
+                
             }
 
             productoRP.Update(producto);

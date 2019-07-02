@@ -138,4 +138,8 @@ a.ImgBorrar {
     text-indent: -9999px; /* hides the link text */
 }
 
+.twitter-typeahead, .tt-hint, .tt-input, .tt-menu {
+    width: 100%;
+}
+
 /* NaturalFrut Custom CSS END*/
