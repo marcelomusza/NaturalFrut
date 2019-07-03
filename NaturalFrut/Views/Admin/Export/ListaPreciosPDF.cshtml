@@ -50,7 +50,7 @@
             {
                 <tr class="success text-center" style="font-weight:bold; height:50px;">
                     <td style="width:70%; vertical-align:middle">@catego.Nombre</td>
-                    <td style="width:10%; vertical-align:middle">Precio por Kilo</td>
+                    <td style="width:10%; vertical-align:middle">Precio por Kilo/Unidad</td>
                     <td style="width:10%; vertical-align:middle">Precio x kg Bulto Cerrado</td>
                     <td style="width:10%; vertical-align:middle">Kgs Bulto Cerrado</td>
                 </tr>
@@ -59,12 +59,21 @@
                 {
                     if (prod.Producto.CategoriaId == catego.ID)
                     {
-                        <tr>
-                            <td>@prod.Producto.Nombre</td>
-                            <td >$ @prod.PrecioXKG</td>
-                            <td >$ @prod.PrecioXBultoCerrado</td>
-                            <td>@prod.KGBultoCerrado Kg.</td>
-                        </tr>
+                <tr>
+                    <td>@prod.Producto.Nombre</td>
+
+                    @if (@prod.PrecioXKG == "0")
+                    {
+                        <td>$ @prod.PrecioXUnidad</td>
+                    }
+                    else
+                    {
+                        <td>$ @prod.PrecioXKG</td>
+                    }
+
+                    <td>$ @prod.PrecioXBultoCerrado</td>
+                    <td>@prod.KGBultoCerrado Kg.</td>
+                </tr>
                     }
 
                 }
@@ -75,7 +84,7 @@
             {
                 <tr class="success text-center" style="font-weight:bold; height:50px;">
                     <td style="width:70%; vertical-align:middle">@marca.Nombre</td>
-                    <td style="width:10%; vertical-align:middle">Precio por Kilo</td>
+                    <td style="width:10%; vertical-align:middle">Precio por Kilo/Unidad</td>
                     <td style="width:10%; vertical-align:middle">Precio x kg Bulto Cerrado</td>
                     <td style="width:10%; vertical-align:middle">Kgs Bulto Cerrado</td>
                 </tr>
@@ -86,10 +95,19 @@
                     {
                         <tr>
                             <td>@prod.Producto.Nombre</td>
-                            <td >$ @prod.PrecioXKG</td>
-                            <td >$ @prod.PrecioXBultoCerrado</td>
+
+                            @if (@prod.PrecioXKG == "0")
+                            {
+                                <td>$ @prod.PrecioXUnidad</td>
+                            }
+                            else
+                            {
+                                <td>$ @prod.PrecioXKG</td>
+                            }
+
+                            <td>$ @prod.PrecioXBultoCerrado</td>
                             <td>@prod.KGBultoCerrado Kg.</td>
-                        </tr>
+                         </tr>
                     }
 
                 }
