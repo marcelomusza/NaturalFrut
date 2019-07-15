@@ -680,9 +680,10 @@ namespace NaturalFrut.Controllers.Api
 
                         foreach (var prod in productosBlisterMixStock)
                         {
+                            int prodDelMixId = prod.ProductoDelMixId.GetValueOrDefault();
                             //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), Constants.TIPODEUNIDAD_MIX);
                             Stock stockProdMix = _UOWVentaMayorista.StockRepository.GetAll()
-                                .Where(s => s.ProductoID == prod.ProductoDelMixId.GetValueOrDefault() && s.TipoDeUnidadID == Constants.TIPODEUNIDAD_MIX)
+                                .Where(s => s.ProductoID == prodDelMixId && s.TipoDeUnidadID == Constants.TIPODEUNIDAD_MIX)
                                 .SingleOrDefault();
 
                             if (stockProdMix == null)
@@ -718,9 +719,10 @@ namespace NaturalFrut.Controllers.Api
 
                     foreach (var prod in productosMixStock)
                     {
+                        int prodDelMixID = prod.ProductoDelMixId.GetValueOrDefault();
                         //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), productoInDB.TipoDeUnidadID);
                         Stock stockProdMix = _UOWVentaMayorista.StockRepository.GetAll()
-                            .Where(s => s.ProductoID == prod.ProductoDelMixId.GetValueOrDefault() && s.TipoDeUnidadID == productoInDB.TipoDeUnidadID)
+                            .Where(s => s.ProductoID == prodDelMixID && s.TipoDeUnidadID == productoInDB.TipoDeUnidadID)
                             .SingleOrDefault();
 
                         if (stockProdMix == null)
@@ -868,10 +870,11 @@ namespace NaturalFrut.Controllers.Api
 
                     foreach (var prod in productosBlisterMixStock)
                     {
+                        int prodDelMixID = prod.ProductoDelMixId.GetValueOrDefault();
                         //Stock stockProdMix = stockBL.ValidarStockProducto(prod.ProductoDelMixId.GetValueOrDefault(), Constants.TIPODEUNIDAD_MIX);
                         Stock stockProdMix = _UOWVentaMayorista.StockRepository
                                 .GetAll()
-                                .Where(s => s.ProductoID == prod.ProductoDelMixId.GetValueOrDefault() && s.TipoDeUnidadID == Constants.TIPODEUNIDAD_MIX)
+                                .Where(s => s.ProductoID == prodDelMixID && s.TipoDeUnidadID == Constants.TIPODEUNIDAD_MIX)
                                 .SingleOrDefault();
 
                         if (stockProdMix == null)
