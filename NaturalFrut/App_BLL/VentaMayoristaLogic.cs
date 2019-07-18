@@ -140,7 +140,7 @@ namespace NaturalFrut.App_BLL
             return listaRP.GetAll().ToList();
         }
 
-        public ListaPrecio CalcularImporteSegunCliente(int clienteID, int productoID, int cantidad)
+        public ListaPrecio CalcularImporteSegunCliente(int clienteID, int productoID, double cantidad)
         {
 
             var cliente = clienteRP.GetByID(clienteID);

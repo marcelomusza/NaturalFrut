@@ -13,7 +13,7 @@ namespace NaturalFrut.DTOs
         public int ID { get; set; }
 
         [Required]
-        public int Cantidad { get; set; }
+        public double Cantidad { get; set; }
 
         public double? Descuento { get; set; }
 

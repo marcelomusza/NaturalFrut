@@ -208,7 +208,7 @@
                     {
                         <tr>
                             <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control"  /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="js-cantidad form-control" data-js-counter="@counter" /></div></td>
+                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="text" value="@producto.Cantidad.ToString()" class="js-cantidad form-control" data-js-counter="@counter" /></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" required><option value="@producto.TipoDeUnidadID" selected>@producto.TipoDeUnidad.Nombre</option></select></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" type="text" data-js-counter="@counter" value="@producto.Importe" class="js-importe form-control js-formatvalue" onkeyup="ValidarPunto(this);" /></div></td>         
                             <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="text" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" onkeyup="ValidarPunto(this);"/></div></td>
@@ -1168,7 +1168,7 @@
 
 
                 var productoid = $producto.attr("data-producto-id");
-                var cantidad = $cantidad.val();
+                var cantidad = $cantidad.val().replace(",",".");
                 var importe = DeFormatearValor($importe.val());
                 var tipodeunidad = $tipodeunidad.val();
                 var descuento = ValorANumero($descuento.val());

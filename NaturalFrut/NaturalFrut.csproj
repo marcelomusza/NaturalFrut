@@ -315,6 +315,14 @@
     <Compile Include="Migrations\201906012349175_Compranuevocampo.Designer.cs">
       <DependentUpon>201906012349175_Compranuevocampo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907180124395_cantidadPxV.cs" />
+    <Compile Include="Migrations\201907180124395_cantidadPxV.Designer.cs">
+      <DependentUpon>201907180124395_cantidadPxV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907180155360_cantidadPxC.cs" />
+    <Compile Include="Migrations\201907180155360_cantidadPxC.Designer.cs">
+      <DependentUpon>201907180155360_cantidadPxC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorrarProdCompra.cs" />
     <Compile Include="Models\BorrarProdVtaMay.cs" />
     <Compile Include="Models\CompraReporte.cs" />
@@ -850,6 +858,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906012349175_Compranuevocampo.resx">
       <DependentUpon>201906012349175_Compranuevocampo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907180124395_cantidadPxV.resx">
+      <DependentUpon>201907180124395_cantidadPxV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907180155360_cantidadPxC.resx">
+      <DependentUpon>201907180155360_cantidadPxC.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

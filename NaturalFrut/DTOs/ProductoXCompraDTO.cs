@@ -12,7 +12,7 @@ namespace NaturalFrut.DTOs
 
         public int ID { get; set; }
 
-        public int Cantidad { get; set; }
+        public double Cantidad { get; set; }
 
         public double Importe { get; set; }
 

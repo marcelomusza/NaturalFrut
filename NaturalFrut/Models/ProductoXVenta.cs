@@ -14,7 +14,7 @@ namespace NaturalFrut.Models
 
         public int ID { get; set; }
         
-        public int Cantidad { get; set; }
+        public double Cantidad { get; set; }
 
         public double? Descuento { get; set; }
         

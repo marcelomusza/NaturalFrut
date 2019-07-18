@@ -241,7 +241,7 @@ namespace NaturalFrut.Controllers
             return Json(clienteBL.GetListaList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CalcularStockYValorProductoAsync(int clienteID, int productoID, int cantidad, int tipoUnidadID, int counter)
+        public ActionResult CalcularStockYValorProductoAsync(int clienteID, int productoID, double cantidad, int tipoUnidadID, int counter)
         {
 
             try

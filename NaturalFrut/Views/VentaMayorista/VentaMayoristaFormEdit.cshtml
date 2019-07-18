@@ -155,7 +155,7 @@ else
                     {
                         <tr>
                             <td><div class="tt-container"><input id="@String.Format("producto{0}", counter)" name="producto" data-msg-required="Por favor ingresa un Producto" data-producto-id="@producto.ProductoID" required type="text" data-js-counter="@counter" value="@producto.Producto.Nombre" onChange="ValidarTipoDeProducto(@counter); " class="form-control" disabled /></div></td>
-                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="number" value="@producto.Cantidad" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
+                            <td><div class="form-group"><input id="@String.Format("cantidad{0}", counter)" name="cantidad" data-msg-required="Por favor ingresa una Cantidad" required type="text" value="@producto.Cantidad.ToString().Replace('.',',')" class="form-control" data-js-counter="@counter" onBlur="ResetearValores(this); CalcularValoresSegunTipoProducto(@counter, '@producto.Producto.EsBlister.ToString()');" /><label id="@String.Format("stockdisponible{0}", counter)"></label></div></td>
                             <td><div class="form-group"><select id="@String.Format("tiposdeunidad{0}", counter)" name="tiposdeunidad" data-msg-required="Por favor ingresa una Unidad" class="form-control" onblur="ValidarTipoDeProducto(@counter);" disabled required><option value="@producto.TipoDeUnidadID">@producto.TipoDeUnidad.Nombre</option></select></div></td>
                             <td><div class="form-group"><input id="@String.Format("descprod{0}", counter)" name="descprod" type="text" data-js-counter="@counter" value="@producto.Descuento" class="js-descprod form-control" /></div></td>
                             <td><div class="form-group"><input id="@String.Format("importe{0}", counter)" name="importe" required type="text" value="@producto.Importe.ToString().Replace(',','.')" class="importe form-control" disabled /></div></td>
@@ -781,7 +781,7 @@ else
 
                 var clienteID = $("#cliente").attr("data-cliente-id");
                 var productoID = $("#producto" + counter).attr("data-producto-id");
-                var cantidad = $("#cantidad" + counter).val();
+                var cantidad = $("#cantidad" + counter).val().replace(",",".");
                 var tipoUnidadID = $("#tiposdeunidad" + counter + " option:selected").val();
 
                 if (tipoUnidadID > 0) {
@@ -972,7 +972,7 @@ else
                     $prodxventaid = $row.find('input[name*="prodxventaid"]');
 
                 var productoid = $producto.attr("data-producto-id");
-                var cantidad = $cantidad.val();
+                var cantidad = $cantidad.val().replace(",",".");
                 var tipodeunidad = $tipodeunidad.val();
                 var descuento = ValorANumero($descuento.val());
                 var importe = DeFormatearValor($importe.val());
