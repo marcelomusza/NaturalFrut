@@ -55,7 +55,7 @@
                     <td style="width:10%; vertical-align:middle">Kgs Bulto Cerrado</td>
                 </tr>
 
-                foreach (var prod in Model.ListaPrecios)
+                foreach (var prod in Model.ListaPrecios.OrderBy(p => p.Producto.Nombre))
                 {
                     if (prod.Producto.CategoriaId == catego.ID)
                     {
@@ -89,7 +89,7 @@
                     <td style="width:10%; vertical-align:middle">Kgs Bulto Cerrado</td>
                 </tr>
 
-                foreach (var prod in Model.ListaPrecios)
+                foreach (var prod in Model.ListaPrecios.OrderBy(p => p.Producto.Nombre))
                 {
                     if (prod.Producto.MarcaId == marca.ID)
                     {

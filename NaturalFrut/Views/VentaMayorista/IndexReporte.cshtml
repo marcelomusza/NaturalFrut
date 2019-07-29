@@ -138,7 +138,7 @@
                     success: function (data) {
 
                         $("#lblClienteSaldo").text(data.Nombre);
-                        $("#tboxSaldoCliente").val(FormatearValor(data.Saldo));
+                        $("#tboxSaldoCliente").val(FormatearValor(data.Debe));
 
                         $("#clientesaldocont").show(1000);
 
