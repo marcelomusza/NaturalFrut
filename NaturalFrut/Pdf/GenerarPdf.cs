@@ -75,13 +75,15 @@ namespace NaturalFrut.Pdf
                             fondoColor = true;
                         }
 
+                        //Columna en blanco para corte de boleta
+                        sb.Append("<td rowspan='3' width='5%'></td>");
+
                         if (prod.Producto.MarcaId != null)
                             sb.Append("<td width='25%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
 
                         if (prod.Producto.CategoriaId != null)
                             sb.Append("<td width='25%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
 
-                        //sb.Append("<td>pasas c/cobertura chocolate negrox 1kg</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento,2) + "</td>");
@@ -149,27 +151,6 @@ namespace NaturalFrut.Pdf
                     sb.Append("<tr><td align = 'right' colspan = '2' >Saldo: </td>");
                     sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");
-
-                    //sb.Append("<tr><td colspan='6'><br/>");
-                    //sb.Append("</td></tr>");
-                    //sb.Append("<tr><td colspan='6'><br/>");
-                    //sb.Append("</td></tr>");
-
-                    //sb.Append("<tr><td colspan='6' >");
-                    //sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:10px;'>");
-                    //sb.Append("No se aceptan devoluciones pasadas las 72hs de entregado el pedido." +
-                    //    " Los cambios, devoluciones y omisiones se realizarán en la siguiente compra. Revisar el pedido en el momento de la entrega.");
-                    //sb.Append("</td></tr></table>");
-                    //sb.Append("</td></tr>");
-
-                    //sb.Append("<tr><td colspan='6' >");
-                    //sb.Append("<table width='90%' align='center'><tr><td border='1' align='center' style='font-size:10px;'>");
-                    //sb.Append("No se aceptan devoluciones pasadas las 72hs de entregado el pedido." +
-                    //    " Los cambios, devoluciones y omisiones se realizarán en la siguiente compra. Revisar el pedido en el momento de la entrega.");
-                    //sb.Append("</td></tr></table>");
-                    //sb.Append("</td></tr>");
-
-
 
                     sb.Append("</table>");
 
@@ -465,6 +446,11 @@ namespace NaturalFrut.Pdf
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
                 cell = new PdfPCell(new Phrase("Total", boldTableFont));
+                cell.BorderWidth = 0;
+                cell.FixedHeight = 25;
+                headerTable.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("__", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);

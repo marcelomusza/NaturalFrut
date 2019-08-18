@@ -75,8 +75,15 @@ namespace NaturalFrut.Controllers.Api
                 return BadRequest();
             }
 
-           
             var ventaMayorista = Mapper.Map<VentaMayoristaDTO, VentaMayorista>(ventaMayoristaDTO);
+
+            //Verificamos si ya se cargó una venta con el mismo NumeroVenta
+            var ultimaVenta = _UOWVentaMayorista.VentaMayoristaRepository
+                .GetAll()
+                .Max(p => p.NumeroVenta);
+
+            if (ventaMayorista.NumeroVenta <= ultimaVenta)
+                ventaMayorista.NumeroVenta = ultimaVenta + 1;
 
             //ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
             _UOWVentaMayorista.VentaMayoristaRepository.Add(ventaMayorista);
@@ -289,6 +296,9 @@ namespace NaturalFrut.Controllers.Api
                 }
 
             }
+
+            
+
 
             //Salvamos los cambios
             _UOWVentaMayorista.Save();

@@ -169,39 +169,7 @@ namespace NaturalFrut.Controllers
 
             return View("VentaMayoristaFormEdit", vtaMayorista);
         }
-
-       
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult GuardarVentaMayorista(VentaMayorista ventaMayorista)
-        //{
-
-        //    if (!ModelState.IsValid)
-        //    {
-
-        //        VentaMayoristaViewModel viewModel = new VentaMayoristaViewModel(ventaMayorista)
-        //        {
-
-        //        };
-
-        //        return View("VentaMayoristaForm", viewModel);
-        //    }
-
-        //    if (ventaMayorista.ID == 0)
-        //    {
-        //        //Agregamos nueva Venta Mayorista
-        //        ventaMayoristaBL.AddVentaMayorista(ventaMayorista);
-        //    }
-        //    else
-        //    {
-        //        //Edicion de Venta Mayorista existente
-        //        ventaMayoristaBL.UpdateVentaMayorista(ventaMayorista);
-        //    }
-
-        //    return RedirectToAction("Clientes", "Admin");
-
-        //}
-
+             
 
         public ActionResult NuevoCliente()
         {

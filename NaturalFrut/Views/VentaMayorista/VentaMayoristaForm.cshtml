@@ -1036,7 +1036,7 @@
 
                     var descuento = $(this).closest('tr').find('td .js-descprod').val();
 
-                    if (descuento != "") {
+                    if (descuento != "" && descuento != "0") {
                         sumaParcialConDesc += parseFloat(DeFormatearValor(this.value));
                     }
                     else {

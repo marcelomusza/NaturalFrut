@@ -186,10 +186,10 @@ namespace NaturalFrut.Helpers
                         reporteTemp.ID = compraInDB.NumeroCompra;
                         reporteTemp.Nombre = compraInDB.Proveedor.Nombre;
                         reporteTemp.Cuit = compraInDB.Proveedor.Cuit;
-                        reporteTemp.Iibb = compraInDB.Proveedor.Iibb;
+                        reporteTemp.Iibb = compraInDB.Proveedor.Iibb == null ? " ": compraInDB.Proveedor.Iibb;
                         reporteTemp.Fecha = compraInDB.Fecha.Date.ToString("dd/MM/yyyy");
                         reporteTemp.TipoFactura = compraInDB.TipoFactura;
-                        reporteTemp.Factura = compraInDB.Factura;
+                        reporteTemp.Factura = compraInDB.Factura == null ? " " : compraInDB.Factura;
                         reporteTemp.SumaTotal = String.Format("{0:c}", compraInDB.SumaTotal);
                         reporteTemp.DescuentoPorc = compraInDB.DescuentoPorc;
                         reporteTemp.Descuento = String.Format("{0:c}", compraInDB.Descuento);
@@ -215,6 +215,7 @@ namespace NaturalFrut.Helpers
                 tablaExcel.Columns.Add("IIBB", typeof(string));
                 tablaExcel.Columns.Add("Mes Año", typeof(string));
                 tablaExcel.Columns.Add("TIPO", typeof(string));
+                tablaExcel.Columns.Add("Factura", typeof(string));
                 tablaExcel.Columns.Add("Suma Total", typeof(string));
                 tablaExcel.Columns.Add("Descuento %", typeof(double));
                 tablaExcel.Columns.Add("Descuento", typeof(string));
@@ -229,7 +230,7 @@ namespace NaturalFrut.Helpers
 
                 foreach (var item in compraReporte)
                 {
-                    tablaExcel.Rows.Add(item.ID, item.Nombre, item.Cuit, item.Iibb, item.Fecha, item.TipoFactura, item.SumaTotal,
+                    tablaExcel.Rows.Add(item.ID, item.Nombre, item.Cuit, item.Iibb, item.Fecha, item.TipoFactura, item.Factura, item.SumaTotal,
                         item.DescuentoPorc, item.Descuento, item.Subtotal, item.Iva, item.ImporteIva, item.ImporteIibbbsas,
                         item.ImporteIibbcaba, item.ImportePercIva, item.Clasificacion, item.Total);
                 }

@@ -438,7 +438,7 @@ namespace NaturalFrut.Controllers
 
             DataTable tablaCompras = excel.ArmarExcel(compra, Constants.COMPRA_EXCEL);
 
-            string[] columns = { "Id", "Proveedor", "CUIT", "IIBB", "Mes Año", "Tipo", "Suma Total", "Descuento %", "Descuento",
+            string[] columns = { "Id", "Proveedor", "CUIT", "IIBB", "Mes Año", "Tipo", "Factura", "Suma Total", "Descuento %", "Descuento",
                                 "Subtotal", "IVA", "Importe IVA", "IIBB BSAS", "IIBB CABA", "Percepción IVA", "Clasificación", "Total"};
             
             //byte[] filecontent = ExcelExportHelper.ExportExcel(technologies, "Technology", true, columns);
