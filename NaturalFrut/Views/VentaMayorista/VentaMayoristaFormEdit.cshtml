@@ -257,7 +257,6 @@ else
                 productosXVenta: []
             };
 
-            RecalcularTotal();
             //var vm2 = [];
 
             var descuentoAplicado = false;
@@ -269,7 +268,14 @@ else
             var debeInicial = DeFormatearValor($("#debe").val());
             var saldoFavorInicial = DeFormatearValor($("#saldoFavor").val());
 
-            totalInicial = DeFormatearValor($("#totalventa").val());
+
+            if ($("#noconcretado").prop('checked')) {
+
+                totalInicial = DeFormatearValor($("#totalventaanterior").val());
+            } else {
+                totalInicial = 0;
+            }
+            
             
 
             ValidarVentaConcretada();
