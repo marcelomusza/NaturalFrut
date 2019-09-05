@@ -75,35 +75,76 @@ namespace NaturalFrut.Pdf
                             fondoColor = true;
                         }
 
-                        //Columna en blanco para corte de boleta
-                        sb.Append("<td rowspan='3' width='5%'></td>");
-
                         if (prod.Producto.MarcaId != null)
-                            sb.Append("<td width='25%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
+                            sb.Append("<td width='24%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
 
                         if (prod.Producto.CategoriaId != null)
-                            sb.Append("<td width='25%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
+                            sb.Append("<td width='24%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
 
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
-                        sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
+                        sb.Append("<td width='4%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento,2) + "</td>");
-                        sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
-                        sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
+                        sb.Append("<td width='6%' align = 'left'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='6%' align = 'left'>" + prod.Total + "</td>");
 
                         if (prod.Producto.MarcaId != null)
-                            sb.Append("<td width='25%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
+                            sb.Append("<td width='24%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Marca.Nombre + ")" + "</td>");
 
                         if (prod.Producto.CategoriaId != null)
-                            sb.Append("<td width='25%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
+                            sb.Append("<td width='24%' style='font-size:10px;'>" + prod.Producto.Nombre + " (" + prod.Producto.Categoria.Nombre + ")" + "</td>");
 
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
-                        sb.Append("<td width='5%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
+                        sb.Append("<td width='4%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");
                         sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento, 2) + "</td>");
-                        sb.Append("<td width='5%' align = 'left'>" + prod.Importe + "</td>");
-                        sb.Append("<td width='5%' align = 'left'>" + prod.Total + "</td>");
+                        sb.Append("<td width='6%' align = 'left'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='6%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
                     }
 
+                    //Calculamos importe del descuento aplicado
+                    double? descuentoFinal = 0;
+                    double? ivaFinal = 0;
+                    double? totalTemp = 0;
+
+                    if (venta.IVA != null)
+                    {
+                        ivaFinal = venta.SumaTotal / (1 + venta.IVA);
+
+                        totalTemp = venta.SumaTotal - ivaFinal;
+                    }
+
+                    if (venta.TipoDescuentoTotal == 1)
+                        descuentoFinal = venta.Descuento;
+                    else
+                    {
+                        if (venta.IVA != null)
+                        {
+                            double? descInverso = 100 - venta.Descuento;
+                            descuentoFinal = ((100 * totalTemp) / descInverso) - totalTemp;
+                        }
+                            
+                        else
+                            descuentoFinal = (venta.Descuento * venta.SumaTotal) / 100;
+                    }
+                        
+
+                   
+                        
+                 
+
+
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Descuento: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + descuentoFinal + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Descuento: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + descuentoFinal + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >IVA: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + ivaFinal + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >IVA: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + ivaFinal + "</td>");
+                    sb.Append("</tr>");
                     sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Suma de Venta: </td>");
                     sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
@@ -219,7 +260,7 @@ namespace NaturalFrut.Pdf
 
                
 
-                headerTable.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });             
+                headerTable.SetWidths(new float[] { 24, 5, 4, 5, 6, 6, 24, 5, 4, 5, 6, 6 });             
 
 
                 PdfPCell cell;
@@ -364,7 +405,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
-                cell = new PdfPCell(new Phrase("Unidad", boldTableFont));
+                cell = new PdfPCell(new Phrase("Unid.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -389,7 +430,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
-                cell = new PdfPCell(new Phrase("Unidad", boldTableFont));
+                cell = new PdfPCell(new Phrase("Unid.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -421,7 +462,7 @@ namespace NaturalFrut.Pdf
                 headerTable.SpacingAfter = 0;
                 headerTable.DefaultCell.Border = 5;
                 headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
-                headerTable.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
+                headerTable.SetWidths(new float[] { 24, 5, 4, 5, 6, 6, 24, 5, 4, 5, 6, 6 });
 
                 PdfPCell cell;         
 
@@ -433,7 +474,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
-                cell = new PdfPCell(new Phrase("Unidad", boldTableFont));
+                cell = new PdfPCell(new Phrase("Unid.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -450,11 +491,6 @@ namespace NaturalFrut.Pdf
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("__", boldTableFont));
-                cell.BorderWidth = 0;
-                cell.FixedHeight = 25;
-                headerTable.AddCell(cell);
-
                 cell = new PdfPCell(new Phrase("Producto", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
@@ -463,7 +499,7 @@ namespace NaturalFrut.Pdf
                 cell.BorderWidth = 0;
                 headerTable.AddCell(cell);
                 cell.FixedHeight = 25;
-                cell = new PdfPCell(new Phrase("Unidad", boldTableFont));
+                cell = new PdfPCell(new Phrase("Unid.", boldTableFont));
                 cell.BorderWidth = 0;
                 cell.FixedHeight = 25;
                 headerTable.AddCell(cell);
@@ -518,7 +554,7 @@ namespace NaturalFrut.Pdf
 
 
             tabFot.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
-            tabFot.SetWidths(new float[] { 25, 5, 5, 5, 5, 5, 25, 5, 5, 5, 5, 5 });
+            tabFot.SetWidths(new float[] { 24, 5, 4, 5, 6, 6, 24, 5, 4, 5, 6, 6 });
       
 
             cell = new PdfPCell(new Phrase("Haga su pedido al 4709-3075//15-2415-0520 o 15-5429-6101   Num.venta:" + VentaMayorista.NumeroVenta, boldTableFont));

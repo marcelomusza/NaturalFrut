@@ -351,6 +351,7 @@ namespace NaturalFrut.Controllers.Api
 
             //Update para los campos de VentaMayorista
             ventaUpdate.Descuento = ventaMayoristaDTO.Descuento;
+            ventaUpdate.TipoDescuentoTotal = ventaMayoristaDTO.TipoDescuentoTotal;
             ventaUpdate.EntregaEfectivo = ventaMayoristaDTO.EntregaEfectivo;
             ventaUpdate.Impreso = ventaMayoristaDTO.Impreso;
             ventaUpdate.NoConcretado = ventaMayoristaDTO.NoConcretado;
