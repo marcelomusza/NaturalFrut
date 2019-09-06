@@ -9,7 +9,7 @@
 <h4>Complete los campos del formulario para dar de alta un nuevo cliente</h4>
 <br />
 
-@using (Html.BeginForm("GuardarCliente", "Admin"))
+@using (Html.BeginForm("GuardarCliente", "Admin", FormMethod.Post, new { id = "clienteform" }))
 {
 
     <div class="row">
@@ -117,7 +117,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(c => c.ListaId )
+                @Html.LabelFor(c => c.ListaId)
                 @Html.DropDownListFor(c => c.ListaId, new SelectList(Model.Lista, "Id", "Nombre"), "Seleccione Lista de Precios", new { @class = "form-control" })
                 @Html.ValidationMessageFor(c => c.ListaId)
             </div>
@@ -134,6 +134,20 @@
                 @Html.ValidationMessageFor(c => c.Horarios)
             </div>
 
+            <div class="form-group">
+                @Html.LabelFor(c => c.Debe)
+                @Html.EditorFor(c => c.Debe, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.Debe)
+                @Html.CheckBox("DebeDesbloquear", false) Habilitar Saldo
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.SaldoAfavor)
+                @Html.EditorFor(c => c.SaldoAfavor, "Currency", new { htmlAttributes = new { @class = "form-control js-formatearvalor", onkeyup = "ValidarPunto(this);", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(c => c.SaldoAfavor)
+                @Html.CheckBox("SaldoAFavorDesbloquear", false) Habilitar Saldo a Favor
+            </div>
+
         </div>
 
     </div>
@@ -143,7 +157,7 @@
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(c => c.ID)
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" id="clientesubmit" class="btn btn-primary">Guardar</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Admin")';">Cancelar</button>          
 
         </div>
@@ -159,7 +173,7 @@
 
 @section scripts {
 
-    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
 
 <script>
 
@@ -167,7 +181,94 @@
 
         $("#Cuit").mask("99-99999999-9");
         //$("#factura").inputmask({ "mask": "(999) 999-9999" });
+
+        $("#Debe").val(FormatearValor(ValorANumero($("#Debe").val())));
+        $("#SaldoAfavor").val(FormatearValor(ValorANumero($("#SaldoAfavor").val())));
+
+        $("#clientesubmit").click(function (e) {
+
+            e.preventDefault();
+
+            bootbox.confirm("¿Estas seguro de concretar la operación?", function (result) {
+
+                if (result) {
+
+                    var debe = $("#Debe").val();
+                    debe = FormatearValorMonetario(debe);
+                    $("#Debe").val(debe);
+
+                    var saldoAFavor = $("#SaldoAfavor").val();
+                    saldoAFavor = FormatearValorMonetario(saldoAFavor);
+                    $("#SaldoAfavor").val(saldoAFavor);
+
+
+
+                    $("#clienteform").submit();
+
+                }
+
+            });
+
+            
+        });
+
+        $("#DebeDesbloquear").on('change', function () {
+
+            if ($("#DebeDesbloquear").is(':checked')) {                
+                $('#Debe').removeAttr('readonly');
+            }
+            else {
+                $('#Debe').attr('readonly', 'readonly');
+            }
+        })
+
+        $("#SaldoAFavorDesbloquear").on('change', function () {
+
+            if ($("#SaldoAFavorDesbloquear").is(':checked')) {
+                $('#SaldoAfavor').removeAttr('readonly');
+            }
+            else {
+                $('#SaldoAfavor').attr('readonly', 'readonly');
+            }
+        })
+
+        $(".js-formatearvalor").on("blur", function () {
+
+            var valor = ValorANumero($(this).val());
+
+            $(this).val(FormatearValor(valor));
+        });
+
     })
+
+   
+
+    function FormatearValores() {
+
+        $('.js-formatearvalor').each(function () {
+
+            var valor = ValorANumero($(this).val());
+
+            $(this).val(FormatearValor(valor));
+
+        });
+
+    }
+
+    function ValidarPunto(textbox) {
+
+        var word = ["."];
+
+        for (i = 0; i < word.length; i++) {
+            if (textbox.value.indexOf(word[i]) >= 0) {
+                $("[data-valmsg-for=" + textbox.id).text("Para valores decimales por favor usar la coma.").css("color", "red");
+            }
+            else {
+                $("[data-valmsg-for=" + textbox.id).text("");
+            }
+        }
+
+    }
 </script>
 
 }

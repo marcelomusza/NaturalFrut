@@ -56,6 +56,12 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public string Horarios { get; set; }
 
+        [Display(Name = "Saldo")]
+        public double? Debe { get; set; }
+
+        [Display(Name = "Saldo a Favor")]
+        public double? SaldoAfavor { get; set; }
+
         public IEnumerable<CondicionIVA> CondicionIVA { get; set; }
 
         [Display(Name = "Condición ante IVA")]
@@ -94,6 +100,8 @@ namespace NaturalFrut.App_BLL.ViewModels
             TelefonoTransporte = cliente.TelefonoTransporte;
             Dias = cliente.Dias;
             Horarios = cliente.Horarios;
+            Debe = cliente.Debe;
+            SaldoAfavor = cliente.SaldoAfavor;
 
             CondicionIVAId = cliente.CondicionIVAId;
             TipoClienteId = cliente.TipoClienteId;
