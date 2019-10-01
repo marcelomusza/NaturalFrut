@@ -124,6 +124,9 @@
 
                     vm.ReporteVentas = data.ReporteVentas;
 
+                     var sumaventas = data.TotalVentas;
+                     $("#totalventa").val(FormatearValor(sumaventas));
+
                     var table = $("#reportesporfecha").DataTable({
 
                         "language": {
@@ -192,7 +195,8 @@
 
                         "initComplete": function (settings, json) {
                             var api = this.api();
-                            CalcularTotalVentas();
+                            //CalcularTotalVentas();
+                           
                         },
                     });
 
@@ -209,7 +213,8 @@
 
             }
 
-            
+           
+
 
             
 
@@ -232,21 +237,21 @@
 
         });
 
-        function CalcularTotalVentas() {
+        //function CalcularTotalVentas() {
 
-            var sumaventas = 0;
+        //    var sumaventas = 0;
 
-            $(".js-sumaventa").each(function () {
+        //    $(".js-sumaventa").each(function () {
 
-                var parcial = DeFormatearValor($(this).text());
+        //        var parcial = DeFormatearValor($(this).text());
                 
-                sumaventas += parcial;
+        //        sumaventas += parcial;
 
-            });
+        //    });
 
-            $("#totalventa").val(FormatearValor(sumaventas));
+        //    $("#totalventa").val(FormatearValor(sumaventas));
 
-        }
+        //}
 
 
     </script>

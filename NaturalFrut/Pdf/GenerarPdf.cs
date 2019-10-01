@@ -58,7 +58,7 @@ namespace NaturalFrut.Pdf
                     //Generar contenido del body de la tabla
                     sb.Append("<table style='font-size:9px;' border = '0' ;>");
 
-
+                    double sumaParcial = 0;
 
                     bool fondoColor = true;
                     foreach (var prod in viewModel.ProductoXVenta)
@@ -99,63 +99,66 @@ namespace NaturalFrut.Pdf
                         sb.Append("<td width='6%' align = 'left'>" + prod.Importe + "</td>");
                         sb.Append("<td width='6%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
+
+                        sumaParcial += prod.Total;
                     }
 
                     //Calculamos importe del descuento aplicado
                     double? descuentoFinal = 0;
                     double? ivaFinal = 0;
-                    double? totalTemp = 0;
+                    double? total = 0;
+                    double? nuevoTotal = 0;
+                    double? precioSinIVA = 0;
+                    double? precioTotalSinDesc = 0;
 
-                    if (venta.IVA != null)
+                    if (venta.IVA != 0)
                     {
-                        ivaFinal = venta.SumaTotal / (1 + venta.IVA);
+                        total = venta.IVA / 100;
+                        nuevoTotal = 1 + total;
+                        precioSinIVA = venta.SumaTotal / nuevoTotal;
 
-                        totalTemp = venta.SumaTotal - ivaFinal;
+                        ivaFinal = Math.Round((venta.SumaTotal - precioSinIVA).Value, 2);
                     }
 
                     if (venta.TipoDescuentoTotal == 1)
                         descuentoFinal = venta.Descuento;
                     else
                     {
-                        if (venta.IVA != null)
+                        if (venta.IVA != 0)
                         {
-                            double? descInverso = 100 - venta.Descuento;
-                            descuentoFinal = ((100 * totalTemp) / descInverso) - totalTemp;
-                        }
-                            
+                            precioTotalSinDesc = (precioSinIVA * 100) / (100 - venta.Descuento);
+
+                            descuentoFinal = Math.Round(((venta.Descuento * precioTotalSinDesc) / 100).Value, 2);
+                        }                            
                         else
                             descuentoFinal = (venta.Descuento * venta.SumaTotal) / 100;
                     }
-                        
-
-                   
-                        
-                 
 
 
-                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Descuento: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + descuentoFinal + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Descuento: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + descuentoFinal + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >IVA: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + ivaFinal + "</td>");
-                    sb.Append("</tr>");
-                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >IVA: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + ivaFinal + "</td>");
-                    sb.Append("</tr>");
+
+                    //Calculamos Anterior
+                    double? saldoAnterior = (venta.EntregaEfectivo == 0) ? venta.Debe - venta.SumaTotal : (venta.EntregaEfectivo - venta.SumaTotal) + venta.Debe;
+
+
                     sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Suma de Venta: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + sumaParcial + "</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td colspan='2'  ></td><td align = 'right' colspan = '2' >Suma de Venta: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + sumaParcial + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td colspan='2'  ></td><td align = 'right' colspan = '2' >Anterior: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
+
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Descuento: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + descuentoFinal + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Anterior: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >Descuento: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + descuentoFinal + "</td>");
+                    sb.Append("</tr>");
+
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >IVA: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + ivaFinal + "</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td colspan='2' ></td><td align = 'right' colspan = '2' >IVA: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + ivaFinal + "</td>");
                     sb.Append("</tr>");
 
                     sb.Append("<tr>");
@@ -180,12 +183,13 @@ namespace NaturalFrut.Pdf
                     sb.Append("<td align = 'left' colspan = '2'>$" + venta.SumaTotal + "</td>");
                     sb.Append("</tr>");
 
-                    sb.Append("<tr><td align = 'right' colspan = '2' >Efectivo: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
+                    sb.Append("<tr><td align = 'right' colspan = '2' >Anterior: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + saldoAnterior + "</td>");
                     sb.Append("</tr>");
-                    sb.Append("<tr><td align = 'right' colspan = '2' >Efectivo: </td>");
-                    sb.Append("<td align = 'left' colspan = '2'>$" + venta.EntregaEfectivo + "</td>");
-                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '2' >Anterior: </td>");
+                    sb.Append("<td align = 'left' colspan = '2'>$" + saldoAnterior + "</td>");
+                    sb.Append("</tr>");                                      
+
                     sb.Append("<tr><td align = 'right' colspan = '2' >Saldo: </td>");
                     sb.Append("<td align = 'left' colspan = '2'>$" + venta.Debe + "</td>");
                     sb.Append("</tr>");

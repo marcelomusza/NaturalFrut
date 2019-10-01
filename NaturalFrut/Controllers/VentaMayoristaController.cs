@@ -604,10 +604,10 @@ namespace NaturalFrut.Controllers
                     log.Error("No se encontraron Ventas según el rango de fecha seleccionada");
                     throw new Exception("No se encontraron Ventas según el rango de fecha seleccionada");
                 }
-                    
 
+                double totalVentas = Math.Round(CalcularTotalVentas(reporteVentas), 2);
 
-                return Json(new { Success = true, ReporteVentas = reporteVentas }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, ReporteVentas = reporteVentas, TotalVentas = totalVentas}, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -618,6 +618,20 @@ namespace NaturalFrut.Controllers
 
         }
 
+        private double CalcularTotalVentas(List<VentaMayorista> reporteVentas)
+        {
+            double sumaTotal = 0;
+
+            foreach(VentaMayorista venta in reporteVentas)
+            {
+                double parcial = venta.SumaTotal;
+
+                sumaTotal += parcial;
+                
+            }
+
+            return sumaTotal;
+        }
 
         [AllowAnonymous]
         public ActionResult GenerarNotaPedido(int Id)
