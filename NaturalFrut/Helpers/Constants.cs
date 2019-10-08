@@ -21,5 +21,6 @@ namespace NaturalFrut.Helpers
 
         public const int VENTA_MINORISTA_EXCEL = 1;
         public const int COMPRA_EXCEL = 2;
+
     }
 }

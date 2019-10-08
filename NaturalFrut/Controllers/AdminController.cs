@@ -1062,7 +1062,25 @@ namespace NaturalFrut.Controllers
 
             return RedirectToAction("Lista", "Admin");
 
-        } 
+
+
+        }
+
+        public ActionResult ActualizarListaPrecios(int id)
+        {
+
+            //var listaPrecios = listaPreciosBL.GetAllLista();
+
+            //if (listaPrecios == null)
+            //{
+            //    log.Error("Error al traer Lista de Precios.");
+            //    return View("Error");
+            //}
+
+            listaPreciosBL.ActualizarListaPrecios(id);
+
+            return RedirectToAction("Index", "Home");
+        }
         #endregion
 
         #region Acciones Lista Precios
@@ -1169,10 +1187,9 @@ namespace NaturalFrut.Controllers
 
         }
 
-        
 
         #endregion
-        
+
         #region Acciones Lista Precios Blister
         public ActionResult ListaPreciosBlister()
         {

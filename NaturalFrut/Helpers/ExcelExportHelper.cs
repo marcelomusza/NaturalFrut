@@ -184,11 +184,11 @@ namespace NaturalFrut.Helpers
                         //Guardamos los datos necesarios para el reporte
                         reporteTemp = new CompraReporte();
                         reporteTemp.ID = compraInDB.NumeroCompra;
-                        reporteTemp.Nombre = compraInDB.Proveedor.Nombre;
-                        reporteTemp.Cuit = compraInDB.Proveedor.Cuit;
+                        reporteTemp.Nombre = compraInDB.Proveedor.Nombre == null ? " " : compraInDB.Proveedor.Nombre;
+                        reporteTemp.Cuit = compraInDB.Proveedor.Cuit == null ? " " : compraInDB.Proveedor.Cuit;
                         reporteTemp.Iibb = compraInDB.Proveedor.Iibb == null ? " ": compraInDB.Proveedor.Iibb;
                         reporteTemp.Fecha = compraInDB.Fecha.Date.ToString("dd/MM/yyyy");
-                        reporteTemp.TipoFactura = compraInDB.TipoFactura;
+                        reporteTemp.TipoFactura = compraInDB.TipoFactura == null ? " " : compraInDB.TipoFactura;
                         reporteTemp.Factura = compraInDB.Factura == null ? " " : compraInDB.Factura;
                         reporteTemp.SumaTotal = String.Format("{0:c}", compraInDB.SumaTotal);
                         reporteTemp.DescuentoPorc = compraInDB.DescuentoPorc;
@@ -199,7 +199,7 @@ namespace NaturalFrut.Helpers
                         reporteTemp.ImporteIibbbsas = String.Format("{0:c}", compraInDB.ImporteIibbbsas);
                         reporteTemp.ImporteIibbcaba = String.Format("{0:c}", compraInDB.ImporteIibbcaba);
                         reporteTemp.ImportePercIva = String.Format("{0:c}", compraInDB.ImportePercIva);
-                        reporteTemp.Clasificacion = compraInDB.Clasificacion.Nombre;
+                        reporteTemp.Clasificacion = compraInDB.Clasificacion.Nombre == null ? " " : compraInDB.Clasificacion.Nombre;
                         reporteTemp.Total = String.Format("{0:c}", compraInDB.Total);
 
 

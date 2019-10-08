@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Globalization;
-
+using NaturalFrut.Helpers;
 
 namespace NaturalFrut.App_BLL
 {
@@ -117,6 +117,30 @@ namespace NaturalFrut.App_BLL
             return listaPrecioRP.GetAll()
                 .Include(c => c.Lista)
                 .Include(c => c.Producto)
+                .ToList();
+
+        }
+
+        public List<ListaPrecio> GetAllListaPrecioPrincipal()
+        {
+
+            int listaPrincipalID = Constants.LISTAPRINCIPAL;
+
+            return listaPrecioRP.GetAll()
+                .Include(c => c.Lista)
+                .Include(c => c.Producto)
+                .Where(c => c.ListaID == listaPrincipalID)
+                .ToList();
+
+        }
+
+        public List<ListaPrecio> GetAllListaPrecioByID(int id)
+        {
+            
+            return listaPrecioRP.GetAll()
+                .Include(c => c.Lista)
+                .Include(c => c.Producto)
+                .Where(c => c.ListaID == id)
                 .ToList();
 
         }
@@ -285,7 +309,45 @@ namespace NaturalFrut.App_BLL
             listaPrecioBlisterRP.Save();
         }
 
-        
+        public void ActualizarListaPrecios(int id)
+        {
+            var lista = GetListaById(id);
+
+            if (lista == null)
+                throw new Exception("La Lista no existe");
+
+            var listaPreciosPrincipal = GetAllListaPrecioPrincipal();
+            var listaPreciosSegunID = GetAllListaPrecioByID(id);
+            
+            foreach (var prodLista in listaPreciosPrincipal)
+            {
+
+                if(listaPreciosSegunID.Count != 0)
+                {
+                    //Existen productos para la lista a actualizar, se filtrarán
+                    List<ListaPrecio> matches = listaPreciosSegunID.Where(p => p.ProductoID == prodLista.ProductoID).ToList();
+
+                    if (matches.Count < 1)
+                    {
+                        listaPrecioRP.Add(CalculaPrecios(prodLista, lista, false, null));
+                        listaPrecioRP.Save();
+                    }
+                   
+                }
+                else
+                {
+                    //No existen productos existentes para la nueva lista, se agregan sin filtro adicional
+                    listaPrecioRP.Add(CalculaPrecios(prodLista, lista, false, null));
+                    listaPrecioRP.Save();
+                }
+
+                
+
+            }
+
+        }
+
+
         #endregion
 
 

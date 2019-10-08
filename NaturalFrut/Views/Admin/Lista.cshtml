@@ -40,7 +40,8 @@
                         <td>
                             @Html.ActionLink("Editar", "EditarLista", "Admin", new { id = lista.ID }, null)
                             &nbsp;
-                            @Html.ActionLink("Borrar", "BorrarLista", "Admin", new { id = lista.ID }, null)
+                            @*@Html.ActionLink("Borrar", "BorrarLista", "Admin", new { id = lista.ID }, null)*@
+                            @Html.ActionLink("Actualizar Productos", "ActualizarListaPrecios", "Admin", new { id = lista.ID }, null)
                         </td>
                     </tr>
                     }
