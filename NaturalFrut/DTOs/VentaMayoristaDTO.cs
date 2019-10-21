@@ -21,6 +21,8 @@ namespace NaturalFrut.DTOs
 
         public double EntregaEfectivo { get; set; }
 
+        public double? EntregaEfectivoHistorico { get; set; }
+
         public int? TipoDescuentoTotal { get; set; }
 
         public double? Descuento { get; set; }

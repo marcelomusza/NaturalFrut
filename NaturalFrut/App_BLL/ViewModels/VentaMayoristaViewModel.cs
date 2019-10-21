@@ -23,6 +23,8 @@ namespace NaturalFrut.App_BLL.ViewModels
 
         public double EntregaEfectivo { get; set; }
 
+        public double? EntregaEfectivoHistorico { get; set; }
+
         public double Total { get; set; }
 
         public double SumaTotalMasSaldo { get; set; }

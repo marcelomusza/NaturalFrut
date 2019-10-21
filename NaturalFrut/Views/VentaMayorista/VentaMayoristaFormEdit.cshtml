@@ -80,6 +80,8 @@ else
             <div class="form-group">
                 <label>Entrega Efectivo</label>
                 <input id="entregaEfectivo" name="entregaEfectivo" required type="text" value="@Model.EntregaEfectivo" onkeyup="ValidarPunto(this);" class="form-control" />
+                <label style="font-size:12px; color: green;">Entregó: $ </label><label style="font-size:12px; color: green;" id="entregoefvo">@Model.EntregaEfectivoHistorico</label>
+
             </div>
 
             <div class="form-group">
@@ -253,6 +255,7 @@ else
                 Debe: 0,
                 SaldoAFavor: 0,
                 entregaEfectivo: 0,
+                entregaEfectivoHistorico: 0,
                 iva: 0,
                 productosXVenta: []
             };
@@ -267,7 +270,6 @@ else
             var totalInicial = 0;
             var debeInicial = DeFormatearValor($("#debe").val());
             var saldoFavorInicial = DeFormatearValor($("#saldoFavor").val());
-
 
             if ($("#noconcretado").prop('checked')) {
 
@@ -650,7 +652,10 @@ else
 
                                 calculoDebe();
 
+                                SumarEntregaEfvo();
+
                                 CargarProductosAlVM(vm);
+
 
                                 //var model = {
                                 //    "ventaMayorista": vm,
@@ -1045,6 +1050,7 @@ else
             vm.clienteID = $("#cliente").attr("data-cliente-id");
             vm.vendedorID = $("#vendedor").attr("data-vendedor-id");
             vm.entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
+            vm.entregaEfectivoHistorico = $("#entregoefvo").text();
             vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
             vm.Debe = DeFormatearValor($("#debe").val());
@@ -1566,6 +1572,17 @@ else
             });
 
             return duplicate;
+        }
+
+        function SumarEntregaEfvo() {
+
+            var entregaefvo = DeFormatearValor($("#entregaEfectivo").val());
+            var entregoefectivo = ValorANumero($("#entregoefvo").text());
+
+            entregoefectivo += entregaefvo;
+
+            //Vuelve a asignarlo
+            $("#entregoefvo").text(entregoefectivo);
         }
 
 

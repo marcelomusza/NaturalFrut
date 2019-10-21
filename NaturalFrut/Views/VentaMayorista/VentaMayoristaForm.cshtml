@@ -240,6 +240,7 @@
                 Debe: 0,
                 SaldoAFavor: 0,
                 entregaEfectivo: 0,
+                entregaEfectivoHistorico: 0,
                 iva: 0,
                 productosXVenta : []
             };
@@ -875,6 +876,7 @@
 
             //Cargamos el resto de valores a deformatear
             vm.entregaEfectivo = DeFormatearValor($("#entregaEfectivo").val());
+            vm.entregaEfectivoHistorico = DeFormatearValor($("#entregaEfectivo").val());
             vm.tipoDescuentoTotal = $("#tipoDescuento").val();
             vm.descuento = DeFormatearValor($("#descuento").val());
             vm.Debe = DeFormatearValor($("#debe").val());

@@ -353,6 +353,7 @@ namespace NaturalFrut.Controllers.Api
             ventaUpdate.Descuento = ventaMayoristaDTO.Descuento;
             ventaUpdate.TipoDescuentoTotal = ventaMayoristaDTO.TipoDescuentoTotal;
             ventaUpdate.EntregaEfectivo = ventaMayoristaDTO.EntregaEfectivo;
+            ventaUpdate.EntregaEfectivoHistorico = ventaMayoristaDTO.EntregaEfectivoHistorico;
             ventaUpdate.Impreso = ventaMayoristaDTO.Impreso;
             ventaUpdate.NoConcretado = ventaMayoristaDTO.NoConcretado;
             ventaUpdate.Facturado = ventaMayoristaDTO.Facturado;
@@ -1209,13 +1210,27 @@ namespace NaturalFrut.Controllers.Api
             //Devolvemos Saldo
             Cliente cliente = _UOWVentaMayorista.ClienteRepository.GetByID(ventaABorrar.ClienteID);
 
-            if(cliente.Debe - ventaABorrar.SumaTotal < 0)
+            if(ventaABorrar.EntregaEfectivoHistorico != 0)
             {
-                cliente.SaldoAfavor = (cliente.Debe - ventaABorrar.SumaTotal) * -1;
-                cliente.Debe = 0;
+                if (cliente.Debe > 0 || cliente.Debe != null)
+                {
+                    cliente.Debe = cliente.Debe - ventaABorrar.EntregaEfectivoHistorico;
+
+                    if (cliente.Debe < 0)
+                    {
+                        cliente.SaldoAfavor = cliente.Debe * -1;
+                        cliente.Debe = 0;
+                    }
+                }
+                else if(cliente.SaldoAfavor >= 0 || cliente.SaldoAfavor == null)
+                {
+                    if (cliente.SaldoAfavor == null)
+                        cliente.SaldoAfavor = 0;
+
+                    cliente.SaldoAfavor = cliente.SaldoAfavor + ventaABorrar.EntregaEfectivoHistorico;
+                }
+                    
             }
-            else
-                cliente.Debe = cliente.Debe - ventaABorrar.SumaTotal;
 
 
             _UOWVentaMayorista.ClienteRepository.Update(cliente);
