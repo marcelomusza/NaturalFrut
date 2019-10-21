@@ -29,13 +29,13 @@
 
             <div class="form-group">
                 @Html.LabelFor(c => c.CategoriaId)
-                @Html.DropDownListFor(c => c.CategoriaId, new SelectList(Model.Categoria, "Id", "Nombre"), "Seleccione la Categoría", new { @class = "form-control" })
+                @Html.DropDownListFor(c => c.CategoriaId, new SelectList(Model.Categoria, "Id", "Nombre"), "Seleccione la Categoría", new { @class = "form-control", required = "required" })
                 @Html.ValidationMessageFor(c => c.CategoriaId)
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.MarcaId)
-                @Html.DropDownListFor(c => c.MarcaId, new SelectList(Model.Marca, "Id", "Nombre"), "Seleccione la Marca", new { @class = "form-control" })
+                @Html.DropDownListFor(c => c.MarcaId, new SelectList(Model.Marca, "Id", "Nombre"), "Seleccione la Marca", new { @class = "form-control", required = "required" })
                 @Html.ValidationMessageFor(c => c.MarcaId)
             </div>
 
@@ -61,7 +61,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(c => c.ID)
             @Html.HiddenFor(c => c.NombreAuxiliar)
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" id="productosubmit" class="btn btn-primary">Guardar</button>
             <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Productos", "Admin")';">Cancelar</button>
 
         </div>
@@ -82,12 +82,28 @@
     <script>
 
         $(document).ready(function () {
+
+            var prodID = @Model.ID;
+
+            if (prodID != 0) {
+
+                if ($("#MarcaId").val() == "") {
+                    $("#MarcaId").attr("disabled", "disabled");
+                    $("#CategoriaId").removeAttr("disabled");
+                }
+
+                if ($("#CategoriaId").val() == "") {
+                    $("#CategoriaId").attr("disabled", "disabled");
+                    $("#MarcaId").removeAttr("disabled");
+                }
+            }
             
 
             $("#MarcaId").change(function () {
 
 
-                $("#CategoriaId").attr("disabled", "disabled"); 
+                $("#CategoriaId").attr("disabled", "disabled");
+                $("#CategoriaId").prop('required', false);
 
                 //MODO EDICION
                 if ($("#MarcaId").val() == "") {
@@ -103,6 +119,7 @@
             $("#CategoriaId").change(function () {
 
                 $("#MarcaId").attr("disabled", "disabled");
+                $("#MarcaId").prop('required', false);
 
                 //MODO EDICION
                 if ($("#CategoriaId").val() == "") {
@@ -115,6 +132,7 @@
                     $("#MarcaId option:eq(0)").prop("selected", true);
 
             });
+
     
         });
 

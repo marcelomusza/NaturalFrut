@@ -1209,7 +1209,14 @@ namespace NaturalFrut.Controllers.Api
             //Devolvemos Saldo
             Cliente cliente = _UOWVentaMayorista.ClienteRepository.GetByID(ventaABorrar.ClienteID);
 
-            cliente.Debe = cliente.Debe - ventaABorrar.SumaTotal;
+            if(cliente.Debe - ventaABorrar.SumaTotal < 0)
+            {
+                cliente.SaldoAfavor = (cliente.Debe - ventaABorrar.SumaTotal) * -1;
+                cliente.Debe = 0;
+            }
+            else
+                cliente.Debe = cliente.Debe - ventaABorrar.SumaTotal;
+
 
             _UOWVentaMayorista.ClienteRepository.Update(cliente);
 

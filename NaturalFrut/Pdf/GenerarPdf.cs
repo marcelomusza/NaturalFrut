@@ -59,6 +59,7 @@ namespace NaturalFrut.Pdf
                     sb.Append("<table style='font-size:9px;' border = '0' ;>");
 
                     double sumaParcial = 0;
+                    double sumaSinDescuentos = 0;
 
                     bool fondoColor = true;
                     foreach (var prod in viewModel.ProductoXVenta)
@@ -101,6 +102,9 @@ namespace NaturalFrut.Pdf
                         sb.Append("</tr>");
 
                         sumaParcial += prod.Total;
+
+                        if (prod.Descuento == 0)
+                            sumaSinDescuentos += prod.Total;
                     }
 
                     //Calculamos importe del descuento aplicado
@@ -124,14 +128,20 @@ namespace NaturalFrut.Pdf
                         descuentoFinal = venta.Descuento;
                     else
                     {
+
+                        if (venta.Descuento == null)
+                            venta.Descuento = 0;
+
                         if (venta.IVA != 0)
                         {
+                            
+
                             precioTotalSinDesc = (precioSinIVA * 100) / (100 - venta.Descuento);
 
                             descuentoFinal = Math.Round(((venta.Descuento * precioTotalSinDesc) / 100).Value, 2);
                         }                            
                         else
-                            descuentoFinal = (venta.Descuento * venta.SumaTotal) / 100;
+                            descuentoFinal = (venta.Descuento * sumaSinDescuentos) / 100;
                     }
 
 
@@ -368,10 +378,10 @@ namespace NaturalFrut.Pdf
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
-                if(VentaMayorista.VendedorObj != null)
-                    cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
+                if(VentaMayorista.ClienteObj != null)
+                    cell = new PdfPCell(new Phrase("Localidad: " + VentaMayorista.ClienteObj.Localidad, boldTableFont));
                 else
-                    cell = new PdfPCell(new Phrase("Vendedor: " + "", boldTableFont));
+                    cell = new PdfPCell(new Phrase("Localidad: " + "", boldTableFont));
 
                 cell.Colspan = 3;
                 cell.Border = 0;
@@ -382,10 +392,10 @@ namespace NaturalFrut.Pdf
                 cell.Border = 0;
                 headerTable.AddCell(cell);
 
-                if (VentaMayorista.VendedorObj != null)
-                    cell = new PdfPCell(new Phrase("Vendedor: " + VentaMayorista.VendedorObj.Nombre, boldTableFont));
+                if (VentaMayorista.ClienteObj != null)
+                    cell = new PdfPCell(new Phrase("Localidad: " + VentaMayorista.ClienteObj.Localidad, boldTableFont));
                 else
-                    cell = new PdfPCell(new Phrase("Vendedor: " + "", boldTableFont));
+                    cell = new PdfPCell(new Phrase("Localidad: " + "", boldTableFont));
 
                 cell.Colspan = 3;
                 cell.Border = 0;

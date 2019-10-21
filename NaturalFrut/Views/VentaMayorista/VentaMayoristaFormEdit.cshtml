@@ -271,7 +271,7 @@ else
 
             if ($("#noconcretado").prop('checked')) {
 
-                totalInicial = DeFormatearValor($("#totalventaanterior").val());
+                totalInicial = ValorANumero(DeFormatearValor($("#totalventaanterior").val()));
             } else {
                 totalInicial = 0;
             }
