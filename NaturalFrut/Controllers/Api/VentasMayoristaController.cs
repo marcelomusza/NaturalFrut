@@ -1280,18 +1280,18 @@ namespace NaturalFrut.Controllers.Api
 
         }
 
-        [HttpGet]
-        [Route("api/ventasmayorista/reporteproductosvendidos/{Id}")]
-        public IEnumerable<ProductoXVentaDTO> GetAllProductosPorVenta (int Id)
-        {
+        //[HttpGet]
+        //[Route("api/ventasmayorista/reporteproductosvendidos/{Id}")]
+        //public IEnumerable<ProductoXVentaDTO> GetAllProductosPorVenta (int Id)
+        //{
 
-            var productosVendidos = productoXVentaBL.GetProductoXVentaByIdProducto(Id);
+        //    var productosVendidos = productoXVentaBL.GetProductoXVentaByIdProducto(Id);
 
-            //List<ProductoVendido> prods = new List<ProductoVendido>();
+        //    //List<ProductoVendido> prods = new List<ProductoVendido>();
 
-            return productosVendidos.Select(Mapper.Map<ProductoXVenta, ProductoXVentaDTO>);
+        //    return productosVendidos.Select(Mapper.Map<ProductoXVenta, ProductoXVentaDTO>);
 
-        }
+        //}
 
     }
 }

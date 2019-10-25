@@ -86,7 +86,12 @@ namespace NaturalFrut.Controllers
         {                        
             ViewBag.ProductoID = prodID;
 
+            var productosVendidos = productoxVentaBL.GetProductoXVentaByIdProducto(prodID);
+
+            ViewBag.ProductosVendidos = productosVendidos;
+
             return View("Reportes\\ReporteProductosVendidos");
+            //return Json(new { data = ViewBag.ProductosVendidos }, JsonRequestBehavior.AllowGet);
         }
 
         //public ActionResult VentaMayorista()

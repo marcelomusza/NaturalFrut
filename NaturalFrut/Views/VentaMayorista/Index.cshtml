@@ -40,6 +40,7 @@
                         <th>No Concretado</th>
                         <th>Facturado</th>
                         <th>Importe Total</th>
+                        <th>Entregó</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -138,6 +139,11 @@
                     },
                     {
                         data: "SumaTotal",
+                        type: "num-fmt",
+                        render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
+                    },
+                    {
+                        data: "EntregaEfectivoHistorico",
                         type: "num-fmt",
                         render: $.fn.dataTable.render.number('.', ',', 2, "$ ")
                     },

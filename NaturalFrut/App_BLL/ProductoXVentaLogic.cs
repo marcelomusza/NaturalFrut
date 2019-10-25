@@ -99,16 +99,39 @@ namespace NaturalFrut.App_BLL
                                    
         }
 
-        public List<ProductoXVenta> GetProductoXVentaByIdProducto(int id)
+        public List<ReporteProductosVendidos> GetProductoXVentaByIdProducto(int id)
         {
-            return ProductoXVentaRP
-              .GetAll()
-              .Include(p => p.Producto)
-              .Include(t => t.TipoDeUnidad)
-              .Include(v => v.Venta)
-              .Include("Venta.Cliente")
-              .Where(p => p.ProductoID == id)
-              .ToList();
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var prods = (from lp in db.ProductoXVenta
+                         join p in db.Productos on lp.ProductoID equals p.ID
+                         join t in db.TipoDeUnidad on lp.TipoDeUnidadID equals t.ID
+                         join v in db.Ventas on lp.VentaID equals v.ID
+                         join c in db.Clientes on lp.Venta.ClienteID equals c.ID
+                         where lp.ProductoID == id
+                         select new ReporteProductosVendidos
+                         {
+                             FechaVenta = v.Fecha,
+                             NombreProducto = p.NombreAuxiliar,
+                             NumeroVenta = v.NumeroVenta,
+                             NombreCliente = c.Nombre,
+                             Cantidad = lp.Cantidad,
+                             Importe = lp.Importe
+                         }).ToList();
+
+            return prods;
+
+            //return ProductoXVentaRP
+            //  .GetAll()
+            //  .Include(p => p.Producto)
+            //  .Include(t => t.TipoDeUnidad)
+            //  .Include(v => v.Venta)
+            //  .Include("Venta.Cliente")
+            //  .Where(p => p.ProductoID == id)
+            //  .ToList();
         }
     }
 }

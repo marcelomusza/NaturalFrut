@@ -79,7 +79,7 @@ else
 
             <div class="form-group">
                 <label>Entrega Efectivo</label>
-                <input id="entregaEfectivo" name="entregaEfectivo" required type="text" value="@Model.EntregaEfectivo" onkeyup="ValidarPunto(this);" class="form-control" />
+                <input id="entregaEfectivo" name="entregaEfectivo" required type="text" value="0" onkeyup="ValidarPunto(this);" class="form-control" />
                 <label style="font-size:12px; color: green;">Entregó: $ </label><label style="font-size:12px; color: green;" id="entregoefvo">@Model.EntregaEfectivoHistorico</label>
 
             </div>
@@ -266,6 +266,7 @@ else
             var descuentoAplicadoPorProducto = false;
             var totalCalculado = false;
             //var totalVentaObj = document.getElementById("totalventa");
+            var ventaConcretadaInicial = $("#noconcretado").prop('checked');
 
             var totalInicial = 0;
             var debeInicial = DeFormatearValor($("#debe").val());
@@ -577,6 +578,7 @@ else
                     RecalcularTotal();
                     CalcularDescuentoTotal();
                     CalcularIVA();
+                    VerificarEntregaEfectivo(totalInicial);
 
                     totalCalculado = true;
 
@@ -626,6 +628,14 @@ else
                     //var validartipodeUnidad = $('select[name*="tiposdeunidad"]').valid();
 
                     //if (validarProducto && validarCantidad && validartipodeUnidad) {
+                    
+
+                    if (ventaConcretadaInicial) {
+                        if (!$("#noconcretado").prop('checked')) {
+                            toastr.error("Por favor concretar la venta antes de continuar...");
+                            return false;
+                        }
+                    }
 
                     //Modal para aceptacion de venta
                     bootbox.confirm("Estas seguro que deseas actualizar la venta?", function (result) {
@@ -644,11 +654,11 @@ else
                               
                                 totalFinal = total;                               
 
-                                if (debeInicial != 0 || saldoFavorInicial != 0) {
+                                //if (debeInicial != 0 || saldoFavorInicial != 0) {
                                     if (totalInicial != totalFinal) {
                                         recalculoDebe(totalInicial);
                                     }
-                                }
+                                //}
 
                                 calculoDebe();
 
@@ -1489,7 +1499,16 @@ else
 
                 } else {
                     debe = debe - difTotal;
-                    $("#debe").val(FormatearValor(debe));
+
+                    if (debe < 0) {
+                        debe = debe * (-1);
+                        $("#saldoFavor").val(FormatearValor(debe));
+                        $("#debe").val(FormatearValor(0));
+                    }
+                    else {
+                        $("#debe").val(FormatearValor(debe));
+                    }
+                    
                 }
 
             }
@@ -1518,6 +1537,21 @@ else
                     $("#saldoFavor").val(FormatearValor(difTotal));
                 }
 
+
+            }
+
+            if (debe == 0 && saldoFavor == 0) {
+
+                difTotal = totalInicial - totalFinal;
+
+                if (difTotal < 0) {
+
+                    difTotal = difTotal * (-1);
+                    $("#debe").val(FormatearValor(difTotal));
+
+                } else {
+                    $("#saldoFavor").val(FormatearValor(difTotal));
+                }
 
             }
 
@@ -1583,6 +1617,20 @@ else
 
             //Vuelve a asignarlo
             $("#entregoefvo").text(entregoefectivo);
+        }
+
+        function VerificarEntregaEfectivo(totalInicial) {
+
+            var total = DeFormatearValor($("#totalventa").val());
+
+            if (totalInicial > total) {
+                //Grisamos Entrega Efectivo
+                $("#entregaEfectivo").val(0);
+                $("#entregaEfectivo").prop("disabled", true);
+            } else {
+                $("#entregaEfectivo").prop("disabled", false);
+            }
+
         }
 
 

@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-sm-12">
 
-            <table id="productosvendidos" class="table table-bordered table-hover">
+            <table id="productosvendidos" class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Fecha</th>
@@ -24,7 +24,17 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    @foreach (var prod in @ViewBag.ProductosVendidos)
+                    {
+                        <tr>
+                            <td>@prod.FechaVenta</td>
+                            <td>@prod.NombreProducto</td>
+                            <td>@prod.NumeroVenta</td>
+                            <td>@prod.NombreCliente</td>
+                            <td>@prod.Cantidad</td>
+                            <td>@prod.Importe</td>
+                        </tr>
+                     }
                 </tbody>
                 @*<tfoot>
                     <tr>
@@ -35,7 +45,7 @@
 
                         </td>
                     </tr>
-                </tfoot>*@
+                </tfoot>*@                
             </table>
        
 
@@ -64,10 +74,12 @@
 
         $(document).ready(function () {
 
-            var table = $("#productosvendidos").DataTable({
+            $("#productosvendidos").DataTable();
+
+            @*var table = $("#productosvendidos").DataTable({
 
                 "language": {
-                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
 
                 "order": [[1, "desc"]],
@@ -83,7 +95,7 @@
 
                 ajax: {
 
-                    url: "/api/ventasmayorista/reporteproductosvendidos/" + @ViewBag.ProductoID,
+                    url: @Html.Raw(Json.Encode(@ViewBag.ProductosVendidos)),
                     dataSrc: ""
                 },
                 columns: [
@@ -118,43 +130,12 @@
                     
                 ],
 
-                //"initComplete": function (settings, json) {
-                //    var api = this.api();
-                //    CalcularTotalVentas();
-                //},
-
-            });       
+            });*@       
 
 
-            //FormatearValoresTabla();
         });
 
-        //function FormatearValoresTabla() {
-
-        //    $(".js-sumatotal").each(function () {
-        //        var temp = DeFormatearValor(this.innerText);
-
-        //        $(this).val(FormatearValor(temp));
-        //        $(this).text(FormatearValor(temp));
-        //    });
-
-        //}
-
-        //function CalcularTotalVentas() {
-
-        //    var sumaventas = 0;
-
-        //    $(".js-sumaventa").each(function () {
-
-        //        var parcial = DeFormatearValor($(this).text());
-
-        //        sumaventas += parcial;
-
-        //    });
-
-        //    $("#totalventas").val(FormatearValor(sumaventas));
-
-        //}
+        
 
 
     </script>
