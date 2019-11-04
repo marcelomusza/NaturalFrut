@@ -64,9 +64,12 @@
 
 
                     <!--Menu Administrador START-->
-                    @if (User.IsInRole(RoleName.Administrator))
+                    @if (User.IsInRole(RoleName.Administrator) || User.IsInRole(RoleName.User))
     {
                 <li>@Html.ActionLink("Administración", "Index", "Admin")</li>
+}
+
+
 
                 @*<li class="dropdown">
        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -88,7 +91,7 @@
        </ul>
     </li>*@
 
-}
+
                     <!--Menu Administrador END-->
 
 

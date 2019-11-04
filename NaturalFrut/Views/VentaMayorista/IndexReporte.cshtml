@@ -1,4 +1,4 @@
-﻿
+﻿@using NaturalFrut.Models
 @{
     ViewBag.Title = "IndexReporte";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,11 +13,18 @@
 <div class="row">
     <div class="col-sm-12 text-center">
         <p>
+            @if (User.IsInRole(RoleName.Administrator))
+            {
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("ReporteVentas", "VentaMayorista")';">Ventas (Diario/Mensual)</button>
+            }
+        
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("ReporteSaldos", "VentaMayorista")';">Saldos</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("Stock", "Admin")';">Stock</button>
-        </p>
+            @if (User.IsInRole(RoleName.Administrator))
+    {
+        <button type="button" class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("Stock", "Admin")';">Stock</button>
+}
 
+        </p>
     </div>
 </div>
 
@@ -31,6 +38,8 @@
 <div class="row">
     <div class="col-sm-5">
 
+        @if (User.IsInRole(RoleName.Administrator))
+    {
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
@@ -45,6 +54,10 @@
             </div>
         </div>
 
+}
+
+        @if (User.IsInRole(RoleName.Administrator))
+    {
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
@@ -59,6 +72,10 @@
             </div>
 
         </div>
+
+}
+
+
 
         <div class="row">
             <div class="col-sm-12">
@@ -91,20 +108,20 @@
 </div>
 
 
-    
 
-    <br />
 
-    <div class="row">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
-        </div>
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <button type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='@Url.Action("Index", "Home")';">Cancelar</button>
     </div>
+</div>
 
-    @section scripts
+@section scripts
 {
 
-        <script>
+    <script>
 
         $(document).ready(function () {
 
@@ -124,9 +141,9 @@
                 else {
                     toastr.error("Error al consultar saldo del cliente, cliente no encontrado.")
                 }
-               
 
-                
+
+
 
             });
 
@@ -134,7 +151,7 @@
 
                 $.ajax({
                     url: "/api/clientes/reportesaldocliente/" + vm.ClienteSaldoID,
-                    method: "GET",                    
+                    method: "GET",
                     success: function (data) {
 
                         $("#lblClienteSaldo").text(data.Nombre);
@@ -143,7 +160,7 @@
                         $("#clientesaldocont").show(1000);
 
 
-                        
+
                     },
                     error: function () {
                         toastr.error("Error al consultar saldo del cliente, cliente no encontrado.");
@@ -163,9 +180,9 @@
                 else {
                     toastr.error("Error al consultar saldo del cliente, cliente no encontrado.")
                 }
-               
 
-                
+
+
 
             });
 
@@ -255,6 +272,6 @@
 
 
 
-        </script>
+    </script>
 
-    }
+}

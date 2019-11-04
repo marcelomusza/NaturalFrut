@@ -255,7 +255,7 @@ namespace NaturalFrut.Helpers
                 VentaMinoristaReporte reporteTemp = new VentaMinoristaReporte();
                 List<VentaMinoristaReporte> ventaMinoristaReporte = new List<VentaMinoristaReporte>();
 
-                //Armamos la lista de compras para el reporte
+                //Armamos la lista de ventas para el reporte
                 foreach (var item in numeroVenta)
                 {
                     if (item != string.Empty)
@@ -265,13 +265,13 @@ namespace NaturalFrut.Helpers
                         //Guardamos los datos necesarios para el reporte
                         reporteTemp = new VentaMinoristaReporte();
                         reporteTemp.ID = ventaMinoristaInDB.NumeroVenta;
-                        reporteTemp.Fecha = ventaMinoristaInDB.Fecha.Date.ToString("dd/MM/yyyy");
-                        reporteTemp.Local = ventaMinoristaInDB.Local;
+                        reporteTemp.Fecha = ventaMinoristaInDB.Fecha.Date.ToString("dd/MM/yyyy") == null ? " " : ventaMinoristaInDB.Fecha.Date.ToString("dd/MM/yyyy");
+                        reporteTemp.Local = ventaMinoristaInDB.Local == null ? " " : ventaMinoristaInDB.Local;
                         reporteTemp.Importe_Informe_Z = String.Format("{0:c}", ventaMinoristaInDB.ImporteInformeZ);
                         reporteTemp.IVA = Constants.IVA;
                         reporteTemp.Importe_IVA = String.Format("{0:c}", ventaMinoristaInDB.ImporteIva);
-                        reporteTemp.Factura_N = ventaMinoristaInDB.NumFactura;
-                        reporteTemp.Tipo_Factura = ventaMinoristaInDB.TipoFactura;
+                        reporteTemp.Factura_N = ventaMinoristaInDB.NumFactura == null ? " " : ventaMinoristaInDB.NumFactura;
+                        reporteTemp.Tipo_Factura = ventaMinoristaInDB.TipoFactura == null ? " " : ventaMinoristaInDB.TipoFactura;
                         reporteTemp.Primer_Numero_Tic = ventaMinoristaInDB.PrimerNumeroTicket;
                         reporteTemp.Ultimo_Numero_Tic = ventaMinoristaInDB.UltimoNumeroTicket;
 

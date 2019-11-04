@@ -844,6 +844,43 @@ else
                 $("#importe" + data.Counter).val(FormatearValor(importe));
                 $("#totalimporte" + data.Counter).val(FormatearValor(importeTotal));
 
+                if (data.Stock - cantidad <= 0) {
+
+                    var readonlyInput = $("#producto" + data.Counter).prop('disabled');
+
+                    if (readonlyInput) {
+
+                        bootbox.alert("El producto no tiene stock para la cantidad ingresada. Stock disponible: " + data.Stock + ". Por favor eliminar el producto o modificar cantidad segun stock disponible.");
+
+                    }
+                    else {
+
+                        bootbox.alert("El producto no tiene stock para la cantidad ingresada. Stock disponible: " + data.Stock + ".");
+                        var botonBorrar = $("#" + data.Counter + ".ibtnDel");
+
+                        //Borramos la fila
+                        botonBorrar.closest("tr").remove();
+
+                        valor += 1;
+
+                        if (valor == counter) {
+                            counter -= 1;
+                        } else {
+                            counter += 1;
+                        }
+
+                        typeahead_initialize(counter);
+
+                        //Requerir que se calcule el total si no hacen click en el boton
+                        totalCalculado = false;
+
+                        CargarTipoDescuento();
+                        CargarSumaTotal();
+
+                    }
+
+                }
+
                 //RecalcularTotal();
                 //CalcularSaldoFinal();
 
@@ -1365,7 +1402,7 @@ else
 
         function ValidarVentaConcretada() {
 
-            var userRole = '@(User.IsInRole("Administrator") ? "true" : "false")';
+            @*var userRole = '@(User.IsInRole("Administrator") ? "true" : "false")';*@
 
             if ($("#noconcretado").prop('checked')) {
 
@@ -1376,7 +1413,7 @@ else
                 $("#btnsubmit").prop("disabled", false);
                 $("#btncancelar").prop("disabled", false);
 
-                if (userRole == "true")
+               // if (userRole == "true")
                     $("#noconcretado").prop("disabled", false);
                 
             }

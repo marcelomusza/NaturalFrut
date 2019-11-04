@@ -66,15 +66,15 @@
                 <tbody class="listaproductos">
                     @foreach (var item in ViewBag.ProductoXVenta)
             {
-                        <tr>
-                            <td>@item.Producto.Nombre</td>
-                            <td>@item.Cantidad</td>
-                            <td>@item.TipoDeUnidad.Nombre</td>
-                            <td>@item.Descuento</td>
-                            <td>@item.Importe</td>
-                            <td>@item.Total</td>
+                    <tr>
+                        <td>@item.Producto.Nombre</td>
+                        <td>@item.Cantidad</td>
+                        <td>@item.TipoDeUnidad.Nombre</td>
+                        <td>@item.Importe</td>
+                        <td>@item.Descuento</td>
+                        <td>@item.Total</td>
 
-                        </tr>
+                    </tr>
                     }
 
                 </tbody>

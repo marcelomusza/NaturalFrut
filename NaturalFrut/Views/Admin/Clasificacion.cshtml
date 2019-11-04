@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<NaturalFrut.Models.Clasificacion>
+@using NaturalFrut.Models
 @{
     ViewBag.Title = "Clasificacion";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -37,7 +38,11 @@
                             <td>
                                 @Html.ActionLink("Editar", "EditarClasificacion", "Admin", new { id = clasificacion.ID }, null)
                                 &nbsp;
-                                @Html.ActionLink("Borrar", "BorrarClasificacion", "Admin", new { id = clasificacion.ID }, null)
+                                @if (User.IsInRole(RoleName.Administrator))
+    {
+                            @Html.ActionLink("Borrar", "BorrarClasificacion", "Admin", new { id = clasificacion.ID }, null)
+}
+
                             </td>
                         </tr>
                     }

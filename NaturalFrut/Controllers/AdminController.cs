@@ -21,7 +21,8 @@ using log4net;
 
 namespace NaturalFrut.Controllers
 {
-    [Authorize(Roles = RoleName.Administrator)]
+    [Authorize(Roles = RoleName.Administrator + "," + RoleName.User)]
+
     public class AdminController : Controller
     {
 

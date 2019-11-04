@@ -1,5 +1,5 @@
 ﻿
-
+@using NaturalFrut.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,10 +28,15 @@
                             <ul class="dropdown-menu admin-dropdownul dropdown-menu-left">
                                 <li><a href="/Admin/Clientes">Clientes</a></li>
                                 <li><a href="/Admin/Proveedores">Proveedores</a></li>
-                                <li><a href="/Admin/Vendedores">Vendedores</a></li>
-                                <li><a href="/Admin/CondicionIVA">Condicion IVA</a></li>
-                                <li><a href="/Admin/TipoCliente">Tipo Cliente</a></li>
-                                <li><a href="/UsersAdmin/Index">Administración Usuarios</a></li>
+                                @if (User.IsInRole(RoleName.Administrator))
+                                {
+                                    <li><a href="/Admin/Vendedores">Vendedores</a></li>
+                                    <li><a href="/Admin/CondicionIVA">Condicion IVA</a></li>
+                                    <li><a href="/Admin/TipoCliente">Tipo Cliente</a></li>
+                                    <li><a href="/UsersAdmin/Index">Administración Usuarios</a></li>
+
+                                }
+
                             </ul>
                         </div>
                     </div>
@@ -58,8 +63,12 @@
                                 <span class="glyphicon glyphicon-list-alt"></span>
                             </button>
                             <ul class="dropdown-menu admin-dropdownul">
-                                <li><a href="/Admin/TiposDeUnidad">Tipo Unidad</a></li>
-                                <li><a href="/Admin/Lista">Lista de Precios</a></li>
+                                @if (User.IsInRole(RoleName.Administrator))
+    {
+                            <li><a href="/Admin/TiposDeUnidad">Tipo Unidad</a></li>
+                            <li><a href="/Admin/Lista">Lista de Precios</a></li>
+}
+
                                 <li><a href="/Admin/ListaPrecios">Productos por Lista</a></li>
                                 <li><a href="/Admin/ListaPreciosBlister">Productos por Lista (Blister)</a></li>
                             </ul>
