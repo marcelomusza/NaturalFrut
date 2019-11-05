@@ -1552,7 +1552,7 @@ namespace NaturalFrut.Controllers
                 smtp.UseDefaultCredentials = false;
 
                 NetworkCredential networkCredential = new NetworkCredential(from, mailPass);
-                smtp.EnableSsl = true;
+                smtp.EnableSsl = false;
                 smtp.Credentials = networkCredential;
                 smtp.Port = int.Parse(ConfigurationManager.AppSettings["MailPort"]);
 
