@@ -524,6 +524,10 @@ else
             $("#facturado").on('change', function () {
                 if (this.checked) {
                     vm.facturado = true;
+
+                    if ($("#totalventa").val() == 0)
+                        $("#calculartotal").click();                  
+                       
                 }
                 else {
                     vm.facturado = false;
@@ -844,7 +848,7 @@ else
                 $("#importe" + data.Counter).val(FormatearValor(importe));
                 $("#totalimporte" + data.Counter).val(FormatearValor(importeTotal));
 
-                if (data.Stock - cantidad <= 0) {
+                if (data.Stock - cantidad < 0) {
 
                     var readonlyInput = $("#producto" + data.Counter).prop('disabled');
 

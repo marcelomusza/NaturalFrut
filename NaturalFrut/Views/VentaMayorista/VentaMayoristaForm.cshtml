@@ -749,7 +749,7 @@
                 $("#totalimporte" + data.Counter).val(FormatearValor(importeTotal));
 
 
-                if (data.Stock - cantidad <= 0) {
+                if (data.Stock - cantidad < 0) {
                     bootbox.alert("El producto no tiene stock para la cantidad ingresada. Stock disponible: " + data.Stock);
                     var botonBorrar = $("#" + data.Counter + ".ibtnDel");
 

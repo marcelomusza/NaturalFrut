@@ -84,8 +84,8 @@ namespace NaturalFrut.Pdf
 
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='4%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");                        
-                        sb.Append("<td width='6%' align = 'left'>" + prod.Importe + "</td>");
-                        sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento, 2) + "</td>");
+                        sb.Append("<td width='6%' align = 'center'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='5%' align = 'left'>" + Math.Round((double)prod.Descuento, 2) + "</td>");
                         sb.Append("<td width='6%' align = 'left'>" + prod.Total + "</td>");
 
                         if (prod.Producto.MarcaId != null)
@@ -96,8 +96,8 @@ namespace NaturalFrut.Pdf
 
                         sb.Append("<td width='5%' align = 'center'>" + prod.Cantidad + "</td>");
                         sb.Append("<td width='4%' align = 'center'>" + prod.TipoDeUnidad.Nombre + "</td>");                        
-                        sb.Append("<td width='6%' align = 'left'>" + prod.Importe + "</td>");
-                        sb.Append("<td width='5%' align = 'center'>" + Math.Round((double)prod.Descuento, 2) + "</td>");
+                        sb.Append("<td width='6%' align = 'center'>" + prod.Importe + "</td>");
+                        sb.Append("<td width='5%' align = 'left'>" + Math.Round((double)prod.Descuento, 2) + "</td>");
                         sb.Append("<td width='6%' align = 'left'>" + prod.Total + "</td>");
                         sb.Append("</tr>");
 
