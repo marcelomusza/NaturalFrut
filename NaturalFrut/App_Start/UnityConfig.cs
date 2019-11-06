@@ -1,11 +1,13 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 using NaturalFrut.App_BLL.Interfaces;
 using NaturalFrut.App_DAL;
 using NaturalFrut.Controllers;
 using NaturalFrut.Models;
 using System;
 using System.Data.Entity;
+using System.Web;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -78,12 +80,21 @@ namespace NaturalFrut
 
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new InjectionConstructor(new ApplicationDbContext()));
 
             container.RegisterType<RoleManager<IdentityRole>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRoleStore<IdentityRole, string>, RoleStore<IdentityRole>>(new HierarchicalLifetimeManager());
 
 
             container.RegisterType<AccountController>(new InjectionConstructor());
+
+            container.RegisterType<IAuthenticationManager>(
+                new InjectionFactory(
+                    o => System.Web.HttpContext.Current.GetOwinContext().Authentication
+                )
+);
+
+            
 
         }
     }
