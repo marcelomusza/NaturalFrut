@@ -83,7 +83,7 @@ namespace NaturalFrut.App_BLL
                .Include("Producto.Categoria")
                .Include(t => t.TipoDeUnidad)
                .Where(v => v.VentaID == ventaID)
-               .OrderBy(p => p.Producto.Nombre)
+               .OrderBy(p => p.Producto.Marca.Nombre).ThenBy(p=>p.Producto.Categoria.Nombre).ThenBy(p => p.Producto.Nombre)
                .ToList();
         }
 
