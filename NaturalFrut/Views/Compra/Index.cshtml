@@ -29,6 +29,7 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Numero de Compra</th>
+                        <th>Numero de Factura</th>
                         <th>Proveedor</th>
                         <th>Total Gastos</th>
                         <th>Acciones</th>
@@ -61,10 +62,11 @@
 
                 "columnDefs": [
                     { "width": "15%", "targets": 0 },
-                    { "width": "15%", "targets": 1 },
+                    { "width": "15%", "targets": 0 },
+                    { "width": "10%", "targets": 1 },
                     { "width": "25%", "targets": 2 },
                     { "width": "15%", "targets": 3 },
-                    { "width": "30%", "targets": 4 },
+                    { "width": "20%", "targets": 4 },
                 ],
 
                 ajax: {
@@ -78,6 +80,9 @@
                     },
                     {
                         data: "NumeroCompra"
+                    },
+                    {
+                        data: "Factura"
                     },
                     {
                         data: "Proveedor.Nombre"
